@@ -1,0 +1,40 @@
+# Spring Profiles Configuration
+spring:
+  profiles:
+    active: dev
+
+# Servlet Configuration
+spring.servlet:
+  multipart:
+    max-file-size: 50MB
+
+# SpringDoc Configuration (for OpenAPI)
+springdoc:
+  default-produces-media-type: application/json
+
+# Server Configuration
+server:
+  servlet:
+    context-path: /api/v1
+  port: 8081
+
+# JPA Configuration for Hibernate
+spring.jpa:
+  hibernate:
+    ddl-auto: update
+  show-sql: false
+  properties:
+    hibernate.format_sql: true
+    hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+
+# JWT Security Configuration
+application:
+  security:
+    jwt:
+      expiration: 86400000  # 24 hours in milliseconds
+      secret-key: c57e451277d798dc7d63edfc5d420b490d45f345f0529ddff2cd3df5c2ea0236
+
+# Frontend Activation URL
+  mailing:
+    frontend:
+      activation-url: http://localhost:4200/activate-account

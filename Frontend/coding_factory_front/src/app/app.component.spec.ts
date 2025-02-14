@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'codingfactory_ui'`, () => {
+  it(`should have as title 'coding_factory_front'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('codingfactory_ui');
+    expect(app.title).toEqual('coding_factory_front');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('codingfactory_ui app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('coding_factory_front app is running!');
   });
 });

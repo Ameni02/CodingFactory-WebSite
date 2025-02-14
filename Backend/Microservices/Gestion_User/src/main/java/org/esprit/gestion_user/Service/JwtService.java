@@ -22,6 +22,7 @@ public class JwtService {
 
     @Value("${application.security.jwt.secret-key}")
     private String jwtSecretKey;
+
     public String generateToken(UserDetails userDetails)
     {
         return generateToken(new HashMap<>(),userDetails);

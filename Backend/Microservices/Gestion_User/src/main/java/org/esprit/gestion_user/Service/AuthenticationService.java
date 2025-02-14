@@ -28,6 +28,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
+
     public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepo.findByName("USER")
                 // todo - better exception handling
