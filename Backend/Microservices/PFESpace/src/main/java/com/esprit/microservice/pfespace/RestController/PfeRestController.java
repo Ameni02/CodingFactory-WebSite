@@ -3,26 +3,18 @@ package com.esprit.microservice.pfespace.RestController;
 import com.esprit.microservice.pfespace.Entities.Deliverable;
 import com.esprit.microservice.pfespace.Entities.Evaluation;
 import com.esprit.microservice.pfespace.Entities.Project;
-import com.esprit.microservice.pfespace.Repositories.DeliverableRepo;
-import com.esprit.microservice.pfespace.Repositories.EvaluationRepo;
-import com.esprit.microservice.pfespace.Repositories.ProjectRepo;
-import com.esprit.microservice.pfespace.Services.IPfeService;
 import com.esprit.microservice.pfespace.Services.PfeServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 public class PfeRestController {
     @Autowired
-    PfeServiceImp pfeService;
-    // Project Endpoints
+    private PfeServiceImp pfeService;
+
     @GetMapping("/getAllProjects")
     public List<Project> getAllProjects() {
         return pfeService.getAllProjects();
@@ -49,7 +41,6 @@ public class PfeRestController {
         pfeService.deleteProject(id);
     }
 
-    // Deliverable Endpoints
     @GetMapping("/getDeliverablesByProject/{projectId}")
     public List<Deliverable> getDeliverablesByProject(@PathVariable Long projectId) {
         return pfeService.getDeliverablesByProject(projectId);
@@ -62,13 +53,13 @@ public class PfeRestController {
 
     @PostMapping("/createDeliverable/{projectId}")
     public Deliverable createDeliverable(@PathVariable Long projectId, @RequestBody Deliverable deliverable) {
-        return pfeService.saveDeliverable(deliverable);
+        return pfeService.saveDeliverable(projectId, deliverable);
     }
 
     @PutMapping("/updateDeliverable/{id}")
     public Deliverable updateDeliverable(@PathVariable Long id, @RequestBody Deliverable deliverable) {
         deliverable.setId(id);
-        return pfeService.saveDeliverable(deliverable);
+        return pfeService.saveDeliverable(deliverable.getProject().getId(), deliverable);
     }
 
     @DeleteMapping("/deleteDeliverable/{id}")
@@ -76,7 +67,6 @@ public class PfeRestController {
         pfeService.deleteDeliverable(id);
     }
 
-    // Evaluation Endpoints
     @GetMapping("/getEvaluationByDeliverable/{deliverableId}")
     public Evaluation getEvaluationByDeliverable(@PathVariable Long deliverableId) {
         return pfeService.getEvaluationByDeliverable(deliverableId);
@@ -84,19 +74,17 @@ public class PfeRestController {
 
     @PostMapping("/createEvaluation/{deliverableId}")
     public Evaluation createEvaluation(@PathVariable Long deliverableId, @RequestBody Evaluation evaluation) {
-        return pfeService.saveEvaluation(evaluation);
+        return pfeService.saveEvaluation(deliverableId, evaluation);
     }
 
     @PutMapping("/updateEvaluation/{id}")
     public Evaluation updateEvaluation(@PathVariable Long id, @RequestBody Evaluation evaluation) {
         evaluation.setId(id);
-        return pfeService.saveEvaluation(evaluation);
+        return pfeService.saveEvaluation(evaluation.getDeliverable().getId(), evaluation);
     }
 
     @DeleteMapping("/deleteEvaluation/{id}")
     public void deleteEvaluation(@PathVariable Long id) {
         pfeService.deleteEvaluation(id);
     }
-
-
 }

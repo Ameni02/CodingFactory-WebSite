@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-
-public class PfeServiceImp  {
+public class PfeServiceImp {
     @Autowired
     private ProjectRepo projectRepository;
     @Autowired
@@ -21,21 +21,51 @@ public class PfeServiceImp  {
     @Autowired
     private EvaluationRepo evaluationRepository;
 
-    // Project CRUD Operations
     public List<Project> getAllProjects() { return projectRepository.findAll(); }
+
     public Project getProjectById(Long id) { return projectRepository.findById(id).orElse(null); }
+
     public Project saveProject(Project project) { return projectRepository.save(project); }
+
     public void deleteProject(Long id) { projectRepository.deleteById(id); }
 
-    // Deliverable CRUD Operations
-    public List<Deliverable> getDeliverablesByProject(Long projectId) { return deliverableRepository.findByProjectId(projectId); }
-    public Deliverable getDeliverableById(Long id) { return deliverableRepository.findById(id).orElse(null); }
-    public Deliverable saveDeliverable(Deliverable deliverable) { return deliverableRepository.save(deliverable); }
-    public void deleteDeliverable(Long id) { deliverableRepository.deleteById(id); }
-
-    // Evaluation CRUD Operations
-    public Evaluation getEvaluationByDeliverable(Long deliverableId) { return evaluationRepository.findByDeliverableId(deliverableId); }
-    public Evaluation saveEvaluation(Evaluation evaluation) { return evaluationRepository.save(evaluation); }
-    public void deleteEvaluation(Long id) { evaluationRepository.deleteById(id); }
+    public List<Deliverable> getDeliverablesByProject(Long projectId) {
+        return deliverableRepository.findByProjectId(projectId);
     }
 
+    public Deliverable getDeliverableById(Long id) {
+        return deliverableRepository.findById(id).orElse(null);
+    }
+
+    public Deliverable saveDeliverable(Long projectId, Deliverable deliverable) {
+        Optional<Project> projectOpt = projectRepository.findById(projectId);
+        if (projectOpt.isPresent()) {
+            deliverable.setProject(projectOpt.get());
+            return deliverableRepository.save(deliverable);
+        } else {
+            throw new RuntimeException("Projet introuvable avec l'ID : " + projectId);
+        }
+    }
+
+    public void deleteDeliverable(Long id) {
+        deliverableRepository.deleteById(id);
+    }
+
+    public Evaluation getEvaluationByDeliverable(Long deliverableId) {
+        return evaluationRepository.findByDeliverableId(deliverableId);
+    }
+
+    public Evaluation saveEvaluation(Long deliverableId, Evaluation evaluation) {
+        Optional<Deliverable> deliverableOpt = deliverableRepository.findById(deliverableId);
+        if (deliverableOpt.isPresent()) {
+            evaluation.setDeliverable(deliverableOpt.get());
+            return evaluationRepository.save(evaluation);
+        } else {
+            throw new RuntimeException("Livrable introuvable avec l'ID : " + deliverableId);
+        }
+    }
+
+    public void deleteEvaluation(Long id) {
+        evaluationRepository.deleteById(id);
+    }
+}
