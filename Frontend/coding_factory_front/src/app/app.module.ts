@@ -16,6 +16,7 @@ import { ContactUsComponent } from './components/contact-us/contact-us.component
 import { MainBannerComponent } from './components/main-banner/main-banner.component';
 import { FactsComponent } from './components/facts/facts.component';
 import { TestimonialsComponent } from './components/testimonials/testimonials.component';
+import { MainPageComponent } from './Modules/PfeSpace/main-page/main-page.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { TestimonialsComponent } from './components/testimonials/testimonials.co
     MainBannerComponent,
     FactsComponent,
     TestimonialsComponent,
+    MainPageComponent,
 
   ],
   imports: [
