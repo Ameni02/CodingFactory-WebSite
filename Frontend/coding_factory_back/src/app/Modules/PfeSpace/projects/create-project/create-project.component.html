@@ -1,0 +1,44 @@
+<div class="wrapper">
+  
+    <div class="main-panel">
+    <div class="container">
+<div class="project-create">
+    <h2>Create a New Project</h2>
+    <form (ngSubmit)="onSubmit()">
+      <!-- Title -->
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input id="title" [(ngModel)]="project.title" name="title" required>
+      </div>
+  
+      <!-- Description -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="project.description" name="description" required></textarea>
+      </div>
+  
+      <!-- Technologies -->
+      <div class="form-group">
+        <label for="technologies">Technologies</label>
+        <input id="technologies" [(ngModel)]="project.technologies" name="technologies" required>
+      </div>
+  
+      <!-- Team Members -->
+      <div class="form-group">
+        <label for="teamMembers">Team Members</label>
+        <input id="teamMembers" [(ngModel)]="project.teamMembers" name="teamMembers" required>
+      </div>
+  
+      <!-- Attachments -->
+      <div class="form-group">
+        <label for="attachments">Attachments</label>
+        <input type="file" id="attachments" (change)="onFileChange($event)" multiple>
+      </div>
+  
+      <!-- Submit Button -->
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+</div>
+</div>

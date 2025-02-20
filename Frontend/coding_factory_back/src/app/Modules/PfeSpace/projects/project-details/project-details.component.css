@@ -1,0 +1,124 @@
+/* General Styles */
+.project-details {
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  /* Project Information */
+  .project-info {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .project-info p {
+    font-size: 16px;
+    margin: 15px 0;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .project-info strong {
+    color: #2c3e50;
+    font-weight: 600;
+  }
+  
+  /* Actions */
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+  }
+  
+  button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .update-button {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    color: white;
+  }
+  
+  .update-button:hover {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+  }
+  
+  .archive-button {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+  }
+  
+  .archive-button:hover {
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+  }
+  
+  .delete-button {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+  }
+  
+  .delete-button:hover {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .project-details {
+      padding: 20px;
+    }
+  
+    h2 {
+      font-size: 24px;
+    }
+  
+    .project-info p {
+      font-size: 14px;
+    }
+  
+    .actions {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+    }
+  }

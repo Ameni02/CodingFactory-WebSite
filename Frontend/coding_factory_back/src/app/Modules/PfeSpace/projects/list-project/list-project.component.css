@@ -1,0 +1,189 @@
+/* General Styles */
+.project-list {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  /* Filter Section */
+  .filters {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .filters label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #34495e;
+  }
+  
+  .filters input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 300px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .filters input:focus {
+    border-color: #2980b9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(41, 128, 185, 0.3);
+  }
+  
+  /* Table Styles */
+  .data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .data-table th {
+    background-color: #34495e;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+  }
+  
+  .data-table td {
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .data-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .data-table tr:hover {
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .filters {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .filters input {
+      width: 100%;
+    }
+  
+    .data-table th,
+    .data-table td {
+      padding: 10px;
+    }
+  
+    .data-table {
+      font-size: 12px;
+    }
+  }
+  /* Add Project Button */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .add-project-button {
+    padding: 10px 20px;
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .add-project-button:hover {
+    background-color: #3498db;
+    transform: translateY(-2px);
+  }
+  
+  .add-project-button:active {
+    transform: translateY(0);
+  }
+  /* Action Buttons */
+.actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.add-project-button,
+.archived-projects-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.add-project-button {
+  background: linear-gradient(135deg, #2980b9, #3498db);
+  color: white;
+}
+
+.add-project-button:hover {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.archived-projects-button {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: white;
+}
+
+.archived-projects-button:hover {
+  background: linear-gradient(135deg, #e67e22, #f39c12);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .add-project-button,
+  .archived-projects-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+}

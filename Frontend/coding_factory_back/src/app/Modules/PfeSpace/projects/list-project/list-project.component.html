@@ -1,0 +1,41 @@
+<div class="wrapper">
+  <div class="main-panel">
+    <div class="container">
+      <div class="project-list">
+        <h2>Project List</h2>
+
+        <!-- Action Buttons -->
+        <div class="actions">
+          <button class="add-project-button" routerLink="/create-project">Add Project</button>
+          <button class="archived-projects-button" routerLink="/archived-projects">Archived Projects</button>
+        </div>
+
+        <!-- Filter Input -->
+        <div class="filters">
+          <label for="technologyFilter">Filter by Technology:</label>
+          <input id="technologyFilter" [(ngModel)]="technologyFilter" placeholder="Enter technology">
+        </div>
+
+        <!-- Project Table -->
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Technologies</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let project of filteredProjects" (click)="onProjectClick(project.id)">
+              <td>{{ project.title }}</td>
+              <td>{{ project.description }}</td>
+              <td>{{ project.technologies }}</td>
+              <td>{{ project.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

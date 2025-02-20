@@ -1,0 +1,27 @@
+<div class="wrapper">
+  
+    <div class="main-panel">
+    <div class="container">
+        <div class="project-details">
+            <h2>Project Details</h2>
+          
+            <!-- Project Information -->
+            <div class="project-info">
+              <p><strong>Title:</strong> {{ project.title }}</p>
+              <p><strong>Description:</strong> {{ project.description }}</p>
+              <p><strong>Technologies:</strong> {{ project.technologies }}</p>
+              <p><strong>Team Members:</strong> {{ project.teamMembers }}</p>
+              <p><strong>Status:</strong> {{ project.status }}</p>
+            </div>
+          
+            <!-- Actions -->
+            <div class="actions">
+              <button class="update-button" (click)="onUpdate()">Update</button>
+              <button class="archive-button" (click)="onArchive()">Archive</button>
+              <button class="delete-button" (click)="onDelete()">Delete</button>
+            </div>
+          </div>
+
+        </div>
+    </div>
+    </div>
