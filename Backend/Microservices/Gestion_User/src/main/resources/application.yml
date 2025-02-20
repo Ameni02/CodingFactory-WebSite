@@ -12,6 +12,8 @@ spring.servlet:
 springdoc:
   default-produces-media-type: application/json
 
+
+
 # Server Configuration
 server:
   servlet:
