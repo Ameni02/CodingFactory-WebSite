@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,12 @@ import { CreateProjectComponent } from './Modules/PfeSpace/projects/create-proje
 import { ListProjectComponent } from './Modules/PfeSpace/projects/list-project/list-project.component';
 import { FormsModule } from '@angular/forms';
 import { ProjectDetailsComponent } from './Modules/PfeSpace/projects/project-details/project-details.component';
+import { ModifyProjectComponent } from './Modules/PfeSpace/projects/modify-project/modify-project.component';
+import { DeliverableDetailsComponent } from './Modules/PfeSpace/deliverables/deliverable-details/deliverable-details.component';
+import { DeliverableListComponent } from './Modules/PfeSpace/deliverables/deliverable-list/deliverable-list.component';
+import { ApplicationsListComponent } from './Modules/PfeSpace/applications/applications-list/applications-list.component';
+import { ApplicationDetailsComponent } from './Modules/PfeSpace/applications/application-details/application-details.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -30,11 +37,18 @@ import { ProjectDetailsComponent } from './Modules/PfeSpace/projects/project-det
     EvaluationsComponent,
     CreateProjectComponent,
     ListProjectComponent,
-    ProjectDetailsComponent
+    ProjectDetailsComponent,
+    ModifyProjectComponent,
+    DeliverableDetailsComponent,
+    DeliverableListComponent,
+    ApplicationsListComponent,
+    ApplicationDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    RouterModule,
     FormsModule,
     
     

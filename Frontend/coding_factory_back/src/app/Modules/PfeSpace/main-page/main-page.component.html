@@ -4,66 +4,23 @@
 <div class="container">
    
   
-  <!-- Navigation Button -->
-  <button class="nav-button" routerLink="/projects">Go to Project List</button>
-  <div class="dashboard">
-    <h2>Admin Dashboard</h2>
+  <h1>Tableau de bord administrateur</h1>
+
+  <section>
+    <h2>Projets</h2>
+    <a routerLink="/projects">Afficher tous les projets</a>
+    <a routerLink="/projects/create">Créer un projet</a>
+  </section>
   
-    <!-- Dashboard Cards -->
-    <div class="dashboard-cards">
-      <div class="card">
-        <h3>Total Projects</h3>
-        <p>Pending: <span class="highlight">{{ projectStats.pending }}</span></p>
-        <p>In Progress: <span class="highlight">{{ projectStats.inProgress }}</span></p>
-        <p>Completed: <span class="highlight">{{ projectStats.completed }}</span></p>
-      </div>
+  <section>
+    <h2>Candidatures</h2>
+    <a routerLink="/applications">Voir toutes les candidatures</a>
+  </section>
   
-      <div class="card">
-        <h3>Deliverables Status</h3>
-        <p>Submitted: <span class="highlight">{{ deliverableStats.submitted }}</span></p>
-        <p>Evaluated: <span class="highlight">{{ deliverableStats.evaluated }}</span></p>
-        <p>Pending Changes: <span class="highlight">{{ deliverableStats.pendingChanges }}</span></p>
-      </div>
-    </div>
-  
-    <!-- Recent Student Submissions -->
-    <h3>Recent Student Submissions</h3>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Student</th>
-          <th>Project</th>
-          <th>Submission Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let submission of recentSubmissions">
-          <td>{{ submission.student }}</td>
-          <td>{{ submission.project }}</td>
-          <td>{{ submission.submissionDate }}</td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <!-- Recent Evaluations & Feedback -->
-    <h3>Recent Evaluations et Feedback</h3>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Evaluator</th>
-          <th>Project</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let evaluation of recentEvaluations">
-          <td>{{ evaluation.evaluator }}</td>
-          <td>{{ evaluation.project }}</td>
-          <td>{{ evaluation.score }}%</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <section>
+    <h2>Livrables</h2>
+    <a routerLink="/deliverables">Voir tous les livrables</a>
+  </section>
   
   </div>
 </div>

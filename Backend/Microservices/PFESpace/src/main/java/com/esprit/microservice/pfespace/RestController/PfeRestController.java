@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pfe")
-@Tag(name = "PFE Management", description = "API pour la gestion des projets, applications, livrables et évaluations")
+@Tag(name = "PFE Space Management", description = "API for managing projects, applications, deliverables, and evaluations")
 public class PfeRestController {
 
     @Autowired
@@ -22,32 +22,32 @@ public class PfeRestController {
     // =========================== PROJECTS ===========================
 
     @PostMapping("/projects")
-    @Operation(summary = "Créer un projet", description = "Ajoute un nouveau projet PFE")
+    @Operation(summary = "Create a project", description = "Adds a new PFE project")
     public Project createProject(@RequestBody Project project) {
         return pfeService.createProject(project);
     }
 
     @GetMapping("/allprojects")
-    @Operation(summary = "Liste des projets", description = "Récupère tous les projets disponibles")
+    @Operation(summary = "List of projects", description = "Retrieves all available projects")
     public List<Project> getAllProjects() {
         return pfeService.getAllProjects();
     }
 
     @GetMapping("/projects/{id}")
-    @Operation(summary = "Détails d'un projet", description = "Récupère un projet par son ID")
+    @Operation(summary = "Project details", description = "Retrieves a project by its ID")
     public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
         Optional<Project> project = pfeService.getProjectById(id);
         return project.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/projects/{id}")
-    @Operation(summary = "Modifier un projet", description = "Met à jour un projet existant")
+    @Operation(summary = "Update a project", description = "Updates an existing project")
     public Project updateProject(@PathVariable Long id, @RequestBody Project projectDetails) {
         return pfeService.updateProject(id, projectDetails);
     }
 
     @DeleteMapping("/projects/{id}")
-    @Operation(summary = "Supprimer un projet", description = "Supprime un projet par ID")
+    @Operation(summary = "Delete a project", description = "Deletes a project by ID")
     public void deleteProject(@PathVariable Long id) {
         pfeService.deleteProject(id);
     }
@@ -56,13 +56,13 @@ public class PfeRestController {
     // =========================== APPLICATIONS ===========================
 
     @PostMapping("/projects/{projectId}/applications")
-    @Operation(summary = "Ajouter une application", description = "Ajoute une application à un projet")
+    @Operation(summary = "Add an application", description = "Adds an application to a project")
     public Application createApplication(@PathVariable Long projectId, @RequestBody Application application) {
         return pfeService.createApplication(projectId, application);
     }
 
     @GetMapping("/applications")
-    @Operation(summary = "Liste des applications", description = "Récupère toutes les applications")
+    @Operation(summary = "List of applications", description = "Retrieves all applications")
     public List<Application> getAllApplications() {
         return pfeService.getAllApplications();
     }
@@ -70,7 +70,7 @@ public class PfeRestController {
     // =========================== DELIVERABLES ===========================
 
     @PostMapping("/deliverables")
-    @Operation(summary = "Créer un livrable", description = "Ajoute un livrable avec ou sans projet")
+    @Operation(summary = "Create a deliverable", description = "Adds a deliverable with or without a project")
     public ResponseEntity<?> createDeliverable(
             @RequestParam(required = false) Long projectId,
             @RequestParam Long academicSupervisorId,
@@ -84,13 +84,13 @@ public class PfeRestController {
     }
 
     @GetMapping("/deliverables")
-    @Operation(summary = "Liste des livrables", description = "Récupère tous les livrables")
+    @Operation(summary = "List of deliverables", description = "Retrieves all deliverables")
     public List<Deliverable> getAllDeliverables() {
         return pfeService.getAllDeliverables();
     }
 
     @GetMapping("/deliverables/without-project")
-    @Operation(summary = "Livrables sans projet", description = "Récupère les livrables sans projet associé")
+    @Operation(summary = "Deliverables without a project", description = "Retrieves deliverables with no associated project")
     public List<Deliverable> getDeliverablesWithoutProject() {
         return pfeService.getDeliverablesWithoutProject();
     }
@@ -98,13 +98,13 @@ public class PfeRestController {
     // =========================== EVALUATIONS ===========================
 
     @PostMapping("/deliverables/{deliverableId}/evaluations")
-    @Operation(summary = "Évaluer un livrable", description = "Ajoute une évaluation à un livrable")
+    @Operation(summary = "Evaluate a deliverable", description = "Adds an evaluation to a deliverable")
     public Evaluation createEvaluation(@PathVariable Long deliverableId, @RequestBody Evaluation evaluation) {
         return pfeService.createEvaluation(deliverableId, evaluation);
     }
 
     @GetMapping("/evaluations")
-    @Operation(summary = "Liste des évaluations", description = "Récupère toutes les évaluations")
+    @Operation(summary = "List of evaluations", description = "Retrieves all evaluations")
     public List<Evaluation> getAllEvaluations() {
         return pfeService.getAllEvaluations();
     }
@@ -112,41 +112,46 @@ public class PfeRestController {
     // =========================== ACADEMIC SUPERVISORS ===========================
 
     @PostMapping("/academic-supervisors")
-    @Operation(summary = "Ajouter un encadrant", description = "Crée un nouvel encadrant académique")
+    @Operation(summary = "Add an academic supervisor", description = "Creates a new academic supervisor")
     public AcademicSupervisor createAcademicSupervisor(@RequestBody AcademicSupervisor academicSupervisor) {
         return pfeService.createAcademicSupervisor(academicSupervisor);
     }
 
     @GetMapping("/academic-supervisors")
-    @Operation(summary = "Liste des encadrants", description = "Récupère tous les encadrants académiques")
+    @Operation(summary = "List of academic supervisors", description = "Retrieves all academic supervisors")
     public List<AcademicSupervisor> getAllAcademicSupervisors() {
         return pfeService.getAllAcademicSupervisors();
     }
 
 
-    // Archivage
+    // =========================== ARCHIVING ===========================
+
     @PutMapping("/projects/{id}/archive")
-    @Operation(summary = "Archiver un projet", description = "Archive un projet par ID")
+    @Operation(summary = "Archive a project", description = "Archives a project by ID")
     public void archiveProject(@PathVariable Long id) {
         pfeService.archiveProject(id);
     }
+
     @GetMapping("/projects")
-    @Operation(summary = "Liste des projets actifs", description = "Récupère tous les projets non archivés")
+    @Operation(summary = "List of active projects", description = "Retrieves all non-archived projects")
     public List<Project> getAllActiveProjects() {
         return pfeService.getAllActiveProjects();
     }
+
     @PutMapping("/applications/{id}/archive")
-    @Operation(summary = "Archiver une application", description = "Archive une application par ID")
+    @Operation(summary = "Archive an application", description = "Archives an application by ID")
     public void archiveApplication(@PathVariable Long id) {
         pfeService.archiveApplication(id);
     }
+
     @PutMapping("/deliverables/{id}/archive")
-    @Operation(summary = "Archiver un livrable", description = "Archive un livrable par ID")
+    @Operation(summary = "Archive a deliverable", description = "Archives a deliverable by ID")
     public void archiveDeliverable(@PathVariable Long id) {
         pfeService.archiveDeliverable(id);
     }
+
     @PutMapping("/evaluations/{id}/archive")
-    @Operation(summary = "Archiver une évaluation", description = "Archive une évaluation par ID")
+    @Operation(summary = "Archive an evaluation", description = "Archives an evaluation by ID")
     public void archiveEvaluation(@PathVariable Long id) {
         pfeService.archiveEvaluation(id);
     }
