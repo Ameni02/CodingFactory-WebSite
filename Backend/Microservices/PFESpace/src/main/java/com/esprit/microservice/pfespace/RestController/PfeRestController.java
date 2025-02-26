@@ -1,90 +1,124 @@
 package com.esprit.microservice.pfespace.RestController;
 
-import com.esprit.microservice.pfespace.Entities.Deliverable;
-import com.esprit.microservice.pfespace.Entities.Evaluation;
-import com.esprit.microservice.pfespace.Entities.Project;
-import com.esprit.microservice.pfespace.Services.PfeServiceImp;
+import com.esprit.microservice.pfespace.Entities.*;
+import com.esprit.microservice.pfespace.Services.PFEService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/pfe")
+@Tag(name = "PFE Management", description = "API pour la gestion des projets, applications, livrables et évaluations")
 public class PfeRestController {
-    @Autowired
-    private PfeServiceImp pfeService;
 
-    @GetMapping("/getAllProjects")
+    @Autowired
+    private PFEService pfeService;
+
+    // =========================== PROJECTS ===========================
+
+    @PostMapping("/projects")
+    @Operation(summary = "Créer un projet", description = "Ajoute un nouveau projet PFE")
+    public Project createProject(@RequestBody Project project) {
+        return pfeService.createProject(project);
+    }
+
+    @GetMapping("/projects")
+    @Operation(summary = "Liste des projets", description = "Récupère tous les projets disponibles")
     public List<Project> getAllProjects() {
         return pfeService.getAllProjects();
     }
 
-    @GetMapping("/getProject/{id}")
-    public Project getProjectById(@PathVariable Long id) {
-        return pfeService.getProjectById(id);
+    @GetMapping("/projects/{id}")
+    @Operation(summary = "Détails d'un projet", description = "Récupère un projet par son ID")
+    public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
+        Optional<Project> project = pfeService.getProjectById(id);
+        return project.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/createProject")
-    public Project createProject(@RequestBody Project project) {
-        return pfeService.saveProject(project);
+    @PutMapping("/projects/{id}")
+    @Operation(summary = "Modifier un projet", description = "Met à jour un projet existant")
+    public Project updateProject(@PathVariable Long id, @RequestBody Project projectDetails) {
+        return pfeService.updateProject(id, projectDetails);
     }
 
-    @PutMapping("/updateProject/{id}")
-    public Project updateProject(@PathVariable Long id, @RequestBody Project project) {
-        project.setId(id);
-        return pfeService.saveProject(project);
-    }
-
-    @DeleteMapping("/deleteProject/{id}")
+    @DeleteMapping("/projects/{id}")
+    @Operation(summary = "Supprimer un projet", description = "Supprime un projet par ID")
     public void deleteProject(@PathVariable Long id) {
         pfeService.deleteProject(id);
     }
 
-    @GetMapping("/getDeliverablesByProject/{projectId}")
-    public List<Deliverable> getDeliverablesByProject(@PathVariable Long projectId) {
-        return pfeService.getDeliverablesByProject(projectId);
+    // =========================== APPLICATIONS ===========================
+
+    @PostMapping("/projects/{projectId}/applications")
+    @Operation(summary = "Ajouter une application", description = "Ajoute une application à un projet")
+    public Application createApplication(@PathVariable Long projectId, @RequestBody Application application) {
+        return pfeService.createApplication(projectId, application);
     }
 
-    @GetMapping("/getDeliverable/{id}")
-    public Deliverable getDeliverableById(@PathVariable Long id) {
-        return pfeService.getDeliverableById(id);
+    @GetMapping("/applications")
+    @Operation(summary = "Liste des applications", description = "Récupère toutes les applications")
+    public List<Application> getAllApplications() {
+        return pfeService.getAllApplications();
     }
 
-    @PostMapping("/createDeliverable/{projectId}")
-    public Deliverable createDeliverable(@PathVariable Long projectId, @RequestBody Deliverable deliverable) {
-        return pfeService.saveDeliverable(projectId, deliverable);
+    // =========================== DELIVERABLES ===========================
+
+    @PostMapping("/deliverables")
+    @Operation(summary = "Créer un livrable", description = "Ajoute un livrable avec ou sans projet")
+    public ResponseEntity<?> createDeliverable(
+            @RequestParam(required = false) Long projectId,
+            @RequestParam Long academicSupervisorId,
+            @RequestBody Deliverable deliverable) {
+        try {
+            Deliverable createdDeliverable = pfeService.createDeliverable(projectId, academicSupervisorId, deliverable);
+            return ResponseEntity.ok(createdDeliverable);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
-    @PutMapping("/updateDeliverable/{id}")
-    public Deliverable updateDeliverable(@PathVariable Long id, @RequestBody Deliverable deliverable) {
-        deliverable.setId(id);
-        return pfeService.saveDeliverable(deliverable.getProject().getId(), deliverable);
+    @GetMapping("/deliverables")
+    @Operation(summary = "Liste des livrables", description = "Récupère tous les livrables")
+    public List<Deliverable> getAllDeliverables() {
+        return pfeService.getAllDeliverables();
     }
 
-    @DeleteMapping("/deleteDeliverable/{id}")
-    public void deleteDeliverable(@PathVariable Long id) {
-        pfeService.deleteDeliverable(id);
+    @GetMapping("/deliverables/without-project")
+    @Operation(summary = "Livrables sans projet", description = "Récupère les livrables sans projet associé")
+    public List<Deliverable> getDeliverablesWithoutProject() {
+        return pfeService.getDeliverablesWithoutProject();
     }
 
-    @GetMapping("/getEvaluationByDeliverable/{deliverableId}")
-    public Evaluation getEvaluationByDeliverable(@PathVariable Long deliverableId) {
-        return pfeService.getEvaluationByDeliverable(deliverableId);
-    }
+    // =========================== EVALUATIONS ===========================
 
-    @PostMapping("/createEvaluation/{deliverableId}")
+    @PostMapping("/deliverables/{deliverableId}/evaluations")
+    @Operation(summary = "Évaluer un livrable", description = "Ajoute une évaluation à un livrable")
     public Evaluation createEvaluation(@PathVariable Long deliverableId, @RequestBody Evaluation evaluation) {
-        return pfeService.saveEvaluation(deliverableId, evaluation);
+        return pfeService.createEvaluation(deliverableId, evaluation);
     }
 
-    @PutMapping("/updateEvaluation/{id}")
-    public Evaluation updateEvaluation(@PathVariable Long id, @RequestBody Evaluation evaluation) {
-        evaluation.setId(id);
-        return pfeService.saveEvaluation(evaluation.getDeliverable().getId(), evaluation);
+    @GetMapping("/evaluations")
+    @Operation(summary = "Liste des évaluations", description = "Récupère toutes les évaluations")
+    public List<Evaluation> getAllEvaluations() {
+        return pfeService.getAllEvaluations();
     }
 
-    @DeleteMapping("/deleteEvaluation/{id}")
-    public void deleteEvaluation(@PathVariable Long id) {
-        pfeService.deleteEvaluation(id);
+    // =========================== ACADEMIC SUPERVISORS ===========================
+
+    @PostMapping("/academic-supervisors")
+    @Operation(summary = "Ajouter un encadrant", description = "Crée un nouvel encadrant académique")
+    public AcademicSupervisor createAcademicSupervisor(@RequestBody AcademicSupervisor academicSupervisor) {
+        return pfeService.createAcademicSupervisor(academicSupervisor);
+    }
+
+    @GetMapping("/academic-supervisors")
+    @Operation(summary = "Liste des encadrants", description = "Récupère tous les encadrants académiques")
+    public List<AcademicSupervisor> getAllAcademicSupervisors() {
+        return pfeService.getAllAcademicSupervisors();
     }
 }

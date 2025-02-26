@@ -32,7 +32,6 @@ public class PdfMergeController {
 
             merger.mergeDocuments(null);
 
-            // Ajouter les bons headers pour forcer le téléchargement
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
             headers.setContentDispositionFormData("attachment", "Merged_Deliverable.pdf");

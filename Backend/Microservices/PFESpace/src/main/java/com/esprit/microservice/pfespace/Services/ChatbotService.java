@@ -3,22 +3,14 @@ package com.esprit.microservice.pfespace.Services;
 import com.esprit.microservice.pfespace.Entities.Project;
 import com.esprit.microservice.pfespace.Entities.Deliverable;
 import com.esprit.microservice.pfespace.Entities.Evaluation;
-import com.esprit.microservice.pfespace.Repositories.ProjectRepo;
-import com.esprit.microservice.pfespace.Repositories.DeliverableRepo;
-import com.esprit.microservice.pfespace.Repositories.EvaluationRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-
+/*
 @Service
 public class ChatbotService {
     @Autowired
@@ -216,3 +208,5 @@ public class ChatbotService {
         return response.toString();
     }
 }
+
+ */
