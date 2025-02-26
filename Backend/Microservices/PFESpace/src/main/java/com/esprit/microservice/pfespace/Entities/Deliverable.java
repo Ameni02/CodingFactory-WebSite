@@ -54,6 +54,16 @@ public class Deliverable {
     @OneToOne(mappedBy = "deliverable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Evaluation evaluation;
 
+    private boolean archived = false;
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
     public Project getProject() {
         return project;
     }

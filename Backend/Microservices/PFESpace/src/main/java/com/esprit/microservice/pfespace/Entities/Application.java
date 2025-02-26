@@ -44,6 +44,16 @@ public class Application {
     @Pattern(regexp = "^(PENDING|ACCEPTED|REJECTED)$", message = "Status must be PENDING, ACCEPTED, or REJECTED")
     private String status;
 
+    private boolean archived = false;
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
     public Long getId() {
         return id;
     }

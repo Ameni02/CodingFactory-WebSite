@@ -20,4 +20,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     // Rechercher des projets par entreprise
     List<Project> findByCompanyNameContainingIgnoreCase(String companyName);
+
+        List<Project> findByArchivedFalse();
+
 }

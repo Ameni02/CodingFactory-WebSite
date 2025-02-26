@@ -34,6 +34,16 @@ public class Evaluation {
     @Size(min = 10, max = 500, message = "Comment must be between 10 and 500 characters")
     private String comment;
 
+    private boolean archived = false;
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
     public Long getId() {
         return id;
     }

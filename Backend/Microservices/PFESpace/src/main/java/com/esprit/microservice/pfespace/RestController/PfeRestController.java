@@ -27,7 +27,7 @@ public class PfeRestController {
         return pfeService.createProject(project);
     }
 
-    @GetMapping("/projects")
+    @GetMapping("/allprojects")
     @Operation(summary = "Liste des projets", description = "Récupère tous les projets disponibles")
     public List<Project> getAllProjects() {
         return pfeService.getAllProjects();
@@ -51,6 +51,7 @@ public class PfeRestController {
     public void deleteProject(@PathVariable Long id) {
         pfeService.deleteProject(id);
     }
+
 
     // =========================== APPLICATIONS ===========================
 
@@ -120,5 +121,33 @@ public class PfeRestController {
     @Operation(summary = "Liste des encadrants", description = "Récupère tous les encadrants académiques")
     public List<AcademicSupervisor> getAllAcademicSupervisors() {
         return pfeService.getAllAcademicSupervisors();
+    }
+
+
+    // Archivage
+    @PutMapping("/projects/{id}/archive")
+    @Operation(summary = "Archiver un projet", description = "Archive un projet par ID")
+    public void archiveProject(@PathVariable Long id) {
+        pfeService.archiveProject(id);
+    }
+    @GetMapping("/projects")
+    @Operation(summary = "Liste des projets actifs", description = "Récupère tous les projets non archivés")
+    public List<Project> getAllActiveProjects() {
+        return pfeService.getAllActiveProjects();
+    }
+    @PutMapping("/applications/{id}/archive")
+    @Operation(summary = "Archiver une application", description = "Archive une application par ID")
+    public void archiveApplication(@PathVariable Long id) {
+        pfeService.archiveApplication(id);
+    }
+    @PutMapping("/deliverables/{id}/archive")
+    @Operation(summary = "Archiver un livrable", description = "Archive un livrable par ID")
+    public void archiveDeliverable(@PathVariable Long id) {
+        pfeService.archiveDeliverable(id);
+    }
+    @PutMapping("/evaluations/{id}/archive")
+    @Operation(summary = "Archiver une évaluation", description = "Archive une évaluation par ID")
+    public void archiveEvaluation(@PathVariable Long id) {
+        pfeService.archiveEvaluation(id);
     }
 }

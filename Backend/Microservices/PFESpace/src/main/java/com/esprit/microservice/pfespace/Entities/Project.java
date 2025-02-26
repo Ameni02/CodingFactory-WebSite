@@ -77,7 +77,16 @@ import java.util.List;
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Deliverable> deliverables = new ArrayList<>();
 
+    private boolean archived = false;
 
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
 
     public @NotNull(message = "Title is required") @Size(min = 5, max = 100, message = "Title must be between 5 and 100 characters") String getTitle() {
         return title;

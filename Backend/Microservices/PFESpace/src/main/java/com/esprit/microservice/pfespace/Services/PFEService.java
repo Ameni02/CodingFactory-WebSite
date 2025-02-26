@@ -28,6 +28,18 @@ public class PFEService {
     private AcademicSupervisorRepository academicSupervisorRepository;
 
     // ===== CRUD for Project =====
+
+
+    // archiver un projet
+    public void archiveProject(Long id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+        project.setArchived(true); // Marquer comme archivé
+        projectRepository.save(project);
+    }
+    public List<Project> getAllActiveProjects() {
+        return projectRepository.findByArchivedFalse();
+    }
     public Project createProject(Project project) {
         return projectRepository.save(project);
     }
@@ -63,6 +75,13 @@ public class PFEService {
     }
 
     // ===== CRUD for Application =====
+    // archiver une application
+    public void archiveApplication(Long id) {
+        Application application = applicationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Application not found"));
+        application.setArchived(true); // Marquer comme archivé
+        applicationRepository.save(application);
+    }
     public Application createApplication(Long projectId, Application application) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
@@ -94,6 +113,13 @@ public class PFEService {
     }
 
     // ===== CRUD for Deliverable =====
+    // archiver liverable
+    public void archiveDeliverable(Long id) {
+        Deliverable deliverable = deliverableRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Deliverable not found"));
+        deliverable.setArchived(true); // Marquer comme archivé
+        deliverableRepository.save(deliverable);
+    }
     public Deliverable createDeliverable(Long projectId, Long academicSupervisorId, Deliverable deliverable) {
         // Valider l'existence de l'encadrant universitaire
         validateAcademicSupervisor(academicSupervisorId);
@@ -150,6 +176,15 @@ public class PFEService {
     }
 
     // ===== CRUD for Evaluation =====
+
+    // archiver evaluation
+
+    public void archiveEvaluation(Long id) {
+        Evaluation evaluation = evaluationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evaluation not found"));
+        evaluation.setArchived(true); // Marquer comme archivé
+        evaluationRepository.save(evaluation);
+    }
     // Créer une évaluation pour un livrable (avec ou sans projet)
     public Evaluation createEvaluation(Long deliverableId, Evaluation evaluation) {
         Deliverable deliverable = deliverableRepository.findById(deliverableId)
