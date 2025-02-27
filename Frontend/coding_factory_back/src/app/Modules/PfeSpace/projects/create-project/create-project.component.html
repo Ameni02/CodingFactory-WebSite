@@ -1,44 +1,266 @@
 <div class="wrapper">
-  
-    <div class="main-panel">
+  <div class="main-panel">
     <div class="container">
-<div class="project-create">
-    <h2>Create a New Project</h2>
-    <form (ngSubmit)="onSubmit()">
-      <!-- Title -->
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input id="title" [(ngModel)]="project.title" name="title" required>
+      <div class="modify-project">
+        <h2>Create Project</h2>
+
+        <!-- Project Form -->
+        <form (ngSubmit)="onSave()" #projectForm="ngForm">
+          <!-- Title -->
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input
+              type="text"
+              id="title"
+              [(ngModel)]="project.title"
+              name="title"
+              required
+              minlength="3"
+              maxlength="100"
+              #title="ngModel"
+            />
+            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="error-message">
+              <div *ngIf="title.errors?.['required']">Title is required.</div>
+              <div *ngIf="title.errors?.['minlength']">
+                Title must be at least 3 characters long.
+              </div>
+              <div *ngIf="title.errors?.['maxlength']">
+                Title cannot exceed 100 characters.
+              </div>
+            </div>
+          </div>
+
+          <!-- Field -->
+          <div class="form-group">
+            <label for="field">Field</label>
+            <input
+              type="text"
+              id="field"
+              [(ngModel)]="project.field"
+              name="field"
+              required
+              minlength="3"
+              maxlength="100"
+              #field="ngModel"
+            />
+            <div *ngIf="field.invalid && (field.dirty || field.touched)" class="error-message">
+              <div *ngIf="field.errors?.['required']">Field is required.</div>
+              <div *ngIf="field.errors?.['minlength']">
+                Field must be at least 3 characters long.
+              </div>
+              <div *ngIf="field.errors?.['maxlength']">
+                Field cannot exceed 100 characters.
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Date -->
+          <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input
+              type="date"
+              id="startDate"
+              [(ngModel)]="project.startDate"
+              name="startDate"
+              required
+              #startDate="ngModel"
+            />
+            <div *ngIf="startDate.invalid && (startDate.dirty || startDate.touched)" class="error-message">
+              <div *ngIf="startDate.errors?.['required']">Start Date is required.</div>
+            </div>
+          </div>
+
+          <!-- End Date -->
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input
+              type="date"
+              id="endDate"
+              [(ngModel)]="project.endDate"
+              name="endDate"
+              required
+              #endDate="ngModel"
+            />
+            <div *ngIf="endDate.invalid && (endDate.dirty || endDate.touched)" class="error-message">
+              <div *ngIf="endDate.errors?.['required']">End Date is required.</div>
+            </div>
+          </div>
+
+          <!-- Company Address -->
+          <div class="form-group">
+            <label for="companyAddress">Company Address</label>
+            <input
+              type="text"
+              id="companyAddress"
+              [(ngModel)]="project.companyAddress"
+              name="companyAddress"
+              required
+              minlength="5"
+              maxlength="200"
+              #companyAddress="ngModel"
+            />
+            <div *ngIf="companyAddress.invalid && (companyAddress.dirty || companyAddress.touched)" class="error-message">
+              <div *ngIf="companyAddress.errors?.['required']">Company Address is required.</div>
+              <div *ngIf="companyAddress.errors?.['minlength']">
+                Company Address must be at least 5 characters long.
+              </div>
+              <div *ngIf="companyAddress.errors?.['maxlength']">
+                Company Address cannot exceed 200 characters.
+              </div>
+            </div>
+          </div>
+
+          <!-- Company Email -->
+          <div class="form-group">
+            <label for="companyEmail">Company Email</label>
+            <input
+              type="email"
+              id="companyEmail"
+              [(ngModel)]="project.companyEmail"
+              name="companyEmail"
+              required
+              email
+              #companyEmail="ngModel"
+            />
+            <div *ngIf="companyEmail.invalid && (companyEmail.dirty || companyEmail.touched)" class="error-message">
+              <div *ngIf="companyEmail.errors?.['required']">Company Email is required.</div>
+              <div *ngIf="companyEmail.errors?.['email']">Invalid email format.</div>
+            </div>
+          </div>
+
+          <!-- Company Name -->
+          <div class="form-group">
+            <label for="companyName">Company Name</label>
+            <input
+              type="text"
+              id="companyName"
+              [(ngModel)]="project.companyName"
+              name="companyName"
+              required
+              minlength="3"
+              maxlength="100"
+              #companyName="ngModel"
+            />
+            <div *ngIf="companyName.invalid && (companyName.dirty || companyName.touched)" class="error-message">
+              <div *ngIf="companyName.errors?.['required']">Company Name is required.</div>
+              <div *ngIf="companyName.errors?.['minlength']">
+                Company Name must be at least 3 characters long.
+              </div>
+              <div *ngIf="companyName.errors?.['maxlength']">
+                Company Name cannot exceed 100 characters.
+              </div>
+            </div>
+          </div>
+
+          <!-- Company Phone -->
+          <div class="form-group">
+            <label for="companyPhone">Company Phone</label>
+            <input
+              type="text"
+              id="companyPhone"
+              [(ngModel)]="project.companyPhone"
+              name="companyPhone"
+              required
+              pattern="[0-9]{10}"
+              #companyPhone="ngModel"
+            />
+            <div *ngIf="companyPhone.invalid && (companyPhone.dirty || companyPhone.touched)" class="error-message">
+              <div *ngIf="companyPhone.errors?.['required']">Company Phone is required.</div>
+              <div *ngIf="companyPhone.errors?.['pattern']">
+                Company Phone must be a 10-digit number.
+              </div>
+            </div>
+          </div>
+
+          <!-- Description File Upload -->
+          <div class="form-group">
+            <label for="descriptionFile">Description File</label>
+            <input
+              type="file"
+              id="descriptionFile"
+              (change)="onFileSelected($event)"
+              name="descriptionFile"
+            />
+            <!-- Display the selected file name -->
+            <div *ngIf="selectedFile">
+              Selected File: {{ selectedFile.name }}
+            </div>
+          </div>
+
+          <!-- Number of Positions -->
+          <div class="form-group">
+            <label for="numberOfPositions">Number of Positions</label>
+            <input
+              type="number"
+              id="numberOfPositions"
+              [(ngModel)]="project.numberOfPositions"
+              name="numberOfPositions"
+              required
+              min="1"
+              #numberOfPositions="ngModel"
+            />
+            <div *ngIf="numberOfPositions.invalid && (numberOfPositions.dirty || numberOfPositions.touched)" class="error-message">
+              <div *ngIf="numberOfPositions.errors?.['required']">Number of Positions is required.</div>
+              <div *ngIf="numberOfPositions.errors?.['min']">
+                Number of Positions must be at least 1.
+              </div>
+            </div>
+          </div>
+
+          <!-- Professional Supervisor -->
+          <div class="form-group">
+            <label for="professionalSupervisor">Professional Supervisor</label>
+            <input
+              type="text"
+              id="professionalSupervisor"
+              [(ngModel)]="project.professionalSupervisor"
+              name="professionalSupervisor"
+              required
+              minlength="3"
+              maxlength="100"
+              #professionalSupervisor="ngModel"
+            />
+            <div *ngIf="professionalSupervisor.invalid && (professionalSupervisor.dirty || professionalSupervisor.touched)" class="error-message">
+              <div *ngIf="professionalSupervisor.errors?.['required']">Professional Supervisor is required.</div>
+              <div *ngIf="professionalSupervisor.errors?.['minlength']">
+                Professional Supervisor must be at least 3 characters long.
+              </div>
+              <div *ngIf="professionalSupervisor.errors?.['maxlength']">
+                Professional Supervisor cannot exceed 100 characters.
+              </div>
+            </div>
+          </div>
+
+          <!-- Required Skills -->
+          <div class="form-group">
+            <label for="requiredSkills">Required Skills</label>
+            <input
+              type="text"
+              id="requiredSkills"
+              [(ngModel)]="project.requiredSkills"
+              name="requiredSkills"
+              required
+              minlength="3"
+              maxlength="200"
+              #requiredSkills="ngModel"
+            />
+            <div *ngIf="requiredSkills.invalid && (requiredSkills.dirty || requiredSkills.touched)" class="error-message">
+              <div *ngIf="requiredSkills.errors?.['required']">Required Skills is required.</div>
+              <div *ngIf="requiredSkills.errors?.['minlength']">
+                Required Skills must be at least 3 characters long.
+              </div>
+              <div *ngIf="requiredSkills.errors?.['maxlength']">
+                Required Skills cannot exceed 200 characters.
+              </div>
+            </div>
+          </div>
+
+          <!-- Save Button -->
+          <div class="actions">
+            <button type="submit" class="save-button" [disabled]="projectForm.invalid">Create Project</button>
+          </div>
+        </form>
       </div>
-  
-      <!-- Description -->
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea id="description" [(ngModel)]="project.description" name="description" required></textarea>
-      </div>
-  
-      <!-- Technologies -->
-      <div class="form-group">
-        <label for="technologies">Technologies</label>
-        <input id="technologies" [(ngModel)]="project.technologies" name="technologies" required>
-      </div>
-  
-      <!-- Team Members -->
-      <div class="form-group">
-        <label for="teamMembers">Team Members</label>
-        <input id="teamMembers" [(ngModel)]="project.teamMembers" name="teamMembers" required>
-      </div>
-  
-      <!-- Attachments -->
-      <div class="form-group">
-        <label for="attachments">Attachments</label>
-        <input type="file" id="attachments" (change)="onFileChange($event)" multiple>
-      </div>
-  
-      <!-- Submit Button -->
-      <button type="submit">Submit</button>
-    </form>
+    </div>
   </div>
-</div>
-</div>
 </div>

@@ -1,72 +1,71 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  technologies: string;
-  teamMembers: string;
-  status: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute , Router } from '@angular/router';
+import { ProjectService } from 'src/app/services/project.service'; 
+import { Project } from 'src/app/models/project.model'; 
 
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.css']
 })
-export class ProjectDetailsComponent  {
-  project!: Project;
+export class ProjectDetailsComponent implements OnInit {
+  project: Project | undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private projectService: ProjectService
+  ) {}
 
   ngOnInit(): void {
+    // Get the project ID from the route parameters
     const projectId = this.route.snapshot.paramMap.get('id');
-    this.project = this.getProjectById(projectId);
-  }
 
-  // Mock function to get project by ID
-  getProjectById(id: string | null): Project {
-    const projects: Project[] = [
-      {
-        id: '1',
-        title: 'AI Chatbot',
-        description: 'An AI-powered chatbot',
-        technologies: 'AI, NLP',
-        teamMembers: 'John Doe, Jane Smith',
-        status: 'In Progress',
-      },
-      {
-        id: '2',
-        title: 'E-commerce Platform',
-        description: 'Online shopping platform',
-        technologies: 'Angular, Node.js',
-        teamMembers: 'Alice Johnson, Bob Brown',
-        status: 'Pending',
-      },
-    ];
-
-    return projects.find((project) => project.id === id) || projects[0];
-  }
-
-  // Update Project
-  onUpdate() {
-    this.router.navigate(['/update-project', this.project.id]);
-  }
-
-  // Archive Project
-  onArchive() {
-    alert(`Project "${this.project.title}" has been archived.`);
-    this.router.navigate(['/projects']);
-  }
-
-  // Delete Project
-  onDelete() {
-    if (confirm(`Are you sure you want to delete "${this.project.title}"?`)) {
-      alert(`Project "${this.project.title}" has been deleted.`);
-      this.router.navigate(['/projects']);
+    if (projectId) {
+      // Fetch the project details from the backend
+      this.projectService.getProjectById(+projectId).subscribe(
+        (data: Project) => {
+          this.project = data;
+        },
+        (error) => {
+          console.error('Error fetching project details:', error);
+        }
+      );
     }
   }
+
+  onDownload(filePath: string): void {
+    this.projectService.downloadFile(filePath).subscribe(
+      (data: Blob) => {
+        // Create a blob URL for the file
+        const blobUrl = URL.createObjectURL(data);
+        // Create a link element and trigger the download
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = filePath.split('/').pop() || 'file'; // Use the file name from the path
+        link.click();
+        // Clean up the blob URL
+        URL.revokeObjectURL(blobUrl);
+      },
+      (error) => {
+        console.error('Error downloading file:', error);
+        alert('Error downloading file. Please try again.');
+      }
+    );
+  }
+  onUpdate(): void {
+    // Navigate to the modify-project route
+    if (this.project) {
+      this.router.navigate(['/modify-project', this.project.id]);
+    }
+  }
+  onArchive(): void {
+    // Implement archive logic
+    console.log('Archive button clicked');
+  }
+
+  onDelete(): void {
+    // Implement delete logic
+    console.log('Delete button clicked');
+  }
 }
-
-

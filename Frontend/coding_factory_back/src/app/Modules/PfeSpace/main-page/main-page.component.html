@@ -1,27 +1,30 @@
 <div class="wrapper">
-  
-<div class="main-panel">
-<div class="container">
-   
-  
-  <h1>Tableau de bord administrateur</h1>
+  <div class="main-panel">
+    <div class="container dashboard">
+      <h1>Tableau de bord administrateur</h1>
 
-  <section>
-    <h2>Projets</h2>
-    <a routerLink="/projects">Afficher tous les projets</a>
-    <a routerLink="/projects/create">Créer un projet</a>
-  </section>
-  
-  <section>
-    <h2>Candidatures</h2>
-    <a routerLink="/applications">Voir toutes les candidatures</a>
-  </section>
-  
-  <section>
-    <h2>Livrables</h2>
-    <a routerLink="/deliverables">Voir tous les livrables</a>
-  </section>
-  
+      <section class="dashboard-section">
+        <h2>Projets</h2>
+        <div class="nav-links">
+          <a routerLink="/projects" class="nav-button">Afficher tous les projets</a>
+          <a routerLink="/projects/create" class="nav-button">Créer un projet</a>
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+        <h2>Candidatures</h2>
+        <div class="nav-links">
+          <a routerLink="/applications" class="nav-button">Voir toutes les candidatures</a>
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+        <h2>Livrables</h2>
+        <div class="nav-links">
+          <a routerLink="/deliverables" class="nav-button">Voir tous les livrables</a>
+        </div>
+      </section>
+
+    </div>
   </div>
-</div>
 </div>

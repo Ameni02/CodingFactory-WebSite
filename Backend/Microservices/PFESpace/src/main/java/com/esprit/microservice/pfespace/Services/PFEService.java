@@ -40,7 +40,9 @@ public class PFEService {
     public List<Project> getAllActiveProjects() {
         return projectRepository.findByArchivedFalse();
     }
+    @Transactional
     public Project createProject(Project project) {
+        project.setId(null);
         return projectRepository.save(project);
     }
 

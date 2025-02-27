@@ -27,8 +27,21 @@ export class ProjectService {
     return this.http.put<Project>(`${this.apiUrl}/${id}`, project);
   }
 
-  // Méthode pour archiver un projet
+  // Method to archive a project
   archiveProject(id: number): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}/archive`, {});
   }
+
+  uploadFile(file: File): Observable<{ message: string, filePath: string }> {
+    const formData = new FormData();
+    formData.append('file', file); // Key must match @RequestParam("file")
+    return this.http.post<{ message: string, filePath: string }>(`${this.apiUrl}/upload`, formData);
+  }
+  downloadFile(filePath: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/download?filePath=${encodeURIComponent(filePath)}`, {
+      responseType: 'blob' // Ensure the response is treated as a binary file
+    });
+  }
+  
+
 }

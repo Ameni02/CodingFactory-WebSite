@@ -2,6 +2,12 @@
   <div class="main-panel">
     <div class="container">
       <h2>Projects List</h2>
+
+      <!-- Add a router link to navigate to the Create Project page -->
+      <div class="actions">
+        <a [routerLink]="['/create-project']" >Create New Project</a>
+      </div>
+
       <table>
         <thead>
           <tr>
@@ -9,7 +15,6 @@
             <th>Field</th>
             <th>Start Date</th>
             <th>End Date</th>
-          
             <th>Actions</th>
           </tr>
         </thead>
@@ -19,11 +24,10 @@
             <td (click)="goToDetails(project.id)">{{ project.field }}</td>
             <td (click)="goToDetails(project.id)">{{ project.startDate | date }}</td>
             <td (click)="goToDetails(project.id)">{{ project.endDate | date }}</td>
-          <!--  <td>{{ project.archived ? 'Archived' : 'Active' }}</td> -->
+            <!-- <td>{{ project.archived ? 'Archived' : 'Active' }}</td> -->
             <td>
               <button (click)="archiveProject(project.id)" class="btn">Archive</button>
               <a [routerLink]="['/projects', project.id, 'edit']" class="btn edit">Edit</a>
-             
             </td>
           </tr>
         </tbody>

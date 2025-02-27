@@ -15,6 +15,7 @@ import { EvaluationsComponent } from './Modules/PfeSpace/evaluations/evaluations
 import { CreateProjectComponent } from './Modules/PfeSpace/projects/create-project/create-project.component';
 import { ListProjectComponent } from './Modules/PfeSpace/projects/list-project/list-project.component';
 import { FormsModule } from '@angular/forms';
+
 import { ProjectDetailsComponent } from './Modules/PfeSpace/projects/project-details/project-details.component';
 import { ModifyProjectComponent } from './Modules/PfeSpace/projects/modify-project/modify-project.component';
 import { DeliverableDetailsComponent } from './Modules/PfeSpace/deliverables/deliverable-details/deliverable-details.component';

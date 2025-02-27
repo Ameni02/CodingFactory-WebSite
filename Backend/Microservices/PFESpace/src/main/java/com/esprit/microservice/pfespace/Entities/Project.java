@@ -50,9 +50,6 @@ import java.util.List;
     @NotNull(message = "End date is required")
     @Future(message = "End date must be in the future")
     private LocalDate endDate;
-    @NotNull(message = "Status is required")
-    @Pattern(regexp = "^(EVALUATED|PENDING|REJECTED)$", message = "Status must be EVALUATED, PENDING, or REJECTED")
-    private String status;
 
     @NotNull(message = "Company name is required")
     @Size(min = 2, max = 100, message = "Company name must be between 2 and 100 characters")

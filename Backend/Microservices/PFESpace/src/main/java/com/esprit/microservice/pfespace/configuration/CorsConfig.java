@@ -6,14 +6,20 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Autorise les requêtes vers /api
-                .allowedOrigins("http://localhost:4200") // Autorise Angular
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Méthodes autorisées
-                .allowedHeaders("*") // En-têtes autorisés
-                .allowCredentials(true); // Autorise les cookies
+public class CorsConfig {
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**") // Allow all endpoints
+                        .allowedOrigins("http://localhost:4200") // Allow requests from Angular
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow specific HTTP methods
+                        .allowedHeaders("*") // Allow all headers
+                        .allowCredentials(true); // Allow credentials (e.g., cookies)
+            }
+        };
     }
 }

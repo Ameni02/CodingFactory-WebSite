@@ -7,8 +7,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -155,4 +162,24 @@ public class PfeRestController {
     public void archiveEvaluation(@PathVariable Long id) {
         pfeService.archiveEvaluation(id);
     }
-}
+
+
+    @PostMapping("/projects/upload")
+    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
+        // Save the file and return the file path
+        String filePath = saveFile(file);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "File uploaded successfully!");
+        response.put("filePath", filePath);
+        return ResponseEntity.ok(response);
+    }
+
+    private String saveFile(MultipartFile file) {
+        // Implement file saving logic here
+        return "path/to/saved/file";
+    }
+
+
+    }
+
+
