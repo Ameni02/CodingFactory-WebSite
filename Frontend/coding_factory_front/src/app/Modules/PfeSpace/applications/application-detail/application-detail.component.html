@@ -1,0 +1,8 @@
+<div *ngIf="application">
+  <h2>Application Details</h2>
+  <p>Student Name: {{ application.studentName }}</p>
+  <p>Student Email: {{ application.studentEmail }}</p>
+  <p>Status: {{ application.status }}</p>
+  <p>CV: <a [href]="application.cvFilePath" target="_blank">Download CV</a></p>
+  <p>Cover Letter: <a [href]="application.coverLetterFilePath" target="_blank">Download Cover Letter</a></p>
+</div>

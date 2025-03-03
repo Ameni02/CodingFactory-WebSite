@@ -2,6 +2,7 @@ package com.esprit.microservice.pfespace.Repositories;
 
 import com.esprit.microservice.pfespace.Entities.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -22,5 +23,21 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByCompanyNameContainingIgnoreCase(String companyName);
 
         List<Project> findByArchivedFalse();
+
+    // Find recent projects
+    @Query("SELECT p FROM Project p WHERE p.archived = false ORDER BY p.startDate DESC")
+    List<Project> findRecentProjects();
+
+    // Count pending projects (start date is in the future)
+    @Query("SELECT COUNT(p) FROM Project p WHERE p.startDate > CURRENT_DATE")
+    int countPendingProjects();
+
+    // Count in-progress projects (start date is in the past and end date is in the future)
+    @Query("SELECT COUNT(p) FROM Project p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE")
+    int countInProgressProjects();
+
+    // Count completed projects (end date is in the past)
+    @Query("SELECT COUNT(p) FROM Project p WHERE p.endDate < CURRENT_DATE")
+    int countCompletedProjects();
 
 }

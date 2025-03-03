@@ -1,5 +1,6 @@
 package com.esprit.microservice.pfespace.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -75,6 +76,7 @@ import java.util.List;
     private List<Application> applications = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Deliverable> deliverables = new ArrayList<>();
 
     private boolean archived = false;
@@ -193,7 +195,25 @@ import java.util.List;
         this.companyPhone = companyPhone;
     }
 
+    // Add a transient field for status (not stored in the database)
+    @Transient
+    private String status;
 
+    // Method to calculate status based on dates
+    public String getStatus() {
+        if (startDate == null || endDate == null) {
+            return "UNKNOWN"; // Handle cases where dates are not set
+        }
+
+        LocalDate now = LocalDate.now();
+        if (now.isBefore(startDate)) {
+            return "PENDING";
+        } else if (now.isAfter(startDate) && now.isBefore(endDate)) {
+            return "IN_PROGRESS";
+        } else {
+            return "COMPLETED";
+        }
+    }
 
 }
 

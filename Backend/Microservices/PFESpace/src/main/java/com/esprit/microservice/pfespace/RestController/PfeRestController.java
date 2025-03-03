@@ -180,6 +180,34 @@ public class PfeRestController {
     }
 
 
+
+
+    //
+
+    @GetMapping("/projects/project-stats")
+    public Map<String, Integer> getProjectStats() {
+        return pfeService.getProjectStats();
+    }
+
+    @GetMapping("/projects/application-stats")
+    public Map<String, Integer> getApplicationStats() {
+        return pfeService.getApplicationStats();
+    }
+
+    @GetMapping("/projects/recent-applications")
+    public List<Application> getRecentApplications() {
+        return pfeService.getRecentApplications();
+    }
+
+    @GetMapping("/projects/recent-evaluations")
+    public List<Evaluation> getRecentEvaluations() {
+        return pfeService.getRecentEvaluations();
+    }
+
+    @GetMapping("/projects/recent-projects")
+    public List<Project> getRecentProjects() {
+        return pfeService.getRecentProjects();
+    }
     }
 
 

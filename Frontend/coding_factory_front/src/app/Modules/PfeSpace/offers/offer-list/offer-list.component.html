@@ -1,0 +1,15 @@
+<div>
+  <!-- Add Offer Button -->
+  <div class="add-offer-button">
+    <a routerLink="/offers/add" class="btn btn-primary">Add Offer</a>
+  </div>
+
+  <!-- List of Offers -->
+  <div *ngFor="let offer of offers" class="offer-item">
+    <h3>{{ offer.title }}</h3>
+    <p>{{ offer.field }}</p>
+    <p>Company: {{ offer.companyName }}</p>
+    <p>Positions: {{ offer.numberOfPositions }}</p>
+    <a [routerLink]="['/offers', offer.id]" class="btn btn-secondary">View Details</a>
+  </div>
+</div>

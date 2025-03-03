@@ -1,5 +1,6 @@
 package com.esprit.microservice.pfespace.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -25,11 +26,13 @@ public class Deliverable {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "project_id", nullable = true) // Projet optionnel
     private Project project;
 
     @NotNull(message = "AcademicSupervisor is required")
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "academic_supervisor_id", nullable = false)
     private AcademicSupervisor academicSupervisor;
 

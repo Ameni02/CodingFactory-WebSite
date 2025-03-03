@@ -9,8 +9,24 @@ import { Project } from 'src/app/models/project.model';
   styleUrls: ['./create-project.component.css']
 })
 export class CreateProjectComponent implements OnInit {
-  project: Project = new Project(); // Initialize with default values
+   project: Project = {
+    id: 0, // Default value (will be ignored by the backend)
+    title: '',
+    field: '',
+    startDate: new Date(),
+    endDate: new Date(),
+    archived: false,
+    companyAddress: '',
+    companyEmail: '',
+    companyName: '',
+    companyPhone: '',
+    descriptionFilePath: '',
+    numberOfPositions: 0,
+    professionalSupervisor: '',
+    requiredSkills: ''
+  };
   selectedFile: File | null = null;
+  isEditMode: boolean = false; // Add this property
 
   constructor(
     private router: Router,
@@ -28,7 +44,7 @@ export class CreateProjectComponent implements OnInit {
   onSave(): void {
     console.log('Save button clicked'); // Log the button click
     console.log('Project to be saved:', this.project); // Log the project object
-
+  
     if (this.selectedFile) {
       console.log('File selected:', this.selectedFile.name); // Log the selected file
       this.projectService.uploadFile(this.selectedFile).subscribe(
@@ -51,7 +67,7 @@ export class CreateProjectComponent implements OnInit {
   private createProject(): void {
     if (this.project) {
       console.log('Project to be saved:', this.project); // Log the project object
-
+  
       // Create a new project
       this.projectService.addProject(this.project).subscribe(
         (savedProject) => {

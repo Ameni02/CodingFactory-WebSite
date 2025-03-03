@@ -1,0 +1,6 @@
+<div *ngFor="let submission of submissions">
+  <h3>{{ submission.title }}</h3>
+  <p>Project ID: {{ submission.projectId }}</p>
+  <p>Status: {{ submission.status }}</p>
+  <a [routerLink]="['/submissions', submission.id]">View Details</a>
+</div>

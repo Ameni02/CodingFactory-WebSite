@@ -5,7 +5,10 @@ import com.esprit.microservice.pfespace.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -251,5 +254,38 @@ public class PFEService {
             academicSupervisorRepository.findById(academicSupervisorId)
                     .orElseThrow(() -> new RuntimeException("AcademicSupervisor not found with id: " + academicSupervisorId));
         }
+    }
+
+
+
+    //
+
+
+    public Map<String, Integer> getProjectStats() {
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("pending", projectRepository.countPendingProjects());
+        stats.put("inProgress", projectRepository.countInProgressProjects());
+        stats.put("completed", projectRepository.countCompletedProjects());
+        return stats;
+    }
+
+    public Map<String, Integer> getApplicationStats() {
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("pending", applicationRepository.countPendingApplications());
+        stats.put("accepted", applicationRepository.countAcceptedApplications());
+        stats.put("rejected", applicationRepository.countRejectedApplications());
+        return stats;
+    }
+
+    public List<Application> getRecentApplications() {
+        return applicationRepository.findRecentApplications();
+    }
+
+    public List<Evaluation> getRecentEvaluations() {
+        return evaluationRepository.findRecentEvaluations();
+    }
+
+    public List<Project> getRecentProjects() {
+        return projectRepository.findRecentProjects();
     }
 }

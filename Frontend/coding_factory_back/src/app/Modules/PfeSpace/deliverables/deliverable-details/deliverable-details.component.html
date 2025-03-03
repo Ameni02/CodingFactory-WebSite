@@ -1,1 +1,45 @@
-<p>deliverable-details works!</p>
+<div class="wrapper" *ngIf="deliverable">
+    <div class="main-panel">
+      <div class="container">
+        <h2 class="section-title">Deliverable Details</h2>
+  
+        <div class="card">
+          <h3 class="card-title">General Information</h3>
+          <div class="card-body">
+            <p><strong>Title:</strong> {{ deliverable.title }}</p>
+            <p><strong>Project ID:</strong> {{ deliverable.projectId }}</p>
+            <p><strong>Status:</strong> {{ deliverable.status }}</p>
+            <p><strong>Archived:</strong> {{ deliverable.archived ? 'Yes' : 'No' }}</p>
+          </div>
+        </div>
+  
+        <div class="card">
+          <h3 class="card-title">Submission Details</h3>
+          <div class="card-body">
+            <p><strong>Submission Date:</strong> {{ deliverable.submissionDate | date }}</p>
+            <p><strong>Description File:</strong>
+              <button (click)="onDownload(deliverable.descriptionFilePath)">Download</button>
+            </p>
+            <p><strong>Report File:</strong>
+              <button (click)="onDownload(deliverable.reportFilePath)">Download</button>
+            </p>
+          </div>
+        </div>
+  
+        <div class="card">
+          <h3 class="card-title">Supervisor Information</h3>
+          <div class="card-body">
+            <p><strong>Academic Supervisor ID:</strong> {{ deliverable.academicSupervisorId }}</p>
+          </div>
+        </div>
+  
+        <div class="actions">
+          <button class="update-button" (click)="onUpdate()">Update Deliverable</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="!deliverable">
+    <p class="loading-message">Loading deliverable details...</p>
+  </div>

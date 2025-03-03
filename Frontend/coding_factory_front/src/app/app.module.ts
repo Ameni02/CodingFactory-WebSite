@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +23,18 @@ import { FactsComponent } from './components/facts/facts.component';
 import { TestimonialsComponent } from './components/testimonials/testimonials.component';
 import { MainPageComponent } from './Modules/PfeSpace/main-page/main-page.component';
 
+import { SupervisorDashboardComponent } from './Modules/PfeSpace/supervisors/supervisor-dashboard/supervisor-dashboard.component';
+import { AddOfferComponent } from './Modules/PfeSpace/offers/add-offer/add-offer.component';
+import { OfferListComponent } from './Modules/PfeSpace/offers/offer-list/offer-list.component';
+import { OfferDetailComponent } from './Modules/PfeSpace/offers/offer-detail/offer-detail.component';
+import { ApplicationFormComponent } from './Modules/PfeSpace/applications/application-form/application-form.component';
+import { ApplicationDetailComponent } from './Modules/PfeSpace/applications/application-detail/application-detail.component';
+import { SubmissionFormComponent } from './Modules/PfeSpace/submissions/submission-form/submission-form.component';
+import { SubmissionListComponent } from './Modules/PfeSpace/submissions/submission-list/submission-list.component';
+import { SubmissionDetailComponent } from './Modules/PfeSpace/submissions/submission-detail/submission-detail.component';
+import { EvaluationFormComponent } from './Modules/PfeSpace/evaluations/evaluation-form/evaluation-form.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,11 +52,26 @@ import { MainPageComponent } from './Modules/PfeSpace/main-page/main-page.compon
     FactsComponent,
     TestimonialsComponent,
     MainPageComponent,
+    AddOfferComponent,
+    OfferListComponent,
+    OfferDetailComponent,
+    ApplicationFormComponent,
+    ApplicationDetailComponent,
+    SubmissionFormComponent,
+    SubmissionListComponent,
+    SubmissionDetailComponent,
+    EvaluationFormComponent,
+    SupervisorDashboardComponent,
+
 
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

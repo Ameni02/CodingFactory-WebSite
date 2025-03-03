@@ -44,4 +44,24 @@ export class ProjectService {
   }
   
 
+  getProjectStats(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/project-stats`);
+  }
+
+  getApplicationStats(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/application-stats`);
+  }
+
+  getRecentApplications(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/recent-applications`);
+  }
+
+  getRecentEvaluations(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/recent-evaluations`);
+  }
+
+  getRecentProjects(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/recent-projects`);
+  }
+
 }

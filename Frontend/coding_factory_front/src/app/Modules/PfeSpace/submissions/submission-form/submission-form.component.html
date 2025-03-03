@@ -1,0 +1,27 @@
+<form [formGroup]="submissionForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="projectId">Project ID</label>
+    <input id="projectId" formControlName="projectId" type="number" />
+  </div>
+  <div>
+    <label for="academicSupervisorId">Academic Supervisor ID</label>
+    <input id="academicSupervisorId" formControlName="academicSupervisorId" type="number" />
+  </div>
+  <div>
+    <label for="title">Title</label>
+    <input id="title" formControlName="title" type="text" />
+  </div>
+  <div>
+    <label for="descriptionFilePath">Description File</label>
+    <input id="descriptionFilePath" formControlName="descriptionFilePath" type="file" />
+  </div>
+  <div>
+    <label for="reportFilePath">Report File</label>
+    <input id="reportFilePath" formControlName="reportFilePath" type="file" />
+  </div>
+  <div>
+    <label for="submissionDate">Submission Date</label>
+    <input id="submissionDate" formControlName="submissionDate" type="date" />
+  </div>
+  <button type="submit" [disabled]="submissionForm.invalid">Submit</button>
+</form>

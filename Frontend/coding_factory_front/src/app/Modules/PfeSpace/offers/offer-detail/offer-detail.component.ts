@@ -1,0 +1,88 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute , Router } from '@angular/router';
+import { ProjectService } from 'src/services/project.service'; 
+import { Project } from 'src/app/models/project.model'; 
+
+@Component({
+  selector: 'app-offer-detail',
+  templateUrl: './offer-detail.component.html',
+  styleUrls: ['./offer-detail.component.css'],
+})
+export class OfferDetailComponent implements OnInit {
+  project: Project = {
+    id: 0, // Default value (will be ignored by the backend)
+    title: '',
+    field: '',
+    startDate: new Date(),
+    endDate: new Date(),
+    archived: false,
+    companyAddress: '',
+    companyEmail: '',
+    companyName: '',
+    companyPhone: '',
+    descriptionFilePath: '',
+    numberOfPositions: 0,
+    professionalSupervisor: '',
+    requiredSkills: ''
+  };
+  selectedFile: File | null = null;
+  isEditMode: boolean = false; // Add this property
+
+  constructor(
+    private router: Router,
+    private projectService: ProjectService
+  ) {}
+
+  ngOnInit(): void {
+    // No need to fetch project details in create mode
+  }
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  onSave(): void {
+    console.log('Save button clicked'); // Log the button click
+    console.log('Project to be saved:', this.project); // Log the project object
+  
+    if (this.selectedFile) {
+      console.log('File selected:', this.selectedFile.name); // Log the selected file
+      this.projectService.uploadFile(this.selectedFile).subscribe(
+        (response: { message: string, filePath: string }) => {
+          console.log('File uploaded successfully:', response); // Log the file upload response
+          this.project.descriptionFilePath = response.filePath; // Update the file path
+          this.createProject(); // Call the create method
+        },
+        (error) => {
+          console.error('Error uploading file:', error); // Log the file upload error
+          alert('Error uploading file. Please try again.');
+        }
+      );
+    } else {
+      console.log('No file selected'); // Log if no file is selected
+      this.createProject(); // Call the create method
+    }
+  }
+
+  private createProject(): void {
+    if (this.project) {
+      console.log('Project to be saved:', this.project); // Log the project object
+  
+      // Create a new project
+      this.projectService.addProject(this.project).subscribe(
+        (savedProject) => {
+          console.log('Project created successfully:', savedProject); // Log the response
+          alert('Project created successfully!');
+          this.router.navigate(['/projects']); // Navigate to the projects list
+        },
+        (error) => {
+          console.error('Error creating project:', error); // Log the error
+          alert('Error creating project. Please try again.');
+        }
+      );
+    } else {
+      console.error('Project is undefined. Cannot save.'); // Log the error
+      alert('Error: Project data is missing. Cannot save.');
+    }
+  }
+}

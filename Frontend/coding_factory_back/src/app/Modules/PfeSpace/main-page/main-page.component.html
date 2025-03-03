@@ -1,30 +1,92 @@
-<div class="wrapper">
-  <div class="main-panel">
-    <div class="container dashboard">
-      <h1>Tableau de bord administrateur</h1>
+<div class="container dashboard">
+  <h1>Tableau de bord administrateur</h1>
 
-      <section class="dashboard-section">
-        <h2>Projets</h2>
-        <div class="nav-links">
-          <a routerLink="/projects" class="nav-button">Afficher tous les projets</a>
-          <a routerLink="/projects/create" class="nav-button">Créer un projet</a>
-        </div>
-      </section>
-
-      <section class="dashboard-section">
-        <h2>Candidatures</h2>
-        <div class="nav-links">
-          <a routerLink="/applications" class="nav-button">Voir toutes les candidatures</a>
-        </div>
-      </section>
-
-      <section class="dashboard-section">
-        <h2>Livrables</h2>
-        <div class="nav-links">
-          <a routerLink="/deliverables" class="nav-button">Voir tous les livrables</a>
-        </div>
-      </section>
-
+  <!-- Dashboard Cards -->
+  <div class="dashboard-cards">
+    <div class="card">
+      <h3>Total Projects</h3>
+      <p>Pending: <span class="highlight">{{ projectStats.pending }}</span></p>
+      <p>In Progress: <span class="highlight">{{ projectStats.inProgress }}</span></p>
+      <p>Completed: <span class="highlight">{{ projectStats.completed }}</span></p>
+    </div>
+    <div class="card">
+      <h3>Applications Status</h3>
+      <p>Pending: <span class="highlight">{{ applicationStats.pending }}</span></p>
+      <p>Accepted: <span class="highlight">{{ applicationStats.accepted }}</span></p>
+      <p>Rejected: <span class="highlight">{{ applicationStats.rejected }}</span></p>
+    </div>
+    <div class="card">
+      <h3>Deliverables Status</h3>
+      <p>Submitted: <span class="highlight">{{ deliverableStats.submitted }}</span></p>
+      <p>Evaluated: <span class="highlight">{{ deliverableStats.evaluated }}</span></p>
+      <p>Pending Changes: <span class="highlight">{{ deliverableStats.pendingChanges }}</span></p>
     </div>
   </div>
+
+  <!-- Recent Applications -->
+  <h3>Recent Applications</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Project</th>
+        <th>Status</th>
+        <th>CV</th>
+        <th>Cover Letter</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let application of recentApplications">
+        <td>{{ application.studentName }}</td>
+        <td>{{ getProjectTitle(application.projectId) }}</td>
+        <td>{{ application.status }}</td>
+        <td><a [href]="application.cvFilePath" target="_blank">View CV</a></td>
+        <td><a [href]="application.coverLetterFilePath" target="_blank">View Cover Letter</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Recent Evaluations -->
+  <h3>Recent Evaluations</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Evaluator</th>
+        <th>Deliverable</th>
+        <th>Grade</th>
+        <th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let evaluation of recentEvaluations">
+        <td>{{ getEvaluatorName(evaluation.deliverableId) }}</td>
+        <td>{{ getDeliverableTitle(evaluation.deliverableId) }}</td>
+        <td>{{ evaluation.grade }}</td>
+        <td>{{ evaluation.comment }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Recent Projects -->
+  <h3>Recent Projects</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Field</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Company</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of recentProjects">
+        <td>{{ project.title }}</td>
+        <td>{{ project.field }}</td>
+        <td>{{ project.startDate | date }}</td>
+        <td>{{ project.endDate | date }}</td>
+        <td>{{ project.companyName }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

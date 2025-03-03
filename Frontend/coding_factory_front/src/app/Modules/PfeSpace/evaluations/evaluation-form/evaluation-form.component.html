@@ -1,0 +1,15 @@
+<form [formGroup]="evaluationForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="deliverableId">Deliverable ID</label>
+    <input id="deliverableId" formControlName="deliverableId" type="number" />
+  </div>
+  <div>
+    <label for="grade">Grade</label>
+    <input id="grade" formControlName="grade" type="number" />
+  </div>
+  <div>
+    <label for="comment">Comment</label>
+    <textarea id="comment" formControlName="comment"></textarea>
+  </div>
+  <button type="submit" [disabled]="evaluationForm.invalid">Submit</button>
+</form>

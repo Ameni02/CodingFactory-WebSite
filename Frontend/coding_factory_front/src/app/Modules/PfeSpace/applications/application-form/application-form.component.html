@@ -1,0 +1,23 @@
+<form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="projectId">Project ID</label>
+    <input id="projectId" formControlName="projectId" type="number" />
+  </div>
+  <div>
+    <label for="studentName">Student Name</label>
+    <input id="studentName" formControlName="studentName" type="text" />
+  </div>
+  <div>
+    <label for="studentEmail">Student Email</label>
+    <input id="studentEmail" formControlName="studentEmail" type="email" />
+  </div>
+  <div>
+    <label for="cvFilePath">CV File</label>
+    <input id="cvFilePath" formControlName="cvFilePath" type="file" />
+  </div>
+  <div>
+    <label for="coverLetterFilePath">Cover Letter</label>
+    <input id="coverLetterFilePath" formControlName="coverLetterFilePath" type="file" />
+  </div>
+  <button type="submit" [disabled]="applicationForm.invalid">Submit</button>
+</form>
