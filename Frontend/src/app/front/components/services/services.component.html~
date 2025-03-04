@@ -1,0 +1,53 @@
+<div class="services section" id="services">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-md-6">
+        <div class="service-item">
+          <div class="icon">
+            <img src="assets/assetsFront/assets/images/service-01.png"
+                 alt="online degrees">
+          </div>
+          <div class="main-content">
+            <h4>Consulting Services </h4>
+            <p>description.</p>
+            <div class="main-button">
+              <a href="#">Show More ..</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="service-item">
+          <div class="icon">
+            <img src="assets/assetsFront/assets/images/service-02.png"
+                 alt="short courses">
+          </div>
+          <div class="main-content">
+            <h4>Short Courses</h4>
+            <p>You can browse free templates based on different tags such as
+              digital marketing, etc.</p>
+            <div class="main-button">
+              <a href="#">Show More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="service-item">
+          <div class="icon">
+            <img src="assets/assetsFront/assets/images/service-03.png"
+                 alt="web experts">
+          </div>
+          <div class="main-content">
+            <h4>PFE Space</h4>
+            <p>end of studies projects.</p>
+            <div class="main-button">
+              <a routerLink="/pfe-space">Show More</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

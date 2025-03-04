@@ -1,0 +1,56 @@
+<div class="main-banner" id="top">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <!-- Ensure this has the correct class name -->
+        <div class="owl-carousel owl-banner">
+          <div class="item">
+            <div class="header-text">
+              <span class="category">Our Courses</span>
+              <h2>With Scholar Teachers, Everything Is Easier</h2>
+              <p>Scholar is a free CSS template designed for educational websites.</p>
+              <div class="buttons">
+                <div class="main-button">
+                  <a href="#">Request Demo</a>
+                </div>
+                <div class="icon-button">
+                  <a href="#"><i class="fa fa-play"></i> What's Scholar?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="header-text">
+              <span class="category">Best Result</span>
+              <h2>Get the best result out of your effort</h2>
+              <p>Use this template for educational or commercial purposes.</p>
+              <div class="buttons">
+                <div class="main-button">
+                  <a href="#">Request Demo</a>
+                </div>
+                <div class="icon-button">
+                  <a href="#"><i class="fa fa-play"></i> What's the best result?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="header-text">
+              <span class="category">Online Learning</span>
+              <h2>Online Learning helps you save time</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              <div class="buttons">
+                <div class="main-button">
+                  <a href="#">Request Demo</a>
+                </div>
+                <div class="icon-button">
+                  <a href="#"><i class="fa fa-play"></i> What's Online Course?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- END OF OWL CAROUSEL -->
+      </div>
+    </div>
+  </div>
+</div>

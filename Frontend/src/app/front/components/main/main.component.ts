@@ -1,0 +1,28 @@
+import {AfterViewInit, Component} from '@angular/core';
+declare var $: any;
+
+@Component({
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss']
+})
+export class MainComponent implements AfterViewInit{
+  ngAfterViewInit(): void {
+    $('.owl-banner').owlCarousel({
+      loop: true,          // Enables infinite loop
+      margin: 10,          // Space between items
+      nav: true,           // Show navigation arrows
+      dots: true,          // Show dots for navigation
+      autoplay: true,      // Enable autoplay
+      autoplayTimeout: 3000, // Autoplay speed in milliseconds
+      autoplayHoverPause: true, // Pause autoplay when hovered
+      responsive: {
+        0: { items: 1 },   // 1 item on small screens
+        600: { items: 2 }, // 2 items on medium screens
+        1000: { items: 1 } // 3 items on large screens
+      }
+    });
+
+  }
+
+}

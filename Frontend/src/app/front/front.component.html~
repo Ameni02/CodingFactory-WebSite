@@ -1,0 +1,16 @@
+
+<app-navbar></app-navbar>
+<app-main></app-main>
+<div *ngIf="!hideComponents">
+<app-services></app-services>
+<app-about-us></app-about-us>
+<app-courses></app-courses>
+<!-- <app-facts></app-facts>-->
+<app-team></app-team>
+</div>
+
+<router-outlet></router-outlet>
+<app-pfespace ></app-pfespace>
+
+<app-contact-us></app-contact-us>
+<app-footer></app-footer>

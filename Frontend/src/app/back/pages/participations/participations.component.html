@@ -1,0 +1,49 @@
+<section class="py-5">
+  <div class="container">
+    <div class="mb-3">
+      <button class="btn btn-outline-primary d-flex align-items-center" (click)="goBack()">
+        <i class="bi bi-arrow-left-circle me-2 fs-5"></i> Back to Events
+      </button>
+    </div>
+    <h2 class="mb-4">Participants List</h2>
+
+    <div *ngIf="participations.length === 0" class="alert alert-warning">
+      No participants found for this event.
+    </div>
+
+    <table class="table table-striped table-hover" *ngIf="participations.length > 0">
+      <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>User ID</th>
+        <th>Registration Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let participation of participations; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ participation.userId }}</td>
+        <td>{{ participation.registrationDate | date: 'medium' }}</td>
+        <td>
+            <span class="badge bg-success" *ngIf="participation.statusParticipation === 'CONFIRMED'">
+              Confirmed
+            </span>
+          <span class="badge bg-warning" *ngIf="participation.statusParticipation === 'PENDING'">
+              Pending
+            </span>
+          <span class="badge bg-danger" *ngIf="participation.statusParticipation === 'CANCELED'">
+              Canceled
+            </span>
+        </td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="deleteParticipation(participation.id)">
+            <i class="bi bi-trash"></i> Remove
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
