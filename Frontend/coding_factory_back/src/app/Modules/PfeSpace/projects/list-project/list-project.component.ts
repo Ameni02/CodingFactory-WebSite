@@ -9,48 +9,80 @@ import { Router } from '@angular/router';
   styleUrls: ['./list-project.component.css'],
 })
 export class ListProjectComponent implements OnInit {
-  projects: Project[] = []; // Liste des projets
+  projects: Project[] = []; // List of projects
 
-  constructor(private projectService: ProjectService , private router:Router) {}
- 
+  constructor(private projectService: ProjectService, private router: Router) {}
 
+  ngOnInit(): void {
+    this.loadProjects(); // Load the list of projects when the component is initialized
+  }
+
+  // Load projects from the API
+  loadProjects(): void {
+    this.projectService.getProjects().subscribe(
+      (data) => {
+        this.projects = data;
+        console.log('Projects loaded:', this.projects); // Log data for debugging
+      },
+      (error) => {
+        console.error('Error loading projects:', error); // Log errors
+      }
+    );
+  }
+// Archive a project
+archiveProject(id: number): void {
+  console.log('Archiving project with ID:', id);
+  if (!id) {
+    console.error('Project ID is undefined or null');
+    return;
+  }
+  this.projectService.archiveProject(id).subscribe(
+    () => {
+      console.log('Project archived successfully');
+      
+      // Update the project's archived status locally
+      const project = this.projects.find(p => p.id === id);
+      if (project) {
+        project.archived = true;
+      }
+    },
+    (error) => {
+      console.error('Error archiving project:', error);
+    }
+  );
+}
+
+// Unarchive a project
+unarchiveProject(id: number): void {
+  console.log('Unarchiving project with ID:', id);
+  if (!id) {
+    console.error('Project ID is undefined or null');
+    return;
+  }
+  this.projectService.unarchiveProject(id).subscribe(
+    () => {
+      console.log('Project unarchived successfully');
+     
+      
+      // Update the project's archived status locally
+      const project = this.projects.find(p => p.id === id);
+      if (project) {
+        project.archived = false;
+      }
+    },
+    (error) => {
+      console.error('Error unarchiving project:', error);
+    }
+  );
+}
+
+  // Navigate to project details page
   goToDetails(projectId: number) {
     this.router.navigate(['/project-details', projectId]);
   }
 
-
-  ngOnInit(): void {
-    this.loadProjects(); // Charge les projets au démarrage du composant
-  }
-
-  // Charge la liste des projets depuis l'API
-  loadProjects(): void {
-    this.projectService.getProjects().subscribe(
-      (data) => {
-        this.projects = data; // Utilisez les données telles qu'elles sont renvoyées par l'API
-        console.log('Projects loaded:', this.projects); // Affichez les données dans la console
-      },
-      (error) => {
-        console.error('Error loading projects:', error); // Affichez les erreurs dans la console
-      }
-    );
-  }
-
-  // Archive un projet
-  archiveProject(id: number): void {
-    console.log('Archiving project with ID:', id); // Affichez l'ID du projet dans la console
-    if (!id) {
-      console.error('Project ID is undefined or null'); // Vérifiez que l'ID est valide
-      return;
-    }
-    this.projectService.archiveProject(id).subscribe(
-      () => {
-        console.log('Project archived successfully'); // Confirmation dans la console
-        this.loadProjects(); // Rechargez la liste des projets après archivage
-      },
-      (error) => {
-        console.error('Error archiving project:', error); // Affichez les erreurs dans la console
-      }
-    );
+  // Navigate to the create project page
+  navigateToCreateProject() {
+    this.router.navigate(['/create-project']);
   }
 }

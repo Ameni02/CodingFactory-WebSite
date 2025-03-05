@@ -1,28 +1,29 @@
 <div class="container dashboard">
   <h1>Tableau de bord administrateur</h1>
+ <!-- Dashboard Cards -->
+ <div class="dashboard-cards">
+  <div class="card" (click)="goToProjects()">
+    <h3>Total Projects</h3>
+    <p>Pending: <span class="highlight">{{ projectStats.pending }}</span></p>
+    <p>In Progress: <span class="highlight">{{ projectStats.inProgress }}</span></p>
+    <p>Completed: <span class="highlight">{{ projectStats.completed }}</span></p>
+  </div>
+  <div class="card" (click)="goToDeliverables()">
+    <h3>Deliverables Status</h3>
+    <p>Rejected: <span class="highlight">{{ deliverableStats.rejected }}</span></p>
+    <p>Evaluated: <span class="highlight">{{ deliverableStats.evaluated }}</span></p>
+    <p>Pending Changes: <span class="highlight">{{ deliverableStats.pendingChanges }}</span></p>
+ 
+</div>
 
-  <!-- Dashboard Cards -->
-  <div class="dashboard-cards">
-    <div class="card">
-      <h3>Total Projects</h3>
-      <p>Pending: <span class="highlight">{{ projectStats.pending }}</span></p>
-      <p>In Progress: <span class="highlight">{{ projectStats.inProgress }}</span></p>
-      <p>Completed: <span class="highlight">{{ projectStats.completed }}</span></p>
-    </div>
     <div class="card">
       <h3>Applications Status</h3>
       <p>Pending: <span class="highlight">{{ applicationStats.pending }}</span></p>
       <p>Accepted: <span class="highlight">{{ applicationStats.accepted }}</span></p>
       <p>Rejected: <span class="highlight">{{ applicationStats.rejected }}</span></p>
     </div>
-    <div class="card">
-      <h3>Deliverables Status</h3>
-      <p>Submitted: <span class="highlight">{{ deliverableStats.submitted }}</span></p>
-      <p>Evaluated: <span class="highlight">{{ deliverableStats.evaluated }}</span></p>
-      <p>Pending Changes: <span class="highlight">{{ deliverableStats.pendingChanges }}</span></p>
-    </div>
   </div>
-
+   
   <!-- Recent Applications -->
   <h3>Recent Applications</h3>
   <table class="data-table">
@@ -46,6 +47,7 @@
     </tbody>
   </table>
 
+
   <!-- Recent Evaluations -->
   <h3>Recent Evaluations</h3>
   <table class="data-table">
@@ -66,6 +68,7 @@
       </tr>
     </tbody>
   </table>
+  <button routerLink="/deliverable-list" class="see-all-button">See All Evaluations</button>
 
   <!-- Recent Projects -->
   <h3>Recent Projects</h3>
@@ -89,4 +92,5 @@
       </tr>
     </tbody>
   </table>
+  
 </div>

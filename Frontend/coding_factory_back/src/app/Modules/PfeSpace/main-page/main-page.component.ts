@@ -6,6 +6,7 @@ import { Evaluation } from 'src/app/models/evaluation.model';
 import { Project } from 'src/app/models/project.model';
 import { HttpClient } from '@angular/common/http';
 import { ProjectService } from 'src/app/services/project.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -25,15 +26,23 @@ export class MainPageComponent  implements OnInit {
   recentProjects: any[] = [];
   projects: any[] = []; // Pour mapper projectId à project title
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService , private router: Router) { }
+ 
 
   ngOnInit(): void {
     this.loadProjectStats();
     this.loadApplicationStats();
+    this.loadDeliverableStats(); 
     this.loadRecentApplications();
     this.loadRecentEvaluations();
     this.loadRecentProjects();
   }
+  loadDeliverableStats(): void {
+    this.projectService.getDeliverableStats().subscribe(data => {
+      this.deliverableStats = data;
+    });
+  }
+  
 
   loadProjectStats(): void {
     this.projectService.getProjectStats().subscribe(data => {
@@ -79,5 +88,13 @@ export class MainPageComponent  implements OnInit {
   getDeliverableTitle(deliverableId: number): string {
     // Implémentez cette méthode si vous avez des données sur les livrables
     return 'Deliverable Title';
+  }
+
+  goToProjects() {
+    this.router.navigate(['/projects']);
+  }
+
+  goToDeliverables() {
+    this.router.navigate(['/deliverable-list']);
   }
 }

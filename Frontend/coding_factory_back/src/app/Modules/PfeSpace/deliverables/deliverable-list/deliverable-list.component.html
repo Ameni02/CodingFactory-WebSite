@@ -1,12 +1,8 @@
-<div class="wrapper">
-  <div class="main-panel">
+
     <div class="container">
       <h2>Deliverables List</h2>
 
-      <div class="actions">
-        <a [routerLink]="['/create-deliverable']">Create New Deliverable</a>
-      </div>
-
+     
       <table>
         <thead>
           <tr>
@@ -32,5 +28,4 @@
       </table>
       <p *ngIf="deliverables.length === 0">No deliverables available.</p>
     </div>
-  </div>
-</div>
+  

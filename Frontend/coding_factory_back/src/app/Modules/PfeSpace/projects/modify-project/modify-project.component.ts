@@ -41,8 +41,8 @@ export class ModifyProjectComponent implements OnInit {
 
   onSave(): void {
     if (this.project) {
-      // If a file is selected, upload it first
       if (this.selectedFile) {
+        // Upload the file first
         this.projectService.uploadFile(this.selectedFile).subscribe(
           (response: { message: string, filePath: string }) => {
             // Update the project's descriptionFilePath with the returned file path

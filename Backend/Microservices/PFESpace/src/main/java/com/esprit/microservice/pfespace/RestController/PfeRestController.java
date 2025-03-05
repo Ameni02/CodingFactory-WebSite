@@ -2,17 +2,27 @@ package com.esprit.microservice.pfespace.RestController;
 
 import com.esprit.microservice.pfespace.Entities.*;
 import com.esprit.microservice.pfespace.Services.PFEService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.ConstraintViolationException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +37,83 @@ public class PfeRestController {
     private PFEService pfeService;
 
     // =========================== PROJECTS ===========================
+    @PostMapping(value = "/projects", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Project> createProject(
+            @RequestPart("file") MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam("field") String field,
+            @RequestParam("requiredSkills") String requiredSkills,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,  // Ensure this is included
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,      // Ensure this is included
+            @RequestParam("numberOfPositions") int numberOfPositions,
+            @RequestParam("companyName") String companyName,
+            @RequestParam("professionalSupervisor") String professionalSupervisor,
+            @RequestParam("companyAddress") String companyAddress,
+            @RequestParam("companyEmail") String companyEmail,
+            @RequestParam("companyPhone") String companyPhone) {
 
-    @PostMapping("/projects")
-    @Operation(summary = "Create a project", description = "Adds a new PFE project")
-    public Project createProject(@RequestBody Project project) {
-        return pfeService.createProject(project);
+        try {
+            // Save the file and get its path
+            String filePath = saveFile(file);
+
+            // Create a new Project object
+            Project project = new Project();
+            project.setTitle(title);
+            project.setField(field);
+            project.setRequiredSkills(requiredSkills);
+            project.setStartDate(startDate);  // Set the start date
+            project.setEndDate(endDate);      // Set the end date
+            project.setNumberOfPositions(numberOfPositions);
+            project.setCompanyName(companyName);
+            project.setProfessionalSupervisor(professionalSupervisor);
+            project.setCompanyAddress(companyAddress);
+            project.setCompanyEmail(companyEmail);
+            project.setCompanyPhone(companyPhone);
+            project.setDescriptionFilePath(filePath); // Set the file path
+
+            // Save the project
+            Project savedProject = pfeService.createProject(project);
+            return ResponseEntity.ok(savedProject);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
+
+    @PostMapping(value = "/projects/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            // Save the file and get its path
+            String filePath = saveFile(file);
+
+            // Return a success response
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "File uploaded successfully!");
+            response.put("filePath", filePath);
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    private String saveFile(MultipartFile file) throws IOException {
+        // Define the directory to save the file
+        String uploadDir = "uploads/";
+        File directory = new File(uploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Generate a unique file name
+        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+        // Save the file
+        Path filePath = Paths.get(uploadDir + fileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        // Return the file path
+        return filePath.toString();
+    }
     @GetMapping("/allprojects")
     @Operation(summary = "List of projects", description = "Retrieves all available projects")
     public List<Project> getAllProjects() {
@@ -134,9 +214,21 @@ public class PfeRestController {
     // =========================== ARCHIVING ===========================
 
     @PutMapping("/projects/{id}/archive")
-    @Operation(summary = "Archive a project", description = "Archives a project by ID")
-    public void archiveProject(@PathVariable Long id) {
+    public ResponseEntity<Void> archiveProject(@PathVariable Long id) {
+        System.out.println("Archiving project with ID: " + id); // Log the ID
         pfeService.archiveProject(id);
+        return ResponseEntity.ok().build();
+    }
+
+    // Unarchive a project
+    @PutMapping("/projects/{id}/unarchive")
+    public ResponseEntity<Project> unarchiveProject(@PathVariable Long id) {
+        try {
+            Project updatedProject = pfeService.unarchiveProject(id);
+            return ResponseEntity.ok(updatedProject);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(null); // Not found if something goes wrong
+        }
     }
 
     @GetMapping("/projects")
@@ -163,7 +255,7 @@ public class PfeRestController {
         pfeService.archiveEvaluation(id);
     }
 
-
+/*
     @PostMapping("/projects/upload")
     public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
         // Save the file and return the file path
@@ -179,7 +271,7 @@ public class PfeRestController {
         return "path/to/saved/file";
     }
 
-
+*/
 
 
     //
@@ -190,9 +282,16 @@ public class PfeRestController {
     }
 
     @GetMapping("/projects/application-stats")
+
     public Map<String, Integer> getApplicationStats() {
         return pfeService.getApplicationStats();
     }
+
+    @GetMapping("/projects/deliverable-stats")
+    public Map<String, Integer>  getDeliverableStats() {
+        return pfeService.getDeliverableStats();
+    }
+
 
     @GetMapping("/projects/recent-applications")
     public List<Application> getRecentApplications() {

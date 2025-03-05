@@ -11,6 +11,31 @@ export class ProjectService {
 
   constructor(private http: HttpClient) {}
 
+  addProject(project: Project, file: File): Observable<Project> {
+    const formData = new FormData();
+
+    // Append all project fields to the FormData object
+    formData.append('title', project.title);
+    formData.append('field', project.field);
+    formData.append('requiredSkills', project.requiredSkills);
+    formData.append('numberOfPositions', project.numberOfPositions.toString());
+    formData.append('startDate', project.startDate.toISOString().split('T')[0]); // Format as YYYY-MM-DD
+    formData.append('endDate', project.endDate.toISOString().split('T')[0]); // Format as YYYY-MM-DD
+    formData.append('companyName', project.companyName);
+    formData.append('professionalSupervisor', project.professionalSupervisor);
+    formData.append('companyAddress', project.companyAddress);
+    formData.append('companyEmail', project.companyEmail);
+    formData.append('companyPhone', project.companyPhone);
+
+    // Append the file
+    if (file) {
+      formData.append('file', file);
+    }
+
+    return this.http.post<Project>(this.apiUrl, formData);
+  }
+
+
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(this.apiUrl);
   }
@@ -19,24 +44,33 @@ export class ProjectService {
     return this.http.get<Project>(`${this.apiUrl}/${id}`);
   }
 
-  addProject(project: Project): Observable<Project> {
-    return this.http.post<Project>(this.apiUrl, project);
+ 
+
+  uploadFile(file: File): Observable<{ message: string; filePath: string }> {
+    const formData = new FormData();
+    formData.append('file', file); // Key must match @RequestParam("file")
+    return this.http.post<{ message: string; filePath: string }>(
+      `${this.apiUrl}/upload`, // Ensure this matches the backend endpoint
+      formData
+    );
   }
 
   updateProject(id: number, project: Project): Observable<Project> {
     return this.http.put<Project>(`${this.apiUrl}/${id}`, project);
   }
 
-  // Method to archive a project
-  archiveProject(id: number): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}/archive`, {});
-  }
+ 
 
-  uploadFile(file: File): Observable<{ message: string, filePath: string }> {
-    const formData = new FormData();
-    formData.append('file', file); // Key must match @RequestParam("file")
-    return this.http.post<{ message: string, filePath: string }>(`${this.apiUrl}/upload`, formData);
-  }
+// Archive a project
+archiveProject(id: number): Observable<void> {
+  return this.http.put<void>(`${this.apiUrl}/${id}/archive`, {});
+}
+
+// Unarchive a project
+unarchiveProject(id: number): Observable<void> {
+  return this.http.put<void>(`${this.apiUrl}/${id}/unarchive`, {});
+}
+  
   downloadFile(filePath: string): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/download?filePath=${encodeURIComponent(filePath)}`, {
       responseType: 'blob' // Ensure the response is treated as a binary file
@@ -64,4 +98,8 @@ export class ProjectService {
     return this.http.get(`${this.apiUrl}/recent-projects`);
   }
 
+  getDeliverableStats(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/deliverable-stats`);
+  }
+  
 }

@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -33,16 +30,35 @@ public class PFEService {
     // ===== CRUD for Project =====
 
 
-    // archiver un projet
     public void archiveProject(Long id) {
+        // Find the project by ID
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
-        project.setArchived(true); // Marquer comme archivé
+
+        // Mark the project as archived
+        project.setArchived(true);
+
+        // Save the updated project
         projectRepository.save(project);
+    }
+
+
+
+    // Unarchive a project
+    public Project unarchiveProject(Long id) throws Exception {
+        Optional<Project> projectOpt = projectRepository.findById(id);
+        if (projectOpt.isPresent()) {
+            Project project = projectOpt.get();
+            project.setArchived(false); // Set the project as unarchived
+            return projectRepository.save(project); // Save the project back to the database
+        } else {
+            throw new Exception("Project not found");
+        }
     }
     public List<Project> getAllActiveProjects() {
         return projectRepository.findByArchivedFalse();
     }
+
     @Transactional
     public Project createProject(Project project) {
         project.setId(null);
@@ -56,6 +72,7 @@ public class PFEService {
     public Optional<Project> getProjectById(Long id) {
         return projectRepository.findById(id);
     }
+
 
     public Project updateProject(Long id, Project projectDetails) {
         Project project = projectRepository.findById(id)
@@ -274,6 +291,14 @@ public class PFEService {
         stats.put("pending", applicationRepository.countPendingApplications());
         stats.put("accepted", applicationRepository.countAcceptedApplications());
         stats.put("rejected", applicationRepository.countRejectedApplications());
+        return stats;
+    }
+    public Map<String, Integer> getDeliverableStats() {
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("rejected", deliverableRepository.countREJECTEDDeliverable());
+        stats.put("evaluated", deliverableRepository.countEVALUATEDDeliverable());
+        stats.put("pendingChanges", deliverableRepository.countPendingDeliverable());
+
         return stats;
     }
 

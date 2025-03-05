@@ -1,3 +1,28 @@
+.actions {
+  position: absolute; /* Position the button absolutely */
+  top: 20px; /* Adjust the distance from the top */
+  right: 20px; /* Adjust the distance from the right */
+}
+
+.container {
+  position: relative; /* Ensure the container is the reference for absolute positioning */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+tr.archived {
+  background-color: #f8f8f8; /* Light gray background for archived projects */
+  opacity: 0.8; /* Slightly transparent */
+}
+
+tr.archived:hover {
+  background-color: #f0f0f0; /* Darker gray on hover */
+}
 h2 {
   color: #2A2F5B;
   margin-bottom: 30px;
@@ -9,18 +34,18 @@ h2 {
 }
 
 table {
-  width: 100%;
-  border-collapse: separate; /* Change to separate to show cell borders */
+  width: 80%; /* Adjust the width of the table */
+  border-collapse: separate;
   margin-bottom: 30px;
-  border: 1px solid #ddd; /* Overall table border */
-  border-spacing: 0; /* Remove spacing between cells */
+  border: 1px solid #ddd;
+  border-spacing: 0;
 }
 
 th, td {
   padding: 15px 20px;
   text-align: left;
-  border-bottom: 1px solid #eee; /* Lighter horizontal borders */
-  border-right: 1px solid #eee; /* Add right border to cells */
+  border-bottom: 1px solid #eee;
+  border-right: 1px solid #eee;
 }
 
 th {
@@ -32,7 +57,6 @@ th {
   color: #333;
 }
 
-/* Remove right border from the last column */
 th:last-child, td:last-child {
   border-right: none;
 }
@@ -42,7 +66,6 @@ tbody tr:hover {
   transition: background-color 0.3s ease;
 }
 
-/* Button Styles */
 button, .btn {
   padding: 12px 25px;
   border: none;
@@ -81,13 +104,36 @@ p[ng-reflect-ng-if="false"] {
   margin-top: 20px;
 }
 
+.btn-create {
+  padding: 12px 20px;
+  background: #4b6cb7;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-create:hover {
+  background: linear-gradient(90deg, #8f0096, #4b6cb7);
+  transform: scale(1.05);
+}
+
+.btn-create:active {
+  transform: scale(0.98);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .main-panel {
-    padding: 20px;
+  .container {
+    padding: 10px;
   }
 
   table {
+    width: 100%; /* Full width on smaller screens */
     display: block;
     overflow-x: auto;
     white-space: nowrap;

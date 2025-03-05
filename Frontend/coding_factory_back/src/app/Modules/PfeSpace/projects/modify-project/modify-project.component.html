@@ -1,6 +1,6 @@
-<div class="wrapper" *ngIf="project">
-  <div class="main-panel">
-    <div class="container">
+
+ 
+    <div class="container"  *ngIf="project">
       <div class="modify-project">
         <h2>Modify Project</h2>
 
@@ -258,12 +258,12 @@
           <!-- Save Button -->
           <div class="actions">
             <button type="submit" class="save-button" [disabled]="projectForm.invalid">Save</button>
+          
           </div>
         </form>
       </div>
     </div>
-  </div>
-</div>
+ 
 
 <div *ngIf="!project">
   <p>Loading project details...</p>

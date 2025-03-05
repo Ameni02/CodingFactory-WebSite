@@ -44,10 +44,12 @@ import java.util.List;
     @Min(value = 1, message = "Number of positions must be at least 1")
     private int numberOfPositions;
 
+    @Setter
     @NotNull(message = "Start date is required")
     @FutureOrPresent(message = "Start date must be in the present or future")
     private LocalDate startDate;
 
+    @Setter
     @NotNull(message = "End date is required")
     @Future(message = "End date must be in the future")
     private LocalDate endDate;
@@ -80,6 +82,10 @@ import java.util.List;
     private List<Deliverable> deliverables = new ArrayList<>();
 
     private boolean archived = false;
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

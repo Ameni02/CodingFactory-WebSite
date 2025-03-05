@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProjectService } from 'src/app/services/project.service';
 import { Project } from 'src/app/models/project.model';
@@ -6,70 +6,40 @@ import { Project } from 'src/app/models/project.model';
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
-  styleUrls: ['./create-project.component.css']
+  styleUrls: ['./create-project.component.css'],
 })
-export class CreateProjectComponent implements OnInit {
-   project: Project = {
-    id: 0, // Default value (will be ignored by the backend)
+export class CreateProjectComponent {
+  project: Project = {
+    id: 0,
     title: '',
     field: '',
-    startDate: new Date(),
-    endDate: new Date(),
-    archived: false,
-    companyAddress: '',
-    companyEmail: '',
-    companyName: '',
-    companyPhone: '',
+    requiredSkills: '',
     descriptionFilePath: '',
     numberOfPositions: 0,
+    startDate: new Date(),
+    endDate: new Date(),
+    companyName: '',
     professionalSupervisor: '',
-    requiredSkills: ''
+    companyAddress: '',
+    companyEmail: '',
+    companyPhone: '',
+    archived: false,
   };
   selectedFile: File | null = null;
-  isEditMode: boolean = false; // Add this property
 
-  constructor(
-    private router: Router,
-    private projectService: ProjectService
-  ) {}
-
-  ngOnInit(): void {
-    // No need to fetch project details in create mode
-  }
+  constructor(private router: Router, private projectService: ProjectService) {}
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+    console.log('File selected:', this.selectedFile); // Debugging log
   }
 
   onSave(): void {
-    console.log('Save button clicked'); // Log the button click
-    console.log('Project to be saved:', this.project); // Log the project object
-  
     if (this.selectedFile) {
-      console.log('File selected:', this.selectedFile.name); // Log the selected file
-      this.projectService.uploadFile(this.selectedFile).subscribe(
-        (response: { message: string, filePath: string }) => {
-          console.log('File uploaded successfully:', response); // Log the file upload response
-          this.project.descriptionFilePath = response.filePath; // Update the file path
-          this.createProject(); // Call the create method
-        },
-        (error) => {
-          console.error('Error uploading file:', error); // Log the file upload error
-          alert('Error uploading file. Please try again.');
-        }
-      );
-    } else {
-      console.log('No file selected'); // Log if no file is selected
-      this.createProject(); // Call the create method
-    }
-  }
+      console.log('Selected File:', this.selectedFile); // Log the file
 
-  private createProject(): void {
-    if (this.project) {
-      console.log('Project to be saved:', this.project); // Log the project object
-  
-      // Create a new project
-      this.projectService.addProject(this.project).subscribe(
+      // Call the addProject method with the project data and file
+      this.projectService.addProject(this.project, this.selectedFile).subscribe(
         (savedProject) => {
           console.log('Project created successfully:', savedProject); // Log the response
           alert('Project created successfully!');
@@ -81,8 +51,7 @@ export class CreateProjectComponent implements OnInit {
         }
       );
     } else {
-      console.error('Project is undefined. Cannot save.'); // Log the error
-      alert('Error: Project data is missing. Cannot save.');
+      alert('Please select a file before submitting.'); // Handle case where no file is selected
     }
   }
 }
