@@ -13,8 +13,16 @@ export class OfferListComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 6;
   totalPages: number = 1;
-  searchQuery: string = '';  // Bind search input
+  searchQuery: string = '';
   
+  selectedField: string = '';
+  selectedCompany: string = '';
+  selectedPositions: string = '';
+  
+  fields: string[] = ['Technology', 'Business', 'Engineering', 'Design']; // Replace with actual data
+  companies: string[] = ['Company A', 'Company B', 'Company C']; // Replace with actual data
+  availablePositions: string[] = ['1', '2', '3', '4', '5']; // Available positions
+
   constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
@@ -25,7 +33,7 @@ export class OfferListComponent implements OnInit {
     this.projectService.getProjects().subscribe({
       next: (data) => {
         this.offers = data;
-        this.totalPages = Math.ceil(this.offers.length / this.itemsPerPage); // Calculate total pages
+        this.totalPages = Math.ceil(this.offers.length / this.itemsPerPage);
         this.updatePaginatedOffers();
       },
       error: (error) => console.error('Error loading offers:', error),
@@ -33,21 +41,39 @@ export class OfferListComponent implements OnInit {
   }
 
   updatePaginatedOffers(): void {
-    // Filtering offers based on search query
-    const filteredOffers = this.offers.filter(offer => 
+    // Filter offers based on search query
+    let filteredOffers = this.offers.filter(offer => 
       offer.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       offer.field.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       offer.companyName.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
-    
+
+    // Apply additional filters based on selection
+    if (this.selectedField) {
+      filteredOffers = filteredOffers.filter(offer => offer.field === this.selectedField);
+    }
+
+    if (this.selectedCompany) {
+      filteredOffers = filteredOffers.filter(offer => offer.companyName === this.selectedCompany);
+    }
+
+    if (this.selectedPositions) {
+      filteredOffers = filteredOffers.filter(offer => offer.numberOfPositions === +this.selectedPositions);
+    }
+
     this.totalPages = Math.ceil(filteredOffers.length / this.itemsPerPage);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.paginatedOffers = filteredOffers.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
   onSearch(): void {
-    this.currentPage = 1;  // Reset to first page when searching
-    this.updatePaginatedOffers();  // Update offers based on the search query
+    this.currentPage = 1;
+    this.updatePaginatedOffers();
+  }
+
+  onFilterChange(): void {
+    this.currentPage = 1;
+    this.updatePaginatedOffers();
   }
 
   nextPage(): void {
