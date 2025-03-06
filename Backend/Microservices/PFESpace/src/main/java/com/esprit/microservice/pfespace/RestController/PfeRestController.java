@@ -37,7 +37,7 @@ public class PfeRestController {
     private PFEService pfeService;
 
     // =========================== PROJECTS ===========================
-    @PostMapping(value = "/projects", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/projects/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Project> createProject(
             @RequestPart("file") MultipartFile file,
             @RequestParam("title") String title,

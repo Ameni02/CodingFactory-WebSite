@@ -13,28 +13,27 @@ export class ProjectService {
 
   addProject(project: Project, file: File): Observable<Project> {
     const formData = new FormData();
-
-    // Append all project fields to the FormData object
+    
+    // Append each project property individually as form data
     formData.append('title', project.title);
     formData.append('field', project.field);
     formData.append('requiredSkills', project.requiredSkills);
+    formData.append('startDate', project.startDate.toString()); // Ensure startDate is in a proper format
+    formData.append('endDate', project.endDate.toString());     // Ensure endDate is in a proper format
     formData.append('numberOfPositions', project.numberOfPositions.toString());
-    formData.append('startDate', project.startDate.toISOString().split('T')[0]); // Format as YYYY-MM-DD
-    formData.append('endDate', project.endDate.toISOString().split('T')[0]); // Format as YYYY-MM-DD
     formData.append('companyName', project.companyName);
     formData.append('professionalSupervisor', project.professionalSupervisor);
     formData.append('companyAddress', project.companyAddress);
     formData.append('companyEmail', project.companyEmail);
     formData.append('companyPhone', project.companyPhone);
-
+    
     // Append the file
-    if (file) {
-      formData.append('file', file);
-    }
-
-    return this.http.post<Project>(this.apiUrl, formData);
+    formData.append('file', file);
+  
+    // Send the POST request with FormData
+    return this.http.post<Project>(`${this.apiUrl}/add`, formData);
   }
-
+  
 
   getProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(this.apiUrl);

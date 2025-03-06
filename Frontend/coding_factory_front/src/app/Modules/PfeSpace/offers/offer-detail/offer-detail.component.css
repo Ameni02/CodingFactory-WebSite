@@ -1,0 +1,63 @@
+.project-details-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .project-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .project-header h2 {
+    color: #4b6cb7;
+    font-size: 28px;
+    margin-bottom: 5px;
+  }
+  
+  .company-name {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .project-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .info-item {
+    background: #f7f7f7;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .project-actions {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    padding: 10px 15px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .btn-download {
+    background-color: #6069D8;
+    color: white;
+  }
+  
+  .btn-back {
+    background-color: #888;
+    color: white;
+  }
+  

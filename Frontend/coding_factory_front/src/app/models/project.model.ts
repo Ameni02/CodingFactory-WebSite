@@ -1,18 +1,19 @@
 export class Project {
-    id: number;
-    title: string;
-    field: string;
-    startDate: Date;
-    endDate: Date;
-    archived: boolean;
-    companyAddress: string;
-    companyEmail: string;
-    companyName: string;
-    companyPhone: string;
-    descriptionFilePath: string;
-    numberOfPositions: number;
-    professionalSupervisor: string;
-    requiredSkills: string;
+  id: number = 0; // Default value (will be ignored by the backend)
+  title: string = '';
+  field: string = '';
+  requiredSkills: string = '';
+  descriptionFilePath: string = '';
+  numberOfPositions: number = 0;
+  startDate: Date = new Date(); // Use Date instead of string
+  endDate: Date = new Date(); // Use Date instead of string
+  companyName: string = '';
+  professionalSupervisor: string = '';
+  companyAddress: string = '';
+  companyEmail: string = '';
+  companyPhone: string = '';
+  archived: boolean = false;
+
   
     // Constructor
     constructor(
