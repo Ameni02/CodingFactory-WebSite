@@ -12,11 +12,13 @@ import { SubmissionFormComponent } from 'src/app/Modules/PfeSpace/submissions/su
 import { SubmissionListComponent } from 'src/app/Modules/PfeSpace/submissions/submission-list/submission-list.component';
 import { EvaluationFormComponent } from 'src/app/Modules/PfeSpace/evaluations/evaluation-form/evaluation-form.component';
 import { AddOfferComponent } from './Modules/PfeSpace/offers/add-offer/add-offer.component';
+import { PdfMergeComponentComponent } from './Modules/PfeSpace/pdf-merge-component/pdf-merge-component.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Default homepage
   { path: 'pfe-space', component: MainPageComponent },
+  { path: 'merge', component: PdfMergeComponentComponent },
   { path: 'offers/add', component: AddOfferComponent },
   { path: 'offers', component: OfferListComponent },
   { path: 'offers/:id', component: OfferDetailComponent },

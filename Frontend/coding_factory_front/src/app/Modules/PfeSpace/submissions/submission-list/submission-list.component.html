@@ -1,20 +1,18 @@
-
-
 <div *ngFor="let submission of submissions" class="submission-card">
   <div class="submission-header">
     <h3>{{ submission.title }}</h3>
     <span class="status {{ submission.status | lowercase }}">{{ submission.status }}</span>
   </div>
   <div class="submission-details">
+    <p><strong>Title:</strong> {{ submission.title }} </p>
     <p><strong>Project ID:</strong> {{ submission.projectId || 'N/A' }}</p>
     <p><strong>Submission Date:</strong> {{ submission.submissionDate | date:'shortDate' }}</p>
-    <p><strong>Archived:</strong> {{ submission.archived ? 'Yes' : 'No' }}</p>
+   <!-- <p><strong>Archived:</strong> {{ submission.archived ? 'Yes' : 'No' }}</p> -->
   </div>
 
   <div class="submission-actions">
-    <!-- Use routerLink with dynamic 'id' -->
-    <!-- <a [routerLink]="['/submissions', submission.id]" class="view-details-button">View Details</a>  -->
-    
+  
+
     <div *ngIf="submission.descriptionFilePath" class="file-link-container">
       <a [href]="submission.descriptionFilePath" target="_blank" class="file-link">View Description File</a>
     </div>
@@ -23,3 +21,4 @@
     </div>
   </div>
 </div>
+<button [routerLink]="['/offers']" class="btn btn-back">Back to Offers</button>

@@ -17,6 +17,7 @@ import java.util.List;
 public class PdfMergeController {
 
     @PostMapping("/merge")
+    @CrossOrigin(origins = "http://localhost:4200") // Allow CORS for this method only
     public ResponseEntity<byte[]> mergePdfFiles(@RequestParam("files") List<MultipartFile> files) {
         if (files.isEmpty()) {
             return ResponseEntity.badRequest().body(null);

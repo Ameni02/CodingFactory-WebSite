@@ -33,6 +33,7 @@ import { SubmissionFormComponent } from './Modules/PfeSpace/submissions/submissi
 import { SubmissionListComponent } from './Modules/PfeSpace/submissions/submission-list/submission-list.component';
 import { SubmissionDetailComponent } from './Modules/PfeSpace/submissions/submission-detail/submission-detail.component';
 import { EvaluationFormComponent } from './Modules/PfeSpace/evaluations/evaluation-form/evaluation-form.component';
+import { PdfMergeComponentComponent } from './Modules/PfeSpace/pdf-merge-component/pdf-merge-component.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { EvaluationFormComponent } from './Modules/PfeSpace/evaluations/evaluati
     SubmissionDetailComponent,
     EvaluationFormComponent,
     SupervisorDashboardComponent,
+    PdfMergeComponentComponent,
 
 
   ],

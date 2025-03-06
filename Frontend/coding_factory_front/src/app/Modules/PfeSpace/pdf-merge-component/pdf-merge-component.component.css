@@ -1,0 +1,44 @@
+.pdf-merge-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    color: #333;
+    font-size: 24px;
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 20px;
+  }
+  
+  .file-input {
+    margin: 20px 0;
+  }
+  
+  .merge-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .merge-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .merge-button:hover {
+    background-color: #45a049;
+  }
+  
