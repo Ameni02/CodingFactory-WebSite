@@ -12,8 +12,9 @@ export class OfferListComponent implements OnInit {
   paginatedOffers: Project[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 6;
-  totalPages: number = 1; // Add this property
-
+  totalPages: number = 1;
+  searchQuery: string = '';  // Bind search input
+  
   constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
@@ -32,8 +33,21 @@ export class OfferListComponent implements OnInit {
   }
 
   updatePaginatedOffers(): void {
+    // Filtering offers based on search query
+    const filteredOffers = this.offers.filter(offer => 
+      offer.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      offer.field.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      offer.companyName.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+    
+    this.totalPages = Math.ceil(filteredOffers.length / this.itemsPerPage);
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.paginatedOffers = this.offers.slice(startIndex, startIndex + this.itemsPerPage);
+    this.paginatedOffers = filteredOffers.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  onSearch(): void {
+    this.currentPage = 1;  // Reset to first page when searching
+    this.updatePaginatedOffers();  // Update offers based on the search query
   }
 
   nextPage(): void {

@@ -1,13 +1,26 @@
 <div class="section pfe-space" id="pfe">
   <div class="container">
-    <a [routerLink]="['/submissions/new']" class="btn btn-lg">
-      Submit  documents
+    <!-- Buttons for submission -->
+    <a [routerLink]="['/submissions/new']" >
+      Submit documents
     </a>
-    <a [routerLink]="['/submissions']" class="btn btn-lg">
-      <i class="fas fa-plus"></i>  My Submission
+    <a [routerLink]="['/submissions']" >
+      <i class="fas fa-plus"></i> My Submission
     </a>
     
-    
+    <!-- Search Input placed at the top -->
+    <div class="row mb-4">
+      <div class="col-lg-12 text-center">
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          (input)="onSearch()" 
+          class="form-control search-input" 
+          placeholder="Search offers by title, company, or field">
+      </div>
+    </div>
+
+    <!-- Title and Description Section -->
     <div class="row">
       <div class="col-lg-12 text-center">
         <div class="section-heading">
@@ -17,7 +30,8 @@
         </div>
       </div>
     </div>
- 
+  
+    <!-- Add New Offer Button -->
     <div class="row">
       <div class="col-lg-12 text-center mb-4">
         <a [routerLink]="['/offers/add']" class="btn btn-success btn-lg">
@@ -26,6 +40,7 @@
       </div>
     </div>
 
+    <!-- Offer Cards Section -->
     <div class="row">
       <div *ngFor="let offer of paginatedOffers" class="col-lg-4 col-md-6">
         <div class="project-offer">
@@ -44,10 +59,15 @@
       </div>
     </div>
 
+    <!-- Pagination Section with Previous and Next Buttons -->
     <div class="pagination text-center mt-4">
-      <button (click)="prevPage()" [disabled]="currentPage === 1" class="btn btn-secondary">Previous</button>
+      <button (click)="prevPage()" [disabled]="currentPage === 1" class="btn btn-secondary">
+        Previous
+      </button>
       <span> Page {{ currentPage }} of {{ totalPages }} </span>
-      <button (click)="nextPage()" [disabled]="currentPage >= totalPages" class="btn btn-secondary">Next</button>
+      <button (click)="nextPage()" [disabled]="currentPage >= totalPages" class="btn btn-secondary">
+        Next
+      </button>
     </div>
   </div>
 </div>

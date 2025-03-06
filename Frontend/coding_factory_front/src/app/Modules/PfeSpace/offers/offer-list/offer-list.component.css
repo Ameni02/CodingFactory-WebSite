@@ -47,3 +47,18 @@
     color: #333;
   }
   
+  /* Improved search bar */
+.search-input {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4b6cb7;
+}
