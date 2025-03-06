@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Deliverable } from 'src/app/models/deliverable.model'; 
-import { tap } from 'rxjs/operators';
+import { Deliverable } from 'src/app/models/deliverable.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,20 +11,25 @@ export class DeliverableService {
 
   constructor(private http: HttpClient) {}
 
-  getDeliverables(): Observable<Deliverable[]> {
-    return this.http.get<Deliverable[]>(this.apiUrl).pipe(
-      tap((data) => console.log('Fetched deliverables:', data)) // Log the response
-    );
+  addDeliverable(formData: FormData): Observable<Deliverable> {
+    return this.http.post<Deliverable>(`${this.apiUrl}/add`, formData);
   }
-  addDeliverable(deliverable: Deliverable): Observable<Deliverable> {
-    return this.http.post<Deliverable>(this.apiUrl, deliverable);
+  
+  
+
+ 
+
+  getDeliverables(): Observable<Deliverable[]> {
+    return this.http.get<Deliverable[]>(this.apiUrl);
   }
 
   getDeliverableById(id: number): Observable<Deliverable> {
     return this.http.get<Deliverable>(`${this.apiUrl}/${id}`);
   }
+  
+
+  // Archive a deliverable
   archiveDeliverable(id: number): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${id}/archive`, {});
   }
 }
-

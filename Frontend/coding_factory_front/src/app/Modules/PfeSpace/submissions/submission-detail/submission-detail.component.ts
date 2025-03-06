@@ -9,7 +9,7 @@ import { Deliverable } from 'src/app/models/deliverable.model';
   styleUrls: ['./submission-detail.component.css'],
 })
 export class SubmissionDetailComponent implements OnInit {
-  submission!: Deliverable;
+  submission: Deliverable | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -17,10 +17,23 @@ export class SubmissionDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log('Fetched ID:', id);  // Log the ID to confirm it's being fetched
+
+    if (id) {
+      this.loadSubmissionDetail(+id);
+    }
+  }
+
+  loadSubmissionDetail(id: number): void {
     this.deliverableService.getDeliverableById(id).subscribe({
-      next: (data) => (this.submission = data),
-      error: (error) => console.error('Error loading submission details:', error),
+      next: (data) => {
+        console.log('Fetched Data:', data);  // Log the fetched data to verify it's correct
+        this.submission = data;
+      },
+      error: (error) => {
+        console.error('Error loading submission details:', error);
+      },
     });
   }
 }

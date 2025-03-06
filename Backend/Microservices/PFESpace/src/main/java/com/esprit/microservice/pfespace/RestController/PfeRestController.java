@@ -156,19 +156,40 @@ public class PfeRestController {
 
     // =========================== DELIVERABLES ===========================
 
-    @PostMapping("/deliverables")
-    @Operation(summary = "Create a deliverable", description = "Adds a deliverable with or without a project")
-    public ResponseEntity<?> createDeliverable(
-            @RequestParam(required = false) Long projectId,
-            @RequestParam Long academicSupervisorId,
-            @RequestBody Deliverable deliverable) {
+    @PostMapping(value = "/deliverables/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Deliverable> createDeliverable(
+            @RequestParam("projectId") Long projectId,
+            @RequestParam("academicSupervisorId") Long academicSupervisorId,
+            @RequestParam("title") String title,
+            @RequestParam("descriptionFile") MultipartFile descriptionFile,
+            @RequestParam("submissionDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate submissionDate,
+            @RequestParam("reportFile") MultipartFile reportFile
+    ) {
         try {
-            Deliverable createdDeliverable = pfeService.createDeliverable(projectId, academicSupervisorId, deliverable);
-            return ResponseEntity.ok(createdDeliverable);
+            // Save the files and get their paths
+            String descriptionFilePath = saveFile(descriptionFile);
+            String reportFilePath = saveFile(reportFile);
+
+            // Create a new Deliverable object
+            Deliverable deliverable = new Deliverable();
+            deliverable.setTitle(title);
+            deliverable.setSubmissionDate(submissionDate);
+
+            // Call the service to create the deliverable
+            Deliverable createdDeliverable = pfeService.createDeliverable(projectId, academicSupervisorId, deliverable, descriptionFilePath, reportFilePath);
+
+            // Return a success response
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdDeliverable);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);  // Error saving files
         } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
+            return ResponseEntity.badRequest().body(null);  // Error with business logic or bad input
         }
     }
+
+
+
+
 
     @GetMapping("/deliverables")
     @Operation(summary = "List of deliverables", description = "Retrieves all deliverables")
@@ -176,6 +197,14 @@ public class PfeRestController {
         return pfeService.getAllDeliverables();
     }
 
+    // Get a deliverable by ID
+    @GetMapping("/deliverables/{id}")
+    public Deliverable getDeliverableById(@PathVariable Long id) {
+        Optional<Deliverable> deliverable = pfeService.findById(id);
+        return deliverable.orElse(null);
+
+
+    }
     @GetMapping("/deliverables/without-project")
     @Operation(summary = "Deliverables without a project", description = "Retrieves deliverables with no associated project")
     public List<Deliverable> getDeliverablesWithoutProject() {

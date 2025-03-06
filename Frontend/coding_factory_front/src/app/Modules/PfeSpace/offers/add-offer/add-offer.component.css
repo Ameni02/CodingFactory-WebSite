@@ -16,6 +16,10 @@ body {
     flex-direction: column;
     align-items: center;
   }
+  .btn-back {
+    background-color: #888;
+    color: white;
+  }
   
   /* Form Header */
   .modify-project h2 {

@@ -142,7 +142,7 @@ public class PFEService {
         deliverable.setArchived(true); // Marquer comme archivé
         deliverableRepository.save(deliverable);
     }
-    public Deliverable createDeliverable(Long projectId, Long academicSupervisorId, Deliverable deliverable) {
+    public Deliverable createDeliverable(Long projectId, Long academicSupervisorId, Deliverable deliverable, String descriptionFilePath, String reportFilePath) {
         // Valider l'existence de l'encadrant universitaire
         validateAcademicSupervisor(academicSupervisorId);
 
@@ -154,11 +154,20 @@ public class PFEService {
             deliverable.setProject(null); // Aucun projet associé
         }
 
+        // Set the file paths for the deliverable
+        deliverable.setDescriptionFilePath(descriptionFilePath);  // Save the path for description file
+        deliverable.setReportFilePath(reportFilePath);            // Save the path for report file
+
+        // Fetch and set academic supervisor
         AcademicSupervisor academicSupervisor = academicSupervisorRepository.findById(academicSupervisorId)
-                .orElseThrow(() -> new RuntimeException("AcademicSupervisor not found"));
+                .orElseThrow(() -> new RuntimeException("Academic Supervisor not found"));
         deliverable.setAcademicSupervisor(academicSupervisor);
 
+        // Save and return the deliverable
         return deliverableRepository.save(deliverable);
+    }
+    public Optional<Deliverable> findById(Long id) {
+        return deliverableRepository.findById(id);
     }
 
     // Récupérer les livrables sans projet

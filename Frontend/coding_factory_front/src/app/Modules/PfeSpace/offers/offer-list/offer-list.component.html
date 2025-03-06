@@ -1,5 +1,13 @@
 <div class="section pfe-space" id="pfe">
   <div class="container">
+    <a [routerLink]="['/submissions/new']" class="btn btn-lg">
+      My Submission
+    </a>
+    <a [routerLink]="['/submissions']" class="btn btn-lg">
+      <i class="fas fa-plus"></i> Submit  documents
+    </a>
+    
+    
     <div class="row">
       <div class="col-lg-12 text-center">
         <div class="section-heading">
@@ -9,8 +17,7 @@
         </div>
       </div>
     </div>
-
-    <!-- Add Offer Button (Centered) -->
+ 
     <div class="row">
       <div class="col-lg-12 text-center mb-4">
         <a [routerLink]="['/offers/add']" class="btn btn-success btn-lg">

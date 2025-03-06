@@ -1,0 +1,106 @@
+/* General Layout */
+.submission-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  .submission-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+  }
+  
+  .submission-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .submission-header h3 {
+    font-size: 1.25rem;
+    color: #333;
+    margin: 0;
+  }
+  
+  .status {
+    font-size: 0.875rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-transform: capitalize;
+  }
+  
+  .status.evaluated {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .status.pending {
+    background-color: #ffc107;
+    color: white;
+  }
+  
+  .status.rejected {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .submission-details p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+  }
+  
+  .submission-actions {
+    margin-top: 15px;
+  }
+  
+  .view-details-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-details-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .file-link-container {
+    margin-top: 10px;
+  }
+  
+  .file-link {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .file-link:hover {
+    color: #0056b3;
+  }
+  
+  .loading-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+  }
+  

@@ -1,27 +1,84 @@
-<form [formGroup]="submissionForm" (ngSubmit)="onSubmit()">
-  <div>
+<form [formGroup]="submissionForm" (ngSubmit)="onSubmit()" class="submission-form">
+  <!-- Project ID -->
+  <div class="form-group">
     <label for="projectId">Project ID</label>
-    <input id="projectId" formControlName="projectId" type="number" />
+    <input
+      id="projectId"
+      formControlName="projectId"
+      type="number"
+      class="form-control"
+      required
+    />
   </div>
-  <div>
+
+  <!-- Academic Supervisor ID -->
+  <div class="form-group">
     <label for="academicSupervisorId">Academic Supervisor ID</label>
-    <input id="academicSupervisorId" formControlName="academicSupervisorId" type="number" />
+    <input
+      id="academicSupervisorId"
+      formControlName="academicSupervisorId"
+      type="number"
+      class="form-control"
+      required
+    />
   </div>
-  <div>
+
+  <!-- Title -->
+  <div class="form-group">
     <label for="title">Title</label>
-    <input id="title" formControlName="title" type="text" />
+    <input
+      id="title"
+      formControlName="title"
+      type="text"
+      class="form-control"
+      required
+    />
   </div>
-  <div>
-    <label for="descriptionFilePath">Description File</label>
-    <input id="descriptionFilePath" formControlName="descriptionFilePath" type="file" />
+
+  <!-- Description File -->
+  <div class="form-group">
+    <label for="descriptionFilePath">All Files</label>
+    <input
+      id="descriptionFilePath"
+      (change)="handleDescriptionFileInput($event)"
+      type="file"
+      class="form-control"
+      accept="application/pdf, image/*"
+      required
+    />
   </div>
-  <div>
+
+  <!-- Report File -->
+  <div class="form-group">
     <label for="reportFilePath">Report File</label>
-    <input id="reportFilePath" formControlName="reportFilePath" type="file" />
+    <input
+      id="reportFilePath"
+      (change)="handleReportFileInput($event)"
+      type="file"
+      class="form-control"
+      accept="application/pdf"
+      required
+    />
   </div>
-  <div>
+
+  <!-- Submission Date -->
+  <div class="form-group">
     <label for="submissionDate">Submission Date</label>
-    <input id="submissionDate" formControlName="submissionDate" type="date" />
+    <input
+      id="submissionDate"
+      formControlName="submissionDate"
+      type="date"
+      class="form-control"
+      required
+    />
   </div>
-  <button type="submit" [disabled]="submissionForm.invalid">Submit</button>
+
+  <!-- Submit Button -->
+  <div class="form-actions">
+    <button
+    type="submit" 
+    [disabled]="!submissionForm.valid">Submit</button>
+ 
+  </div>
 </form>
+<button [routerLink]="['/offers']" class="btn btn-back">Back to Offers</button>
