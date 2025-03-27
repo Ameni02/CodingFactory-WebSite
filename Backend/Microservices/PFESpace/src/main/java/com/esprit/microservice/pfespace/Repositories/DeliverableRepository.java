@@ -32,4 +32,6 @@ public interface DeliverableRepository extends JpaRepository<Deliverable, Long> 
 
     @Query("SELECT COUNT(a) FROM Application a WHERE a.status = 'EVALUATED'")
     int countEVALUATEDDeliverable();
+    @Query("SELECT d FROM Deliverable d WHERE d.submissionDate >= CURRENT_DATE ORDER BY d.submissionDate ASC")
+    Deliverable findTopByOrderBySubmissionDateAsc();
 }

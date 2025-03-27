@@ -40,4 +40,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query("SELECT COUNT(p) FROM Project p WHERE p.endDate < CURRENT_DATE")
     int countCompletedProjects();
 
+    long count();
+
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule , Routes } from '@angular/router';
+
 import { MainPageComponent } from './Modules/PfeSpace/main-page/main-page.component';
 import { HomeComponent } from './components/home/home.component';
 import { OfferListComponent  } from 'src/app/Modules/PfeSpace/offers/offer-list/offer-list.component';
@@ -13,6 +14,7 @@ import { SubmissionListComponent } from 'src/app/Modules/PfeSpace/submissions/su
 import { EvaluationFormComponent } from 'src/app/Modules/PfeSpace/evaluations/evaluation-form/evaluation-form.component';
 import { AddOfferComponent } from './Modules/PfeSpace/offers/add-offer/add-offer.component';
 import { PdfMergeComponentComponent } from './Modules/PfeSpace/pdf-merge-component/pdf-merge-component.component';
+
 
 
 const routes: Routes = [
