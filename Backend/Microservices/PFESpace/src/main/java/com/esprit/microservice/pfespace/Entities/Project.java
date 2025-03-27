@@ -221,5 +221,20 @@ import java.util.List;
         }
     }
 
+    public List<Application> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
+    }
+
+    public List<Deliverable> getDeliverables() {
+        return deliverables;
+    }
+
+    public void setDeliverables(List<Deliverable> deliverables) {
+        this.deliverables = deliverables;
+    }
 }
 

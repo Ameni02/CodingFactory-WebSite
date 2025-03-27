@@ -18,6 +18,7 @@ public class ChatIntent {
     private String context;
     private boolean requiresAuth;
 
+
     // Private constructor used by builder
     private ChatIntent(Builder builder) {
         this.intentId = builder.intentId;
@@ -27,12 +28,15 @@ public class ChatIntent {
         this.followUpQuestions = builder.followUpQuestions;
         this.context = builder.context;
         this.requiresAuth = builder.requiresAuth;
+
     }
 
     // Static builder method
     public static Builder builder() {
         return new Builder();
     }
+
+
 
     // Builder class
     public static class Builder {

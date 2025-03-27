@@ -1,0 +1,59 @@
+<div class="chatbot-container" [class.open]="isOpen">
+    <div class="chatbot-header" (click)="toggleChat()">
+      <h3>PFE Assistant</h3>
+      <div class="header-controls">
+        <button class="clear-btn" (click)="clearConversation()" title="Clear conversation">
+          🗑️
+        </button>
+        <span class="toggle-icon">{{ isOpen ? '▼' : '▲' }}</span>
+      </div>
+    </div>
+  
+    <div class="chatbot-body" *ngIf="isOpen">
+      <div #messagesContainer 
+           class="messages-container"
+           (scroll)="onScroll($event)">
+        <div *ngFor="let msg of messages" 
+             [class.user]="msg.sender === 'user'" 
+             [class.bot]="msg.sender === 'bot'" 
+             class="message">
+          <div class="message-content" [innerHTML]="msg.isHtml ? msg.text : msg.text">
+          </div>
+          <div class="message-time">
+            {{ msg.timestamp | date:'shortTime' }}
+          </div>
+        </div>
+        <div *ngIf="isLoading" class="message bot">
+          <div class="message-content">
+            <div class="typing-indicator">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="suggestedQuestions.length > 0" class="suggestions">
+        <h4>Suggested questions:</h4>
+        <div class="suggestions-container">
+          <button *ngFor="let question of suggestedQuestions" 
+                  (click)="useSuggestedQuestion(question)"
+                  class="suggestion-btn">
+            {{ question }}
+          </button>
+        </div>
+      </div>
+  
+      <form [formGroup]="chatForm" (ngSubmit)="sendMessage()" class="message-form">
+        <input type="text" 
+               formControlName="message" 
+               placeholder="Type your message..." 
+               aria-label="Type your message"
+               autocomplete="off">
+        <button type="submit" [disabled]="chatForm.invalid || isLoading">
+          <i class="send-icon">➤</i>
+        </button>
+      </form>
+    </div>
+  </div>

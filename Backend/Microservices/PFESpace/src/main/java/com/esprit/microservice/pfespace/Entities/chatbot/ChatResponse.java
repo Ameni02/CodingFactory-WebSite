@@ -13,20 +13,6 @@ public class ChatResponse {
     private boolean requiresAction;
     private String actionType;
 
-    public ChatResponse() {
-    }
-
-    // ✅ Add this constructor
-    public ChatResponse(String responseText, List<String> suggestedQuestions, String intent,
-                        LocalDateTime timestamp, boolean requiresAction, String actionType) {
-        this.responseText = responseText;
-        this.suggestedQuestions = suggestedQuestions;
-        this.intent = intent;
-        this.timestamp = timestamp;
-        this.requiresAction = requiresAction;
-        this.actionType = actionType;
-    }
-
     public String getResponseText() {
         return responseText;
     }
@@ -43,20 +29,20 @@ public class ChatResponse {
         this.suggestedQuestions = suggestedQuestions;
     }
 
-    public String getIntent() {
-        return intent;
-    }
-
-    public void setIntent(String intent) {
-        this.intent = intent;
-    }
-
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getIntent() {
+        return intent;
+    }
+
+    public void setIntent(String intent) {
+        this.intent = intent;
     }
 
     public boolean isRequiresAction() {
@@ -74,4 +60,30 @@ public class ChatResponse {
     public void setActionType(String actionType) {
         this.actionType = actionType;
     }
+
+    // Default constructor
+    public ChatResponse() {
+    }
+
+    // Correct constructor that matches your required fields
+    public ChatResponse(String responseText, List<String> suggestedQuestions, String intent,
+                        LocalDateTime timestamp, boolean requiresAction, String actionType) {
+        this.responseText = responseText;
+        this.suggestedQuestions = suggestedQuestions;
+        this.intent = intent;
+        this.timestamp = timestamp;
+        this.requiresAction = requiresAction;
+        this.actionType = actionType;
+    }
+
+    // Constructor for building response using user message and bot's answer
+    public ChatResponse(String responseText, String userMessage, String answer, LocalDateTime timestamp, String intentId, String context) {
+        this.responseText = answer;  // Bot's response
+        this.suggestedQuestions = List.of(userMessage, context);  // Example of suggested questions (userMessage and context)
+        this.intent = intentId;  // The intent ID
+        this.timestamp = timestamp;
+        this.requiresAction = false;  // You can modify this logic if needed
+        this.actionType = "None";  // Default actionType (adjust this logic as needed)
+    }
 }
+
