@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Plagiarism Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .percentage {
+            font-size: 1.2em;
+            font-weight: bold;
+            color:<th:block th:if="${plagiarismPercentage > 20}">#dc3545</th:block>
+                  <th:block th:unless="${plagiarismPercentage > 20}">#28a745</th:block>;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <p>Dear <span th:text="${studentName}">Student</span>,</p>
+    <p>Your deliverable "<span th:text="${deliverableTitle}">Title</span>" has been analyzed.</p>
+    <p>Plagiarism percentage: <span class="percentage" th:text="${plagiarismPercentage} + '%'">0%</span></p>
+    <div th:if="${reportUrl != null and !reportUrl.isEmpty()}">
+        <p>Report: <a th:href="${reportUrl}">View detailed report</a></p>
+    </div>
+    <p>Best regards,<br>PFE Management</p>
+</div>
+</body>
+</html>

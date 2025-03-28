@@ -1,7 +1,9 @@
 package com.esprit.microservice.pfespace.RestController;
 
 import com.esprit.microservice.pfespace.Entities.*;
+import com.esprit.microservice.pfespace.Services.EmailService;
 import com.esprit.microservice.pfespace.Services.PFEService;
+import com.esprit.microservice.pfespace.Services.PlagiarismDetectionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,11 +25,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/pfe")
@@ -34,7 +39,14 @@ import java.util.Optional;
 public class PfeRestController {
 
     @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
     private PFEService pfeService;
+    @Autowired
+    private  EmailService emailService;
+    @Autowired
+    private  PlagiarismDetectionService plagiarismService;
+
 
     // =========================== PROJECTS ===========================
     @PostMapping(value = "/projects/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -155,6 +167,10 @@ public class PfeRestController {
     }
 
     // =========================== DELIVERABLES ===========================
+
+
+
+
 
     @PostMapping(value = "/deliverables/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Deliverable> createDeliverable(

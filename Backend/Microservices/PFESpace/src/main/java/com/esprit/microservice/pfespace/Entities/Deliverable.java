@@ -57,6 +57,30 @@ public class Deliverable {
     @OneToOne(mappedBy = "deliverable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Evaluation evaluation;
 
+    // New field for plagiarism results
+ // New field for report URL
+    @Column(name = "plagiarism_percentage")
+    private Double plagiarismPercentage;
+
+    @Column(name = "plagiarism_report_url")
+    private String plagiarismReportUrl;
+
+    public Double getPlagiarismPercentage() {
+        return plagiarismPercentage;
+    }
+
+    public void setPlagiarismPercentage(Double plagiarismPercentage) {
+        this.plagiarismPercentage = plagiarismPercentage;
+    }
+
+    public String getPlagiarismReportUrl() {
+        return plagiarismReportUrl;
+    }
+
+    public void setPlagiarismReportUrl(String plagiarismReportUrl) {
+        this.plagiarismReportUrl = plagiarismReportUrl;
+    }
+
     private boolean archived = false;
 
     public boolean isArchived() {
