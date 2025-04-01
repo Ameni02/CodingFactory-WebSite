@@ -50,35 +50,49 @@ public class Deliverable {
     @PastOrPresent(message = "Submission date must be in the past or present")
     private LocalDate submissionDate;
 
-    @NotNull(message = "Status is required")
-    @Pattern(regexp = "^(EVALUATED|PENDING|REJECTED)$", message = "Status must be EVALUATED, PENDING, or REJECTED")
+    @Pattern(regexp = "^(EVALUATED|PENDING|REJECTED|NEEDS_REVISION)$",
+            message = "Status must be EVALUATED, PENDING, REJECTED or NEEDS_REVISION")
     private String status;
 
     @OneToOne(mappedBy = "deliverable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Evaluation evaluation;
 
-    // New field for plagiarism results
- // New field for report URL
-    @Column(name = "plagiarism_percentage")
-    private Double plagiarismPercentage;
+    // Add these fields to your Deliverable.java
+    private String submitterEmail; // Email provided during submission
+    private Float plagiarismScore;
+    private String plagiarismVerdict;
+    private String plagiarismReportPath;
 
-    @Column(name = "plagiarism_report_url")
-    private String plagiarismReportUrl;
-
-    public Double getPlagiarismPercentage() {
-        return plagiarismPercentage;
+    public String getPlagiarismReportPath() {
+        return plagiarismReportPath;
     }
 
-    public void setPlagiarismPercentage(Double plagiarismPercentage) {
-        this.plagiarismPercentage = plagiarismPercentage;
+    public void setPlagiarismReportPath(String plagiarismReportPath) {
+        this.plagiarismReportPath = plagiarismReportPath;
     }
 
-    public String getPlagiarismReportUrl() {
-        return plagiarismReportUrl;
+    public String getPlagiarismVerdict() {
+        return plagiarismVerdict;
     }
 
-    public void setPlagiarismReportUrl(String plagiarismReportUrl) {
-        this.plagiarismReportUrl = plagiarismReportUrl;
+    public void setPlagiarismVerdict(String plagiarismVerdict) {
+        this.plagiarismVerdict = plagiarismVerdict;
+    }
+
+    public Float getPlagiarismScore() {
+        return plagiarismScore;
+    }
+
+    public void setPlagiarismScore(Float plagiarismScore) {
+        this.plagiarismScore = plagiarismScore;
+    }
+
+    public String getSubmitterEmail() {
+        return submitterEmail;
+    }
+
+    public void setSubmitterEmail(String submitterEmail) {
+        this.submitterEmail = submitterEmail;
     }
 
     private boolean archived = false;

@@ -142,28 +142,26 @@ public class PFEService {
         deliverable.setArchived(true); // Marquer comme archivé
         deliverableRepository.save(deliverable);
     }
-    public Deliverable createDeliverable(Long projectId, Long academicSupervisorId, Deliverable deliverable, String descriptionFilePath, String reportFilePath) {
-        // Valider l'existence de l'encadrant universitaire
-        validateAcademicSupervisor(academicSupervisorId);
 
+    @Transactional
+    public Deliverable createDeliverable(Long projectId, Long academicSupervisorId,
+                                         Deliverable deliverable,
+                                         String descriptionPath, String reportPath) {
+        // Validate supervisor
+        AcademicSupervisor supervisor = academicSupervisorRepository.findById(academicSupervisorId)
+                .orElseThrow(() -> new RuntimeException("Supervisor not found"));
+
+        // Set project if provided
         if (projectId != null) {
             Project project = projectRepository.findById(projectId)
                     .orElseThrow(() -> new RuntimeException("Project not found"));
             deliverable.setProject(project);
-        } else {
-            deliverable.setProject(null); // Aucun projet associé
         }
 
-        // Set the file paths for the deliverable
-        deliverable.setDescriptionFilePath(descriptionFilePath);  // Save the path for description file
-        deliverable.setReportFilePath(reportFilePath);            // Save the path for report file
+        // Set supervisor
+        deliverable.setAcademicSupervisor(supervisor);
 
-        // Fetch and set academic supervisor
-        AcademicSupervisor academicSupervisor = academicSupervisorRepository.findById(academicSupervisorId)
-                .orElseThrow(() -> new RuntimeException("Academic Supervisor not found"));
-        deliverable.setAcademicSupervisor(academicSupervisor);
-
-        // Save and return the deliverable
+        // File paths are already set in controller
         return deliverableRepository.save(deliverable);
     }
     public Optional<Deliverable> findById(Long id) {

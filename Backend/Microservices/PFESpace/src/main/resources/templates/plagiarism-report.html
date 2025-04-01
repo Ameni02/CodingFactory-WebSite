@@ -1,28 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Plagiarism Report</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .percentage {
-            font-size: 1.2em;
-            font-weight: bold;
-            color:<th:block th:if="${plagiarismPercentage > 20}">#dc3545</th:block>
-                  <th:block th:unless="${plagiarismPercentage > 20}">#28a745</th:block>;
-        }
+        .header { background-color: #f8f9fa; padding: 15px; text-align: center; }
+        .content { padding: 20px; }
+        .footer { margin-top: 20px; font-size: 0.8em; color: #6c757d; }
+        .score-high { color: #dc3545; font-weight: bold; }
+        .score-medium { color: #fd7e14; font-weight: bold; }
+        .score-low { color: #28a745; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="container">
-    <p>Dear <span th:text="${studentName}">Student</span>,</p>
-    <p>Your deliverable "<span th:text="${deliverableTitle}">Title</span>" has been analyzed.</p>
-    <p>Plagiarism percentage: <span class="percentage" th:text="${plagiarismPercentage} + '%'">0%</span></p>
-    <div th:if="${reportUrl != null and !reportUrl.isEmpty()}">
-        <p>Report: <a th:href="${reportUrl}">View detailed report</a></p>
+    <div class="header">
+        <h2>Plagiarism Report Notification</h2>
     </div>
-    <p>Best regards,<br>PFE Management</p>
+    <div class="content">
+        <p>Dear Student,</p>
+        <p>Your document <strong>${title}</strong> has been processed by our plagiarism detection system.</p>
+
+        <h3>Results Summary:</h3>
+        <p>Plagiarism Score:
+            <span class="${scoreClass}">${score}%</span>
+        </p>
+        <p>Verdict: <strong>${verdict}</strong></p>
+
+        <p>Please find attached the detailed plagiarism report for your reference.</p>
+
+        <p>If you have any questions about these results, please contact your academic supervisor.</p>
+    </div>
+    <div class="footer">
+        <p>This is an automated message. Please do not reply to this email.</p>
+    </div>
 </div>
 </body>
 </html>

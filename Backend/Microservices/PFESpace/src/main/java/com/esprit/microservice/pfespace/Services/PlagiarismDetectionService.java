@@ -1,18 +1,16 @@
 package com.esprit.microservice.pfespace.Services;
 
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -46,73 +44,94 @@ public class PlagiarismDetectionService {
     );
 
     public Map<String, Object> analyzeDocument(MultipartFile file) throws IOException {
-        String content = extractText(file);
-        content = normalizeText(content);
+        // Validate input file
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("File cannot be null or empty");
+        }
 
-        Map<String, Object> results = new LinkedHashMap<>();
-        results.put("filename", file.getOriginalFilename());
-        results.put("phraseMatches", detectPhraseMatches(content));
-        results.put("fingerprintSample", generateFingerprints(content));
-        results.put("semanticSimilarity", calculateSemanticSimilarity(content));
-        results.put("webMatches", checkWebForPlagiarism(content));
-        results.put("metrics", calculateTextMetrics(content));
-        results.put("isShortDocument", content.split("\\s+").length < MIN_WORD_COUNT);
+        String filename = file.getOriginalFilename();
+        if (filename == null || !(filename.toLowerCase().endsWith(".pdf") || filename.toLowerCase().endsWith(".docx"))) {
+            throw new IllegalArgumentException("Only PDF and DOCX files are supported");
+        }
 
-        return results;
+        try {
+            // Extract text content
+            String content = extractTextFromFile(file);
+            if (content == null || content.trim().isEmpty()) {
+                throw new IOException("Extracted content is empty");
+            }
+
+            // Initialize results with default values
+            Map<String, Object> results = new HashMap<>();
+            results.put("phraseMatches", detectPhraseMatches(content));
+            results.put("metrics", calculateTextMetrics(content));
+            results.put("webMatches", checkWebForPlagiarism(content));
+
+            // Calculate scores
+            double similarityScore = calculateSemanticSimilarity(content);
+            results.put("semanticSimilarity", similarityScore);
+
+            // Calculate composite score
+            double compositeScore = calculateCompositeScore(results);
+            results.put("compositeScore", (float) compositeScore);
+            results.put("verdict", determineVerdict(compositeScore));
+
+            return results;
+        } catch (Exception e) {
+            throw new IOException("Failed to process document: " + e.getMessage(), e);
+        }
     }
 
-    private String extractText(MultipartFile file) throws IOException {
+    private double calculateCompositeScore(Map<String, Object> results) {
+        // Get phrase matches score (max 30)
+        int phraseScore = ((Map<?, ?>) results.get("phraseMatches")).values().stream()
+                .mapToInt(v -> ((List<?>) v).size() * 2)
+                .sum();
+
+        // Get semantic similarity (max 40)
+        double similarityScore = ((Number) results.get("semanticSimilarity")).doubleValue() * 40;
+
+        // Get uniqueness score (max 30)
+        Map<String, Object> metrics = (Map<String, Object>) results.get("metrics");
+        double uniquenessScore = ((Number) metrics.get("uniqueWordRatio")).doubleValue() * 0.3;
+
+        return Math.min(100, phraseScore + similarityScore + uniquenessScore);
+    }
+
+    private String extractTextFromFile(MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename().toLowerCase();
 
-        if (filename.endsWith(".pdf")) {
-            try (PDDocument doc = PDDocument.load(file.getInputStream())) {
-                return new PDFTextStripper().getText(doc);
-            }
-        } else if (filename.endsWith(".docx")) {
-            try (XWPFDocument doc = new XWPFDocument(file.getInputStream())) {
-                return new XWPFWordExtractor(doc).getText();
+        try (InputStream inputStream = file.getInputStream()) {
+            if (filename.endsWith(".pdf")) {
+                try (PDDocument document = PDDocument.load(inputStream)) {
+                    return new PDFTextStripper().getText(document);
+                }
+            } else if (filename.endsWith(".docx")) {
+                try (XWPFDocument document = new XWPFDocument(inputStream)) {
+                    return new XWPFWordExtractor(document).getText();
+                }
             }
         }
-        throw new IllegalArgumentException("Only PDF and DOCX files are supported");
+        throw new IllegalArgumentException("Unsupported file type");
     }
 
-    private String normalizeText(String content) {
-        if (content == null || content.trim().isEmpty()) {
-            return "";
-        }
-        return content.toLowerCase()
-                .replaceAll("[^a-z0-9\\s]", "")
-                .replaceAll("\\s+", " ")
-                .trim();
+    private String determineVerdict(double score) {
+        if (score > 70) return "HIGH RISK";
+        if (score > 40) return "MODERATE RISK";
+        return "LOW RISK";
     }
 
     private Map<String, List<String>> detectPhraseMatches(String content) {
         Map<String, List<String>> matches = new HashMap<>();
         PHRASE_BANKS.forEach((category, phrases) -> {
             List<String> found = phrases.stream()
-                    .filter(phrase -> content.contains(phrase))
+                    .filter(phrase -> content.toLowerCase().contains(phrase))
                     .collect(Collectors.toList());
-            if (!found.isEmpty()) matches.put(category, found);
+            if (!found.isEmpty()) {
+                matches.put(category, found);
+            }
         });
         return matches;
-    }
-
-    private List<String> generateFingerprints(String content) {
-        List<String> fingerprints = new ArrayList<>();
-        String[] words = content.split("\\s+");
-
-        if (words.length < FINGERPRINT_WINDOW) {
-            return List.of("Document too short for fingerprinting (needs ≥ " + FINGERPRINT_WINDOW + " words)");
-        }
-
-        for (int i = 0; i <= words.length - FINGERPRINT_WINDOW; i++) {
-            String window = String.join(" ", Arrays.copyOfRange(words, i, i + FINGERPRINT_WINDOW));
-            if (window.length() >= MIN_HASH_LENGTH) {
-                fingerprints.add(String.valueOf(window.hashCode()));
-            }
-            if (fingerprints.size() >= 5) break;
-        }
-        return fingerprints;
     }
 
     private double calculateSemanticSimilarity(String content) {
@@ -134,8 +153,8 @@ public class PlagiarismDetectionService {
     }
 
     private double computeJaccardSimilarity(String text1, String text2) {
-        Set<String> words1 = new HashSet<>(Arrays.asList(text1.split("\\s+")));
-        Set<String> words2 = new HashSet<>(Arrays.asList(text2.split("\\s+")));
+        Set<String> words1 = new HashSet<>(Arrays.asList(text1.toLowerCase().split("\\s+")));
+        Set<String> words2 = new HashSet<>(Arrays.asList(text2.toLowerCase().split("\\s+")));
 
         Set<String> intersection = new HashSet<>(words1);
         intersection.retainAll(words2);
@@ -146,14 +165,38 @@ public class PlagiarismDetectionService {
         return union.isEmpty() ? 0.0 : (double) intersection.size() / union.size();
     }
 
+    private double calculateUniquenessScore(Map<String, Object> results) {
+        try {
+            Map<?, ?> metrics = (Map<?, ?>) results.getOrDefault("metrics", Collections.emptyMap());
+
+            // Safely get the ratio with proper type checking
+            Object ratioObj = metrics.get("uniqueWordRatio");
+            double ratio;
+
+            if (ratioObj instanceof Number) {
+                ratio = ((Number) ratioObj).doubleValue();
+            } else if (ratioObj != null) {
+                // Try to parse if it's a String representation
+                try {
+                    ratio = Double.parseDouble(ratioObj.toString());
+                } catch (NumberFormatException e) {
+                    ratio = 0.0;
+                }
+            } else {
+                ratio = 0.0;
+            }
+
+            return (ratio / 100) * 30;
+        } catch (Exception e) {
+            return 0.0; // Return 0 if any error occurs
+        }
+    }
     private List<String> checkWebForPlagiarism(String content) {
         List<String> matches = new ArrayList<>();
-
         try {
-            // Find the most distinctive phrase
             Optional<String> bestPhrase = PHRASE_BANKS.values().stream()
                     .flatMap(List::stream)
-                    .filter(phrase -> content.contains(phrase) && phrase.length() > 15)
+                    .filter(phrase -> content.toLowerCase().contains(phrase) && phrase.length() > 15)
                     .findFirst();
 
             String query = bestPhrase.orElseGet(() -> {
@@ -182,7 +225,6 @@ public class PlagiarismDetectionService {
         } catch (IOException e) {
             matches.add("Web check unavailable (rate limited or connection error)");
         }
-
         return matches.isEmpty() ? List.of("No similar content found online") : matches;
     }
 

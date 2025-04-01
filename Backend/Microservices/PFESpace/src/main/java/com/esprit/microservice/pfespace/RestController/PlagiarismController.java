@@ -16,6 +16,8 @@ import java.util.*;
 @RequestMapping("/api/plagiarism")
 public class PlagiarismController {
 
+    private static final int MIN_WORD_COUNT = 200;
+
     @Autowired
     private PlagiarismDetectionService detectionService;
 
@@ -25,10 +27,24 @@ public class PlagiarismController {
             @RequestParam(value = "strictness", defaultValue = "0.7") double strictness) {
 
         try {
-            if (file.isEmpty()) {
+            // Validate file
+            if (file == null || file.isEmpty()) {
                 return ResponseEntity.badRequest().body(errorResponse("File is empty"));
             }
 
+            // Validate file type
+            String contentType = file.getContentType();
+            if (!"application/pdf".equals(contentType) &&
+                    !"application/vnd.openxmlformats-officedocument.wordprocessingml.document".equals(contentType)) {
+                return ResponseEntity.badRequest().body(errorResponse("Only PDF and DOCX files are supported"));
+            }
+
+            // Validate strictness
+            if (strictness < 0.1 || strictness > 1.0) {
+                return ResponseEntity.badRequest().body(errorResponse("Strictness must be between 0.1 and 1.0"));
+            }
+
+            // Process document
             Map<String, Object> results = detectionService.analyzeDocument(file);
             return ResponseEntity.ok(enhanceResults(results, strictness));
 
@@ -46,66 +62,132 @@ public class PlagiarismController {
     private Map<String, Object> enhanceResults(Map<String, Object> rawResults, double strictness) {
         Map<String, Object> enhanced = new LinkedHashMap<>(rawResults);
 
-        // Calculate component scores
-        int phraseScore = calculatePhraseScore(rawResults);          // Max 30
-        double similarityScore = calculateSimilarityScore(rawResults); // Max 40
-        double uniquenessScore = calculateUniquenessScore(rawResults); // Max 30
-        int webScore = calculateWebScore(rawResults);                // Max 10
+        // Safely extract word count
+        int wordCount = extractWordCount(rawResults);
+        boolean isShort = wordCount < MIN_WORD_COUNT;
 
-        // Adjust for short documents
-        boolean isShort = (boolean) rawResults.getOrDefault("isShortDocument", false);
-        if (isShort) {
-            uniquenessScore *= 1.2; // Give more weight to uniqueness for short docs
-            similarityScore *= 0.8;  // Reduce similarity weight
+        try {
+            // Calculate component scores
+            int phraseScore = calculatePhraseScore(rawResults);
+            double similarityScore = calculateSimilarityScore(rawResults);
+            double uniquenessScore = calculateUniquenessScore(rawResults);
+            int webScore = calculateWebScore(rawResults);
+
+            // Adjust for short documents
+            if (isShort) {
+                uniquenessScore *= 1.2;
+                similarityScore *= 0.8;
+            }
+
+            // Calculate composite score
+            double compositeScore = Math.min(100,
+                    (phraseScore + similarityScore + uniquenessScore + webScore) * strictness);
+
+            // Build enhanced response
+            enhanced.put("compositeScore", Math.round(compositeScore * 100.0) / 100.0);
+            enhanced.put("strictnessLevel", strictness);
+            enhanced.put("verdict", determineVerdict(compositeScore, isShort));
+            enhanced.put("scoreDetails", buildScoreDetails(
+                    phraseScore, similarityScore, uniquenessScore, webScore, isShort, wordCount));
+
+        } catch (Exception e) {
+            enhanced.put("error", "Partial analysis: Could not enhance all results");
         }
-
-        // Apply strictness
-        double compositeScore = (phraseScore + similarityScore + uniquenessScore + webScore) * strictness;
-
-        // Add enhanced fields
-        enhanced.put("compositeScore", Math.min(100, Math.round(compositeScore * 100.0) / 100.0));
-        enhanced.put("strictnessLevel", strictness);
-        enhanced.put("verdict", determineVerdict(compositeScore, isShort));
-        enhanced.put("scoreDetails", Map.of(
-                "phraseMatches", phraseScore + "/30",
-                "semanticSimilarity", similarityScore + "/40",
-                "uniqueness", uniquenessScore + "/30",
-                "webMatches", webScore + "/10",
-                "isShortDocument", isShort
-        ));
 
         return enhanced;
     }
 
+    private int extractWordCount(Map<String, Object> rawResults) {
+        try {
+            Object metricsObj = rawResults.get("metrics");
+            if (metricsObj instanceof Map) {
+                Map<?, ?> metrics = (Map<?, ?>) metricsObj;
+                Object wordCountObj = metrics.get("wordCount");
+                if (wordCountObj instanceof Number) {
+                    return ((Number) wordCountObj).intValue();
+                } else if (wordCountObj != null) {
+                    try {
+                        return Integer.parseInt(wordCountObj.toString());
+                    } catch (NumberFormatException e) {
+                        return 0;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+        return 0;
+    }
+
+    private Map<String, Object> buildScoreDetails(int phraseScore, double similarityScore,
+                                                  double uniquenessScore, int webScore, boolean isShort, int wordCount) {
+        return Map.of(
+                "phraseMatches", phraseScore + "/30",
+                "semanticSimilarity", String.format("%.1f/40", similarityScore),
+                "uniqueness", String.format("%.1f/30", uniquenessScore),
+                "webMatches", webScore + "/10",
+                "isShortDocument", isShort,
+                "wordCount", wordCount
+        );
+    }
+
     private int calculatePhraseScore(Map<String, Object> results) {
-        Map<?, ?> phraseMatches = (Map<?, ?>) results.get("phraseMatches");
-        return phraseMatches.values().stream()
-                .mapToInt(v -> ((List<?>) v).size() * 2) // 2 points per phrase
-                .sum();
+        try {
+            Map<?, ?> phraseMatches = (Map<?, ?>) results.getOrDefault("phraseMatches", Collections.emptyMap());
+            return phraseMatches.values().stream()
+                    .mapToInt(v -> ((List<?>) v).size() * 2)
+                    .sum();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private double calculateSimilarityScore(Map<String, Object> results) {
-        return ((Number) results.get("semanticSimilarity")).doubleValue() * 40;
+        try {
+            return ((Number) results.getOrDefault("semanticSimilarity", 0)).doubleValue() * 40;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private double calculateUniquenessScore(Map<String, Object> results) {
-        Map<?, ?> metrics = (Map<?, ?>) results.get("metrics");
-        double ratio = ((Number) metrics.get("uniqueWordRatio")).doubleValue();
-        return (ratio / 100) * 30; // Now worth 30 points max
+        try {
+            Map<?, ?> metrics = (Map<?, ?>) results.getOrDefault("metrics", Collections.emptyMap());
+            Object ratioObj = metrics.get("uniqueWordRatio");
+            double ratio = 0;
+
+            if (ratioObj instanceof Number) {
+                ratio = ((Number) ratioObj).doubleValue();
+            } else if (ratioObj != null) {
+                try {
+                    ratio = Double.parseDouble(ratioObj.toString());
+                } catch (NumberFormatException e) {
+                    ratio = 0;
+                }
+            }
+
+            return (ratio / 100) * 30;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private int calculateWebScore(Map<String, Object> results) {
-        List<?> webMatches = (List<?>) results.get("webMatches");
-        if (webMatches.isEmpty() || webMatches.get(0).toString().contains("unavailable")) {
+        try {
+            List<?> webMatches = (List<?>) results.getOrDefault("webMatches", Collections.emptyList());
+            if (webMatches.isEmpty() || webMatches.get(0).toString().contains("unavailable")) {
+                return 0;
+            }
+            return Math.min(webMatches.size(), 3) * 3;
+        } catch (Exception e) {
             return 0;
         }
-        return Math.min(webMatches.size(), 3) * 3; // 3 points per match, max 9
     }
 
     private String determineVerdict(double score, boolean isShort) {
         if (isShort) {
-            if (score > 60) return "HIGH RISK (for short document)";
-            if (score > 35) return "MODERATE RISK (for short document)";
+            if (score > 60) return "HIGH RISK (short document)";
+            if (score > 35) return "MODERATE RISK (short document)";
             return "LOW RISK (document too short for full analysis)";
         }
         if (score > 70) return "HIGH RISK";
