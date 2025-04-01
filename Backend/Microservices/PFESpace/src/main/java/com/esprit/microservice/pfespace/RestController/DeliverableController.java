@@ -1,9 +1,7 @@
 package com.esprit.microservice.pfespace.RestController;
 
 import com.esprit.microservice.pfespace.Entities.Deliverable;
-import com.esprit.microservice.pfespace.Services.EmailService;
-import com.esprit.microservice.pfespace.Services.PFEService;
-import com.esprit.microservice.pfespace.Services.PlagiarismReportService;
+import com.esprit.microservice.pfespace.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -29,12 +28,10 @@ public class DeliverableController {
 
     @Autowired
     private PFEService pfeService;
-
     @Autowired
     private PlagiarismReportService reportService;
-
     @Autowired
-    private EmailService emailService;
+    private PdfReportService pdfReportService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> submitDeliverable(
@@ -52,49 +49,28 @@ public class DeliverableController {
 
             // Generate plagiarism report
             Map<String, Object> plagiarismResults = reportService.generateReport(reportFile);
-
-            // Extract results
             float plagiarismScore = ((Number) plagiarismResults.get("compositeScore")).floatValue();
             String verdict = (String) plagiarismResults.get("verdict");
 
-            // Create deliverable with valid status
+            // Create deliverable
             Deliverable deliverable = new Deliverable();
             deliverable.setTitle(title);
             deliverable.setSubmitterEmail(submitterEmail);
             deliverable.setDescriptionFilePath(descPath);
             deliverable.setReportFilePath(reportPath);
             deliverable.setSubmissionDate(LocalDate.now());
-
-            // Set status based on plagiarism score
-            if (plagiarismScore > 70) {
-                deliverable.setStatus("REJECTED");
-            } else if (plagiarismScore > 40) {
-                deliverable.setStatus("PENDING"); // Or "NEEDS_REVISION" if you want to add it to your enum
-            } else {
-                deliverable.setStatus("EVALUATED");
-            }
-
             deliverable.setPlagiarismScore(plagiarismScore);
             deliverable.setPlagiarismVerdict(verdict);
-            deliverable.setPlagiarismReportPath(reportPath);
+            deliverable.setStatus(determineStatus(plagiarismScore));
 
-            // Save deliverable
+            // Generate PDF report
+            byte[] pdfReport = pdfReportService.generatePlagiarismReport(deliverable);
+            String pdfPath = savePdfReport(pdfReport, "plagiarism_report_" + title + ".pdf");
+            deliverable.setPlagiarismReportPath(pdfPath);
+
+            // Save deliverable (notification will be sent by PFEService)
             Deliverable saved = pfeService.createDeliverable(projectId, academicSupervisorId,
                     deliverable, descPath, reportPath);
-
-            // Send email notification
-
-            try {
-                emailService.sendPlagiarismReport(
-                        submitterEmail,
-                        title,
-                        plagiarismScore,
-                        verdict,
-                        reportPath
-                );
-            } catch (Exception e) {
-                System.err.println("Failed to send email: " + e.getMessage());
-            }
 
             return ResponseEntity.ok(saved);
 
@@ -105,9 +81,22 @@ public class DeliverableController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "An error occurred: " + e.getMessage()));
         }
+    }
+
+    private String determineStatus(float score) {
+        if (score > 70) return "REJECTED";
+        if (score > 40) return "PENDING";
+        return "EVALUATED";
+    }
 
 
 
+    private String savePdfReport(byte[] pdfBytes, String filename) throws IOException {
+        String dir = "reports/";
+        new File(dir).mkdirs();
+        Path path = Paths.get(dir + filename);
+        Files.write(path, pdfBytes);
+        return path.toString();
     }
 
     private String saveFile(MultipartFile file) throws IOException {

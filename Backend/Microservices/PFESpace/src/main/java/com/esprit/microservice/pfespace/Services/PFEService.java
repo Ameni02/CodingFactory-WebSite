@@ -3,9 +3,12 @@ package com.esprit.microservice.pfespace.Services;
 import com.esprit.microservice.pfespace.Entities.*;
 import com.esprit.microservice.pfespace.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -27,6 +30,8 @@ public class PFEService {
     @Autowired
     private AcademicSupervisorRepository academicSupervisorRepository;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
     // ===== CRUD for Project =====
 
 
@@ -142,27 +147,59 @@ public class PFEService {
         deliverable.setArchived(true); // Marquer comme archivé
         deliverableRepository.save(deliverable);
     }
-
     @Transactional
     public Deliverable createDeliverable(Long projectId, Long academicSupervisorId,
                                          Deliverable deliverable,
                                          String descriptionPath, String reportPath) {
-        // Validate supervisor
+        // 1. Validate supervisor exists
         AcademicSupervisor supervisor = academicSupervisorRepository.findById(academicSupervisorId)
-                .orElseThrow(() -> new RuntimeException("Supervisor not found"));
+                .orElseThrow(() -> new RuntimeException("Academic supervisor not found with id: " + academicSupervisorId));
 
-        // Set project if provided
+        // 2. Set project if provided
         if (projectId != null) {
             Project project = projectRepository.findById(projectId)
-                    .orElseThrow(() -> new RuntimeException("Project not found"));
+                    .orElseThrow(() -> new RuntimeException("Project not found with id: " + projectId));
             deliverable.setProject(project);
         }
 
-        // Set supervisor
+        // 3. Set required fields
         deliverable.setAcademicSupervisor(supervisor);
+        deliverable.setDescriptionFilePath(descriptionPath);
+        deliverable.setReportFilePath(reportPath);
+        deliverable.setSubmissionDate(LocalDate.now());
 
-        // File paths are already set in controller
-        return deliverableRepository.save(deliverable);
+        // 4. Determine status based on plagiarism score
+        if (deliverable.getPlagiarismScore() > 70) {
+            deliverable.setStatus("REJECTED");
+        } else if (deliverable.getPlagiarismScore() > 40) {
+            deliverable.setStatus("PENDING");
+        } else {
+            deliverable.setStatus("EVALUATED");
+        }
+
+        // 5. Save to database
+        Deliverable savedDeliverable = deliverableRepository.save(deliverable);
+
+        // 6. Send WebSocket notification
+        sendPlagiarismNotification(savedDeliverable);
+
+        return savedDeliverable;
+    }
+
+
+    private void sendPlagiarismNotification(Deliverable deliverable) {
+        try {
+            Map<String, Object> payload = Map.of(
+                    "deliverableId", deliverable.getId(),
+                    "title", deliverable.getTitle(),
+                    "score", deliverable.getPlagiarismScore(),
+                    "verdict", deliverable.getPlagiarismVerdict(),
+                    "timestamp", LocalDateTime.now()
+            );
+            messagingTemplate.convertAndSend("/topic/plagiarism", payload); // <-- BROADCAST
+        } catch (Exception e) {
+            System.err.println("Failed to send notification: " + e.getMessage());
+        }
     }
     public Optional<Deliverable> findById(Long id) {
         return deliverableRepository.findById(id);

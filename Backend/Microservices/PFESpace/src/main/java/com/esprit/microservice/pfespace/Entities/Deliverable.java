@@ -56,12 +56,22 @@ public class Deliverable {
 
     @OneToOne(mappedBy = "deliverable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Evaluation evaluation;
-
-    // Add these fields to your Deliverable.java
-    private String submitterEmail; // Email provided during submission
+    @Column(name = "plagiarism_score")
     private Float plagiarismScore;
+
+    @Column(name = "plagiarism_verdict")
     private String plagiarismVerdict;
+
+    @Column(name = "plagiarism_report_path")
     private String plagiarismReportPath;
+
+    @Column(name = "notification_sent")
+    private Boolean notificationSent = false;
+
+    @Column(name = "submitter_email")
+    private String submitterEmail;
+
+
 
     public String getPlagiarismReportPath() {
         return plagiarismReportPath;

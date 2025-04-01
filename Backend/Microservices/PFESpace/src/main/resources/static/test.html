@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Notification Tester</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        #connection-status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .connected { background: #d4edda; color: #155724; }
+        .disconnected { background: #f8d7da; color: #721c24; }
+        #notifications { border: 1px solid #ddd; padding: 15px; min-height: 200px; }
+        .notification { padding: 10px; margin: 10px 0; border-left: 4px solid #007bff; background: #f8f9fa; }
+    </style>
+</head>
+<body>
+<h1>Plagiarism Notification Tester</h1>
+
+<div>
+    <button id="connectBtn" onclick="connect()">Connect</button>
+    <button id="disconnectBtn" onclick="disconnect()" disabled>Disconnect</button>
+</div>
+
+<div id="connection-status" class="disconnected">❌ Not connected to WebSocket</div>
+
+<h3>Notifications:</h3>
+<div id="notifications">
+    <p>No notifications received yet...</p>
+</div>
+
+<script>
+    let stompClient = null;
+    const notificationsEl = document.getElementById('notifications');
+
+    function updateStatus(connected) {
+        const statusEl = document.getElementById('connection-status');
+        if (connected) {
+            statusEl.textContent = "✅ Connected to WebSocket";
+            statusEl.className = "connected";
+            document.getElementById('connectBtn').disabled = true;
+            document.getElementById('disconnectBtn').disabled = false;
+        } else {
+            statusEl.textContent = "❌ Not connected to WebSocket";
+            statusEl.className = "disconnected";
+            document.getElementById('connectBtn').disabled = false;
+            document.getElementById('disconnectBtn').disabled = true;
+        }
+    }
+
+    function connect() {
+        const socket = new SockJS('http://localhost:8080/ws');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function(frame) {
+            updateStatus(true);
+            console.log('Connected: ' + frame);
+
+            stompClient.subscribe('/topic/plagiarism', function(message) {
+                console.log('Received: ', message.body);
+                showNotification(JSON.parse(message.body));
+            });
+        }, function(error) {
+            updateStatus(false);
+            console.error('Error:', error);
+        });
+    }
+
+    function disconnect() {
+        if (stompClient !== null) {
+            stompClient.disconnect();
+            updateStatus(false);
+            console.log("Disconnected");
+        }
+    }
+
+    function showNotification(data) {
+        // Clear "no notifications" message if present
+        if (notificationsEl.children.length === 1 &&
+            notificationsEl.children[0].tagName === 'P') {
+            notificationsEl.innerHTML = '';
+        }
+
+        const notificationEl = document.createElement('div');
+        notificationEl.className = 'notification';
+        notificationEl.innerHTML = `
+                <strong>${data.title || 'Untitled Document'}</strong><br>
+                📊 Score: ${data.score || 0}%<br>
+                🏷️ Verdict: ${data.verdict || 'N/A'}<br>
+                ⏰ ${new Date(data.timestamp || new Date()).toLocaleString()}
+            `;
+        notificationsEl.prepend(notificationEl);
+    }
+
+    // Connect automatically when page loads
+    window.onload = connect;
+</script>
+</body>
+</html>
