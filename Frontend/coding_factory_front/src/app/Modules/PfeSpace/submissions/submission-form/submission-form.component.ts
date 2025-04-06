@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DeliverableService } from 'src/services/deliverable.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-submission-form',
@@ -16,7 +17,8 @@ export class SubmissionFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private deliverableService: DeliverableService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +32,6 @@ export class SubmissionFormComponent implements OnInit {
       submissionDate: [new Date().toISOString().split('T')[0], Validators.required],
     });
   }
-
 
   onDescriptionFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -62,11 +63,12 @@ export class SubmissionFormComponent implements OnInit {
     }
   }
 
-  
-
   onSubmit(): void {
     if (this.submissionForm.invalid || !this.descriptionFile || !this.reportFile) {
-      alert('Please fill all required fields and select files');
+      this.snackBar.open('Please fill all required fields and select files', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
       return;
     }
   
@@ -77,19 +79,49 @@ export class SubmissionFormComponent implements OnInit {
     formData.append('academicSupervisorId', this.submissionForm.get('academicSupervisorId')?.value.toString());
     formData.append('title', this.submissionForm.get('title')?.value);
     formData.append('submitterEmail', this.submissionForm.get('submitterEmail')?.value);
+    formData.append('submissionDate', this.submissionForm.get('submissionDate')?.value);
   
     // Add files - we've already checked they're not null
     formData.append('descriptionFile', this.descriptionFile as Blob);
     formData.append('reportFile', this.reportFile as Blob);
+
+    console.log('Submitting form data:', {
+      projectId: formData.get('projectId'),
+      academicSupervisorId: formData.get('academicSupervisorId'),
+      title: formData.get('title'),
+      submitterEmail: formData.get('submitterEmail'),
+      submissionDate: formData.get('submissionDate'),
+      descriptionFile: this.descriptionFile?.name,
+      reportFile: this.reportFile?.name
+    });
   
     this.deliverableService.submitDeliverable(formData).subscribe({
       next: (response) => {
         console.log('Submission successful:', response);
-        this.router.navigate(['/deliverables']);
+        this.snackBar.open('Submission successful!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+        // Wait a bit before navigating to ensure the backend has processed the submission
+        setTimeout(() => {
+          this.router.navigate(['/submissions']);
+        }, 1000);
       },
       error: (error) => {
         console.error('Submission error:', error);
-        alert(`Error: ${error.error?.message || 'Failed to submit deliverable'}`);
+        let errorMessage = 'Failed to submit deliverable';
+        if (error.error) {
+          if (typeof error.error === 'string') {
+            errorMessage = error.error;
+          } else if (error.error.message) {
+            errorMessage = error.error.message;
+          }
+        }
+        this.snackBar.open(`Error: ${errorMessage}`, 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
       }
     });
-  }}
+  }
+}

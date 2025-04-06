@@ -4,7 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,7 +23,6 @@ import { MainBannerComponent } from './components/main-banner/main-banner.compon
 import { FactsComponent } from './components/facts/facts.component';
 import { TestimonialsComponent } from './components/testimonials/testimonials.component';
 import { MainPageComponent } from './Modules/PfeSpace/main-page/main-page.component';
-
 import { SupervisorDashboardComponent } from './Modules/PfeSpace/supervisors/supervisor-dashboard/supervisor-dashboard.component';
 import { AddOfferComponent } from './Modules/PfeSpace/offers/add-offer/add-offer.component';
 import { OfferListComponent } from './Modules/PfeSpace/offers/offer-list/offer-list.component';
@@ -37,7 +37,6 @@ import { PdfMergeComponentComponent } from './Modules/PfeSpace/pdf-merge-compone
 import { ChatbotComponent } from './Modules/PfeSpace/chatbot/chatbot.component';
 import { PlagiarismNotificationComponent } from './Modules/PfeSpace/plagiarism-notification/plagiarism-notification.component';
 import { NotificationService } from './services/notification.service';
-
 
 @NgModule({
   declarations: [
@@ -69,8 +68,6 @@ import { NotificationService } from './services/notification.service';
     PdfMergeComponentComponent,
     ChatbotComponent,
     PlagiarismNotificationComponent,
-
-
   ],
   imports: [
     BrowserModule,
@@ -79,6 +76,8 @@ import { NotificationService } from './services/notification.service';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
   ],
   providers: [NotificationService],
   bootstrap: [AppComponent]

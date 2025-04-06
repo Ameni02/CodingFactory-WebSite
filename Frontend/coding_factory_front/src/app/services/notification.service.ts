@@ -1,93 +1,127 @@
 import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { Observable, Observer, EMPTY, Subject, timer } from 'rxjs';
-import { catchError, tap, retryWhen, delayWhen, switchAll } from 'rxjs/operators';
+import { Observable, Subject, timer, EMPTY } from 'rxjs';
+import { catchError, tap, retryWhen, delayWhen } from 'rxjs/operators';
 
 export interface PlagiarismNotification {
   deliverableId: number;
   title: string;
   score: number;
-  verdict: string;
+  verdict: 'high' | 'medium' | 'low';
   timestamp: string;
+}
+
+export interface DeliverableNotification {
+  deliverableId: number;
+  title: string;
+  status: 'submitted' | 'processed' | 'error';
+  reportUrl?: string;
+  timestamp: string;
+  message?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-  private socket$!: WebSocketSubject<PlagiarismNotification>;
-  private readonly WS_URL = 'ws://localhost:8080/pfespace/ws';
+  private plagiarismSocket$!: WebSocketSubject<PlagiarismNotification>;
+  private deliverableSocket$!: WebSocketSubject<DeliverableNotification>;
+  private readonly WS_ENDPOINT = 'ws://localhost:8080/pfespace/ws';
   private connectionStatus$ = new Subject<boolean>();
-  private retryConfig = {
+  
+  private readonly retryConfig = {
     initialDelay: 1000,
-    maxDelay: 5000,
-    maxRetries: 5
+    maxRetries: 5,
+    maxDelay: 10000
   };
 
   constructor() {
-    this.connect();
+    console.log('Initializing NotificationService');
+    this.initializeConnections();
   }
 
-  private connect(): void {
-    if (!this.socket$ || this.socket$.closed) {
-      this.socket$ = webSocket<PlagiarismNotification>({
-        url: this.WS_URL,
-        openObserver: {
-          next: () => {
-            console.log('WebSocket connection established');
-            this.connectionStatus$.next(true);
-          }
-        },
-        closeObserver: {
-          next: () => {
-            console.log('WebSocket connection closed');
-            this.connectionStatus$.next(false);
-            this.retryConnection();
-          }
-        },
-        deserializer: msg => {
-          try {
-            return JSON.parse(msg.data);
-          } catch (e) {
-            console.error('Error parsing WebSocket message:', e);
-            return null;
-          }
-        }
-      });
+  private initializeConnections(): void {
+    console.log('Initializing WebSocket connections');
+    this.connectPlagiarism();
+    this.connectDeliverable();
+  }
 
-      this.socket$.pipe(
-        catchError(error => {
-          console.error('WebSocket error:', error);
-          this.retryConnection();
-          return EMPTY;
-        })
-      ).subscribe();
+  private connectPlagiarism(): void {
+    if (!this.plagiarismSocket$ || this.plagiarismSocket$.closed) {
+      console.log('Connecting to plagiarism notifications');
+      this.plagiarismSocket$ = this.createWebSocket<PlagiarismNotification>('plagiarism');
     }
   }
 
-  private retryConnection(): void {
+  private connectDeliverable(): void {
+    if (!this.deliverableSocket$ || this.deliverableSocket$.closed) {
+      console.log('Connecting to deliverable notifications');
+      this.deliverableSocket$ = this.createWebSocket<DeliverableNotification>('deliverables');
+    }
+  }
+
+  private createWebSocket<T>(path: string): WebSocketSubject<T> {
+    const url = `${this.WS_ENDPOINT}/${path}`;
+    console.log(`Creating WebSocket connection to: ${url}`);
+    
+    const socket$ = webSocket<T>({
+      url: url,
+      openObserver: {
+        next: () => {
+          console.log(`Connected to ${path} notifications`);
+          this.connectionStatus$.next(true);
+        }
+      },
+      closeObserver: {
+        next: () => {
+          console.log(`Disconnected from ${path} notifications`);
+          this.connectionStatus$.next(false);
+          this.retryConnection(path);
+        }
+      }
+    });
+
+    socket$.pipe(
+      tap(message => console.log(`Received ${path} notification:`, message)),
+      catchError(error => {
+        console.error(`${path} WebSocket error:`, error);
+        this.retryConnection(path);
+        return EMPTY;
+      })
+    ).subscribe();
+
+    return socket$;
+  }
+
+  private retryConnection(path: string): void {
+    console.log(`Scheduling retry for ${path} connection`);
     timer(this.retryConfig.initialDelay).subscribe(() => {
-      console.log('Attempting to reconnect WebSocket...');
-      this.connect();
+      console.log(`Reconnecting to ${path}...`);
+      if (path === 'plagiarism') {
+        this.connectPlagiarism();
+      } else {
+        this.connectDeliverable();
+      }
     });
   }
 
-  public getNotifications(): Observable<PlagiarismNotification> {
-    return new Observable((observer: Observer<PlagiarismNotification>) => {
-      const subscription = this.socket$.subscribe({
-        next: (notification) => {
-          if (notification) {
-            observer.next(notification);
-          }
-        },
-        error: (err) => observer.error(err),
-        complete: () => observer.complete()
-      });
-
-      return () => subscription.unsubscribe();
-    }).pipe(
+  public getPlagiarismNotifications(): Observable<PlagiarismNotification> {
+    console.log('Getting plagiarism notifications');
+    return this.plagiarismSocket$.pipe(
+      tap(notification => console.log('Plagiarism notification received:', notification)),
       retryWhen(errors => errors.pipe(
-        tap(err => console.log('Retrying WebSocket connection due to:', err)),
+        tap(err => console.log('Retrying plagiarism connection:', err)),
+        delayWhen(() => timer(this.retryConfig.initialDelay))
+      ))
+    );
+  }
+
+  public getDeliverableNotifications(): Observable<DeliverableNotification> {
+    console.log('Getting deliverable notifications');
+    return this.deliverableSocket$.pipe(
+      tap(notification => console.log('Deliverable notification received:', notification)),
+      retryWhen(errors => errors.pipe(
+        tap(err => console.log('Retrying deliverables connection:', err)),
         delayWhen(() => timer(this.retryConfig.initialDelay))
       ))
     );
@@ -97,10 +131,10 @@ export class NotificationService {
     return this.connectionStatus$.asObservable();
   }
 
-  public close(): void {
-    if (this.socket$) {
-      this.socket$.complete();
-      this.connectionStatus$.complete();
-    }
+  ngOnDestroy() {
+    console.log('Cleaning up notification service');
+    this.plagiarismSocket$?.complete();
+    this.deliverableSocket$?.complete();
+    this.connectionStatus$.complete();
   }
 }

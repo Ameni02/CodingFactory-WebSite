@@ -1,3 +1,75 @@
+.submission-form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.submission-form-container h2 {
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.submission-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.file-upload-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.file-upload-label span {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 0.875rem;
+}
+
+.file-upload-label input[type="file"] {
+  display: none;
+}
+
+.file-name {
+  color: #666;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Snackbar styles */
+.success-snackbar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.error-snackbar {
+  background-color: #f44336;
+  color: white;
+}
+
+.info-snackbar {
+  background-color: #2196f3;
+  color: white;
+}
+
 .submission-form {
     max-width: 600px;
     margin: 0 auto;
@@ -27,10 +99,6 @@
   
   .form-group input[type="file"] {
     padding: 0.4rem;
-  }
-  
-  .form-actions {
-    text-align: center;
   }
   
   button[type="submit"] {
