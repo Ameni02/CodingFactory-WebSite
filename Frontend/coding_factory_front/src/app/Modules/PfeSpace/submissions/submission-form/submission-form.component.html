@@ -35,12 +35,24 @@
     />
   </div>
 
+  <!-- Submitter Email -->
+  <div class="form-group">
+    <label for="submitterEmail">Your Email</label>
+    <input
+      id="submitterEmail"
+      formControlName="submitterEmail"
+      type="email"
+      class="form-control"
+      required
+    />
+  </div>
+
   <!-- Description File -->
   <div class="form-group">
-    <label for="descriptionFilePath">All Files</label>
+    <label for="descriptionFilePath">Description File</label>
     <input
       id="descriptionFilePath"
-      (change)="handleDescriptionFileInput($event)"
+      (change)="onDescriptionFileChange($event)"
       type="file"
       class="form-control"
       accept="application/pdf, image/*"
@@ -53,7 +65,7 @@
     <label for="reportFilePath">Report File</label>
     <input
       id="reportFilePath"
-      (change)="handleReportFileInput($event)"
+      (change)="onReportFileChange($event)"
       type="file"
       class="form-control"
       accept="application/pdf"
@@ -75,15 +87,12 @@
 
   <!-- Submit Button -->
   <div class="form-actions">
-    <button
-    type="submit" 
-    [disabled]="!submissionForm.valid">Submit</button>
- 
+    <button type="submit" [disabled]="!submissionForm.valid">Submit</button>
   </div>
 </form>
-  <!-- Use routerLink to navigate to the merge component -->
-  <button [routerLink]="['/merge']" class="merge-button">
-    Merge Files
-  </button>
+
+<button [routerLink]="['/merge']" class="merge-button">
+  Merge Files
+</button>
 <button [routerLink]="['/offers']" class="btn btn-back">Back to Offers</button>
 <app-chatbot></app-chatbot>

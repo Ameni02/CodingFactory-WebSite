@@ -189,16 +189,18 @@ public class PFEService {
 
     private void sendPlagiarismNotification(Deliverable deliverable) {
         try {
-            Map<String, Object> payload = Map.of(
-                    "deliverableId", deliverable.getId(),
-                    "title", deliverable.getTitle(),
-                    "score", deliverable.getPlagiarismScore(),
-                    "verdict", deliverable.getPlagiarismVerdict(),
-                    "timestamp", LocalDateTime.now()
-            );
-            messagingTemplate.convertAndSend("/topic/plagiarism", payload); // <-- BROADCAST
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("deliverableId", deliverable.getId());
+            payload.put("title", deliverable.getTitle());
+            payload.put("score", deliverable.getPlagiarismScore());
+            payload.put("verdict", deliverable.getPlagiarismVerdict());
+            payload.put("timestamp", LocalDateTime.now());
+
+            System.out.println("Sending WebSocket notification: " + payload); // Debug log
+            messagingTemplate.convertAndSend("/topic/plagiarism", payload);
         } catch (Exception e) {
             System.err.println("Failed to send notification: " + e.getMessage());
+            e.printStackTrace();
         }
     }
     public Optional<Deliverable> findById(Long id) {

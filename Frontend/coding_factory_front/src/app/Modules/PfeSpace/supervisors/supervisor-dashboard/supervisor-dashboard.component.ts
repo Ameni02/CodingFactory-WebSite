@@ -28,7 +28,7 @@ export class SupervisorDashboardComponent implements OnInit {
   }
 
   loadReportsToEvaluate(): void {
-    this.deliverableService.getDeliverables().subscribe({
+    this.deliverableService. getAllDeliverables().subscribe({
       next: (data) => {
         this.reportsToEvaluate = data.filter(
           (report) => report.status === 'PENDING'

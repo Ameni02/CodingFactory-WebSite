@@ -35,6 +35,8 @@ import { SubmissionDetailComponent } from './Modules/PfeSpace/submissions/submis
 import { EvaluationFormComponent } from './Modules/PfeSpace/evaluations/evaluation-form/evaluation-form.component';
 import { PdfMergeComponentComponent } from './Modules/PfeSpace/pdf-merge-component/pdf-merge-component.component';
 import { ChatbotComponent } from './Modules/PfeSpace/chatbot/chatbot.component';
+import { PlagiarismNotificationComponent } from './Modules/PfeSpace/plagiarism-notification/plagiarism-notification.component';
+import { NotificationService } from './services/notification.service';
 
 
 @NgModule({
@@ -66,6 +68,7 @@ import { ChatbotComponent } from './Modules/PfeSpace/chatbot/chatbot.component';
     SupervisorDashboardComponent,
     PdfMergeComponentComponent,
     ChatbotComponent,
+    PlagiarismNotificationComponent,
 
 
   ],
@@ -77,7 +80,7 @@ import { ChatbotComponent } from './Modules/PfeSpace/chatbot/chatbot.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

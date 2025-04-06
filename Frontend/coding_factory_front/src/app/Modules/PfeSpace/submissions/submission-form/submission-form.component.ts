@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class SubmissionFormComponent implements OnInit {
   submissionForm!: FormGroup;
-  descriptionFile: File | null = null; // Declare the description file property
-  reportFile: File | null = null; // Declare the report file property
+  descriptionFile: File | null = null;
+  reportFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -24,81 +24,72 @@ export class SubmissionFormComponent implements OnInit {
       projectId: [null, Validators.required],
       academicSupervisorId: [null, Validators.required],
       title: ['', Validators.required],
+      submitterEmail: ['', [Validators.required, Validators.email]],
       descriptionFilePath: [null, Validators.required],
       reportFilePath: [null, Validators.required],
-      submissionDate: [
-        new Date().toISOString().split('T')[0],
-        Validators.required,
-      ],
+      submissionDate: [new Date().toISOString().split('T')[0], Validators.required],
     });
   }
 
-  // Method to handle the form submission
+
+  onDescriptionFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.descriptionFile = input.files[0];
+      this.submissionForm.patchValue({
+        descriptionFilePath: input.files[0].name
+      });
+    } else {
+      this.descriptionFile = null;
+      this.submissionForm.patchValue({
+        descriptionFilePath: null
+      });
+    }
+  }
+  
+  onReportFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.reportFile = input.files[0];
+      this.submissionForm.patchValue({
+        reportFilePath: input.files[0].name
+      });
+    } else {
+      this.reportFile = null;
+      this.submissionForm.patchValue({
+        reportFilePath: null
+      });
+    }
+  }
+
+  
+
   onSubmit(): void {
-    if (this.submissionForm.invalid) {
-      alert('Please fill out all required fields.');
-      return; // Prevent submission if form is invalid
+    if (this.submissionForm.invalid || !this.descriptionFile || !this.reportFile) {
+      alert('Please fill all required fields and select files');
+      return;
     }
-
-    // Create FormData object
+  
     const formData = new FormData();
-
-    // Get form control values
-    const projectId = this.submissionForm.get('projectId')?.value;
-    const academicSupervisorId = this.submissionForm.get('academicSupervisorId')?.value;
-    const title = this.submissionForm.get('title')?.value;
-    const submissionDate = this.submissionForm.get('submissionDate')?.value || new Date().toISOString().split('T')[0];
-
-    // Append form values to FormData
-    formData.append('projectId', projectId);
-    formData.append('academicSupervisorId', academicSupervisorId);
-    formData.append('title', title);
-    formData.append('submissionDate', submissionDate);
-
-    // Only append files if they are selected
-    if (this.descriptionFile) {
-      console.log('Selected Description File:', this.descriptionFile);
-      formData.append('descriptionFile', this.descriptionFile);
-    } else {
-      alert('Please select a description file before submitting.'); // File is missing
-      return;
-    }
-
-    if (this.reportFile) {
-      console.log('Selected Report File:', this.reportFile);
-      formData.append('reportFile', this.reportFile);
-    } else {
-      alert('Please select a report file before submitting.'); // File is missing
-      return;
-    }
-
-    // Call the service to add the deliverable
-    this.deliverableService.addDeliverable(formData).subscribe(
-      (response) => {
-        console.log('Deliverable added successfully:', response);
-        alert('Deliverable created successfully!');
+    
+    // Add non-file fields
+    formData.append('projectId', this.submissionForm.get('projectId')?.value.toString());
+    formData.append('academicSupervisorId', this.submissionForm.get('academicSupervisorId')?.value.toString());
+    formData.append('title', this.submissionForm.get('title')?.value);
+    formData.append('submitterEmail', this.submissionForm.get('submitterEmail')?.value);
+  
+    // Add files - we've already checked they're not null
+    formData.append('descriptionFile', this.descriptionFile as Blob);
+    formData.append('reportFile', this.reportFile as Blob);
+  
+    this.deliverableService.submitDeliverable(formData).subscribe({
+      next: (response) => {
+        console.log('Submission successful:', response);
         this.router.navigate(['/deliverables']);
       },
-      (error) => {
-        console.error('Error creating deliverable:', error);
-        alert('Error creating deliverable. Please try again.');
+      error: (error) => {
+        console.error('Submission error:', error);
+        alert(`Error: ${error.error?.message || 'Failed to submit deliverable'}`);
       }
-    );
-  }
-
-  handleDescriptionFileInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input?.files) {
-      this.descriptionFile = input.files[0]; // Get the first file
-      this.submissionForm.get('descriptionFilePath')?.setValue(input.files[0].name); // Set the value in form
-    }
-  }
-
-  handleReportFileInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input?.files) {
-      this.reportFile = input.files[0]; // Get the first file
-      this.submissionForm.get('reportFilePath')?.setValue(input.files[0].name); // Set the value in form
-    }
-  }
-}
+    });
+  }}

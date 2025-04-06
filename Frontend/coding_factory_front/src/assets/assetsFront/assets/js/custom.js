@@ -215,4 +215,79 @@
         });
     }
 
+    // Initialize Owl Carousel
+    if ($('.owl-carousel').length) {
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            nav: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 3
+                }
+            }
+        });
+    }
+
+    // Handle scroll animations
+    $(window).scroll(function() {
+        const scrollTop = $(window).scrollTop();
+        if (scrollTop > 100) {
+            $('.navbar').addClass('scrolled');
+        } else {
+            $('.navbar').removeClass('scrolled');
+        }
+    });
+
+    // Initialize tooltips
+    if ($('[data-toggle="tooltip"]').length) {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
+    // Handle smooth scrolling
+    $('a[href*="#"]').on('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate({
+            scrollTop: $($(this).attr('href')).offset().top
+        }, 500, 'linear');
+    });
+
+    // Handle project image loading
+    $('.project-image').each(function() {
+        const imgPath = $(this).data('image');
+        if (imgPath) {
+            $(this).css('background-image', `url(assets/assetsFront/assets/images/${imgPath})`);
+        }
+    });
+
+    // Initialize counter
+    if ($('.counter').length) {
+        $('.counter').counterUp({
+            delay: 10,
+            time: 1000
+        });
+    }
+
+    // Handle isotope filtering
+    if ($('.grid').length) {
+        $('.grid').isotope({
+            itemSelector: '.grid-item',
+            layoutMode: 'fitRows'
+        });
+    }
+
+    // Filter items on button click
+    if ($('.filter-button-group').length) {
+        $('.filter-button-group').on('click', 'button', function() {
+            var filterValue = $(this).attr('data-filter');
+            $('.grid').isotope({ filter: filterValue });
+        });
+    }
+
 })(window.jQuery);

@@ -17,7 +17,7 @@ export class SubmissionListComponent implements OnInit {
   }
 
   loadSubmissions(): void {
-    this.deliverableService.getDeliverables().subscribe({
+    this.deliverableService. getAllDeliverables().subscribe({
       next: (data) => (this.submissions = data),
       error: (error) => console.error('Error loading submissions:', error),
     });
