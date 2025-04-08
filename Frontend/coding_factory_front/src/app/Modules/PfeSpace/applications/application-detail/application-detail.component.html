@@ -1,10 +1,106 @@
-<div *ngIf="application">
-  <h2>Application Details</h2>
-  <p>Student Name: {{ application.studentName }}</p>
-  <p>Student Email: {{ application.studentEmail }}</p>
-  <p>Status: {{ application.status }}</p>
-  <p>CV: <a [href]="application.cvFilePath" target="_blank">Download CV</a></p>
-  <p>Cover Letter: <a [href]="application.coverLetterFilePath" target="_blank">Download Cover Letter</a></p>
-</div>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h2>Application Details</h2>
+          <button class="btn btn-primary" (click)="goToOffersList()">
+            <i class="fas fa-arrow-left"></i> Back to Offers
+          </button>
+        </div>
+        <div class="card-body">
+          <div *ngIf="application" class="application-details">
+            <!-- Application Status -->
+            <div class="status-badge mb-4">
+              <span class="badge" [ngClass]="{
+                'bg-success': application.status === 'ACCEPTED',
+                'bg-danger': application.status === 'REJECTED',
+                'bg-warning': application.status === 'PENDING'
+              }">
+                {{ application.status }}
+              </span>
+            </div>
 
-<app-chatbot></app-chatbot>
+            <!-- Student Information -->
+            <div class="student-info mb-4">
+              <h4 class="section-title">Student Information</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Name:</strong> {{ application.studentName }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Email:</strong> {{ application.studentEmail }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Information -->
+            <div class="project-info mb-4">
+              <h4 class="section-title">Project Information</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Project Title:</strong> {{ application.project?.title }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Company:</strong> {{ application.project?.companyName }}</p>
+                </div>
+              </div>
+              <div class="project-description mt-3">
+                <p><strong>Description:</strong></p>
+                <p class="description-text">{{ application.project?.description }}</p>
+              </div>
+            </div>
+
+            <!-- Documents Section -->
+            <div class="documents-section">
+              <h4 class="section-title">Documents</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="document-card">
+                    <i class="fas fa-file-pdf document-icon"></i>
+                    <h5>CV</h5>
+                    <button class="btn btn-outline-primary download-btn" 
+                            (click)="downloadFile('cv')"
+                            [disabled]="isDownloading">
+                      <i class="fas fa-download me-2"></i>
+                      {{ isDownloading ? 'Downloading...' : 'Download CV' }}
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="document-card">
+                    <i class="fas fa-file-pdf document-icon"></i>
+                    <h5>Cover Letter</h5>
+                    <button class="btn btn-outline-primary download-btn"
+                            (click)="downloadFile('coverLetter')"
+                            [disabled]="isDownloading">
+                      <i class="fas fa-download me-2"></i>
+                      {{ isDownloading ? 'Downloading...' : 'Download Cover Letter' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons 
+            <div class="action-buttons mt-4" *ngIf="application.status === 'PENDING'">
+              <button class="btn btn-success me-2" (click)="acceptApplication()">
+                <i class="fas fa-check me-2"></i>Accept
+              </button>
+              <button class="btn btn-danger" (click)="rejectApplication()">
+                <i class="fas fa-times me-2"></i>Reject
+              </button>
+            </div>
+          </div> -->
+
+          <!-- Loading State -->
+          <div *ngIf="!application" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

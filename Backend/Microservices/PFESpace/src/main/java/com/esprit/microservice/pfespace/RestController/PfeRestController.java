@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 
 import java.io.File;
 import java.io.IOException;
@@ -114,10 +117,25 @@ public class PfeRestController {
         // Return the file path
         return filePath.toString();
     }
-    @GetMapping("/allprojects")
+    @GetMapping("/projects")
     @Operation(summary = "List of projects", description = "Retrieves all available projects")
-    public List<Project> getAllProjects() {
-        return pfeService.getAllProjects();
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<List<Project>> getAllProjects() {
+        try {
+            List<Project> projects = pfeService.getAllProjects();
+            return ResponseEntity.ok(projects);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/projects/active")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<List<Project>> getActiveProjects() {
+        List<Project> projects = pfeService.getAllActiveProjects() ;
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(projects);
     }
 
     @GetMapping("/projects/{id}")
@@ -142,18 +160,117 @@ public class PfeRestController {
 
     // =========================== APPLICATIONS ===========================
 
-    @PostMapping("/projects/{projectId}/applications")
-    @Operation(summary = "Add an application", description = "Adds an application to a project")
-    public Application createApplication(@PathVariable Long projectId, @RequestBody Application application) {
-        return pfeService.createApplication(projectId, application);
-    }
 
+    @PostMapping(value = "/projects/{projectId}/applications", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<Application> createApplication(
+            @PathVariable Long projectId,
+            @RequestPart("application") String applicationJson,
+            @RequestPart("cvFile") MultipartFile cvFile,
+            @RequestPart("coverLetterFile") MultipartFile coverLetterFile) {
+
+        // Detailed logging
+        System.out.println("Received application for project: " + projectId);
+        System.out.println("Application JSON: " + applicationJson);
+        System.out.println("CV file: " + cvFile.getOriginalFilename());
+        System.out.println("Cover letter: " + coverLetterFile.getOriginalFilename());
+
+        try {
+            // Convert JSON string to Application object
+            ObjectMapper objectMapper = new ObjectMapper();
+            Application application = objectMapper.readValue(applicationJson, Application.class);
+
+            // Save files and get paths
+            String cvFilePath = saveFile(cvFile);
+            String coverLetterFilePath = saveFile(coverLetterFile);
+
+            // Set file paths in application
+            application.setCvFilePath(cvFilePath);
+            application.setCoverLetterFilePath(coverLetterFilePath);
+
+            // Create application
+            Application createdApp = pfeService.createApplication(projectId, application);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(createdApp);
+        } catch (IOException e) {
+            System.err.println("File processing error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (Exception e) {
+            System.err.println("Application processing error: " + e.getMessage());
+            return ResponseEntity.badRequest()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+    }
     @GetMapping("/applications")
     @Operation(summary = "List of applications", description = "Retrieves all applications")
     public List<Application> getAllApplications() {
         return pfeService.getAllApplications();
     }
 
+    @GetMapping("/applications/{id}")
+    @Operation(summary = "Get application by ID", description = "Retrieves an application by its ID")
+    public ResponseEntity<Application> getApplicationById(@PathVariable Long id) {
+        Optional<Application> application = pfeService.getApplicationById(id);
+        return application.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/applications/{id}")
+    @Operation(summary = "Update an application", description = "Updates an existing application")
+    public ResponseEntity<Application> updateApplication(@PathVariable Long id, @RequestBody Application applicationDetails) {
+        try {
+            Application updatedApplication = pfeService.updateApplication(id, applicationDetails);
+            return ResponseEntity.ok(updatedApplication);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/applications/{id}")
+    @Operation(summary = "Delete an application", description = "Deletes an application by ID")
+    public ResponseEntity<Void> deleteApplication(@PathVariable Long id) {
+        pfeService.deleteApplication(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/applications/{id}/download/{fileType}")
+    public ResponseEntity<Resource> downloadFile(
+            @PathVariable Long id,
+            @PathVariable String fileType
+    )  {
+        try {
+            Optional<Application> applicationOpt = pfeService.getApplicationById(id);
+            if (applicationOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Application application = applicationOpt.get();
+            String fileName = fileType.equals("cv") ? application.getCvFilePath() : application.getCoverLetterFilePath();
+            if (fileName == null || fileName.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            // Fix: Get just the filename from the path
+            String justFileName = Paths.get(fileName).getFileName().toString();
+            Path filePath = Paths.get("uploads").resolve(justFileName).normalize();
+
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
     // =========================== DELIVERABLES ===========================
 
     @PostMapping(value = "/deliverables/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -211,6 +328,36 @@ public class PfeRestController {
         return pfeService.getDeliverablesWithoutProject();
     }
 
+    @PutMapping("/deliverables/{id}")
+    @Operation(summary = "Update a deliverable", description = "Updates an existing deliverable")
+    public ResponseEntity<Deliverable> updateDeliverable(@PathVariable Long id, @RequestBody Deliverable deliverableDetails) {
+        try {
+            Deliverable updatedDeliverable = pfeService.updateDeliverable(id, deliverableDetails);
+            return ResponseEntity.ok(updatedDeliverable);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/deliverables/{id}")
+    @Operation(summary = "Delete a deliverable", description = "Deletes a deliverable by ID")
+    public ResponseEntity<Void> deleteDeliverable(@PathVariable Long id) {
+        pfeService.deleteDeliverable(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/deliverables/with-project")
+    @Operation(summary = "Deliverables with a project", description = "Retrieves deliverables with associated projects")
+    public List<Deliverable> getDeliverablesWithProject() {
+        return pfeService.getDeliverablesWithProject();
+    }
+
+    @GetMapping("/deliverables/academic-supervisor/{academicSupervisorId}")
+    @Operation(summary = "Deliverables by academic supervisor", description = "Retrieves deliverables by academic supervisor ID")
+    public List<Deliverable> getDeliverablesByAcademicSupervisorId(@PathVariable Long academicSupervisorId) {
+        return pfeService.getDeliverablesByAcademicSupervisorId(academicSupervisorId);
+    }
+
     // =========================== EVALUATIONS ===========================
 
     @PostMapping("/deliverables/{deliverableId}/evaluations")
@@ -223,6 +370,31 @@ public class PfeRestController {
     @Operation(summary = "List of evaluations", description = "Retrieves all evaluations")
     public List<Evaluation> getAllEvaluations() {
         return pfeService.getAllEvaluations();
+    }
+
+    @GetMapping("/evaluations/{id}")
+    @Operation(summary = "Get evaluation by ID", description = "Retrieves an evaluation by its ID")
+    public ResponseEntity<Evaluation> getEvaluationById(@PathVariable Long id) {
+        Optional<Evaluation> evaluation = pfeService.getEvaluationById(id);
+        return evaluation.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/evaluations/{id}")
+    @Operation(summary = "Update an evaluation", description = "Updates an existing evaluation")
+    public ResponseEntity<Evaluation> updateEvaluation(@PathVariable Long id, @RequestBody Evaluation evaluationDetails) {
+        try {
+            Evaluation updatedEvaluation = pfeService.updateEvaluation(id, evaluationDetails);
+            return ResponseEntity.ok(updatedEvaluation);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/evaluations/{id}")
+    @Operation(summary = "Delete an evaluation", description = "Deletes an evaluation by ID")
+    public ResponseEntity<Void> deleteEvaluation(@PathVariable Long id) {
+        pfeService.deleteEvaluation(id);
+        return ResponseEntity.ok().build();
     }
 
     // =========================== ACADEMIC SUPERVISORS ===========================
@@ -239,6 +411,30 @@ public class PfeRestController {
         return pfeService.getAllAcademicSupervisors();
     }
 
+    @GetMapping("/academic-supervisors/{id}")
+    @Operation(summary = "Get academic supervisor by ID", description = "Retrieves an academic supervisor by ID")
+    public ResponseEntity<AcademicSupervisor> getAcademicSupervisorById(@PathVariable Long id) {
+        Optional<AcademicSupervisor> supervisor = pfeService.getAcademicSupervisorById(id);
+        return supervisor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/academic-supervisors/{id}")
+    @Operation(summary = "Update an academic supervisor", description = "Updates an existing academic supervisor")
+    public ResponseEntity<AcademicSupervisor> updateAcademicSupervisor(@PathVariable Long id, @RequestBody AcademicSupervisor supervisorDetails) {
+        try {
+            AcademicSupervisor updatedSupervisor = pfeService.updateAcademicSupervisor(id, supervisorDetails);
+            return ResponseEntity.ok(updatedSupervisor);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/academic-supervisors/{id}")
+    @Operation(summary = "Delete an academic supervisor", description = "Deletes an academic supervisor by ID")
+    public ResponseEntity<Void> deleteAcademicSupervisor(@PathVariable Long id) {
+        pfeService.deleteAcademicSupervisor(id);
+        return ResponseEntity.ok().build();
+    }
 
     // =========================== ARCHIVING ===========================
 
@@ -258,12 +454,6 @@ public class PfeRestController {
         } catch (Exception e) {
             return ResponseEntity.status(404).body(null); // Not found if something goes wrong
         }
-    }
-
-    @GetMapping("/projects")
-    @Operation(summary = "List of active projects", description = "Retrieves all non-archived projects")
-    public List<Project> getAllActiveProjects() {
-        return pfeService.getAllActiveProjects();
     }
 
     @PutMapping("/applications/{id}/archive")
@@ -336,6 +526,9 @@ public class PfeRestController {
     public List<Project> getRecentProjects() {
         return pfeService.getRecentProjects();
     }
+
+
+
     }
 
 

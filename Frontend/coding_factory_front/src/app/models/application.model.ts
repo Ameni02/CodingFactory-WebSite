@@ -1,10 +1,15 @@
 export interface Application {
+  id?: number;
+  project: {
     id: number;
-    projectId: number;
-    studentName: string;
-    studentEmail: string;
-    cvFilePath: string;
-    coverLetterFilePath: string;
-    status: string; // "PENDING", "ACCEPTED", "REJECTED"
-    archived: boolean;
-  }
+    title?: string;
+    description?: string;
+    status?: string;
+  };
+  studentName: string;
+  studentEmail: string;
+  cvFilePath: string;
+  coverLetterFilePath: string;
+  status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
+  archived: boolean;
+}

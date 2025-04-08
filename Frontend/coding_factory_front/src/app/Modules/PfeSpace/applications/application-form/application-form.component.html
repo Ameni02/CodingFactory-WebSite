@@ -1,23 +1,109 @@
-<form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="projectId">Project ID</label>
-    <input id="projectId" formControlName="projectId" type="number" />
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="mb-0">Submit Application</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+            <!-- Student Name -->
+            <div class="mb-3">
+              <label for="studentName" class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="studentName"
+                formControlName="studentName"
+                [ngClass]="{'is-invalid': applicationForm.get('studentName')?.invalid && applicationForm.get('studentName')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="applicationForm.get('studentName')?.invalid && applicationForm.get('studentName')?.touched">
+                <div *ngIf="applicationForm.get('studentName')?.errors?.['required']">Student name is required</div>
+                <div *ngIf="applicationForm.get('studentName')?.errors?.['minlength']">Student name must be at least 2 characters</div>
+                <div *ngIf="applicationForm.get('studentName')?.errors?.['maxlength']">Student name must not exceed 100 characters</div>
+              </div>
+            </div>
+
+            <!-- Student Email -->
+            <div class="mb-3">
+              <label for="studentEmail" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="studentEmail"
+                formControlName="studentEmail"
+                [ngClass]="{'is-invalid': applicationForm.get('studentEmail')?.invalid && applicationForm.get('studentEmail')?.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="applicationForm.get('studentEmail')?.invalid && applicationForm.get('studentEmail')?.touched">
+                <div *ngIf="applicationForm.get('studentEmail')?.errors?.['required']">Email is required</div>
+                <div *ngIf="applicationForm.get('studentEmail')?.errors?.['email']">Please enter a valid email address</div>
+              </div>
+            </div>
+
+           <!-- In your application-form.component.html -->
+<div class="mb-3">
+  <label for="cvFile" class="form-label">CV (PDF only, max 5MB)</label>
+  <input
+    type="file"
+    class="form-control"
+    id="cvFile"
+    accept=".pdf,application/pdf"
+    (change)="onFileSelected($event, 'cv')"
+    [ngClass]="{'is-invalid': (!cvFile && applicationForm.touched) || (cvFile && !isValidPdf(cvFile))}"
+    required
+  >
+  <div class="invalid-feedback" *ngIf="!cvFile && applicationForm.touched">
+    Please upload your CV
   </div>
-  <div>
-    <label for="studentName">Student Name</label>
-    <input id="studentName" formControlName="studentName" type="text" />
+  <div class="invalid-feedback" *ngIf="cvFile && !isValidPdf(cvFile)">
+    Only PDF files are allowed
   </div>
-  <div>
-    <label for="studentEmail">Student Email</label>
-    <input id="studentEmail" formControlName="studentEmail" type="email" />
+  <small class="form-text text-muted" *ngIf="cvFile">
+    Selected file: {{ cvFile.name }} ({{ (cvFile.size / 1024 / 1024).toFixed(2) }} MB)
+  </small>
+</div>
+
+            <!-- Cover Letter Upload -->
+            <div class="mb-3">
+              <label for="coverLetterFile" class="form-label">Cover Letter (PDF)</label>
+              <input
+                type="file"
+                class="form-control"
+                id="coverLetterFile"
+                accept=".pdf"
+                (change)="onFileSelected($event, 'coverLetter')"
+                [ngClass]="{'is-invalid': !coverLetterFile && applicationForm.touched}"
+              >
+              <div class="invalid-feedback" *ngIf="!coverLetterFile && applicationForm.touched">
+                Please upload your cover letter
+              </div>
+              <small class="form-text text-muted" *ngIf="coverLetterFile">
+                Selected file: {{ coverLetterFile.name }}
+              </small>
+            </div>
+
+            <!-- Submit and Cancel Buttons -->
+            <div class="d-flex justify-content-between">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="onCancel()"
+                [disabled]="isSubmitting"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="isSubmitting || !applicationForm.valid || !cvFile || !coverLetterFile"
+              >
+                <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ isSubmitting ? 'Submitting...' : 'Submit Application' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-  <div>
-    <label for="cvFilePath">CV File</label>
-    <input id="cvFilePath" formControlName="cvFilePath" type="file" />
-  </div>
-  <div>
-    <label for="coverLetterFilePath">Cover Letter</label>
-    <input id="coverLetterFilePath" formControlName="coverLetterFilePath" type="file" />
-  </div>
-  <button type="submit" [disabled]="applicationForm.invalid">Submit</button>
-</form>
+</div>

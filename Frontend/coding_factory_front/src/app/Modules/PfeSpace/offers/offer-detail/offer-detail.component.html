@@ -1,26 +1,121 @@
-<div *ngIf="project" class="project-details-container">
-  <div class="project-header">
-    <h2>{{ project.title }}</h2>
-    <p class="company-name"><strong>Company:</strong> {{ project.companyName }}</p>
-  </div>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Project Details</h3>
+          <button class="btn btn-primary" (click)="goToOffersList()">
+            <i class="fas fa-arrow-left me-2"></i>Back to Offers
+          </button>
+        </div>
+        <div class="card-body">
+          <div *ngIf="project" class="project-details">
+            <!-- Project Status -->
+            <div class="status-badge mb-4">
+              <span class="badge" [ngClass]="{
+                'bg-success': project.status === 'ACTIVE',
+                'bg-danger': project.status === 'ARCHIVED',
+                'bg-warning': project.status === 'PENDING'
+              }">
+                {{ project.status }}
+              </span>
+            </div>
 
-  <div class="project-info">
-    <div class="info-item"><strong>Field:</strong> {{ project.field }}</div>
-    <div class="info-item"><strong>Start Date:</strong> {{ project.startDate | date:'longDate' }}</div>
-    <div class="info-item"><strong>End Date:</strong> {{ project.endDate | date:'longDate' }}</div>
-    <div class="info-item"><strong>Positions Available:</strong> {{ project.numberOfPositions }}</div>
-    <div class="info-item"><strong>Supervisor:</strong> {{ project.professionalSupervisor }}</div>
-    <div class="info-item"><strong>Company Address:</strong> {{ project.companyAddress }}</div>
-    <div class="info-item"><strong>Company Email:</strong> <a [href]="'mailto:' + project.companyEmail">{{ project.companyEmail }}</a></div>
-    <div class="info-item"><strong>Company Phone:</strong> <a [href]="'tel:' + project.companyPhone">{{ project.companyPhone }}</a></div>
-    <div class="info-item"><strong>Skills Required:</strong> {{ project.requiredSkills }}</div>
-  </div>
+            <!-- Project Information -->
+            <div class="project-info mb-4">
+              <h4 class="section-title">Project Information</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Title:</strong> {{ project.title }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Field:</strong> {{ project.field }}</p>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <p><strong>Start Date:</strong> {{ project.startDate | date }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>End Date:</strong> {{ project.endDate | date }}</p>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <p><strong>Positions Available:</strong> {{ project.numberOfPositions }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Required Skills:</strong> {{ project.requiredSkills }}</p>
+                </div>
+              </div>
+            </div>
 
-  <div class="project-actions">
-    <a *ngIf="project.descriptionFilePath" [href]="project.descriptionFilePath" class="btn btn-download" target="_blank">
-      Download Description <i class="fas fa-download"></i>
-    </a>
-    <button [routerLink]="['/offers']" class="btn btn-back">Back to Offers</button>
+            <!-- Company Information -->
+            <div class="company-info mb-4">
+              <h4 class="section-title">Company Information</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><strong>Company Name:</strong> {{ project.companyName }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Supervisor:</strong> {{ project.professionalSupervisor }}</p>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <p><strong>Email:</strong> {{ project.companyEmail }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><strong>Phone:</strong> {{ project.companyPhone }}</p>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <p><strong>Address:</strong> {{ project.companyAddress }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Description -->
+            <div class="description-section mb-4">
+              <h4 class="section-title">Project Description</h4>
+              <div class="description-content">
+                <p class="description-text">{{ project.description }}</p>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons mt-4">
+              <button class="btn btn-primary me-2" 
+                      (click)="onApply()" 
+                      [disabled]="!canApply()">
+                <i class="fas fa-paper-plane me-2"></i>Apply Now
+              </button>
+              <button class="btn btn-outline-secondary" 
+                      (click)="downloadDescription()" 
+                      *ngIf="project.descriptionFilePath"
+                      [disabled]="isDownloading">
+                <i class="fas fa-download me-2"></i>
+                {{ isDownloading ? 'Downloading...' : 'Download Description' }}
+              </button>
+            </div>
+
+            <!-- Apply Button Disabled Messages -->
+            <div *ngIf="!canApply()" class="alert alert-warning mt-3">
+              <p *ngIf="project.archived">This project is no longer accepting applications.</p>
+              <p *ngIf="project.numberOfPositions <= 0">No positions available for this project.</p>
+              <p *ngIf="project.status !== 'ACTIVE'">This project is not currently active.</p>
+            </div>
+          </div>
+
+          <!-- Loading State -->
+          <div *ngIf="!project" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<app-chatbot></app-chatbot>

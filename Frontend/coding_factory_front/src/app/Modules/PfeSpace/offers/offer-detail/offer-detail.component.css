@@ -42,22 +42,26 @@
     margin-top: 20px;
   }
   
-  .btn {
-    padding: 10px 15px;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+  .btn-apply {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .btn-apply:hover {
+    background-color: #218838;
   }
   
   .btn-download {
-    background-color: #6069D8;
+    background-color: #17a2b8;
     color: white;
   }
   
   .btn-back {
-    background-color: #888;
+    background-color: #6c757d;
     color: white;
   }
+  
+  .text-success { color: #28a745; }
+  .text-warning { color: #ffc107; }
+  .text-danger { color: #dc3545; }
   

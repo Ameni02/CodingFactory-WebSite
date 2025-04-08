@@ -14,52 +14,16 @@ public class PFEService {
 
     @Autowired
     private ProjectRepository projectRepository;
-
     @Autowired
     private ApplicationRepository applicationRepository;
-
     @Autowired
     private DeliverableRepository deliverableRepository;
-
     @Autowired
     private EvaluationRepository evaluationRepository;
-
     @Autowired
     private AcademicSupervisorRepository academicSupervisorRepository;
 
-    // ===== CRUD for Project =====
-
-
-    public void archiveProject(Long id) {
-        // Find the project by ID
-        Project project = projectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Project not found"));
-
-        // Mark the project as archived
-        project.setArchived(true);
-
-        // Save the updated project
-        projectRepository.save(project);
-    }
-
-
-
-    // Unarchive a project
-    public Project unarchiveProject(Long id) throws Exception {
-        Optional<Project> projectOpt = projectRepository.findById(id);
-        if (projectOpt.isPresent()) {
-            Project project = projectOpt.get();
-            project.setArchived(false); // Set the project as unarchived
-            return projectRepository.save(project); // Save the project back to the database
-        } else {
-            throw new Exception("Project not found");
-        }
-    }
-    public List<Project> getAllActiveProjects() {
-        return projectRepository.findByArchivedFalse();
-    }
-
-    @Transactional
+    // ===== Project CRUD Operations =====
     public Project createProject(Project project) {
         project.setId(null);
         return projectRepository.save(project);
@@ -69,10 +33,13 @@ public class PFEService {
         return projectRepository.findAll();
     }
 
+    public List<Project> getAllActiveProjects() {
+        return projectRepository.findByArchivedFalse();
+    }
+
     public Optional<Project> getProjectById(Long id) {
         return projectRepository.findById(id);
     }
-
 
     public Project updateProject(Long id, Project projectDetails) {
         Project project = projectRepository.findById(id)
@@ -96,14 +63,26 @@ public class PFEService {
         projectRepository.deleteById(id);
     }
 
-    // ===== CRUD for Application =====
-    // archiver une application
-    public void archiveApplication(Long id) {
-        Application application = applicationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Application not found"));
-        application.setArchived(true); // Marquer comme archivé
-        applicationRepository.save(application);
+    // ===== Project Archival Operations =====
+    public void archiveProject(Long id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+        project.setArchived(true);
+        projectRepository.save(project);
     }
+
+    public Project unarchiveProject(Long id) throws Exception {
+        Optional<Project> projectOpt = projectRepository.findById(id);
+        if (projectOpt.isPresent()) {
+            Project project = projectOpt.get();
+            project.setArchived(false);
+            return projectRepository.save(project);
+        } else {
+            throw new Exception("Project not found");
+        }
+    }
+
+    // ===== Application CRUD Operations =====
     public Application createApplication(Long projectId, Application application) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
@@ -134,16 +113,30 @@ public class PFEService {
         applicationRepository.deleteById(id);
     }
 
-    // ===== CRUD for Deliverable =====
-    // archiver liverable
-    public void archiveDeliverable(Long id) {
-        Deliverable deliverable = deliverableRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Deliverable not found"));
-        deliverable.setArchived(true); // Marquer comme archivé
-        deliverableRepository.save(deliverable);
+    public void archiveApplication(Long id) {
+        Application application = applicationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Application not found"));
+        application.setArchived(true);
+        applicationRepository.save(application);
     }
-    public Deliverable createDeliverable(Long projectId, Long academicSupervisorId, Deliverable deliverable, String descriptionFilePath, String reportFilePath) {
-        // Valider l'existence de l'encadrant universitaire
+
+    public Application acceptApplication(Long id) {
+        Application application = applicationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Application not found"));
+        application.setStatus("ACCEPTED");
+        return applicationRepository.save(application);
+    }
+
+    public Application rejectApplication(Long id) {
+        Application application = applicationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Application not found"));
+        application.setStatus("REJECTED");
+        return applicationRepository.save(application);
+    }
+
+    // ===== Deliverable CRUD Operations =====
+    public Deliverable createDeliverable(Long projectId, Long academicSupervisorId, Deliverable deliverable,
+                                         String descriptionFilePath, String reportFilePath) {
         validateAcademicSupervisor(academicSupervisorId);
 
         if (projectId != null) {
@@ -151,44 +144,41 @@ public class PFEService {
                     .orElseThrow(() -> new RuntimeException("Project not found"));
             deliverable.setProject(project);
         } else {
-            deliverable.setProject(null); // Aucun projet associé
+            deliverable.setProject(null);
         }
 
-        // Set the file paths for the deliverable
-        deliverable.setDescriptionFilePath(descriptionFilePath);  // Save the path for description file
-        deliverable.setReportFilePath(reportFilePath);            // Save the path for report file
+        deliverable.setDescriptionFilePath(descriptionFilePath);
+        deliverable.setReportFilePath(reportFilePath);
 
-        // Fetch and set academic supervisor
         AcademicSupervisor academicSupervisor = academicSupervisorRepository.findById(academicSupervisorId)
                 .orElseThrow(() -> new RuntimeException("Academic Supervisor not found"));
         deliverable.setAcademicSupervisor(academicSupervisor);
 
-        // Save and return the deliverable
         return deliverableRepository.save(deliverable);
-    }
-    public Optional<Deliverable> findById(Long id) {
-        return deliverableRepository.findById(id);
-    }
-
-    // Récupérer les livrables sans projet
-    public List<Deliverable> getDeliverablesWithoutProject() {
-        return deliverableRepository.findByProjectIsNull();
-    }
-
-    // Récupérer les livrables avec projet
-    public List<Deliverable> getDeliverablesWithProject() {
-        return deliverableRepository.findByProjectIsNotNull();
     }
 
     public List<Deliverable> getAllDeliverables() {
         return deliverableRepository.findAll();
     }
 
+    public List<Deliverable> getDeliverablesWithoutProject() {
+        return deliverableRepository.findByProjectIsNull();
+    }
+
+    public List<Deliverable> getDeliverablesWithProject() {
+        return deliverableRepository.findByProjectIsNotNull();
+    }
+
+    public List<Deliverable> getDeliverablesByAcademicSupervisorId(Long academicSupervisorId) {
+        return deliverableRepository.findByAcademicSupervisorId(academicSupervisorId);
+    }
+
     public Optional<Deliverable> getDeliverableById(Long id) {
         return deliverableRepository.findById(id);
     }
-    public List<Deliverable> getDeliverablesByAcademicSupervisorId(Long academicSupervisorId) {
-        return deliverableRepository.findByAcademicSupervisorId(academicSupervisorId);
+
+    public Optional<Deliverable> findById(Long id) {
+        return deliverableRepository.findById(id);
     }
 
     public Deliverable updateDeliverable(Long id, Deliverable deliverableDetails) {
@@ -206,25 +196,18 @@ public class PFEService {
         deliverableRepository.deleteById(id);
     }
 
-    // ===== CRUD for Evaluation =====
-
-    // archiver evaluation
-
-    public void archiveEvaluation(Long id) {
-        Evaluation evaluation = evaluationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Evaluation not found"));
-        evaluation.setArchived(true); // Marquer comme archivé
-        evaluationRepository.save(evaluation);
+    public void archiveDeliverable(Long id) {
+        Deliverable deliverable = deliverableRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Deliverable not found"));
+        deliverable.setArchived(true);
+        deliverableRepository.save(deliverable);
     }
-    // Créer une évaluation pour un livrable (avec ou sans projet)
+
+    // ===== Evaluation CRUD Operations =====
     public Evaluation createEvaluation(Long deliverableId, Evaluation evaluation) {
         Deliverable deliverable = deliverableRepository.findById(deliverableId)
                 .orElseThrow(() -> new RuntimeException("Deliverable not found with id: " + deliverableId));
-
-        // Associer l'évaluation au livrable
         evaluation.setDeliverable(deliverable);
-
-        // Sauvegarder l'évaluation
         return evaluationRepository.save(evaluation);
     }
 
@@ -248,7 +231,14 @@ public class PFEService {
         evaluationRepository.deleteById(id);
     }
 
-    // ===== CRUD for AcademicSupervisor =====
+    public void archiveEvaluation(Long id) {
+        Evaluation evaluation = evaluationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evaluation not found"));
+        evaluation.setArchived(true);
+        evaluationRepository.save(evaluation);
+    }
+
+    // ===== Academic Supervisor CRUD Operations =====
     public AcademicSupervisor createAcademicSupervisor(AcademicSupervisor academicSupervisor) {
         return academicSupervisorRepository.save(academicSupervisor);
     }
@@ -274,19 +264,7 @@ public class PFEService {
         academicSupervisorRepository.deleteById(id);
     }
 
-    // Valider l'existence de l'encadrant universitaire
-    private void validateAcademicSupervisor(Long academicSupervisorId) {
-        if (academicSupervisorId != null) {
-            academicSupervisorRepository.findById(academicSupervisorId)
-                    .orElseThrow(() -> new RuntimeException("AcademicSupervisor not found with id: " + academicSupervisorId));
-        }
-    }
-
-
-
-    //
-
-
+    // ===== Statistics Methods =====
     public Map<String, Integer> getProjectStats() {
         Map<String, Integer> stats = new HashMap<>();
         stats.put("pending", projectRepository.countPendingProjects());
@@ -302,15 +280,16 @@ public class PFEService {
         stats.put("rejected", applicationRepository.countRejectedApplications());
         return stats;
     }
+
     public Map<String, Integer> getDeliverableStats() {
         Map<String, Integer> stats = new HashMap<>();
         stats.put("rejected", deliverableRepository.countREJECTEDDeliverable());
         stats.put("evaluated", deliverableRepository.countEVALUATEDDeliverable());
         stats.put("pendingChanges", deliverableRepository.countPendingDeliverable());
-
         return stats;
     }
 
+    // ===== Recent Entities Methods =====
     public List<Application> getRecentApplications() {
         return applicationRepository.findRecentApplications();
     }
@@ -321,5 +300,13 @@ public class PFEService {
 
     public List<Project> getRecentProjects() {
         return projectRepository.findRecentProjects();
+    }
+
+    // ===== Helper Methods =====
+    private void validateAcademicSupervisor(Long academicSupervisorId) {
+        if (academicSupervisorId != null) {
+            academicSupervisorRepository.findById(academicSupervisorId)
+                    .orElseThrow(() -> new RuntimeException("AcademicSupervisor not found with id: " + academicSupervisorId));
+        }
     }
 }

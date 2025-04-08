@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from 'src/services/project.service'; 
-import { Project } from 'src/app/models/project.model'; 
+import { ProjectService } from 'src/services/project.service';
+import { Project } from 'src/app/models/project.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-offer-list',
@@ -13,55 +14,68 @@ export class OfferListComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 6;
   totalPages: number = 1;
+  isLoading: boolean = true;
   searchQuery: string = '';
-  
   selectedField: string = '';
-  selectedCompany: string = '';
-  selectedPositions: string = '';
-  
-  fields: string[] = ['Technology', 'Business', 'Engineering', 'Design']; // Replace with actual data
-  companies: string[] = ['Company A', 'Company B', 'Company C']; // Replace with actual data
-  availablePositions: string[] = ['1', '2', '3', '4', '5']; // Available positions
+  fields: string[] = [];
 
-  constructor(private projectService: ProjectService) {}
+  constructor(
+    private projectService: ProjectService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.loadOffers();
   }
 
   loadOffers(): void {
+    this.isLoading = true;
     this.projectService.getProjects().subscribe({
-      next: (data) => {
-        this.offers = data;
-        this.totalPages = Math.ceil(this.offers.length / this.itemsPerPage);
+      next: (projects: Project[]) => {
+        this.offers = projects || [];
+        this.fields = [...new Set(this.offers.map(p => p.field))];
         this.updatePaginatedOffers();
+        this.isLoading = false;
       },
-      error: (error) => console.error('Error loading offers:', error),
+      error: (err) => {
+        console.error('Error loading offers:', err);
+        this.toastr.error(err.message || 'Failed to load offers');
+        this.offers = [];
+        this.updatePaginatedOffers();
+        this.isLoading = false;
+      }
     });
+  }
+
+  extractFields(): void {
+    this.fields = [...new Set(this.offers.map(offer => offer.field))];
+    // Add empty option for "All fields"
+    if (this.fields.length > 0 && !this.fields.includes('')) {
+      this.fields.unshift('');
+    }
   }
 
   updatePaginatedOffers(): void {
     // Filter offers based on search query
-    let filteredOffers = this.offers.filter(offer => 
-      offer.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      offer.field.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      offer.companyName.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+    let filteredOffers = this.offers;
+    
+    if (this.searchQuery) {
+      filteredOffers = filteredOffers.filter(offer => 
+        (offer.title?.toLowerCase().includes(this.searchQuery.toLowerCase()) || false) ||
+        (offer.field?.toLowerCase().includes(this.searchQuery.toLowerCase()) || false) ||
+        (offer.companyName?.toLowerCase().includes(this.searchQuery.toLowerCase()) || false)
+      );
+    }
 
-    // Apply additional filters based on selection
+    // Apply field filter if selected
     if (this.selectedField) {
       filteredOffers = filteredOffers.filter(offer => offer.field === this.selectedField);
     }
 
-    if (this.selectedCompany) {
-      filteredOffers = filteredOffers.filter(offer => offer.companyName === this.selectedCompany);
-    }
-
-    if (this.selectedPositions) {
-      filteredOffers = filteredOffers.filter(offer => offer.numberOfPositions === +this.selectedPositions);
-    }
-
-    this.totalPages = Math.ceil(filteredOffers.length / this.itemsPerPage);
+    // Calculate pagination
+    this.totalPages = Math.max(1, Math.ceil(filteredOffers.length / this.itemsPerPage));
+    this.currentPage = Math.min(this.currentPage, this.totalPages);
+    
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.paginatedOffers = filteredOffers.slice(startIndex, startIndex + this.itemsPerPage);
   }
@@ -89,5 +103,8 @@ export class OfferListComponent implements OnInit {
       this.updatePaginatedOffers();
     }
   }
-}
 
+  trackByProjectId(index: number, project: Project): number {
+    return project.id;
+  }
+}

@@ -1,6 +1,7 @@
 package com.esprit.microservice.pfespace.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -75,10 +76,12 @@ import java.util.List;
     private String companyPhone;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Application> applications = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
+    @JsonIgnore
     private List<Deliverable> deliverables = new ArrayList<>();
 
     private boolean archived = false;

@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/Microservices/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/Microservices/PFESpace/pom.xml" />
       </list>
     </option>
   </component>

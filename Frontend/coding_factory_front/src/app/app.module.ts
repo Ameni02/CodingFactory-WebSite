@@ -35,6 +35,8 @@ import { SubmissionDetailComponent } from './Modules/PfeSpace/submissions/submis
 import { EvaluationFormComponent } from './Modules/PfeSpace/evaluations/evaluation-form/evaluation-form.component';
 import { PdfMergeComponentComponent } from './Modules/PfeSpace/pdf-merge-component/pdf-merge-component.component';
 import { ChatbotComponent } from './Modules/PfeSpace/chatbot/chatbot.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -76,6 +78,8 @@ import { ChatbotComponent } from './Modules/PfeSpace/chatbot/chatbot.component';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -57,6 +57,17 @@
 
     <!-- Offer Cards Section -->
     <div class="row">
+      <div *ngIf="isLoading" class="col-12 text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading offers...</p>
+      </div>
+
+      <div *ngIf="!isLoading && paginatedOffers.length === 0" class="col-12 text-center">
+        <p class="no-offers-message">No offers found. Try adjusting your search criteria.</p>
+      </div>
+
       <div *ngFor="let offer of paginatedOffers" class="col-lg-4 col-md-6 mb-4">
         <div class="project-offer">
           <div class="overlay">
