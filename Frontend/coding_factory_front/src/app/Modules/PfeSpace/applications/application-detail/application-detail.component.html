@@ -1,106 +1,117 @@
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <h2>Application Details</h2>
-          <button class="btn btn-primary" (click)="goToOffersList()">
-            <i class="fas fa-arrow-left"></i> Back to Offers
-          </button>
+<div class="container mt-4" *ngIf="!isLoading">
+  <div class="card">
+    <div class="card-header">
+      <h2>Application Details</h2>
+    </div>
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h4>Student Information</h4>
+          <p><strong>Name:</strong> {{ application?.studentName }}</p>
+          <p><strong>Email:</strong> {{ application?.studentEmail }}</p>
         </div>
-        <div class="card-body">
-          <div *ngIf="application" class="application-details">
-            <!-- Application Status -->
-            <div class="status-badge mb-4">
-              <span class="badge" [ngClass]="{
-                'bg-success': application.status === 'ACCEPTED',
-                'bg-danger': application.status === 'REJECTED',
-                'bg-warning': application.status === 'PENDING'
-              }">
-                {{ application.status }}
-              </span>
-            </div>
+        <div class="col-md-6">
+          <h4>Application Status</h4>
+          <p>
+            <strong>Status:</strong>
+            <span [class]="getStatusClass(application?.status || '')">
+              {{ application?.status }}
+            </span>
+          </p>
+          <p><strong>Submission Date:</strong> {{ application?.submissionDate | date }}</p>
+        </div>
+      </div>
 
-            <!-- Student Information -->
-            <div class="student-info mb-4">
-              <h4 class="section-title">Student Information</h4>
+      <div class="row mb-4" *ngIf="analysisResult">
+        <div class="col-12">
+          <h4>CV Analysis Results</h4>
+          <div class="card">
+            <div class="card-body">
               <div class="row">
                 <div class="col-md-6">
-                  <p><strong>Name:</strong> {{ application.studentName }}</p>
-                </div>
-                <div class="col-md-6">
-                  <p><strong>Email:</strong> {{ application.studentEmail }}</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Project Information -->
-            <div class="project-info mb-4">
-              <h4 class="section-title">Project Information</h4>
-              <div class="row">
-                <div class="col-md-6">
-                  <p><strong>Project Title:</strong> {{ application.project?.title }}</p>
-                </div>
-                <div class="col-md-6">
-                  <p><strong>Company:</strong> {{ application.project?.companyName }}</p>
-                </div>
-              </div>
-              <div class="project-description mt-3">
-                <p><strong>Description:</strong></p>
-                <p class="description-text">{{ application.project?.description }}</p>
-              </div>
-            </div>
-
-            <!-- Documents Section -->
-            <div class="documents-section">
-              <h4 class="section-title">Documents</h4>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="document-card">
-                    <i class="fas fa-file-pdf document-icon"></i>
-                    <h5>CV</h5>
-                    <button class="btn btn-outline-primary download-btn" 
-                            (click)="downloadFile('cv')"
-                            [disabled]="isDownloading">
-                      <i class="fas fa-download me-2"></i>
-                      {{ isDownloading ? 'Downloading...' : 'Download CV' }}
-                    </button>
+                  <h5>Overall Score</h5>
+                  <div class="progress mb-3">
+                    <div class="progress-bar" 
+                         [class.bg-success]="analysisResult.score >= 60"
+                         [class.bg-warning]="analysisResult.score >= 50 && analysisResult.score < 60"
+                         [class.bg-danger]="analysisResult.score < 50"
+                         [style.width.%]="analysisResult.score">
+                      {{ analysisResult.score }}%
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="document-card">
-                    <i class="fas fa-file-pdf document-icon"></i>
-                    <h5>Cover Letter</h5>
-                    <button class="btn btn-outline-primary download-btn"
-                            (click)="downloadFile('coverLetter')"
-                            [disabled]="isDownloading">
-                      <i class="fas fa-download me-2"></i>
-                      {{ isDownloading ? 'Downloading...' : 'Download Cover Letter' }}
-                    </button>
+                  <h5>Detailed Scores</h5>
+                  <div class="mb-2">
+                    <label>Education: {{ analysisResult.detailedScores.education }}/25</label>
+                    <div class="progress">
+                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.education/25)*100"></div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label>Experience: {{ analysisResult.detailedScores.experience }}/30</label>
+                    <div class="progress">
+                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.experience/30)*100"></div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label>Skills: {{ analysisResult.detailedScores.skills }}/30</label>
+                    <div class="progress">
+                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.skills/30)*100"></div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label>Project Relevance: {{ analysisResult.detailedScores.projectRelevance }}/15</label>
+                    <div class="progress">
+                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.projectRelevance/15)*100"></div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label>Field Match: {{ analysisResult.detailedScores.fieldMatch }}/10</label>
+                    <div class="progress">
+                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.fieldMatch/10)*100"></div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label>Title Match: {{ analysisResult.detailedScores.titleMatch }}/10</label>
+                    <div class="progress">
+                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.titleMatch/10)*100"></div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- Action Buttons 
-            <div class="action-buttons mt-4" *ngIf="application.status === 'PENDING'">
-              <button class="btn btn-success me-2" (click)="acceptApplication()">
-                <i class="fas fa-check me-2"></i>Accept
-              </button>
-              <button class="btn btn-danger" (click)="rejectApplication()">
-                <i class="fas fa-times me-2"></i>Reject
-              </button>
-            </div>
-          </div> -->
-
-          <!-- Loading State -->
-          <div *ngIf="!application" class="text-center">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <h5>Feedback</h5>
+                  <div class="feedback-box p-3">
+                    {{ analysisResult.feedback }}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h4>Documents</h4>
+          <div class="btn-group">
+            <button class="btn btn-primary" (click)="downloadFile('cv')">
+              Download CV
+            </button>
+            <button class="btn btn-primary" (click)="downloadFile('coverLetter')">
+              Download Cover Letter
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="text-center" *ngIf="isLoading">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
 </div> 

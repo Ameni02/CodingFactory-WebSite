@@ -12,4 +12,17 @@ export interface Application {
   coverLetterFilePath: string;
   status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
   archived: boolean;
+  submissionDate?: Date;
+  cvAnalysisResult?: {
+    score: number;
+    feedback: string;
+    detailedScores: {
+      education: number;
+      experience: number;
+      skills: number;
+      projectRelevance: number;
+      fieldMatch: number;
+      titleMatch: number;
+    };
+  };
 }
