@@ -1,40 +1,26 @@
 package codingfactory.gestion_formation.Entities;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Data
 public class Formation {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Le titre est obligatoire")
     private String titre;
-    private String description;
-    private int duree; // Durée en heures
-    private String prerequis;
-    private double price;
+    @NotBlank(message = "Le fichier est obligatoire")
+    private String pdfFileName;
+    @Column(nullable = false)
+    private Boolean archived = false;
 
-    public Formation() {}
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Formation(String titre, String description, int duree, String prerequis , double price) {
-        this.titre = titre;
-        this.description = description;
-        this.duree = duree;
-        this.prerequis = prerequis;
-        this.price = price;
-    }
-
-
-
-    // Getters et setters
     public Long getId() {
         return id;
     }
@@ -51,27 +37,44 @@ public class Formation {
         this.titre = titre;
     }
 
-    public String getDescription() {
-        return description;
+    public Boolean isArchived() {
+        return archived;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
     }
 
-    public int getDuree() {
-        return duree;
+    public String getPdfFileName() {
+        return pdfFileName;
     }
 
-    public void setDuree(int duree) {
-        this.duree = duree;
+    public void setPdfFileName(String pdfFileName) {
+        this.pdfFileName = pdfFileName;
     }
 
-    public String getPrerequis() {
-        return prerequis;
+    public Formation(Boolean archived) {
+        this.archived = archived;
     }
 
-    public void setPrerequis(String prerequis) {
-        this.prerequis = prerequis;
+    public List<Formateur> getFormateursPossibles() {
+        return formateursPossibles;
     }
+
+    public void setFormateursPossibles(List<Formateur> formateursPossibles) {
+        this.formateursPossibles = formateursPossibles;
+    }
+
+    public Formation(String titre, String pdfFileName) {
+        this.titre = titre;
+        this.pdfFileName = pdfFileName;
+    }
+
+    public Formation() {
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "formation")
+    List<RessourcePedagogique> ressourcePedagogiques = new ArrayList<>();
+    @ManyToMany
+    private List<Formateur> formateursPossibles;
 }
