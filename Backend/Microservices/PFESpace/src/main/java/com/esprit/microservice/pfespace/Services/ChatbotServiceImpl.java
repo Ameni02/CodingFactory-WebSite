@@ -21,6 +21,12 @@ public class ChatbotServiceImpl implements ChatbotService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private ApplicationRepository applicationRepository;
+
+    @Autowired
+    private DeliverableRepository deliverableRepository;
+
     @Value("${chatbot.similarity.threshold:0.65}")
     private double similarityThreshold;
 
@@ -208,6 +214,232 @@ public class ChatbotServiceImpl implements ChatbotService {
                 "project_details",
                 false
         ));
+
+        // 6. PFESpace Overview
+        addIntent(new ChatIntent(
+                "pfespace_overview",
+                "PFESpace Overview",
+                Arrays.asList(
+                        "what is pfespace",
+                        "explain pfespace",
+                        "tell me about pfespace",
+                        "pfespace overview",
+                        "pfespace platform",
+                        "what does pfespace do",
+                        "purpose of pfespace"
+                ),
+                Arrays.asList(
+                        """
+                        **PFESpace is a comprehensive platform for managing end-of-study projects (PFE):**
+
+                        🏢 **For Companies:**
+                        - Submit internship/PFE offers
+                        - Track applications
+                        - Manage project progress
+
+                        🎓 **For Students:**
+                        - Browse available projects
+                        - Submit applications with CV and cover letter
+                        - Upload deliverables and reports
+
+                        👨‍🏫 **For Academic Supervisors:**
+                        - Review student deliverables
+                        - Provide evaluations and feedback
+                        - Track student progress
+
+                        **Key Features:**
+                        - Automated CV analysis and scoring
+                        - Project matching based on skills
+                        - Centralized document management
+                        - Evaluation and grading system
+                        """
+                ),
+                Arrays.asList(
+                        "How do I create an account?",
+                        "What are the main features for students?",
+                        "How does the CV analysis work?"
+                ),
+                "overview",
+                false
+        ));
+
+        // 7. CV Analysis
+        addIntent(new ChatIntent(
+                "cv_analysis",
+                "CV Analysis",
+                Arrays.asList(
+                        "how does cv analysis work",
+                        "cv scoring system",
+                        "how are applications evaluated",
+                        "application scoring",
+                        "cv evaluation process",
+                        "how is my cv scored",
+                        "cv analysis algorithm"
+                ),
+                Arrays.asList(
+                        """
+                        **CV Analysis in PFESpace works through an automated scoring system:**
+
+                        📊 **Scoring Components:**
+                        - **Education (15%):** Academic background and qualifications
+                        - **Experience (20%):** Relevant work experience and internships
+                        - **Skills (30%):** Match between your skills and project requirements
+                        - **Project Match (15%):** Relevance to the specific project
+                        - **Field Match (10%):** Alignment with the project's domain
+                        - **Title Match (10%):** Keywords matching the project title
+
+                        **Score Interpretation:**
+                        - **≥ 60:** Application automatically accepted
+                        - **50-59:** Application placed in pending for manual review
+                        - **< 50:** Application automatically rejected
+
+                        *The system uses natural language processing to extract relevant information from your CV and match it against project requirements.*
+                        """
+                ),
+                Arrays.asList(
+                        "How can I improve my CV score?",
+                        "Can I reapply if rejected?",
+                        "What skills are most valued?"
+                ),
+                "cv_analysis",
+                false
+        ));
+
+        // 8. Application Status
+        addIntent(new ChatIntent(
+                "application_status",
+                "Application Status",
+                Arrays.asList(
+                        "application status meaning",
+                        "what does accepted status mean",
+                        "application rejected reason",
+                        "pending application status",
+                        "why was my application rejected",
+                        "application approval process",
+                        "how long pending status"
+                ),
+                Arrays.asList(
+                        """
+                        **Application Status Explanations:**
+
+                        ✅ **ACCEPTED:**
+                        - Your CV scored 60 or above in our analysis
+                        - Your skills match the project requirements
+                        - You can proceed with the internship process
+                        - Next steps will be communicated via email
+
+                        ⏳ **PENDING:**
+                        - Your CV scored between 50-59 points
+                        - Manual review by project supervisors is required
+                        - Decision typically takes 3-5 business days
+                        - You may be contacted for additional information
+
+                        ❌ **REJECTED:**
+                        - Your CV scored below 50 points
+                        - Significant mismatch between skills and requirements
+                        - Detailed feedback is provided in your profile
+                        - You can apply to other suitable projects
+                        """
+                ),
+                Arrays.asList(
+                        "Can I appeal a rejection?",
+                        "How to check my application status?",
+                        "When will I hear back about my pending application?"
+                ),
+                "status",
+                false
+        ));
+
+        // 9. Evaluation Process
+        addIntent(new ChatIntent(
+                "evaluation_process",
+                "Evaluation Process",
+                Arrays.asList(
+                        "how are deliverables evaluated",
+                        "evaluation criteria",
+                        "grading system",
+                        "how are pfe projects graded",
+                        "deliverable assessment",
+                        "project evaluation method",
+                        "how will my report be graded"
+                ),
+                Arrays.asList(
+                        """
+                        **PFE Evaluation Process:**
+
+                        📝 **Evaluation Components:**
+                        - **Technical Quality (40%):** Code quality, architecture, technical implementation
+                        - **Documentation (20%):** Report clarity, completeness, and structure
+                        - **Innovation (15%):** Originality and creative problem-solving
+                        - **Presentation (15%):** Oral defense and presentation skills
+                        - **Project Management (10%):** Meeting deadlines, communication
+
+                        **Grading Scale:**
+                        - **0-9:** Insufficient
+                        - **10-13:** Satisfactory
+                        - **14-16:** Good
+                        - **17-20:** Excellent
+
+                        **Evaluation Timeline:**
+                        - Deliverables are evaluated within 10 working days
+                        - Feedback is provided through the platform
+                        - Final grade is determined after the oral defense
+                        """
+                ),
+                Arrays.asList(
+                        "What happens if I fail the evaluation?",
+                        "Can I improve my grade after feedback?",
+                        "How important is the oral presentation?"
+                ),
+                "evaluation",
+                false
+        ));
+
+        // 10. Academic Supervisor Role
+        addIntent(new ChatIntent(
+                "academic_supervisor",
+                "Academic Supervisor",
+                Arrays.asList(
+                        "academic supervisor role",
+                        "what do supervisors do",
+                        "supervisor responsibilities",
+                        "how often meet supervisor",
+                        "academic mentor duties",
+                        "supervisor feedback process",
+                        "working with academic supervisor"
+                ),
+                Arrays.asList(
+                        """
+                        **Academic Supervisor Responsibilities:**
+
+                        👨‍🏫 **Main Duties:**
+                        - **Guidance:** Provide technical and methodological guidance
+                        - **Review:** Evaluate deliverables and provide feedback
+                        - **Support:** Help overcome technical challenges
+                        - **Assessment:** Participate in final evaluation
+                        - **Coordination:** Liaise with company supervisors
+
+                        **Interaction Frequency:**
+                        - Initial planning meeting at project start
+                        - Bi-weekly check-ins (minimum)
+                        - Milestone reviews as scheduled
+                        - Final defense preparation
+
+                        **Communication Channels:**
+                        - PFESpace messaging system
+                        - Scheduled video conferences
+                        - In-person meetings when possible
+                        - Email for urgent matters
+                        """
+                ),
+                Arrays.asList(
+                        "How to request a different supervisor?",
+                        "What if my supervisor is unresponsive?",
+                        "Can I have multiple academic supervisors?"
+                ),
+                "supervisor",
+                false
+        ));
     }
 
     private void addIntent(ChatIntent intent) {
@@ -246,12 +478,33 @@ public class ChatbotServiceImpl implements ChatbotService {
         String fullResponse = baseResponse;
 
         // Add dynamic content based on intent
-        if ("project_info".equals(intent.getIntentId())) {
-            long projectCount = projectRepository.count();
-            fullResponse += formatProjectCount(projectCount);
-        } else if ("project_details".equals(intent.getIntentId())) {
-            fullResponse += "\n\n" + getProjectDetailsResponse(userMessage);
+        switch (intent.getIntentId()) {
+            case "project_info":
+                long projectCount = projectRepository.count();
+                fullResponse += formatProjectCount(projectCount);
+                break;
+            case "project_details":
+                fullResponse += "\n\n" + getProjectDetailsResponse(userMessage);
+                break;
+            case "cv_analysis":
+                fullResponse += "\n\n" + getCvAnalysisStats();
+                break;
+            case "application_status":
+                if (userMessage.toLowerCase().contains("rejected") ||
+                    userMessage.toLowerCase().contains("rejection")) {
+                    fullResponse += "\n\n" + getCommonRejectionReasons();
+                }
+                break;
+            case "student_application":
+                fullResponse += "\n\n" + getApplicationTips();
+                break;
+            case "pfespace_overview":
+                fullResponse += "\n\n" + getPlatformStats();
+                break;
         }
+
+        // Add suggested follow-up questions based on intent
+        List<String> suggestedQuestions = intent.getFollowUpQuestions();
 
         return new ChatResponse(
                 UUID.randomUUID().toString(),
@@ -259,8 +512,87 @@ public class ChatbotServiceImpl implements ChatbotService {
                 formatResponse(fullResponse),
                 LocalDateTime.now(),
                 intent.getIntentId(),
-                intent.getContext()
+                intent.getContext(),
+                suggestedQuestions
         );
+    }
+
+    private String getCvAnalysisStats() {
+        try {
+            // Count total applications
+            long totalApplications = applicationRepository.count();
+            if (totalApplications == 0) return "";
+
+            // Count accepted applications
+            long acceptedApplications = applicationRepository.countByStatus("ACCEPTED");
+
+            // Count rejected applications
+            long rejectedApplications = applicationRepository.countByStatus("REJECTED");
+
+            // Count pending applications
+            long pendingApplications = applicationRepository.countByStatus("PENDING");
+
+            // Calculate acceptance rate
+            double acceptanceRate = (double) acceptedApplications / totalApplications * 100;
+
+            return String.format("\n📈 **Current Application Statistics**\n" +
+                    "• Total applications: %d\n" +
+                    "• Acceptance rate: %.1f%%\n" +
+                    "• Currently pending: %d\n" +
+                    "\n💡 **Tip:** Tailor your CV to highlight skills that match the project requirements for a better score.",
+                    totalApplications,
+                    acceptanceRate,
+                    pendingApplications);
+        } catch (Exception e) {
+            System.err.println("Error generating CV analysis stats: " + e.getMessage());
+            return "";
+        }
+    }
+
+    private String getCommonRejectionReasons() {
+        return "\n🔍 **Common Rejection Reasons:**\n" +
+                "1. **Skills mismatch:** Your skills don't align with project requirements\n" +
+                "2. **Insufficient experience:** Lacking relevant experience in the field\n" +
+                "3. **Incomplete application:** Missing required documents or information\n" +
+                "4. **Poor CV formatting:** Difficult to extract relevant information\n" +
+                "\n💡 **Tip:** Review the project requirements carefully before applying and highlight relevant skills prominently in your CV.";
+    }
+
+    private String getApplicationTips() {
+        return "\n💡 **Application Success Tips:**\n" +
+                "• **Customize your CV** for each application\n" +
+                "• **Use keywords** from the project description\n" +
+                "• **Highlight relevant projects** and experience\n" +
+                "• **Be concise** but comprehensive\n" +
+                "• **Proofread** all documents before submission";
+    }
+
+    private String getPlatformStats() {
+        try {
+            // Count total projects
+            long totalProjects = projectRepository.count();
+
+            // Count active projects
+            long activeProjects = projectRepository.countByArchivedFalse();
+
+            // Count total applications
+            long totalApplications = applicationRepository.count();
+
+            // Count total deliverables
+            long totalDeliverables = deliverableRepository.count();
+
+            return String.format("\n📊 **Platform Statistics**\n" +
+                    "• Active projects: %d\n" +
+                    "• Total applications: %d\n" +
+                    "• Submitted deliverables: %d\n" +
+                    "\n*PFESpace has been helping students and companies connect since 2023.*",
+                    activeProjects,
+                    totalApplications,
+                    totalDeliverables);
+        } catch (Exception e) {
+            System.err.println("Error generating platform stats: " + e.getMessage());
+            return "";
+        }
     }
 
     private String formatResponse(String response) {
@@ -430,15 +762,74 @@ public class ChatbotServiceImpl implements ChatbotService {
     }
 
     private double calculateMatchScore(ChatIntent intent, String input) {
-        return intent.getPatterns().stream()
+        // First check for keyword matches
+        double keywordScore = calculateKeywordMatchScore(intent, input);
+
+        // Then check for pattern similarity
+        double patternScore = intent.getPatterns().stream()
                 .mapToDouble(pattern -> stringSimilarity(pattern, input))
                 .max()
                 .orElse(0.0);
+
+        // Return the higher of the two scores
+        return Math.max(keywordScore, patternScore);
+    }
+
+    private double calculateKeywordMatchScore(ChatIntent intent, String input) {
+        // Extract keywords from patterns
+        Set<String> keywords = new HashSet<>();
+        for (String pattern : intent.getPatterns()) {
+            // Split pattern into words and add words with length > 3 as keywords
+            for (String word : pattern.split("\\s+")) {
+                if (word.length() > 3) {
+                    keywords.add(word);
+                }
+            }
+        }
+
+        // Count matching keywords in input
+        int matchCount = 0;
+        for (String keyword : keywords) {
+            if (input.contains(keyword)) {
+                matchCount++;
+            }
+        }
+
+        // Calculate score based on keyword matches
+        return keywords.isEmpty() ? 0.0 : (double) matchCount / keywords.size();
     }
 
     private double stringSimilarity(String s1, String s2) {
+        // For very different length strings, use word-based similarity
+        if (Math.abs(s1.length() - s2.length()) > 10) {
+            return wordBasedSimilarity(s1, s2);
+        }
+
+        // Otherwise use Levenshtein distance
         int distance = levenshteinDistance(s1, s2);
         return 1.0 - ((double) distance / Math.max(s1.length(), s2.length()));
+    }
+
+    private double wordBasedSimilarity(String s1, String s2) {
+        // Split strings into words
+        String[] words1 = s1.split("\\s+");
+        String[] words2 = s2.split("\\s+");
+
+        // Count matching words
+        int matchCount = 0;
+        for (String word1 : words1) {
+            for (String word2 : words2) {
+                if (word1.equals(word2) ||
+                    (word1.length() > 3 && word2.length() > 3 &&
+                     levenshteinDistance(word1, word2) <= 2)) {
+                    matchCount++;
+                    break;
+                }
+            }
+        }
+
+        // Calculate similarity score
+        return (double) matchCount / Math.max(words1.length, words2.length);
     }
 
     private int levenshteinDistance(String s1, String s2) {
@@ -472,15 +863,25 @@ public class ChatbotServiceImpl implements ChatbotService {
                 Collections.singletonList("unknown"),
                 Collections.singletonList("""
                         ❓ Sorry, I didn't understand that. Try rephrasing your question or ask about:
-                        
+
+                        - What is PFESpace and how it works
+                        - How CV analysis and scoring works
+                        - Application status meanings
                         - Submitting internship offers
-                        - Applying for a PFE
+                        - Applying for a PFE project
                         - Uploading deliverables
                         - Available project domains
-                        
+                        - Evaluation process
+                        - Academic supervisor role
+
                         I'm here to help! 😊
                         """),
-                Collections.emptyList(),
+                Arrays.asList(
+                        "What is PFESpace?",
+                        "How does CV analysis work?",
+                        "How to apply for a project?",
+                        "What projects are available?"
+                ),
                 "fallback",
                 false
         );

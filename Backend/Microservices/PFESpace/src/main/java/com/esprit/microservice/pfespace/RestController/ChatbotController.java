@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -42,11 +43,17 @@ public class ChatbotController {
     // For testing purposes
     @GetMapping("/intents")
     public ResponseEntity<Map<String, String>> listIntents() {
-        return ResponseEntity.ok(Map.of(
-                "company_submission", "How companies can submit internship offers",
-                "student_application", "Student application process",
-                "deliverable_submission", "How to submit final deliverables",
-                "project_info", "Information about available projects"
-        ));
+        Map<String, String> intentsMap = new HashMap<>();
+        intentsMap.put("company_submission", "How companies can submit internship offers");
+        intentsMap.put("student_application", "Student application process");
+        intentsMap.put("deliverable_submission", "How to submit final deliverables");
+        intentsMap.put("project_info", "Information about available projects");
+        intentsMap.put("project_details", "Detailed information about specific projects");
+        intentsMap.put("pfespace_overview", "Overview of the PFESpace platform");
+        intentsMap.put("cv_analysis", "How CV analysis and scoring works");
+        intentsMap.put("application_status", "Understanding application status meanings");
+        intentsMap.put("evaluation_process", "How deliverables are evaluated");
+        intentsMap.put("academic_supervisor", "Role of academic supervisors");
+        return ResponseEntity.ok(intentsMap);
     }
 }

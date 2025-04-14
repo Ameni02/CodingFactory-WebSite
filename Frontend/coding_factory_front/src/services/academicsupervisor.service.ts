@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AcademicSupervisor } from '../models/academicsupervisor.model'; 
+import { AcademicSupervisor } from 'src/app/models/academicsupervisor.model';
 
 @Injectable({
   providedIn: 'root'

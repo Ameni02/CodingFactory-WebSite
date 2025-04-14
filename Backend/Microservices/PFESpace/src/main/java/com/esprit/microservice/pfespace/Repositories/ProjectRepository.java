@@ -24,6 +24,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
         List<Project> findByArchivedFalse();
 
+    // Count non-archived projects
+    long countByArchivedFalse();
+
     // Find recent projects
     @Query("SELECT p FROM Project p WHERE p.archived = false ORDER BY p.startDate DESC")
     List<Project> findRecentProjects();

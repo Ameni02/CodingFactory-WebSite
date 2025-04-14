@@ -28,4 +28,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     @Query("SELECT COUNT(a) FROM Application a WHERE a.status = 'REJECTED'")
     int countRejectedApplications();
+
+    // Count applications by status
+    long countByStatus(String status);
 }

@@ -85,5 +85,15 @@ public class ChatResponse {
         this.requiresAction = false;  // You can modify this logic if needed
         this.actionType = "None";  // Default actionType (adjust this logic as needed)
     }
+
+    // Constructor with suggested questions
+    public ChatResponse(String responseText, String userMessage, String answer, LocalDateTime timestamp, String intentId, String context, List<String> suggestedQuestions) {
+        this.responseText = answer;  // Bot's response
+        this.suggestedQuestions = suggestedQuestions != null ? suggestedQuestions : List.of();
+        this.intent = intentId;  // The intent ID
+        this.timestamp = timestamp;
+        this.requiresAction = false;  // You can modify this logic if needed
+        this.actionType = "None";  // Default actionType (adjust this logic as needed)
+    }
 }
 

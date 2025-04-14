@@ -26,7 +26,7 @@ interface ChatResponse {
 })
 export class ChatbotComponent implements OnInit, AfterViewChecked {
   @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
-  
+
   chatForm: FormGroup;
   messages: ChatMessage[] = [];
   isOpen = false;
@@ -38,7 +38,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   private lastScrollTop = 0;
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private fb: FormBuilder
   ) {
     this.chatForm = this.fb.group({
@@ -49,7 +49,16 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.loadConversation();
     if (this.messages.length === 0) {
-      this.addBotMessage("Hello! I'm your PFE assistant. How can I help you today?", false);
+      this.addBotMessage("👋 Hello! I'm your PFE assistant. How can I help you today?", false);
+    }
+
+    // Check if the chatbot should be automatically opened
+    const lastOpenTime = localStorage.getItem('chatbot_last_open');
+    if (!lastOpenTime || (Date.now() - parseInt(lastOpenTime)) > 24 * 60 * 60 * 1000) {
+      // Auto-open after 1 second if not opened in the last 24 hours
+      setTimeout(() => {
+        this.isOpen = true;
+      }, 1000);
     }
   }
 
@@ -61,13 +70,29 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
 
   toggleChat() {
     this.isOpen = !this.isOpen;
-    if (this.isOpen && this.firstInteraction) {
-      this.suggestedQuestions = [
-        "How to apply for a project?",
-        "What projects are available?",
-        "How to submit deliverables?"
-      ];
-      this.firstInteraction = false;
+
+    if (this.isOpen) {
+      // Save the last open time
+      localStorage.setItem('chatbot_last_open', Date.now().toString());
+
+      // Show suggested questions on first interaction
+      if (this.firstInteraction) {
+        this.suggestedQuestions = [
+          "What is PFESpace?",
+          "How does CV analysis work?",
+          "How to apply for a project?",
+          "What projects are available?"
+        ];
+        this.firstInteraction = false;
+      }
+
+      // Focus the input field when opened
+      setTimeout(() => {
+        const inputElement = document.querySelector('.message-form input') as HTMLInputElement;
+        if (inputElement) {
+          inputElement.focus();
+        }
+      }, 300);
     }
   }
 
@@ -80,14 +105,23 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     this.isLoading = true;
     this.suggestedQuestions = [];
 
+    // Scroll to bottom after adding user message
+    this.scrollToBottom();
+
+    // Add a small delay to simulate thinking
+    await this.delay(600);
+
     try {
       const response = await this.http.post<ChatResponse>(
-        'http://localhost:8080/pfespace/api/chatbot/ask', 
+        'http://localhost:8080/pfespace/api/chatbot/ask',
         { message: userMessage }
       ).toPromise();
 
       if (response) {
         await this.addBotMessage(response.responseText, true);
+
+        // Add a small delay before showing suggestions
+        await this.delay(300);
         this.suggestedQuestions = response.suggestedQuestions || [];
         this.saveConversation();
       }
@@ -97,6 +131,10 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   useSuggestedQuestion(question: string) {
@@ -114,16 +152,16 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   onScroll(event: Event) {
     const element = event.target as HTMLElement;
     const currentScrollTop = element.scrollTop;
-    
+
     // Detect if user is scrolling up
     if (currentScrollTop < this.lastScrollTop) {
       this.isUserScrollingUp = true;
-    } 
+    }
     // Detect if user scrolled to bottom
     else if (element.scrollHeight - element.scrollTop === element.clientHeight) {
       this.isUserScrollingUp = false;
     }
-    
+
     this.lastScrollTop = currentScrollTop;
   }
 
@@ -138,10 +176,23 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
 
   private async addBotMessage(text: string, isMarkdown: boolean) {
     let messageContent: string;
-    
+
     if (isMarkdown) {
       try {
+        // Configure marked options for better rendering
+        marked.setOptions({
+          breaks: true,        // Add line breaks
+          gfm: true           // Use GitHub Flavored Markdown
+        });
+
         messageContent = await marked.parse(text);
+
+        // Enhance links to open in new tab
+        messageContent = messageContent.replace(
+          /<a /g,
+          '<a target="_blank" rel="noopener noreferrer" '
+        );
+
       } catch (e) {
         console.error('Markdown parsing error:', e);
         messageContent = text;
@@ -156,7 +207,34 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
       timestamp: new Date(),
       isHtml: isMarkdown
     });
+
     this.saveConversation();
+
+    // Play a subtle notification sound when a message is received
+    this.playNotificationSound();
+  }
+
+  private playNotificationSound() {
+    try {
+      // Create a simple notification sound using the Web Audio API
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(880, audioContext.currentTime); // A5 note
+
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Low volume
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (e) {
+      console.log('Audio notification not supported');
+    }
   }
 
   private scrollToBottom(): void {
@@ -184,11 +262,11 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     if (conversationStr) {
       try {
         const conversation = JSON.parse(conversationStr);
-        
+
         const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
         const conversationDate = new Date(conversation.timestamp);
         const isRecent = new Date().getTime() - conversationDate.getTime() < TWENTY_FOUR_HOURS;
-        
+
         if (isRecent && conversation.messages) {
           this.messages = conversation.messages.map((msg: any) => ({
             ...msg,
