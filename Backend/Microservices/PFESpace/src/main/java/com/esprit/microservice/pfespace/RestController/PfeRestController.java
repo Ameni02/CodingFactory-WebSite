@@ -2,6 +2,7 @@ package com.esprit.microservice.pfespace.RestController;
 
 import com.esprit.microservice.pfespace.Entities.*;
 import com.esprit.microservice.pfespace.Services.PFEService;
+import com.esprit.microservice.pfespace.RestController.CvAnalysisController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,10 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/pfe")
@@ -38,6 +36,9 @@ public class PfeRestController {
 
     @Autowired
     private PFEService pfeService;
+
+    @Autowired
+    private CvAnalysisController cvAnalysisController;
 
     // =========================== PROJECTS ===========================
     @PostMapping(value = "/projects/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -104,18 +105,26 @@ public class PfeRestController {
         String uploadDir = "uploads/";
         File directory = new File(uploadDir);
         if (!directory.exists()) {
-            directory.mkdirs();
+            boolean created = directory.mkdirs();
+            System.out.println("Created uploads directory: " + created);
         }
+        System.out.println("Upload directory absolute path: " + directory.getAbsolutePath());
 
         // Generate a unique file name
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        System.out.println("Generated filename: " + fileName);
 
         // Save the file
-        Path filePath = Paths.get(uploadDir + fileName);
+        Path filePath = Paths.get(uploadDir).resolve(fileName).normalize();
+        System.out.println("Saving file to path: " + filePath.toAbsolutePath());
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("File saved successfully");
 
-        // Return the file path
-        return filePath.toString();
+        // Return just the filename - this makes it easier to find later
+        // We'll always look in the uploads directory
+        String savedPath = fileName;
+        System.out.println("Returning file path: " + savedPath);
+        return savedPath;
     }
     @GetMapping("/projects")
     @Operation(summary = "List of projects", description = "Retrieves all available projects")
@@ -157,6 +166,211 @@ public class PfeRestController {
         pfeService.deleteProject(id);
     }
 
+    @GetMapping("/projects/{id}/download/{fileType}")
+    public ResponseEntity<Resource> downloadProjectFile(
+            @PathVariable Long id,
+            @PathVariable String fileType
+    ) {
+        try {
+            System.out.println("Downloading project file: Project ID=" + id + ", fileType=" + fileType);
+
+            Optional<Project> projectOpt = pfeService.getProjectById(id);
+            if (projectOpt.isEmpty()) {
+                System.out.println("Project not found with ID: " + id);
+                return ResponseEntity.notFound().build();
+            }
+
+            Project project = projectOpt.get();
+            System.out.println("Project found: " + project.getId() + " - " + project.getTitle());
+            String fileName = null;
+
+            if ("description".equals(fileType)) {
+                fileName = project.getDescriptionFilePath();
+                System.out.println("Description file path from project: " + fileName);
+
+                // Print all project details for debugging
+                System.out.println("Project details:");
+                System.out.println("  ID: " + project.getId());
+                System.out.println("  Title: " + project.getTitle());
+                System.out.println("  Field: " + project.getField());
+                System.out.println("  Description File Path: " + project.getDescriptionFilePath());
+            }
+
+            if (fileName == null || fileName.isEmpty()) {
+                System.out.println("File path is null or empty");
+                return ResponseEntity.notFound().build();
+            }
+
+            // Print current working directory for debugging
+            System.out.println("Current working directory: " + System.getProperty("user.dir"));
+
+            // Try multiple approaches to find the file
+            List<Path> pathsToTry = new ArrayList<>();
+
+            // For new format (just filename)
+            // 1. Try with just the filename in uploads directory
+            pathsToTry.add(Paths.get("uploads").resolve(fileName).normalize());
+
+            // 2. Try with absolute path to uploads directory
+            Path uploadsAbsolutePath = Paths.get(System.getProperty("user.dir"), "uploads");
+            pathsToTry.add(uploadsAbsolutePath.resolve(fileName).normalize());
+
+            // For old format (full path)
+            // 3. Try the exact path as stored in the database
+            pathsToTry.add(Paths.get(fileName));
+
+            // 4. Try with just the filename extracted from the path
+            String extractedFileName;
+            try {
+                extractedFileName = Paths.get(fileName).getFileName().toString();
+                pathsToTry.add(Paths.get("uploads").resolve(extractedFileName).normalize());
+                pathsToTry.add(uploadsAbsolutePath.resolve(extractedFileName).normalize());
+            } catch (Exception e) {
+                System.out.println("Error extracting filename from path: " + e.getMessage());
+            }
+
+            // 5. Try with backslashes instead of forward slashes (for Windows)
+            if (fileName.contains("/")) {
+                pathsToTry.add(Paths.get(fileName.replace("/", "\\\\")));
+            }
+
+            // 6. Try with forward slashes instead of backslashes (for Unix/Linux)
+            if (fileName.contains("\\")) {
+                pathsToTry.add(Paths.get(fileName.replace("\\", "/")));
+            }
+
+            // 7. Try looking for any file that ends with the same name (ignoring timestamp)
+            try {
+                String originalFileName = fileName;
+                if (fileName.contains("_")) {
+                    originalFileName = fileName.substring(fileName.indexOf("_") + 1);
+                }
+                System.out.println("Looking for files containing: " + originalFileName);
+
+                File uploadsDir = new File("uploads");
+                System.out.println("Uploads directory absolute path: " + uploadsDir.getAbsolutePath());
+                System.out.println("Uploads directory exists: " + uploadsDir.exists());
+                System.out.println("Uploads directory is directory: " + uploadsDir.isDirectory());
+
+                if (uploadsDir.exists() && uploadsDir.isDirectory()) {
+                    File[] files = uploadsDir.listFiles();
+                    System.out.println("Number of files in uploads directory: " + (files != null ? files.length : "null"));
+
+                    if (files != null) {
+                        System.out.println("All files in uploads directory:");
+                        for (File file : files) {
+                            System.out.println("  " + file.getName() + " (" + file.length() + " bytes)");
+                            if (file.getName().endsWith(originalFileName)) {
+                                System.out.println("Found matching file: " + file.getName());
+                                pathsToTry.add(Paths.get("uploads").resolve(file.getName()).normalize());
+                            }
+                        }
+                    }
+                }
+
+                // Try looking in parent directory
+                File parentDir = new File(".");
+                System.out.println("Parent directory absolute path: " + parentDir.getAbsolutePath());
+                File[] parentFiles = parentDir.listFiles();
+                if (parentFiles != null) {
+                    System.out.println("Files in parent directory:");
+                    for (File file : parentFiles) {
+                        if (file.isDirectory()) {
+                            System.out.println("  [DIR] " + file.getName());
+                        } else {
+                            System.out.println("  [FILE] " + file.getName() + " (" + file.length() + " bytes)");
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Error searching for similar files: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            // Try each path
+            for (Path pathToTry : pathsToTry) {
+                System.out.println("Trying path: " + pathToTry.toString());
+                try {
+                    File fileToTry = pathToTry.toFile();
+                    if (fileToTry.exists() && fileToTry.isFile()) {
+                        System.out.println("File found at: " + pathToTry.toString());
+                        Resource resource = new UrlResource(pathToTry.toUri());
+                        return ResponseEntity.ok()
+                                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + pathToTry.getFileName().toString() + "\"")
+                                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                                .body(resource);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error checking path " + pathToTry + ": " + e.getMessage());
+                }
+            }
+
+            // If we get here, we couldn't find the file anywhere
+            System.out.println("File not found in any of the tried locations");
+
+            // Last resort: try to create a direct file access for project descriptions
+            if ("description".equals(fileType)) {
+                try {
+                    System.out.println("Attempting to create a new file for project " + project.getId());
+
+                    // Create a simple text file with project details as a fallback
+                    String fallbackContent = "Project Details:\n" +
+                            "ID: " + project.getId() + "\n" +
+                            "Title: " + project.getTitle() + "\n" +
+                            "Field: " + project.getField() + "\n" +
+                            "Required Skills: " + project.getRequiredSkills() + "\n" +
+                            "Number of Positions: " + project.getNumberOfPositions() + "\n" +
+                            "Start Date: " + project.getStartDate() + "\n" +
+                            "End Date: " + project.getEndDate() + "\n" +
+                            "Company: " + project.getCompanyName() + "\n" +
+                            "\nNote: This is a fallback description generated because the original file could not be found.";
+
+                    // Create a temporary file
+                    File tempFile = File.createTempFile("project_" + project.getId() + "_description_", ".txt");
+                    Files.write(tempFile.toPath(), fallbackContent.getBytes());
+                    System.out.println("Created fallback file at: " + tempFile.getAbsolutePath());
+
+                    // Return the fallback file
+                    Resource resource = new UrlResource(tempFile.toURI());
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"project_" + project.getId() + "_description.txt\"")
+                            .contentType(MediaType.TEXT_PLAIN)
+                            .body(resource);
+                } catch (Exception e) {
+                    System.out.println("Error creating fallback file: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            } else {
+                // For other file types, just list the files in the uploads directory
+                try {
+                    System.out.println("Listing files in uploads directory:");
+                    File uploadsDir = new File("uploads");
+                    if (uploadsDir.exists() && uploadsDir.isDirectory()) {
+                        File[] files = uploadsDir.listFiles();
+                        if (files != null) {
+                            for (File file : files) {
+                                System.out.println("  " + file.getName());
+                            }
+                        } else {
+                            System.out.println("  No files found or error listing files");
+                        }
+                    } else {
+                        System.out.println("  Uploads directory does not exist");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error listing files: " + e.getMessage());
+                }
+            }
+
+            System.out.println("File not found anywhere");
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            System.err.println("Error downloading project file: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
 
     // =========================== APPLICATIONS ===========================
 
@@ -176,30 +390,83 @@ public class PfeRestController {
         System.out.println("Cover letter: " + coverLetterFile.getOriginalFilename());
 
         try {
+            System.out.println("Processing application JSON: " + applicationJson);
+
             // Convert JSON string to Application object
             ObjectMapper objectMapper = new ObjectMapper();
             Application application = objectMapper.readValue(applicationJson, Application.class);
+            System.out.println("Parsed application object: " + application);
 
             // Save files and get paths
             String cvFilePath = saveFile(cvFile);
             String coverLetterFilePath = saveFile(coverLetterFile);
+            System.out.println("Saved CV file to: " + cvFilePath);
+            System.out.println("Saved cover letter file to: " + coverLetterFilePath);
 
             // Set file paths in application
             application.setCvFilePath(cvFilePath);
             application.setCoverLetterFilePath(coverLetterFilePath);
 
+            // Get the project
+            Project project = pfeService.getProjectById(projectId)
+                    .orElseThrow(() -> new RuntimeException("Project not found"));
+
+            // Analyze CV content
+            try {
+                // Extract text from CV using CvAnalysisController
+                String cvText = cvAnalysisController.extractTextFromPdf(cvFile);
+
+                // Analyze CV content using CvAnalysisController
+                Map<String, Object> analysis = cvAnalysisController.analyzeCvContent(cvText, project);
+
+                // Set CV analysis results in application
+                boolean isAdaptable = (boolean) analysis.get("isAdaptable");
+                int score = (int) analysis.get("score");
+                String feedback = (String) analysis.get("feedback");
+                Map<String, Integer> detailedScores = (Map<String, Integer>) analysis.get("detailedScores");
+
+                application.setCvAnalysisScore(score);
+                application.setCvAnalysisFeedback(feedback);
+                application.setDetailedScores(detailedScores);
+
+                // Determine application status based on score
+                if (score >= 60) {
+                    application.setStatus("ACCEPTED");
+                    // Update project positions if CV is adaptable
+                    if (project.getNumberOfPositions() > 0) {
+                        project.setNumberOfPositions(project.getNumberOfPositions() - 1);
+                        if (project.getNumberOfPositions() == 0) {
+                            project.setArchived(true);
+                        }
+                        pfeService.updateProject(project.getId(), project);
+                    }
+                } else if (score >= 50) {
+                    application.setStatus("PENDING");
+                } else {
+                    application.setStatus("REJECTED");
+                }
+            } catch (Exception e) {
+                System.err.println("CV analysis error: " + e.getMessage());
+                // Set default status if analysis fails
+                application.setStatus("PENDING");
+            }
+
             // Create application
+            System.out.println("Creating application with project ID: " + projectId);
             Application createdApp = pfeService.createApplication(projectId, application);
+            System.out.println("Application created successfully with ID: " + createdApp.getId());
             return ResponseEntity.status(HttpStatus.CREATED)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(createdApp);
         } catch (IOException e) {
             System.err.println("File processing error: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .contentType(MediaType.APPLICATION_JSON)
                     .build();
         } catch (Exception e) {
             System.err.println("Application processing error: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest()
                     .contentType(MediaType.APPLICATION_JSON)
                     .build();
@@ -237,37 +504,195 @@ public class PfeRestController {
     }
 
     @GetMapping("/applications/{id}/download/{fileType}")
-    public ResponseEntity<Resource> downloadFile(
+    public ResponseEntity<Resource> downloadApplicationFile(
             @PathVariable Long id,
             @PathVariable String fileType
     )  {
         try {
+            System.out.println("Downloading application file: Application ID=" + id + ", fileType=" + fileType);
+
             Optional<Application> applicationOpt = pfeService.getApplicationById(id);
             if (applicationOpt.isEmpty()) {
+                System.out.println("Application not found with ID: " + id);
                 return ResponseEntity.notFound().build();
             }
 
             Application application = applicationOpt.get();
             String fileName = fileType.equals("cv") ? application.getCvFilePath() : application.getCoverLetterFilePath();
+            System.out.println("File path from application: " + fileName);
+
             if (fileName == null || fileName.isEmpty()) {
+                System.out.println("File path is null or empty");
                 return ResponseEntity.notFound().build();
             }
 
-            // Fix: Get just the filename from the path
-            String justFileName = Paths.get(fileName).getFileName().toString();
-            Path filePath = Paths.get("uploads").resolve(justFileName).normalize();
+            // Print current working directory for debugging
+            System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
-            Resource resource = new UrlResource(filePath.toUri());
+            // Try multiple approaches to find the file
+            List<Path> pathsToTry = new ArrayList<>();
 
-            if (resource.exists() && resource.isReadable()) {
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                        .body(resource);
+            // For new format (just filename)
+            // 1. Try with just the filename in uploads directory
+            pathsToTry.add(Paths.get("uploads").resolve(fileName).normalize());
+
+            // 2. Try with absolute path to uploads directory
+            Path uploadsAbsolutePath = Paths.get(System.getProperty("user.dir"), "uploads");
+            pathsToTry.add(uploadsAbsolutePath.resolve(fileName).normalize());
+
+            // For old format (full path)
+            // 3. Try the exact path as stored in the database
+            pathsToTry.add(Paths.get(fileName));
+
+            // 4. Try with just the filename extracted from the path
+            String extractedFileName;
+            try {
+                extractedFileName = Paths.get(fileName).getFileName().toString();
+                pathsToTry.add(Paths.get("uploads").resolve(extractedFileName).normalize());
+                pathsToTry.add(uploadsAbsolutePath.resolve(extractedFileName).normalize());
+            } catch (Exception e) {
+                System.out.println("Error extracting filename from path: " + e.getMessage());
+            }
+
+            // 5. Try with backslashes instead of forward slashes (for Windows)
+            if (fileName.contains("/")) {
+                pathsToTry.add(Paths.get(fileName.replace("/", "\\\\")));
+            }
+
+            // 6. Try with forward slashes instead of backslashes (for Unix/Linux)
+            if (fileName.contains("\\")) {
+                pathsToTry.add(Paths.get(fileName.replace("\\", "/")));
+            }
+
+            // 7. Try looking for any file that ends with the same name (ignoring timestamp)
+            try {
+                String originalFileName = fileName;
+                if (fileName.contains("_")) {
+                    originalFileName = fileName.substring(fileName.indexOf("_") + 1);
+                }
+                System.out.println("Looking for files containing: " + originalFileName);
+
+                File uploadsDir = new File("uploads");
+                if (uploadsDir.exists() && uploadsDir.isDirectory()) {
+                    File[] files = uploadsDir.listFiles();
+                    if (files != null) {
+                        for (File file : files) {
+                            if (file.getName().endsWith(originalFileName)) {
+                                System.out.println("Found matching file: " + file.getName());
+                                pathsToTry.add(Paths.get("uploads").resolve(file.getName()).normalize());
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Error searching for similar files: " + e.getMessage());
+            }
+
+            // Try each path
+            for (Path pathToTry : pathsToTry) {
+                System.out.println("Trying path: " + pathToTry.toString());
+                try {
+                    File fileToTry = pathToTry.toFile();
+                    if (fileToTry.exists() && fileToTry.isFile()) {
+                        System.out.println("File found at: " + pathToTry.toString());
+                        Resource resource = new UrlResource(pathToTry.toUri());
+                        return ResponseEntity.ok()
+                                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + pathToTry.getFileName().toString() + "\"")
+                                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                                .body(resource);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error checking path " + pathToTry + ": " + e.getMessage());
+                }
+            }
+
+            // If we get here, we couldn't find the file anywhere
+            System.out.println("File not found in any of the tried locations");
+
+            // Last resort: try to create a direct file access for application files
+            if ("cv".equals(fileType)) {
+                try {
+                    System.out.println("Attempting to create a fallback CV file for application " + application.getId());
+
+                    // Create a simple text file with application details as a fallback
+                    String fallbackContent = "Application CV Details:\n" +
+                            "Application ID: " + application.getId() + "\n" +
+                            "Student Name: " + application.getStudentName() + "\n" +
+                            "Student Email: " + application.getStudentEmail() + "\n" +
+                            "Project ID: " + application.getProject().getId() + "\n" +
+                            "Status: " + application.getStatus() + "\n" +
+                            "\nNote: This is a fallback CV file generated because the original file could not be found.";
+
+                    // Create a temporary file
+                    File tempFile = File.createTempFile("application_" + application.getId() + "_cv_", ".txt");
+                    Files.write(tempFile.toPath(), fallbackContent.getBytes());
+                    System.out.println("Created fallback CV file at: " + tempFile.getAbsolutePath());
+
+                    // Return the fallback file
+                    Resource resource = new UrlResource(tempFile.toURI());
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"application_" + application.getId() + "_cv.txt\"")
+                            .contentType(MediaType.TEXT_PLAIN)
+                            .body(resource);
+                } catch (Exception e) {
+                    System.out.println("Error creating fallback CV file: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            } else if ("coverLetter".equals(fileType)) {
+                try {
+                    System.out.println("Attempting to create a fallback cover letter file for application " + application.getId());
+
+                    // Create a simple text file with application details as a fallback
+                    String fallbackContent = "Application Cover Letter Details:\n" +
+                            "Application ID: " + application.getId() + "\n" +
+                            "Student Name: " + application.getStudentName() + "\n" +
+                            "Student Email: " + application.getStudentEmail() + "\n" +
+                            "Project ID: " + application.getProject().getId() + "\n" +
+                            "Status: " + application.getStatus() + "\n" +
+                            "\nNote: This is a fallback cover letter file generated because the original file could not be found.";
+
+                    // Create a temporary file
+                    File tempFile = File.createTempFile("application_" + application.getId() + "_cover_letter_", ".txt");
+                    Files.write(tempFile.toPath(), fallbackContent.getBytes());
+                    System.out.println("Created fallback cover letter file at: " + tempFile.getAbsolutePath());
+
+                    // Return the fallback file
+                    Resource resource = new UrlResource(tempFile.toURI());
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"application_" + application.getId() + "_cover_letter.txt\"")
+                            .contentType(MediaType.TEXT_PLAIN)
+                            .body(resource);
+                } catch (Exception e) {
+                    System.out.println("Error creating fallback cover letter file: " + e.getMessage());
+                    e.printStackTrace();
+                }
             } else {
-                return ResponseEntity.notFound().build();
+                // For other file types, just list the files in the uploads directory
+                try {
+                    System.out.println("Listing files in uploads directory:");
+                    File uploadsDir = new File("uploads");
+                    if (uploadsDir.exists() && uploadsDir.isDirectory()) {
+                        File[] files = uploadsDir.listFiles();
+                        if (files != null) {
+                            for (File file : files) {
+                                System.out.println("  " + file.getName());
+                            }
+                        } else {
+                            System.out.println("  No files found or error listing files");
+                        }
+                    } else {
+                        System.out.println("  Uploads directory does not exist");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error listing files: " + e.getMessage());
+                }
             }
+
+            System.out.println("File not found anywhere");
+            return ResponseEntity.notFound().build();
         } catch (Exception e) {
+            System.err.println("Error downloading application file: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -493,7 +918,7 @@ public class PfeRestController {
 */
 
 
-    //
+
 
     @GetMapping("/projects/project-stats")
     public Map<String, Integer> getProjectStats() {
@@ -529,6 +954,6 @@ public class PfeRestController {
 
 
 
-    }
+}
 
 

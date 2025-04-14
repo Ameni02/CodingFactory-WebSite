@@ -1,28 +1,43 @@
-<div class="container mt-4" *ngIf="!isLoading">
+<div class="container mt-4" *ngIf="!isLoading && application">
   <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
       <h2>Application Details</h2>
+      <div>
+        <button class="btn btn-secondary me-2" (click)="goBack()">Back</button>
+        <button *ngIf="application.status === 'PENDING'"
+                class="btn btn-success me-2"
+                (click)="acceptApplication()">
+          Accept
+        </button>
+        <button *ngIf="application.status === 'PENDING'"
+                class="btn btn-danger"
+                (click)="rejectApplication()">
+          Reject
+        </button>
+      </div>
     </div>
+
     <div class="card-body">
+      <!-- Basic Info Section -->
       <div class="row mb-4">
         <div class="col-md-6">
           <h4>Student Information</h4>
-          <p><strong>Name:</strong> {{ application?.studentName }}</p>
-          <p><strong>Email:</strong> {{ application?.studentEmail }}</p>
+          <p><strong>Name:</strong> {{ application.studentName }}</p>
+          <p><strong>Email:</strong> {{ application.studentEmail }}</p>
         </div>
         <div class="col-md-6">
           <h4>Application Status</h4>
           <p>
             <strong>Status:</strong>
-            <span [class]="getStatusClass(application?.status || '')">
-              {{ application?.status }}
+            <span [class]="getStatusClass(application.status)">
+              {{ application.status }}
             </span>
           </p>
-          <p><strong>Submission Date:</strong> {{ application?.submissionDate | date }}</p>
         </div>
       </div>
 
-      <div class="row mb-4" *ngIf="analysisResult">
+      <!-- CV Analysis Section -->
+      <div class="row mb-4" *ngIf="analysisResult; else noAnalysis">
         <div class="col-12">
           <h4>CV Analysis Results</h4>
           <div class="card">
@@ -30,61 +45,40 @@
               <div class="row">
                 <div class="col-md-6">
                   <h5>Overall Score</h5>
-                  <div class="progress mb-3">
-                    <div class="progress-bar" 
+                  <div class="progress mb-3" style="height: 30px;">
+                    <div class="progress-bar"
+                         role="progressbar"
                          [class.bg-success]="analysisResult.score >= 60"
                          [class.bg-warning]="analysisResult.score >= 50 && analysisResult.score < 60"
                          [class.bg-danger]="analysisResult.score < 50"
-                         [style.width.%]="analysisResult.score">
-                      {{ analysisResult.score }}%
+                         [style.width.%]="analysisResult.score"
+                         [attr.aria-valuenow]="analysisResult.score"
+                         aria-valuemin="0"
+                         aria-valuemax="100">
+                      {{ analysisResult.score }}/100
                     </div>
                   </div>
+                  <p><strong>Decision:</strong> {{ analysisResult.applicationStatus }}</p>
                 </div>
+
                 <div class="col-md-6">
                   <h5>Detailed Scores</h5>
-                  <div class="mb-2">
-                    <label>Education: {{ analysisResult.detailedScores.education }}/25</label>
-                    <div class="progress">
-                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.education/25)*100"></div>
-                    </div>
-                  </div>
-                  <div class="mb-2">
-                    <label>Experience: {{ analysisResult.detailedScores.experience }}/30</label>
-                    <div class="progress">
-                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.experience/30)*100"></div>
-                    </div>
-                  </div>
-                  <div class="mb-2">
-                    <label>Skills: {{ analysisResult.detailedScores.skills }}/30</label>
-                    <div class="progress">
-                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.skills/30)*100"></div>
-                    </div>
-                  </div>
-                  <div class="mb-2">
-                    <label>Project Relevance: {{ analysisResult.detailedScores.projectRelevance }}/15</label>
-                    <div class="progress">
-                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.projectRelevance/15)*100"></div>
-                    </div>
-                  </div>
-                  <div class="mb-2">
-                    <label>Field Match: {{ analysisResult.detailedScores.fieldMatch }}/10</label>
-                    <div class="progress">
-                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.fieldMatch/10)*100"></div>
-                    </div>
-                  </div>
-                  <div class="mb-2">
-                    <label>Title Match: {{ analysisResult.detailedScores.titleMatch }}/10</label>
-                    <div class="progress">
-                      <div class="progress-bar" [style.width.%]="(analysisResult.detailedScores.titleMatch/10)*100"></div>
+                  <div *ngFor="let score of getDetailedScores()" class="mb-2">
+                    <label>{{ score.label }}: {{ score.value }}/{{ score.max }}</label>
+                    <div class="progress" style="height: 20px;">
+                      <div class="progress-bar"
+                           [style.width.%]="(score.value / score.max) * 100">
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+
               <div class="row mt-3">
                 <div class="col-12">
                   <h5>Feedback</h5>
-                  <div class="feedback-box p-3">
-                    {{ analysisResult.feedback }}
+                  <div class="feedback-box p-3 bg-light rounded">
+                    <pre class="mb-0">{{ analysisResult.feedback }}</pre>
                   </div>
                 </div>
               </div>
@@ -93,15 +87,31 @@
         </div>
       </div>
 
+      <ng-template #noAnalysis>
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="alert alert-info">
+              <h4 class="alert-heading">CV Analysis</h4>
+              <p>CV analysis results are not available for this application.</p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Documents Section -->
       <div class="row">
         <div class="col-12">
           <h4>Documents</h4>
           <div class="btn-group">
-            <button class="btn btn-primary" (click)="downloadFile('cv')">
-              Download CV
+            <button class="btn btn-primary me-2" (click)="downloadFile('cv')" [disabled]="isDownloadingCv">
+              <span *ngIf="isDownloadingCv" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              <i *ngIf="!isDownloadingCv" class="bi bi-file-earmark-pdf me-2"></i>
+              {{ isDownloadingCv ? 'Downloading...' : 'Download CV' }}
             </button>
-            <button class="btn btn-primary" (click)="downloadFile('coverLetter')">
-              Download Cover Letter
+            <button class="btn btn-primary" (click)="downloadFile('coverLetter')" [disabled]="isDownloadingCoverLetter">
+              <span *ngIf="isDownloadingCoverLetter" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              <i *ngIf="!isDownloadingCoverLetter" class="bi bi-file-earmark-pdf me-2"></i>
+              {{ isDownloadingCoverLetter ? 'Downloading...' : 'Download Cover Letter' }}
             </button>
           </div>
         </div>
@@ -114,4 +124,4 @@
   <div class="spinner-border" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
-</div> 
+</div>

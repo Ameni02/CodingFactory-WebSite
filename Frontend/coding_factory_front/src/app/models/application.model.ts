@@ -13,6 +13,18 @@ export interface Application {
   status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
   archived: boolean;
   submissionDate?: Date;
+  cvAnalysisScore?: number;
+  cvAnalysisFeedback?: string;
+  detailedScores?: {
+    education: number;
+    experience: number;
+    skills: number;
+    projectRelevance: number;
+    fieldMatch: number;
+    titleMatch: number;
+  };
+
+  // For backward compatibility
   cvAnalysisResult?: {
     score: number;
     feedback: string;
@@ -24,5 +36,6 @@ export interface Application {
       fieldMatch: number;
       titleMatch: number;
     };
+    applicationStatus?: string;
   };
 }

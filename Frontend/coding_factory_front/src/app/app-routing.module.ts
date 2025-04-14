@@ -21,6 +21,17 @@ const routes: Routes = [
   { path: '', component: HomeComponent }, // Default homepage
   { path: 'pfe-space', component: MainPageComponent },
   { path: 'merge', component: PdfMergeComponentComponent },
+  { path: 'pfe-space/offers/add', component: AddOfferComponent },
+  { path: 'pfe-space/offers', component: OfferListComponent },
+  { path: 'pfe-space/offers/:id', component: OfferDetailComponent },
+  { path: 'pfe-space/applications/new', component: ApplicationFormComponent },
+  { path: 'pfe-space/applications/:id', component: ApplicationDetailComponent },
+  { path: 'pfe-space/submissions/new', component: SubmissionFormComponent },
+  { path: 'pfe-space/submissions', component: SubmissionListComponent },
+  { path: 'pfe-space/submissions/:id', component: SubmissionDetailComponent },
+  { path: 'pfe-space/evaluations/new', component: EvaluationFormComponent },
+
+  // Keep the old routes for backward compatibility
   { path: 'offers/add', component: AddOfferComponent },
   { path: 'offers', component: OfferListComponent },
   { path: 'offers/:id', component: OfferDetailComponent },
@@ -30,7 +41,6 @@ const routes: Routes = [
   { path: 'submissions', component: SubmissionListComponent },
   { path: 'submissions/:id', component: SubmissionDetailComponent },
   { path: 'evaluations/new', component: EvaluationFormComponent },
-  
 ];
 
 @NgModule({

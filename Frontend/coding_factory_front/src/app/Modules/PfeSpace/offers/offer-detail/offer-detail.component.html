@@ -86,16 +86,16 @@
 
             <!-- Action Buttons -->
             <div class="action-buttons mt-4">
-              <button class="btn btn-primary me-2" 
-                      (click)="onApply()" 
+              <button class="btn btn-primary me-2"
+                      (click)="onApply()"
                       [disabled]="!canApply()">
                 <i class="fas fa-paper-plane me-2"></i>Apply Now
               </button>
-              <button class="btn btn-outline-secondary" 
-                      (click)="downloadDescription()" 
-                      *ngIf="project.descriptionFilePath"
+              <button class="btn btn-outline-secondary"
+                      (click)="downloadDescription()"
                       [disabled]="isDownloading">
-                <i class="fas fa-download me-2"></i>
+                <span *ngIf="isDownloading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                <i *ngIf="!isDownloading" class="fas fa-download me-2"></i>
                 {{ isDownloading ? 'Downloading...' : 'Download Description' }}
               </button>
             </div>

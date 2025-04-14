@@ -39,10 +39,10 @@ export class OfferDetailComponent implements OnInit {
 
   canApply(): boolean {
     if (!this.project) return false;
-    
+
     const status = this.project.status?.toUpperCase();
     const isActive = status === 'ACTIVE' || status === 'PENDING';
-    
+
     return (
       !this.project.archived &&
       this.project.numberOfPositions > 0 &&
@@ -69,36 +69,63 @@ export class OfferDetailComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['/applications/new'], {
+    this.router.navigate(['/pfe-space/applications/new'], {
       queryParams: { projectId: this.project.id }
     });
   }
 
   downloadDescription(): void {
-    if (!this.project?.descriptionFilePath) return;
+    if (!this.project?.id) {
+      this.toastr.warning('Project details not available');
+      return;
+    }
+
+    console.log('Downloading description for project ID:', this.project.id);
+    if (this.project.descriptionFilePath) {
+      console.log('Description file path:', this.project.descriptionFilePath);
+    } else {
+      console.log('No description file path available, will try to download anyway');
+    }
 
     this.isDownloading = true;
     this.projectService.downloadFile(this.project.id, 'description').subscribe({
       next: (blob) => {
+        console.log('Download successful, blob size:', blob.size);
+        console.log('Content type:', blob.type);
+
+        if (blob.size === 0) {
+          this.isDownloading = false;
+          this.toastr.error('Empty file received');
+          return;
+        }
+
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${this.project.title}_description.pdf`;
+
+        // Determine file extension based on content type
+        let fileExtension = '.pdf';
+        if (blob.type === 'text/plain') {
+          fileExtension = '.txt';
+        }
+
+        a.download = `${this.project.title}_description${fileExtension}`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
         this.isDownloading = false;
+        this.toastr.success('Description downloaded successfully');
       },
       error: (error) => {
         this.isDownloading = false;
-        this.toastr.error('Failed to download description');
+        this.toastr.error('Failed to download description: ' + (error.message || 'Unknown error'));
         console.error('Error downloading description:', error);
       }
     });
   }
 
   goToOffersList(): void {
-    this.router.navigate(['/offers']);
+    this.router.navigate(['/pfe-space/offers']);
   }
 }

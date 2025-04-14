@@ -4,19 +4,6 @@ import { ApplicationService } from 'src/services/application.service';
 import { Application } from 'src/app/models/application.model';
 import { ToastrService } from 'ngx-toastr';
 
-interface CvAnalysisResult {
-  score: number;
-  feedback: string;
-  detailedScores: {
-    education: number;
-    experience: number;
-    skills: number;
-    projectRelevance: number;
-    fieldMatch: number;
-    titleMatch: number;
-  };
-}
-
 @Component({
   selector: 'app-application-detail',
   templateUrl: './application-detail.component.html',
@@ -25,7 +12,9 @@ interface CvAnalysisResult {
 export class ApplicationDetailComponent implements OnInit {
   application: Application | null = null;
   isLoading = false;
-  analysisResult: CvAnalysisResult | null = null;
+  isDownloadingCv = false;
+  isDownloadingCoverLetter = false;
+  analysisResult: any = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,17 +35,46 @@ export class ApplicationDetailComponent implements OnInit {
     this.applicationService.getApplication(id).subscribe({
       next: (application: Application) => {
         this.application = application;
+
+        // Check for CV analysis results in either format
         if (application.cvAnalysisResult) {
+          // Using the old format
           this.analysisResult = application.cvAnalysisResult;
+        } else if (application.cvAnalysisScore !== undefined && application.cvAnalysisFeedback) {
+          // Using the new format - create a compatible structure
+          this.analysisResult = {
+            score: application.cvAnalysisScore,
+            feedback: application.cvAnalysisFeedback,
+            detailedScores: application.detailedScores || {},
+            applicationStatus: application.status
+          };
         }
+
         this.isLoading = false;
       },
-      error: (error: Error) => {
+      error: () => {
         this.isLoading = false;
         this.toastr.error('Failed to load application details');
         this.router.navigate(['/pfe-space/applications']);
       }
     });
+  }
+
+  getDetailedScores(): { label: string; value: number; max: number }[] {
+    if (!this.analysisResult) return [];
+
+    return [
+      { label: 'Education', value: this.analysisResult.detailedScores.education, max: 25 },
+      { label: 'Experience', value: this.analysisResult.detailedScores.experience, max: 30 },
+      { label: 'Skills', value: this.analysisResult.detailedScores.skills, max: 30 },
+      { label: 'Project Relevance', value: this.analysisResult.detailedScores.projectRelevance, max: 15 },
+      { label: 'Field Match', value: this.analysisResult.detailedScores.fieldMatch, max: 10 },
+      { label: 'Title Match', value: this.analysisResult.detailedScores.titleMatch, max: 10 }
+    ];
+  }
+
+  goBack(): void {
+    this.router.navigate(['/offers']);
   }
 
   getStatusClass(status: string): string {
@@ -78,40 +96,73 @@ export class ApplicationDetailComponent implements OnInit {
     return 'text-danger';
   }
 
-  goToOffersList(): void {
-    this.router.navigate(['/offers']);
-  }
-
   downloadFile(fileType: 'cv' | 'coverLetter'): void {
-    if (!this.application?.id) return;
+    if (!this.application?.id) {
+      this.toastr.warning('Application details not available');
+      return;
+    }
 
-    this.isLoading = true;
+    const filePath = fileType === 'cv' ? this.application.cvFilePath : this.application.coverLetterFilePath;
+    console.log(`Downloading ${fileType} for application ID:`, this.application.id);
+    if (filePath) {
+      console.log(`${fileType} file path:`, filePath);
+    } else {
+      console.log(`No ${fileType} file path available, will try to download anyway`);
+    }
+
+    if (fileType === 'cv') {
+      this.isDownloadingCv = true;
+    } else {
+      this.isDownloadingCoverLetter = true;
+    }
+
     this.applicationService.downloadFile(this.application.id, fileType).subscribe({
       next: (blob: Blob) => {
-        // Create a URL for the blob
+        console.log('Download successful, blob size:', blob.size);
+        console.log('Content type:', blob.type);
+
+        if (blob.size === 0) {
+          if (fileType === 'cv') {
+            this.isDownloadingCv = false;
+          } else {
+            this.isDownloadingCoverLetter = false;
+          }
+          this.toastr.error('Empty file received');
+          return;
+        }
+
         const url = window.URL.createObjectURL(blob);
-        
-        // Create a temporary anchor element
         const a = document.createElement('a');
         a.href = url;
-        
-        // Set the download filename
-        const fileName = `${this.application?.studentName}_${fileType}.pdf`;
-        a.download = fileName;
-        
-        // Trigger the download
+
+        // Determine file extension based on content type
+        let fileExtension = '.pdf';
+        if (blob.type === 'text/plain') {
+          fileExtension = '.txt';
+        }
+
+        a.download = `${this.application?.studentName ?? 'student'}_${fileType}${fileExtension}`;
         document.body.appendChild(a);
         a.click();
-        
-        // Clean up
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
-        this.isLoading = false;
+
+        if (fileType === 'cv') {
+          this.isDownloadingCv = false;
+        } else {
+          this.isDownloadingCoverLetter = false;
+        }
+
+        this.toastr.success(`${fileType === 'cv' ? 'CV' : 'Cover Letter'} downloaded successfully`);
       },
-      error: (error: Error) => {
-        this.isLoading = false;
-        this.toastr.error('Failed to download file');
+      error: (error) => {
         console.error('Error downloading file:', error);
+        if (fileType === 'cv') {
+          this.isDownloadingCv = false;
+        } else {
+          this.isDownloadingCoverLetter = false;
+        }
+        this.toastr.error(`Failed to download ${fileType === 'cv' ? 'CV' : 'Cover Letter'}: ${error.message || 'Unknown error'}`);
       }
     });
   }
@@ -122,13 +173,12 @@ export class ApplicationDetailComponent implements OnInit {
     this.applicationService.acceptApplication(this.application.id).subscribe({
       next: () => {
         this.toastr.success('Application accepted successfully');
-        if (this.application?.id) {
+        if (this.application?.id !== undefined) {
           this.loadApplication(this.application.id);
         }
       },
-      error: (error: Error) => {
+      error: () => {
         this.toastr.error('Failed to accept application');
-        console.error('Error accepting application:', error);
       }
     });
   }
@@ -139,14 +189,13 @@ export class ApplicationDetailComponent implements OnInit {
     this.applicationService.rejectApplication(this.application.id).subscribe({
       next: () => {
         this.toastr.success('Application rejected successfully');
-        if (this.application?.id) {
+        if (this.application?.id !== undefined) {
           this.loadApplication(this.application.id);
         }
       },
-      error: (error: Error) => {
+      error: () => {
         this.toastr.error('Failed to reject application');
-        console.error('Error rejecting application:', error);
       }
     });
   }
-} 
+}

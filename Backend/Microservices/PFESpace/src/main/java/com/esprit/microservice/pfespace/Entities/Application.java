@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -46,12 +47,48 @@ public class Application {
 
     private boolean archived = false;
 
+    @Column(columnDefinition = "TEXT")
+    private String cvAnalysisFeedback;
+
+    private Integer cvAnalysisScore;
+
+    @ElementCollection
+    @CollectionTable(name = "application_detailed_scores",
+            joinColumns = @JoinColumn(name = "application_id"))
+    @MapKeyColumn(name = "score_category")
+    @Column(name = "score_value")
+    private Map<String, Integer> detailedScores;
+
     public boolean isArchived() {
         return archived;
     }
 
     public void setArchived(boolean archived) {
         this.archived = archived;
+    }
+
+    public String getCvAnalysisFeedback() {
+        return cvAnalysisFeedback;
+    }
+
+    public void setCvAnalysisFeedback(String cvAnalysisFeedback) {
+        this.cvAnalysisFeedback = cvAnalysisFeedback;
+    }
+
+    public Integer getCvAnalysisScore() {
+        return cvAnalysisScore;
+    }
+
+    public void setCvAnalysisScore(Integer cvAnalysisScore) {
+        this.cvAnalysisScore = cvAnalysisScore;
+    }
+
+    public Map<String, Integer> getDetailedScores() {
+        return detailedScores;
+    }
+
+    public void setDetailedScores(Map<String, Integer> detailedScores) {
+        this.detailedScores = detailedScores;
     }
 
     public Long getId() {

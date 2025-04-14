@@ -40,89 +40,30 @@
               </div>
             </div>
 
-           <!-- In your application-form.component.html -->
-<div class="mb-3">
-  <label for="cvFile" class="form-label">CV (PDF only, max 5MB)</label>
-  <input
-    type="file"
-    class="form-control"
-    id="cvFile"
-    accept=".pdf,application/pdf"
-    (change)="onFileSelected($event, 'cv')"
-    [ngClass]="{'is-invalid': (!cvFile && applicationForm.touched) || (cvFile && !isValidPdf(cvFile))}"
-    required
-  >
-  <div class="invalid-feedback" *ngIf="!cvFile && applicationForm.touched">
-    Please upload your CV
-  </div>
-  <div class="invalid-feedback" *ngIf="cvFile && !isValidPdf(cvFile)">
-    Only PDF files are allowed
-  </div>
-  <small class="form-text text-muted" *ngIf="cvFile">
-    Selected file: {{ cvFile.name }} ({{ (cvFile.size / 1024 / 1024).toFixed(2) }} MB)
-  </small>
 
-  <!-- CV Analysis Status -->
-  <div *ngIf="isAnalyzing" class="mt-2">
-    <div class="spinner-border spinner-border-sm text-primary" role="status">
-      <span class="visually-hidden">Analyzing CV...</span>
-    </div>
-    <span class="ms-2">Analyzing CV...</span>
-  </div>
 
-  <!-- CV Analysis Result -->
-  <div *ngIf="analysisResult" class="mt-2">
-    <div class="alert" [ngClass]="{
-      'alert-success': analysisResult.isAdaptable,
-      'alert-warning': !analysisResult.isAdaptable
-    }">
-      <strong>CV Analysis Results</strong>
-      <div class="mt-2">
-        <div class="analysis-detail">
-          <div class="progress mb-2">
-            <div class="progress-bar" role="progressbar" 
-                 [style.width.%]="analysisResult.detailedScores.education"
-                 [attr.aria-valuenow]="analysisResult.detailedScores.education"
-                 aria-valuemin="0" aria-valuemax="25">
-              Education: {{analysisResult.detailedScores.education}}/25
+            <!-- CV Upload -->
+            <div class="mb-3">
+              <label for="cvFile" class="form-label">CV (PDF only, max 5MB)</label>
+              <input
+                type="file"
+                class="form-control"
+                id="cvFile"
+                accept=".pdf,application/pdf"
+                (change)="onFileSelected($event, 'cv')"
+                [ngClass]="{'is-invalid': (!cvFile && applicationForm.touched) || (cvFile && !isValidPdf(cvFile))}"
+                required
+              >
+              <div class="invalid-feedback" *ngIf="!cvFile && applicationForm.touched">
+                Please upload your CV
+              </div>
+              <div class="invalid-feedback" *ngIf="cvFile && !isValidPdf(cvFile)">
+                Only PDF files are allowed
+              </div>
+              <small class="form-text text-muted" *ngIf="cvFile">
+                Selected file: {{ cvFile.name }} ({{ (cvFile.size / 1024 / 1024).toFixed(2) }} MB)
+              </small>
             </div>
-          </div>
-          <div class="progress mb-2">
-            <div class="progress-bar" role="progressbar" 
-                 [style.width.%]="(analysisResult.detailedScores.experience / 30) * 100"
-                 [attr.aria-valuenow]="analysisResult.detailedScores.experience"
-                 aria-valuemin="0" aria-valuemax="30">
-              Experience: {{analysisResult.detailedScores.experience}}/30
-            </div>
-          </div>
-          <div class="progress mb-2">
-            <div class="progress-bar" role="progressbar" 
-                 [style.width.%]="(analysisResult.detailedScores.skills / 30) * 100"
-                 [attr.aria-valuenow]="analysisResult.detailedScores.skills"
-                 aria-valuemin="0" aria-valuemax="30">
-              Skills Match: {{analysisResult.detailedScores.skills}}/30
-            </div>
-          </div>
-          <div class="progress mb-2">
-            <div class="progress-bar" role="progressbar" 
-                 [style.width.%]="(analysisResult.detailedScores.projectRelevance / 15) * 100"
-                 [attr.aria-valuenow]="analysisResult.detailedScores.projectRelevance"
-                 aria-valuemin="0" aria-valuemax="15">
-              Project Relevance: {{analysisResult.detailedScores.projectRelevance}}/15
-            </div>
-          </div>
-        </div>
-        <div class="mt-3">
-          <strong>Overall Score: {{analysisResult.score}}/100</strong>
-        </div>
-        <div class="mt-2">
-          <strong>Feedback:</strong>
-          <pre class="mt-2">{{analysisResult.feedback}}</pre>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
             <!-- Cover Letter Upload -->
             <div class="mb-3">
@@ -159,7 +100,7 @@
                 [disabled]="isSubmitting || !applicationForm.valid || !cvFile || !coverLetterFile"
               >
                 <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                {{ isSubmitting ? 'Submitting...' : 'Submit Application' }}
+                {{ isSubmitting ? 'Submitting and Analyzing CV...' : 'Submit Application' }}
               </button>
             </div>
           </form>

@@ -2,28 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationService } from 'src/services/application.service';
-import { CvAnalysisService } from 'src/services/cv-analysis.service';
 import { ToastrService } from 'ngx-toastr';
 import { Application } from 'src/app/models/application.model';
 import { Project } from 'src/app/models/project.model';
 import { ProjectService } from 'src/services/project.service';
 
-interface CvAnalysisResult {
-  isAdaptable: boolean;
-  score: number;
-  feedback: string;
-  detailedScores: {
-    education: number;
-    experience: number;
-    skills: number;
-    projectRelevance: number;
-    fieldMatch: number;
-    titleMatch: number;
-  };
-  applicationStatus: string;
-}
-
-@Component({  
+@Component({
   selector: 'app-application-form',
   templateUrl: './application-form.component.html',
   styleUrls: ['./application-form.component.css']
@@ -34,8 +18,6 @@ export class ApplicationFormComponent implements OnInit {
   cvFile: File | null = null;
   coverLetterFile: File | null = null;
   isSubmitting = false;
-  isAnalyzing = false;
-  analysisResult: CvAnalysisResult | null = null;
   project!: Project;
   isLoading = false;
 
@@ -44,14 +26,12 @@ export class ApplicationFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private applicationService: ApplicationService,
-    private cvAnalysisService: CvAnalysisService,
     private toastr: ToastrService,
     private projectService: ProjectService
   ) {
     this.applicationForm = this.fb.group({
       studentName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       studentEmail: ['', [Validators.required, Validators.email]],
-      motivation: ['', Validators.required],
       cvFile: [null, Validators.required]
     });
   }
@@ -65,6 +45,7 @@ export class ApplicationFormComponent implements OnInit {
       } else {
         this.toastr.error('No project selected');
         this.router.navigate(['/pfe-space/offers']);
+        return;
       }
     });
   }
@@ -95,62 +76,29 @@ export class ApplicationFormComponent implements OnInit {
       if (this.isValidPdf(file)) {
         this.cvFile = file;
         this.applicationForm.patchValue({ cvFile: file });
-        this.analyzeCv();
       } else {
         this.toastr.error('Please upload a valid PDF file for CV');
-        fileInput.value = ''; // Reset the file input
+        fileInput.value = '';
       }
     } else {
       if (this.isValidPdf(file)) {
         this.coverLetterFile = file;
       } else {
         this.toastr.error('Please upload a valid PDF file for Cover Letter');
-        fileInput.value = ''; // Reset the file input
+        fileInput.value = '';
       }
     }
   }
 
-  analyzeCv(): void {
-    if (!this.cvFile || !this.projectId) return;
-
-    this.isAnalyzing = true;
-    this.cvAnalysisService.analyzeCv(this.projectId, this.cvFile).subscribe({
-      next: (result: { isAdaptable: boolean; score: number; feedback: string }) => {
-        this.analysisResult = {
-          isAdaptable: result.isAdaptable,
-          score: result.score,
-          feedback: result.feedback,
-          detailedScores: {
-            education: 0,
-            experience: 0,
-            skills: 0,
-            projectRelevance: 0,
-            fieldMatch: 0,
-            titleMatch: 0
-          },
-          applicationStatus: result.isAdaptable ? 'ACCEPTED' : 'REJECTED'
-        };
-        this.isAnalyzing = false;
-        
-        // Show appropriate message based on score
-        if (result.score >= 60) {
-          this.toastr.success(`CV Analysis: ${result.feedback} (Score: ${result.score})`);
-        } else if (result.score >= 50) {
-          this.toastr.info(`CV Analysis: ${result.feedback} (Score: ${result.score})`);
-        } else {
-          this.toastr.warning(`CV Analysis: ${result.feedback} (Score: ${result.score})`);
-        }
-      },
-      error: (error) => {
-        this.isAnalyzing = false;
-        this.toastr.error('Failed to analyze CV');
-        console.error('CV analysis error:', error);
-      }
-    });
-  }
-
   onSubmit(): void {
+    console.log('Submit button clicked');
+    console.log('Form valid:', this.applicationForm.valid);
+    console.log('Form values:', this.applicationForm.value);
+    console.log('CV file:', this.cvFile);
+    console.log('Cover letter file:', this.coverLetterFile);
+
     if (this.applicationForm.invalid) {
+      console.log('Form validation errors:', this.applicationForm.errors);
       this.toastr.warning('Please fill in all required fields correctly');
       this.applicationForm.markAllAsTouched();
       return;
@@ -161,20 +109,14 @@ export class ApplicationFormComponent implements OnInit {
       return;
     }
 
-    if (!this.analysisResult) {
-      this.toastr.warning('Please wait for CV analysis to complete');
-      return;
-    }
-
     this.isSubmitting = true;
+    console.log('Submitting application...');
 
-    const applicationData: Application = {
+    const applicationData: any = {
       project: { id: this.projectId },
       studentName: this.applicationForm.value.studentName,
       studentEmail: this.applicationForm.value.studentEmail,
-      cvFilePath: '',
-      coverLetterFilePath: '',
-      status: this.analysisResult.applicationStatus as "PENDING" | "ACCEPTED" | "REJECTED",
+      status: 'PENDING',
       archived: false
     };
 
@@ -185,15 +127,14 @@ export class ApplicationFormComponent implements OnInit {
       this.coverLetterFile
     ).subscribe({
       next: (response) => {
+        console.log('Application submitted successfully:', response);
         this.toastr.success('Application submitted successfully!');
         this.router.navigate(['/pfe-space/applications', response.id]);
       },
       error: (error) => {
+        console.error('Error submitting application:', error);
         this.isSubmitting = false;
-        this.toastr.error('Failed to submit application');
-      },
-      complete: () => {
-        this.isSubmitting = false;
+        this.toastr.error('Failed to submit application: ' + (error.message || 'Unknown error'));
       }
     });
   }

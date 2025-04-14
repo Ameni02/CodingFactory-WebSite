@@ -30,14 +30,14 @@ public class CvAnalysisController {
 
     // Common education keywords
     private static final String[] EDUCATION_KEYWORDS = {
-        "bachelor", "master", "phd", "doctorate", "degree", "diploma",
-        "university", "college", "institute", "school", "academy"
+            "bachelor", "master", "phd", "doctorate", "degree", "diploma",
+            "university", "college", "institute", "school", "academy"
     };
 
     // Common experience keywords
     private static final String[] EXPERIENCE_KEYWORDS = {
-        "experience", "work", "job", "position", "role", "responsibility",
-        "achievement", "project", "task", "duty"
+            "experience", "work", "job", "position", "role", "responsibility",
+            "achievement", "project", "task", "duty"
     };
 
     // Field-specific keywords mapping
@@ -59,18 +59,18 @@ public class CvAnalysisController {
         SKILL_KEYWORDS.put("python", new String[]{"python", "django", "flask", "numpy", "pandas"});
         SKILL_KEYWORDS.put("javascript", new String[]{"javascript", "typescript", "node", "react", "angular", "vue"});
         SKILL_KEYWORDS.put("csharp", new String[]{"c#", "dotnet", "asp.net", "entity framework"});
-        
+
         // Web Development
         SKILL_KEYWORDS.put("frontend", new String[]{"html", "css", "sass", "bootstrap", "responsive design"});
         SKILL_KEYWORDS.put("backend", new String[]{"api", "rest", "graphql", "microservices", "server"});
-        
+
         // Database
         SKILL_KEYWORDS.put("sql", new String[]{"sql", "mysql", "postgresql", "oracle", "database"});
         SKILL_KEYWORDS.put("nosql", new String[]{"mongodb", "cassandra", "redis", "nosql"});
-        
+
         // DevOps
         SKILL_KEYWORDS.put("devops", new String[]{"docker", "kubernetes", "ci/cd", "jenkins", "git"});
-        
+
         // Testing
         SKILL_KEYWORDS.put("testing", new String[]{"unit testing", "integration testing", "qa", "automation"});
     }
@@ -83,14 +83,14 @@ public class CvAnalysisController {
         TITLE_KEYWORDS.put("fullstack", new String[]{"fullstack", "full stack", "full-stack"});
         TITLE_KEYWORDS.put("frontend", new String[]{"frontend", "front end", "front-end", "ui developer"});
         TITLE_KEYWORDS.put("backend", new String[]{"backend", "back end", "back-end", "api developer"});
-        
+
         // Data Roles
         TITLE_KEYWORDS.put("data", new String[]{"data", "analyst", "scientist", "engineer"});
         TITLE_KEYWORDS.put("ai", new String[]{"ai", "machine learning", "deep learning", "nlp"});
-        
+
         // Security Roles
         TITLE_KEYWORDS.put("security", new String[]{"security", "cybersecurity", "pentester", "ethical hacker"});
-        
+
         // Management Roles
         TITLE_KEYWORDS.put("lead", new String[]{"lead", "senior", "architect", "manager"});
     }
@@ -99,14 +99,14 @@ public class CvAnalysisController {
     public ResponseEntity<Map<String, Object>> analyzeCv(
             @PathVariable Long projectId,
             @RequestParam("cvFile") MultipartFile cvFile) {
-        
+
         try {
             Project project = projectRepository.findById(projectId)
                     .orElseThrow(() -> new RuntimeException("Project not found"));
 
             // Extract text from CV using PDFBox
             String cvText = extractTextFromPdf(cvFile);
-            
+
             // Analyze CV content
             Map<String, Object> analysis = analyzeCvContent(cvText, project);
             boolean isAdaptable = (boolean) analysis.get("isAdaptable");
@@ -145,29 +145,29 @@ public class CvAnalysisController {
         }
     }
 
-    private String extractTextFromPdf(MultipartFile file) throws IOException {
+    public String extractTextFromPdf(MultipartFile file) throws IOException {
         try (InputStream inputStream = file.getInputStream();
              PDDocument document = PDDocument.load(inputStream)) {
-            
+
             PDFTextStripper stripper = new PDFTextStripper();
             // Configure stripper for better text extraction
             stripper.setSortByPosition(true);
             stripper.setShouldSeparateByBeads(true);
-            
+
             return stripper.getText(document);
         }
     }
 
-    private Map<String, Object> analyzeCvContent(String cvText, Project project) {
+    public Map<String, Object> analyzeCvContent(String cvText, Project project) {
         Map<String, Object> result = new HashMap<>();
         Map<String, Integer> detailedScores = new HashMap<>();
-        
+
         // Convert text to lowercase for case-insensitive matching
         String lowerCvText = cvText.toLowerCase();
-        
+
         // Extract required skills from project
         String[] requiredSkills = project.getRequiredSkills().toLowerCase().split(",\\s*");
-        
+
         // Initialize scores
         int educationScore = calculateEducationScore(lowerCvText);
         int experienceScore = calculateExperienceScore(lowerCvText);
@@ -175,27 +175,27 @@ public class CvAnalysisController {
         int projectMatchScore = calculateProjectMatchScore(lowerCvText, project);
         int fieldMatchScore = calculateFieldMatchScore(lowerCvText, project);
         int titleMatchScore = calculateTitleMatchScore(lowerCvText, project);
-        
+
         // Calculate total score with weights
         int totalScore = (int) (
-            educationScore * 0.15 +      // 15%
-            experienceScore * 0.20 +     // 20%
-            skillsScore * 0.30 +         // 30%
-            projectMatchScore * 0.15 +   // 15%
-            fieldMatchScore * 0.10 +     // 10%
-            titleMatchScore * 0.10       // 10%
+                educationScore * 0.15 +      // 15%
+                        experienceScore * 0.20 +     // 20%
+                        skillsScore * 0.30 +         // 30%
+                        projectMatchScore * 0.15 +   // 15%
+                        fieldMatchScore * 0.10 +     // 10%
+                        titleMatchScore * 0.10       // 10%
         );
-        
+
         // Determine if adaptable (threshold: 60%)
         boolean isAdaptable = totalScore >= 60;
-        
+
         // Generate detailed feedback
         String feedback = generateDetailedFeedback(
-            educationScore, experienceScore, skillsScore, projectMatchScore,
-            fieldMatchScore, titleMatchScore, totalScore, isAdaptable, 
-            requiredSkills, lowerCvText, project
+                educationScore, experienceScore, skillsScore, projectMatchScore,
+                fieldMatchScore, titleMatchScore, totalScore, isAdaptable,
+                requiredSkills, lowerCvText, project
         );
-        
+
         // Store detailed scores
         detailedScores.put("education", educationScore);
         detailedScores.put("experience", experienceScore);
@@ -203,19 +203,19 @@ public class CvAnalysisController {
         detailedScores.put("projectRelevance", projectMatchScore);
         detailedScores.put("fieldMatch", fieldMatchScore);
         detailedScores.put("titleMatch", titleMatchScore);
-        
+
         result.put("isAdaptable", isAdaptable);
         result.put("score", totalScore);
         result.put("feedback", feedback);
         result.put("detailedScores", detailedScores);
-        
+
         return result;
     }
 
     private int calculateFieldMatchScore(String cvText, Project project) {
         int score = 0;
         String field = project.getField().toLowerCase();
-        
+
         // Check for field-specific keywords
         if (FIELD_KEYWORDS.containsKey(field)) {
             String[] keywords = FIELD_KEYWORDS.get(field);
@@ -225,19 +225,19 @@ public class CvAnalysisController {
                 }
             }
         }
-        
+
         // Check for field name directly
         if (cvText.contains(field)) {
             score += 5;
         }
-        
+
         return Math.min(score, 10);
     }
 
     private int calculateTitleMatchScore(String cvText, Project project) {
         int score = 0;
         String title = project.getTitle().toLowerCase();
-        
+
         // Split title into words and check for matches
         String[] titleWords = title.split("\\s+");
         for (String word : titleWords) {
@@ -246,7 +246,7 @@ public class CvAnalysisController {
                 if (cvText.contains(word)) {
                     score += 2;
                 }
-                
+
                 // Check expanded title keywords
                 if (TITLE_KEYWORDS.containsKey(word)) {
                     for (String keyword : TITLE_KEYWORDS.get(word)) {
@@ -257,23 +257,23 @@ public class CvAnalysisController {
                 }
             }
         }
-        
+
         // Check for complete title match
         if (cvText.contains(title)) {
             score += 5;
         }
-        
+
         return Math.min(score, 10);
     }
 
     private int calculateEducationScore(String cvText) {
         int score = 0;
-        
+
         // Check for education section
         if (cvText.contains("education") || cvText.contains("academic")) {
             score += 5;
         }
-        
+
         // Check for degree levels
         if (cvText.contains("phd") || cvText.contains("doctorate")) {
             score += 25;
@@ -282,18 +282,18 @@ public class CvAnalysisController {
         } else if (cvText.contains("bachelor")) {
             score += 15;
         }
-        
+
         // Check for relevant coursework
         if (cvText.contains("course") || cvText.contains("module")) {
             score += 5;
         }
-        
+
         return Math.min(score, 25);
     }
 
     private int calculateExperienceScore(String cvText) {
         int score = 0;
-        
+
         // Extract years of experience
         Pattern experiencePattern = Pattern.compile("(\\d+)\\s+(year|years)");
         Matcher matcher = experiencePattern.matcher(cvText);
@@ -301,43 +301,43 @@ public class CvAnalysisController {
             int years = Integer.parseInt(matcher.group(1));
             score += Math.min(years * 5, 20);
         }
-        
+
         // Check for relevant experience keywords
         for (String keyword : EXPERIENCE_KEYWORDS) {
             if (cvText.contains(keyword)) {
                 score += 2;
             }
         }
-        
+
         // Check for project descriptions
         if (cvText.contains("project") || cvText.contains("achievement")) {
             score += 5;
         }
-        
+
         return Math.min(score, 30);
     }
 
     private int calculateSkillsScore(String cvText, String[] requiredSkills) {
         int matchedSkills = 0;
         int totalSkills = requiredSkills.length;
-        
+
         if (totalSkills == 0) return 0;
-        
+
         // Check for skills section
         if (cvText.contains("skill") || cvText.contains("competence")) {
             matchedSkills += 2;
         }
-        
+
         // Match required skills with expanded keywords
         for (String skill : requiredSkills) {
             String skillLower = skill.trim().toLowerCase();
-            
+
             // Check direct match
             if (cvText.contains(skillLower)) {
                 matchedSkills++;
                 continue;
             }
-            
+
             // Check expanded keywords
             if (SKILL_KEYWORDS.containsKey(skillLower)) {
                 for (String keyword : SKILL_KEYWORDS.get(skillLower)) {
@@ -348,34 +348,34 @@ public class CvAnalysisController {
                 }
             }
         }
-        
+
         return (int) ((double) matchedSkills / totalSkills * 30);
     }
 
     private int calculateProjectMatchScore(String cvText, Project project) {
         int score = 0;
-        
+
         // Check for field match
         if (cvText.contains(project.getField().toLowerCase())) {
             score += 10;
         }
-        
+
         // Check for relevant project keywords
         if (cvText.contains("project") || cvText.contains("development")) {
             score += 5;
         }
-        
+
         return Math.min(score, 15);
     }
 
     private String generateDetailedFeedback(
-        int educationScore, int experienceScore, int skillsScore, int projectMatchScore,
-        int fieldMatchScore, int titleMatchScore, int totalScore, boolean isAdaptable,
-        String[] requiredSkills, String cvText, Project project) {
-        
+            int educationScore, int experienceScore, int skillsScore, int projectMatchScore,
+            int fieldMatchScore, int titleMatchScore, int totalScore, boolean isAdaptable,
+            String[] requiredSkills, String cvText, Project project) {
+
         StringBuilder feedback = new StringBuilder();
         feedback.append("CV Analysis Results:\n\n");
-        
+
         // Education feedback
         feedback.append("Education: ").append(educationScore).append("/25 - ");
         if (educationScore >= 20) {
@@ -386,7 +386,7 @@ public class CvAnalysisController {
             feedback.append("Educational qualifications could be improved");
         }
         feedback.append("\n");
-        
+
         // Experience feedback
         feedback.append("Experience: ").append(experienceScore).append("/30 - ");
         if (experienceScore >= 20) {
@@ -397,7 +397,7 @@ public class CvAnalysisController {
             feedback.append("Limited work experience in the field");
         }
         feedback.append("\n");
-        
+
         // Skills feedback
         feedback.append("Skills Match: ").append(skillsScore).append("/30 - ");
         if (skillsScore >= 20) {
@@ -408,7 +408,7 @@ public class CvAnalysisController {
             feedback.append("Limited match with required skills");
         }
         feedback.append("\n");
-        
+
         // Field match feedback
         feedback.append("Field Match: ").append(fieldMatchScore).append("/10 - ");
         if (fieldMatchScore >= 7) {
@@ -419,7 +419,7 @@ public class CvAnalysisController {
             feedback.append("Limited alignment with project field");
         }
         feedback.append("\n");
-        
+
         // Title match feedback
         feedback.append("Title Match: ").append(titleMatchScore).append("/10 - ");
         if (titleMatchScore >= 7) {
@@ -430,7 +430,7 @@ public class CvAnalysisController {
             feedback.append("Limited alignment with project title");
         }
         feedback.append("\n");
-        
+
         // Project relevance feedback
         feedback.append("Project Relevance: ").append(projectMatchScore).append("/15 - ");
         if (projectMatchScore >= 10) {
@@ -441,13 +441,13 @@ public class CvAnalysisController {
             feedback.append("Limited alignment with project requirements");
         }
         feedback.append("\n\n");
-        
+
         // Overall assessment
         feedback.append("Overall Score: ").append(totalScore).append("/100\n");
-        feedback.append(isAdaptable ? 
-            "CV meets project requirements and shows good potential" :
-            "CV does not meet minimum requirements for this project");
-        
+        feedback.append(isAdaptable ?
+                "CV meets project requirements and shows good potential" :
+                "CV does not meet minimum requirements for this project");
+
         // Add specific recommendations if not adaptable
         if (!isAdaptable) {
             feedback.append("\n\nRecommendations:\n");
@@ -473,7 +473,7 @@ public class CvAnalysisController {
                 feedback.append("- Highlight experience related to ").append(project.getTitle()).append("\n");
             }
         }
-        
+
         return feedback.toString();
     }
-} 
+}
