@@ -1,67 +1,146 @@
-.project-details-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+/* Card Styles */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.card-header {
+  background-color: #7B6ADA; /* Custom purple color */
+  color: white;
+  padding: 20px;
+  border-bottom: none;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+/* Status Badge */
+.status-badge {
+  margin-bottom: 20px;
+}
+
+.badge {
+  font-size: 0.9rem;
+  padding: 8px 15px;
+  border-radius: 30px;
+  font-weight: 500;
+}
+
+.bg-success {
+  background-color: #31CE36 !important;
+}
+
+.bg-danger {
+  background-color: #F25961 !important;
+}
+
+.bg-warning {
+  background-color: #FFAD46 !important;
+}
+
+/* Section Styles */
+.section-title {
+  color: #2A2F5B;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* Project Info */
+.project-info, .company-info {
+  margin-bottom: 25px;
+}
+
+.row {
+  margin-bottom: 10px;
+}
+
+.row p {
+  margin-bottom: 0;
+  color: #575962;
+}
+
+.row p strong {
+  color: #2A2F5B;
+  font-weight: 600;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background-color: #7B6ADA; /* Custom purple color */
+  border-color: #7B6ADA;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #6A59C2; /* Darker purple */
+  border-color: #6A59C2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+}
+
+.btn-outline-secondary {
+  border-color: #7B6ADA;
+  color: #7B6ADA;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f8f9fa;
+  color: #6A59C2;
+  border-color: #6A59C2;
+  transform: translateY(-2px);
+}
+
+/* Alert */
+.alert-warning {
+  background-color: #FFF8E1;
+  border-color: #FFECB3;
+  color: #856404;
+  border-radius: 8px;
+  padding: 15px 20px;
+}
+
+/* Loading Spinner */
+.spinner-border {
+  color: #7B6ADA !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
   }
-  
-  .project-header {
-    text-align: center;
-    margin-bottom: 20px;
+
+  .btn {
+    width: 100%;
   }
-  
-  .project-header h2 {
-    color: #4b6cb7;
-    font-size: 28px;
-    margin-bottom: 5px;
-  }
-  
-  .company-name {
-    font-size: 18px;
-    color: #555;
-  }
-  
-  .project-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    font-size: 16px;
-    color: #333;
-  }
-  
-  .info-item {
-    background: #f7f7f7;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .project-actions {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .btn-apply {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  .btn-apply:hover {
-    background-color: #218838;
-  }
-  
-  .btn-download {
-    background-color: #17a2b8;
-    color: white;
-  }
-  
-  .btn-back {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  .text-success { color: #28a745; }
-  .text-warning { color: #ffc107; }
-  .text-danger { color: #dc3545; }
-  
+}

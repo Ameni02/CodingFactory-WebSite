@@ -1,56 +1,213 @@
+/* Main Container Styles */
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 15px;
+}
+
+/* Card Styles */
 .submission-form {
-    max-width: 600px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.form-header {
+  background-color: #7B6ADA; /* Custom purple color */
+  color: white;
+  padding: 25px 30px;
+  border-bottom: none;
+}
+
+.form-header h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.form-header p {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.form-body {
+  padding: 30px;
+}
+
+/* Form Group Styles */
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #2A2F5B; /* Dark text color */
+  font-size: 1rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.form-group input:focus {
+  border-color: #7B6ADA; /* Custom purple color */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(123, 106, 218, 0.1);
+  background-color: white;
+}
+
+/* File Input Styles */
+.form-group input[type="file"] {
+  padding: 12px;
+  background-color: white;
+  border: 1px dashed #7B6ADA; /* Custom purple color */
+  cursor: pointer;
+}
+
+.file-selected {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #575962; /* Medium text color */
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+/* Button Styles */
+button {
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+button[type="submit"] {
+  background-color: #7B6ADA; /* Custom purple color */
+  color: white;
+  flex: 1;
+  min-width: 180px;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #6A59C2; /* Darker purple */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+}
+
+button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.merge-button {
+  background-color: #9B8DE3; /* Lighter purple */
+  color: white;
+  text-decoration: none;
+  flex: 1;
+  min-width: 180px;
+}
+
+.merge-button:hover {
+  background-color: #8A7CD2; /* Slightly darker */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+}
+
+.btn-back {
+  background-color: transparent;
+  color: #7B6ADA; /* Custom purple color */
+  border: 1px solid #7B6ADA;
+  text-decoration: none;
+  flex: 1;
+  min-width: 180px;
+}
+
+.btn-back:hover {
+  background-color: #f8f9fa;
+  color: #6A59C2; /* Darker purple */
+  transform: translateY(-2px);
+}
+
+/* Error Message Styles */
+.error-message {
+  color: #F25961; /* Error color */
+  font-size: 0.9rem;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-message i {
+  font-size: 1rem;
+}
+
+/* Success Message Styles */
+.success-message {
+  color: #31CE36; /* Success color */
+  font-size: 0.9rem;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.success-message i {
+  font-size: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .submission-form {
+    margin: 20px auto;
+  }
+
+  .form-header {
     padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  
-  .form-group {
-    margin-bottom: 1.5rem;
+
+  .form-header h2 {
+    font-size: 1.5rem;
   }
-  
-  .form-group label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    display: block;
+
+  .form-body {
+    padding: 20px;
   }
-  
-  .form-group input {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  .form-group input[type="file"] {
-    padding: 0.4rem;
-  }
-  
+
   .form-actions {
-    text-align: center;
+    flex-direction: column;
   }
-  
-  button[type="submit"] {
+
+  button[type="submit"],
+  .merge-button,
+  .btn-back {
     width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
   }
-  
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-  
-  button[type="submit"]:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
+}
