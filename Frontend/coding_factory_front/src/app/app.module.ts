@@ -22,8 +22,16 @@ import { MainBannerComponent } from './components/main-banner/main-banner.compon
 import { FactsComponent } from './components/facts/facts.component';
 import { TestimonialsComponent } from './components/testimonials/testimonials.component';
 
-// Import PfeSpace Module
+// Admin Components
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+
+// Import Modules
 import { PfeSpaceModule } from './Modules/PfeSpace/pfe-space.module';
+import { AdminModule } from './admin/admin.module';
+
+// Services
+import { DashboardService } from './services/dashboard.service';
 
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -44,7 +52,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ContactUsComponent,
     MainBannerComponent,
     FactsComponent,
-    TestimonialsComponent
+    TestimonialsComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -56,9 +65,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    PfeSpaceModule
+    PfeSpaceModule,
+    AdminModule,
+    AdminLayoutComponent
   ],
-  providers: [],
+  providers: [DashboardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

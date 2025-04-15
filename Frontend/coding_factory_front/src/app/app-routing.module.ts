@@ -1,10 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule , Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Default homepage
+
+  // Admin routes
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    children: [
+      { path: '', component: AdminDashboardComponent },
+      { path: 'users', component: AdminDashboardComponent }, // Placeholder for now
+      { path: 'trainings', component: AdminDashboardComponent }, // Placeholder for now
+      { path: 'evaluations', component: AdminDashboardComponent }, // Placeholder for now
+      { path: 'consulting', component: AdminDashboardComponent }, // Placeholder for now
+      { path: 'pfespace', component: AdminDashboardComponent } // Placeholder for now
+    ]
+  },
 
   // The PfeSpace routes are now handled by the PfeSpace module
   // We only need to keep the old routes for backward compatibility
