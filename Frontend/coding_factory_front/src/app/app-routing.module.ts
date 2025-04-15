@@ -3,6 +3,7 @@ import { RouterModule , Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { AdminPfeSpaceComponent } from './components/admin/admin-pfespace/admin-pfespace.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Default homepage
@@ -17,11 +18,11 @@ const routes: Routes = [
       { path: 'trainings', component: AdminDashboardComponent }, // Placeholder for now
       { path: 'evaluations', component: AdminDashboardComponent }, // Placeholder for now
       { path: 'consulting', component: AdminDashboardComponent }, // Placeholder for now
-      { path: 'pfespace', component: AdminDashboardComponent } // Placeholder for now
+      { path: 'pfespace', component: AdminPfeSpaceComponent } // PFE Space management
     ]
   },
 
-  // The PfeSpace routes are now handled by the PfeSpace module
+  // The PfeSpace routes are handled by the PfeSpace module
   // We only need to keep the old routes for backward compatibility
   { path: 'offers/add', redirectTo: 'pfe-space/offers/add', pathMatch: 'full' },
   { path: 'offers', redirectTo: 'pfe-space/offers', pathMatch: 'full' },
