@@ -211,9 +211,14 @@ import java.util.List;
     // Method to calculate status based on dates
     public String getStatus() {
         if (startDate == null || endDate == null) {
-            return "UNKNOWN"; // Handle cases where dates are not set
+            return "PENDING"; // Default to PENDING if dates are not set
         }
 
+        // For newly created projects, always return PENDING
+        // Only change status based on dates after admin approval
+        return "PENDING";
+
+        /* Original date-based logic (commented out)
         LocalDate now = LocalDate.now();
         if (now.isBefore(startDate)) {
             return "PENDING";
@@ -222,6 +227,7 @@ import java.util.List;
         } else {
             return "COMPLETED";
         }
+        */
     }
 
     public List<Application> getApplications() {

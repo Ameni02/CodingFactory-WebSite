@@ -41,7 +41,7 @@ export class OfferDetailComponent implements OnInit {
     if (!this.project) return false;
 
     const status = this.project.status?.toUpperCase();
-    const isActive = status === 'ACTIVE' || status === 'PENDING';
+    const isActive = status === 'ACTIVE' || status === 'PENDING' || status === 'IN_PROGRESS';
 
     return (
       !this.project.archived &&
@@ -64,7 +64,7 @@ export class OfferDetailComponent implements OnInit {
     }
 
     const status = this.project.status?.toUpperCase();
-    if (status !== 'ACTIVE' && status !== 'PENDING') {
+    if (status !== 'ACTIVE' && status !== 'PENDING' && status !== 'IN_PROGRESS') {
       this.toastr.warning('This project is not currently active');
       return;
     }

@@ -13,8 +13,8 @@
             <!-- Project Status -->
             <div class="status-badge mb-4">
               <span class="badge" [ngClass]="{
-                'bg-success': project.status === 'ACTIVE',
-                'bg-danger': project.status === 'ARCHIVED',
+                'bg-success': project.status === 'ACTIVE' || project.status === 'IN_PROGRESS',
+                'bg-danger': project.status === 'ARCHIVED' || project.status === 'COMPLETED',
                 'bg-warning': project.status === 'PENDING'
               }">
                 {{ project.status }}
@@ -104,7 +104,7 @@
             <div *ngIf="!canApply()" class="alert alert-warning mt-3">
               <p *ngIf="project.archived">This project is no longer accepting applications.</p>
               <p *ngIf="project.numberOfPositions <= 0">No positions available for this project.</p>
-              <p *ngIf="project.status !== 'ACTIVE'">This project is not currently active.</p>
+              <p *ngIf="project.status !== 'ACTIVE' && project.status !== 'PENDING' && project.status !== 'IN_PROGRESS'">This project is not currently active.</p>
             </div>
           </div>
 
