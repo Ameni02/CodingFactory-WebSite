@@ -14,7 +14,7 @@ import { SubmissionListComponent } from 'src/app/Modules/PfeSpace/submissions/su
 import { EvaluationFormComponent } from 'src/app/Modules/PfeSpace/evaluations/evaluation-form/evaluation-form.component';
 import { AddOfferComponent } from './Modules/PfeSpace/offers/add-offer/add-offer.component';
 import { PdfMergeComponentComponent } from './Modules/PfeSpace/pdf-merge-component/pdf-merge-component.component';
-
+import { AiWorkflowComponent } from './Modules/PfeSpace/ai-workflow/ai-workflow.component';
 
 
 const routes: Routes = [
@@ -41,6 +41,8 @@ const routes: Routes = [
   { path: 'submissions', component: SubmissionListComponent },
   { path: 'submissions/:id', component: SubmissionDetailComponent },
   { path: 'evaluations/new', component: EvaluationFormComponent },
+  { path: 'ai-workflow', component: AiWorkflowComponent },
+  { path: 'pfe-space/ai-workflow', component: AiWorkflowComponent },
 ];
 
 @NgModule({

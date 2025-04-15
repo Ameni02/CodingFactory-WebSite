@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { TestService } from 'src/services/test.service';
+import { AiWorkflowService } from 'src/services/ai-workflow.service';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,6 +38,7 @@ import { SubmissionDetailComponent } from './Modules/PfeSpace/submissions/submis
 import { EvaluationFormComponent } from './Modules/PfeSpace/evaluations/evaluation-form/evaluation-form.component';
 import { PdfMergeComponentComponent } from './Modules/PfeSpace/pdf-merge-component/pdf-merge-component.component';
 import { ChatbotComponent } from './Modules/PfeSpace/chatbot/chatbot.component';
+import { AiWorkflowComponent } from './Modules/PfeSpace/ai-workflow/ai-workflow.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -68,11 +72,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SupervisorDashboardComponent,
     PdfMergeComponentComponent,
     ChatbotComponent,
-
+    AiWorkflowComponent,
 
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     HttpClientModule,
     RouterModule,
@@ -81,7 +86,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [TestService, AiWorkflowService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
