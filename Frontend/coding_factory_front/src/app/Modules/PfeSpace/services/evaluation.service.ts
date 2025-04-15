@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Evaluation } from 'src/app/models/evaluation.model'; 
+import { Evaluation } from '../models/evaluation.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class EvaluationService {
   private apiUrl = 'http://localhost:8080/pfespace/api/pfe/evaluations';

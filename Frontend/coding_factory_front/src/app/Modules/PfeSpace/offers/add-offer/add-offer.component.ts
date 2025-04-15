@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Project } from 'src/app/models/project.model'; 
-import { ProjectService } from 'src/services/project.service';
+import { Project } from '../../models/project.model';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-add-offer',
@@ -47,17 +47,17 @@ export class AddOfferComponent {
       console.log('Selected File:', this.selectedFile); // Log the file
 
       // Call the addOffer method with the offer data and file
-      this. projectservice.addProject (offerData, this.selectedFile).subscribe(
-        (savedOffer) => {
+      this.projectservice.addProject(offerData, this.selectedFile).subscribe({
+        next: (savedOffer: any) => {
           console.log('Offer created successfully:', savedOffer); // Log the response
           alert('Offer created successfully!');
           this.router.navigate(['/offers']); // Navigate to the offers list
         },
-        (error) => {
+        error: (error: any) => {
           console.error('Error creating offer:', error); // Log the error
           alert('Error creating offer. Please try again.');
         }
-      );
+      });
     } else {
       alert('Please select a file before submitting.'); // Handle case where no file is selected
     }

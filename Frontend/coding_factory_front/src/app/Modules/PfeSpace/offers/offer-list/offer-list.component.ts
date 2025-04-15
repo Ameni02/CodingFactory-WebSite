@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from 'src/services/project.service';
-import { Project } from 'src/app/models/project.model';
+import { ProjectService } from '../../services/project.service';
+import { Project } from '../../models/project.model';
 import { ToastrService } from 'ngx-toastr';
+import { PfeSpaceConfig } from '../../config/pfe-space.config';
+import { formatDate, getStatusClass } from '../../utils/pfe-space.utils';
 
 @Component({
   selector: 'app-offer-list',
@@ -18,6 +20,13 @@ export class OfferListComponent implements OnInit {
   searchQuery: string = '';
   selectedField: string = '';
   fields: string[] = [];
+
+  // Expose utility functions to the template
+  formatDate = formatDate;
+  getStatusClass = getStatusClass;
+
+  // Expose config to the template
+  config = PfeSpaceConfig;
 
   constructor(
     private projectService: ProjectService,
@@ -58,9 +67,9 @@ export class OfferListComponent implements OnInit {
   updatePaginatedOffers(): void {
     // Filter offers based on search query
     let filteredOffers = this.offers;
-    
+
     if (this.searchQuery) {
-      filteredOffers = filteredOffers.filter(offer => 
+      filteredOffers = filteredOffers.filter(offer =>
         (offer.title?.toLowerCase().includes(this.searchQuery.toLowerCase()) || false) ||
         (offer.field?.toLowerCase().includes(this.searchQuery.toLowerCase()) || false) ||
         (offer.companyName?.toLowerCase().includes(this.searchQuery.toLowerCase()) || false)
@@ -75,7 +84,7 @@ export class OfferListComponent implements OnInit {
     // Calculate pagination
     this.totalPages = Math.max(1, Math.ceil(filteredOffers.length / this.itemsPerPage));
     this.currentPage = Math.min(this.currentPage, this.totalPages);
-    
+
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.paginatedOffers = filteredOffers.slice(startIndex, startIndex + this.itemsPerPage);
   }

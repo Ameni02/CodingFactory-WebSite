@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PfeSpaceConfig } from '../config/pfe-space.config';
 
 @Injectable({
   providedIn: 'root'

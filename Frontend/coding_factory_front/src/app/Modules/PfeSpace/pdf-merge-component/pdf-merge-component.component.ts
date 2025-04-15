@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { PdfMergeService } from 'src/app/services/pdf-merge.service';
- 
+import { PdfMergeService } from '../services/pdf-merge.service';
 
 @Component({
   selector: 'app-pdf-merge-component',

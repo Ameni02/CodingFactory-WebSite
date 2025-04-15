@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DeliverableService } from 'src/services/deliverable.service';
-import { ContentAnalysisService } from 'src/services/content-analysis.service';
+import { DeliverableService } from '../../services/deliverable.service';
+import { ContentAnalysisService } from '../../services/content-analysis.service';
 import { Router } from '@angular/router';
-import { ContentAnalysisResult } from 'src/app/models/content-analysis-result.model';
+import { ContentAnalysisResult } from '../../models/content-analysis-result.model';
 
 @Component({
   selector: 'app-submission-form',

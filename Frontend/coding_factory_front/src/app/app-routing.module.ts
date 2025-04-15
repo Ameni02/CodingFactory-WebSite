@@ -1,48 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule , Routes } from '@angular/router';
-
-import { MainPageComponent } from './Modules/PfeSpace/main-page/main-page.component';
 import { HomeComponent } from './components/home/home.component';
-import { OfferListComponent  } from 'src/app/Modules/PfeSpace/offers/offer-list/offer-list.component';
-
-import { OfferDetailComponent } from 'src/app/Modules/PfeSpace/offers/offer-detail/offer-detail.component';
-import { ApplicationDetailComponent } from 'src/app/Modules/PfeSpace/applications/application-detail/application-detail.component';
-import { ApplicationFormComponent } from 'src/app/Modules/PfeSpace/applications/application-form/application-form.component';
-import { SubmissionDetailComponent } from 'src/app/Modules/PfeSpace/submissions/submission-detail/submission-detail.component';
-import { SubmissionFormComponent } from 'src/app/Modules/PfeSpace/submissions/submission-form/submission-form.component';
-import { SubmissionListComponent } from 'src/app/Modules/PfeSpace/submissions/submission-list/submission-list.component';
-import { EvaluationFormComponent } from 'src/app/Modules/PfeSpace/evaluations/evaluation-form/evaluation-form.component';
-import { AddOfferComponent } from './Modules/PfeSpace/offers/add-offer/add-offer.component';
-import { PdfMergeComponentComponent } from './Modules/PfeSpace/pdf-merge-component/pdf-merge-component.component';
-import { AiWorkflowComponent } from './Modules/PfeSpace/ai-workflow/ai-workflow.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Default homepage
-  { path: 'pfe-space', component: MainPageComponent },
-  { path: 'merge', component: PdfMergeComponentComponent },
-  { path: 'pfe-space/offers/add', component: AddOfferComponent },
-  { path: 'pfe-space/offers', component: OfferListComponent },
-  { path: 'pfe-space/offers/:id', component: OfferDetailComponent },
-  { path: 'pfe-space/applications/new', component: ApplicationFormComponent },
-  { path: 'pfe-space/applications/:id', component: ApplicationDetailComponent },
-  { path: 'pfe-space/submissions/new', component: SubmissionFormComponent },
-  { path: 'pfe-space/submissions', component: SubmissionListComponent },
-  { path: 'pfe-space/submissions/:id', component: SubmissionDetailComponent },
-  { path: 'pfe-space/evaluations/new', component: EvaluationFormComponent },
 
-  // Keep the old routes for backward compatibility
-  { path: 'offers/add', component: AddOfferComponent },
-  { path: 'offers', component: OfferListComponent },
-  { path: 'offers/:id', component: OfferDetailComponent },
-  { path: 'applications/new', component: ApplicationFormComponent },
-  { path: 'applications/:id', component: ApplicationDetailComponent },
-  { path: 'submissions/new', component: SubmissionFormComponent },
-  { path: 'submissions', component: SubmissionListComponent },
-  { path: 'submissions/:id', component: SubmissionDetailComponent },
-  { path: 'evaluations/new', component: EvaluationFormComponent },
-  { path: 'ai-workflow', component: AiWorkflowComponent },
-  { path: 'pfe-space/ai-workflow', component: AiWorkflowComponent },
+  // The PfeSpace routes are now handled by the PfeSpace module
+  // We only need to keep the old routes for backward compatibility
+  { path: 'offers/add', redirectTo: 'pfe-space/offers/add', pathMatch: 'full' },
+  { path: 'offers', redirectTo: 'pfe-space/offers', pathMatch: 'full' },
+  { path: 'offers/:id', redirectTo: 'pfe-space/offers/:id', pathMatch: 'full' },
+  { path: 'applications/new', redirectTo: 'pfe-space/applications/new', pathMatch: 'full' },
+  { path: 'applications/:id', redirectTo: 'pfe-space/applications/:id', pathMatch: 'full' },
+  { path: 'submissions/new', redirectTo: 'pfe-space/submissions/new', pathMatch: 'full' },
+  { path: 'submissions', redirectTo: 'pfe-space/submissions', pathMatch: 'full' },
+  { path: 'submissions/:id', redirectTo: 'pfe-space/submissions/:id', pathMatch: 'full' },
+  { path: 'evaluations/new', redirectTo: 'pfe-space/evaluations/new', pathMatch: 'full' },
+  { path: 'ai-workflow', redirectTo: 'pfe-space/ai-workflow', pathMatch: 'full' },
+  { path: 'merge', redirectTo: 'pfe-space/merge', pathMatch: 'full' }
 ];
 
 @NgModule({

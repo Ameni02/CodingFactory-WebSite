@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EvaluationService } from 'src/services/evaluation.service'; 
-import { Evaluation } from 'src/app/models/evaluation.model'; 
+import { EvaluationService } from '../../services/evaluation.service';
+import { Evaluation } from '../../models/evaluation.model';
 import { Router } from '@angular/router';
 
 @Component({

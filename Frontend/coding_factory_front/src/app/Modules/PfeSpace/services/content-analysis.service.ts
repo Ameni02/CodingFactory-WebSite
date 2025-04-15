@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ContentAnalysisResult } from '../app/models/content-analysis-result.model';
+import { ContentAnalysisResult } from '../models/content-analysis-result.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AiWorkflowService } from 'src/services/ai-workflow.service';
-import { TestService } from 'src/services/test.service';
-import { Project } from 'src/app/models/project.model';
-import { ProjectDTO, ProjectMatch } from 'src/app/models/ai-workflow.model';
+import { AiWorkflowService } from '../services/ai-workflow.service';
+import { TestService } from '../services/test.service';
+import { Project } from '../models/project.model';
+import { ProjectDTO, ProjectMatch } from '../models/ai-workflow.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

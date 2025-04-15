@@ -27,7 +27,7 @@
   <h3>Evaluated Reports</h3>
   <div *ngIf="evaluatedReports.length > 0; else noEvaluations">
     <div *ngFor="let evaluation of evaluatedReports">
-      <p>Deliverable ID: {{ evaluation.deliverableId }}</p>
+      <p>Deliverable ID: {{ evaluation.deliverable.id }}</p>
       <p>Grade: {{ evaluation.grade }}</p>
       <p>Comment: {{ evaluation.comment }}</p>
     </div>

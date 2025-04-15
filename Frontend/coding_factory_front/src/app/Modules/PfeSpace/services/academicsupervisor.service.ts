@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AcademicSupervisor } from 'src/app/models/academicsupervisor.model';
+import { AcademicSupervisor } from '../models/academicsupervisor.model';
+import { PfeSpaceConfig } from '../config/pfe-space.config';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DeliverableService } from 'src/services/deliverable.service'; 
-import { Deliverable } from 'src/app/models/deliverable.model';
+import { DeliverableService } from '../../services/deliverable.service';
+import { Deliverable } from '../../models/deliverable.model';
 
 @Component({
   selector: 'app-submission-list',

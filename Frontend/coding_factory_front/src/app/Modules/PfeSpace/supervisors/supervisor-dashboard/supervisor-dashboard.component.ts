@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DeliverableService } from 'src/services/deliverable.service'; 
-import { EvaluationService } from 'src/services/evaluation.service'; 
-import { Deliverable } from 'src/app/models/deliverable.model'; 
-import { Evaluation } from 'src/app/models/evaluation.model'; 
+import { DeliverableService } from '../../services/deliverable.service';
+import { EvaluationService } from '../../services/evaluation.service';
+import { Deliverable } from '../../models/deliverable.model';
+import { Evaluation } from '../../models/evaluation.model';
 
 @Component({
   selector: 'app-supervisor-dashboard',

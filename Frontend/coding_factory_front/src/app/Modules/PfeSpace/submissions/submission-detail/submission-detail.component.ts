@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DeliverableService } from 'src/services/deliverable.service'; 
-import { Deliverable } from 'src/app/models/deliverable.model';
+import { DeliverableService } from '../../services/deliverable.service';
+import { Deliverable } from '../../models/deliverable.model';
 
 @Component({
   selector: 'app-submission-detail',

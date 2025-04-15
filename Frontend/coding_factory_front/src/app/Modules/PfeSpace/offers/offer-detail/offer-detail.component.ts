@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectService } from 'src/services/project.service';
+import { ProjectService } from '../../services/project.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -89,7 +89,7 @@ export class OfferDetailComponent implements OnInit {
 
     this.isDownloading = true;
     this.projectService.downloadFile(this.project.id, 'description').subscribe({
-      next: (blob) => {
+      next: (blob: Blob) => {
         console.log('Download successful, blob size:', blob.size);
         console.log('Content type:', blob.type);
 
@@ -117,7 +117,7 @@ export class OfferDetailComponent implements OnInit {
         this.isDownloading = false;
         this.toastr.success('Description downloaded successfully');
       },
-      error: (error) => {
+      error: (error: any) => {
         this.isDownloading = false;
         this.toastr.error('Failed to download description: ' + (error.message || 'Unknown error'));
         console.error('Error downloading description:', error);

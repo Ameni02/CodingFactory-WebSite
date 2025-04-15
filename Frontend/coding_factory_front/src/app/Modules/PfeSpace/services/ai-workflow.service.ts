@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { CoverLetterRequest, CoverLetterResponse, MatchProjectsResponse } from 'src/app/models/ai-workflow.model';
+import { CoverLetterRequest, CoverLetterResponse, MatchProjectsResponse } from '../models/ai-workflow.model';
+import { PfeSpaceConfig } from '../config/pfe-space.config';
 
 @Injectable({
   providedIn: 'root'

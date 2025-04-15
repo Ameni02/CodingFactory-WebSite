@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService } from 'src/services/application.service';
-import { Application } from 'src/app/models/application.model';
+import { ApplicationService } from '../../services/application.service';
+import { Application } from '../../models/application.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -155,7 +155,7 @@ export class ApplicationDetailComponent implements OnInit {
 
         this.toastr.success(`${fileType === 'cv' ? 'CV' : 'Cover Letter'} downloaded successfully`);
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error downloading file:', error);
         if (fileType === 'cv') {
           this.isDownloadingCv = false;

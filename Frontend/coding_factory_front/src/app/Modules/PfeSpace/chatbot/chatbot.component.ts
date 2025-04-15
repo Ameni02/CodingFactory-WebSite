@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as marked from 'marked';
+import { ChatbotService, ChatResponse } from '../services/chatbot.service';
 
 interface ChatMessage {
   text: string;
@@ -10,14 +10,7 @@ interface ChatMessage {
   isHtml?: boolean;
 }
 
-interface ChatResponse {
-  responseText: string;
-  suggestedQuestions: string[];
-  intent: string;
-  timestamp: string;
-  requiresAction: boolean;
-  actionType: string;
-}
+// Using ChatResponse from chatbot.service.ts
 
 @Component({
   selector: 'app-chatbot',
@@ -38,7 +31,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   private lastScrollTop = 0;
 
   constructor(
-    private http: HttpClient,
+    private chatbotService: ChatbotService,
     private fb: FormBuilder
   ) {
     this.chatForm = this.fb.group({
@@ -112,10 +105,7 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     await this.delay(600);
 
     try {
-      const response = await this.http.post<ChatResponse>(
-        'http://localhost:8080/pfespace/api/chatbot/ask',
-        { message: userMessage }
-      ).toPromise();
+      const response = await this.chatbotService.sendMessage(userMessage).toPromise();
 
       if (response) {
         await this.addBotMessage(response.responseText, true);

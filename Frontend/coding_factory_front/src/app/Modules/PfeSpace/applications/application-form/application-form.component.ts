@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationService } from 'src/services/application.service';
+import { ApplicationService } from '../../services/application.service';
 import { ToastrService } from 'ngx-toastr';
-import { Application } from 'src/app/models/application.model';
-import { Project } from 'src/app/models/project.model';
-import { ProjectService } from 'src/services/project.service';
+import { Application } from '../../models/application.model';
+import { Project } from '../../models/project.model';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-application-form',
