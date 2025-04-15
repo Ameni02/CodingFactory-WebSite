@@ -698,8 +698,11 @@ public class PfeRestController {
     }
     // =========================== DELIVERABLES ===========================
 
+    @Autowired
+    private ContentAnalysisController contentAnalysisController;
+
     @PostMapping(value = "/deliverables/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Deliverable> createDeliverable(
+    public ResponseEntity<?> createDeliverable(
             @RequestParam("projectId") Long projectId,
             @RequestParam("academicSupervisorId") Long academicSupervisorId,
             @RequestParam("title") String title,
@@ -716,12 +719,38 @@ public class PfeRestController {
             Deliverable deliverable = new Deliverable();
             deliverable.setTitle(title);
             deliverable.setSubmissionDate(submissionDate);
+            deliverable.setStatus("PENDING"); // Set initial status to PENDING
 
             // Call the service to create the deliverable
             Deliverable createdDeliverable = pfeService.createDeliverable(projectId, academicSupervisorId, deliverable, descriptionFilePath, reportFilePath);
 
-            // Return a success response
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdDeliverable);
+            // Analyze the report file for plagiarism and AI-generated content
+            Map<String, Object> analysisResults;
+            try {
+                // Call the content analysis controller to analyze the report file
+                ResponseEntity<?> analysisResponse = contentAnalysisController.analyzeReport(reportFile);
+                if (analysisResponse.getStatusCode().is2xxSuccessful() && analysisResponse.getBody() instanceof Map) {
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> body = (Map<String, Object>) analysisResponse.getBody();
+                    analysisResults = body;
+                } else {
+                    // If analysis fails, create a default result
+                    analysisResults = new HashMap<>();
+                    analysisResults.put("error", "Failed to analyze report file");
+                }
+            } catch (Exception e) {
+                // If analysis throws an exception, create a default result
+                analysisResults = new HashMap<>();
+                analysisResults.put("error", "Error analyzing report: " + e.getMessage());
+            }
+
+            // Combine the deliverable and analysis results
+            Map<String, Object> response = new HashMap<>();
+            response.put("deliverable", createdDeliverable);
+            response.put("analysisResults", analysisResults);
+
+            // Return a success response with both the deliverable and analysis results
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);  // Error saving files
         } catch (RuntimeException ex) {

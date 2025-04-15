@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DeliverableService } from 'src/services/deliverable.service';
+import { ContentAnalysisService } from 'src/services/content-analysis.service';
 import { Router } from '@angular/router';
+import { ContentAnalysisResult } from 'src/app/models/content-analysis-result.model';
 
 @Component({
   selector: 'app-submission-form',
@@ -12,10 +14,14 @@ export class SubmissionFormComponent implements OnInit {
   submissionForm!: FormGroup;
   descriptionFile: File | null = null; // Declare the description file property
   reportFile: File | null = null; // Declare the report file property
+  analysisResult: ContentAnalysisResult | null = null;
+  isAnalyzing: boolean = false;
+  showAnalysisResults: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private deliverableService: DeliverableService,
+    private contentAnalysisService: ContentAnalysisService,
     private router: Router
   ) {}
 
@@ -76,8 +82,39 @@ export class SubmissionFormComponent implements OnInit {
     this.deliverableService.addDeliverable(formData).subscribe(
       (response) => {
         console.log('Deliverable added successfully:', response);
-        alert('Deliverable created successfully!');
-        this.router.navigate(['/deliverables']);
+
+        // Check if the response contains analysis results
+        if (response && typeof response === 'object') {
+          if (response.hasOwnProperty('analysisResults')) {
+            // @ts-ignore - We know the structure from the backend
+            this.analysisResult = response.analysisResults;
+            this.showAnalysisResults = true;
+
+            // Show a different message based on the analysis results
+            if (this.analysisResult && this.analysisResult.overallStatus) {
+              if (this.analysisResult.overallStatus === 'PASSED') {
+                alert('Deliverable created successfully! The report passed the plagiarism and AI content check.');
+              } else if (this.analysisResult.overallStatus === 'WARNING') {
+                alert('Deliverable created with warnings! Please review the plagiarism and AI content analysis results.');
+              } else if (this.analysisResult.overallStatus === 'FAILED') {
+                alert('Deliverable created, but the report failed the plagiarism and AI content check. Please review the analysis results.');
+              } else {
+                alert('Deliverable created successfully!');
+              }
+            } else {
+              alert('Deliverable created successfully!');
+            }
+          } else {
+            alert('Deliverable created successfully!');
+          }
+        } else {
+          alert('Deliverable created successfully!');
+        }
+
+        // Navigate to deliverables page after a short delay to allow the user to see the analysis results
+        setTimeout(() => {
+          this.router.navigate(['/deliverables']);
+        }, 5000);
       },
       (error) => {
         console.error('Error creating deliverable:', error);
@@ -99,6 +136,32 @@ export class SubmissionFormComponent implements OnInit {
     if (input?.files) {
       this.reportFile = input.files[0]; // Get the first file
       this.submissionForm.get('reportFilePath')?.setValue(input.files[0].name); // Set the value in form
+
+      // Reset analysis results when a new file is selected
+      this.analysisResult = null;
+      this.showAnalysisResults = false;
     }
+  }
+
+  // Method to analyze the report file for plagiarism and AI content
+  analyzeReport(): void {
+    if (!this.reportFile) {
+      alert('Please select a report file first.');
+      return;
+    }
+
+    this.isAnalyzing = true;
+    this.contentAnalysisService.analyzeReport(this.reportFile).subscribe(
+      (result) => {
+        this.analysisResult = result;
+        this.showAnalysisResults = true;
+        this.isAnalyzing = false;
+      },
+      (error) => {
+        console.error('Error analyzing report:', error);
+        this.isAnalyzing = false;
+        alert('Error analyzing report. Please try again.');
+      }
+    );
   }
 }

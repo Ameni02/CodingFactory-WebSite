@@ -57,6 +57,14 @@ public class Deliverable {
     @OneToOne(mappedBy = "deliverable", cascade = CascadeType.ALL, orphanRemoval = true)
     private Evaluation evaluation;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     private boolean archived = false;
 
     public boolean isArchived() {
