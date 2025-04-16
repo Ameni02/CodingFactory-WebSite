@@ -1,0 +1,13 @@
+<div class="star-rating" role="group" aria-label="Rate this event from 1 to 5 stars">
+  <span
+    class="star-container"
+    *ngFor="let star of stars"
+    (click)="rate(star)"
+    (keydown.enter)="rate(star)"
+    (keydown.space)="rate(star)"
+    tabindex="0"
+    [attr.aria-label]="star + ' star' + (star > 1 ? 's' : '')"
+    [attr.aria-pressed]="isActive(star)">
+    <i class="bi" [ngClass]="isActive(star) ? 'bi-star-fill' : 'bi-star'"></i>
+  </span>
+</div>

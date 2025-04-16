@@ -1,0 +1,196 @@
+<!--<div class="modal fade" id="modalCreateEvents" tabindex="-1" aria-labelledby="modalLabelCreateEvents" aria-hidden="true">-->
+<!--  <div class="modal-dialog modal-dialog-centered">-->
+<!--    <div class="modal-content">-->
+<!--      &lt;!&ndash; Modal feed header START &ndash;&gt;-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="modalLabelCreateEvents">Create event</h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--      &lt;!&ndash; Modal feed header END &ndash;&gt;-->
+<!--      &lt;!&ndash; Modal feed body START &ndash;&gt;-->
+<!--      <div class="modal-body">-->
+<!--        &lt;!&ndash; Form START &ndash;&gt;-->
+<!--        <form class="row g-4">-->
+<!--          &lt;!&ndash; Title &ndash;&gt;-->
+<!--          <div class="col-12">-->
+<!--            <label class="form-label">Title</label>-->
+<!--            <input type="text" class="form-control" placeholder="Event name here">-->
+<!--          </div>-->
+<!--          &lt;!&ndash; Description &ndash;&gt;-->
+<!--          <div class="col-12">-->
+<!--            <label class="form-label">Description</label>-->
+<!--            <textarea class="form-control" rows="2" placeholder="Ex: topics, schedule, etc."></textarea>-->
+<!--          </div>-->
+<!--          &lt;!&ndash; Date &ndash;&gt;-->
+<!--          <div class="col-sm-4">-->
+<!--            <label class="form-label">Date</label>-->
+<!--            <input type="text" class="form-control flatpickr" placeholder="Select date">-->
+<!--          </div>-->
+<!--          &lt;!&ndash; Time &ndash;&gt;-->
+<!--          <div class="col-sm-4">-->
+<!--            <label class="form-label">Time</label>-->
+<!--            <input type="text" class="form-control flatpickr" data-enableTime="true" data-noCalendar="true" placeholder="Select time">-->
+<!--          </div>-->
+<!--          &lt;!&ndash; Duration &ndash;&gt;-->
+<!--          <div class="col-sm-4">-->
+<!--            <label class="form-label">Duration</label>-->
+<!--            <input type="text" class="form-control" placeholder="1hr 23m">-->
+<!--          </div>-->
+<!--          &lt;!&ndash; Location &ndash;&gt;-->
+<!--          <div class="col-12">-->
+<!--            <label class="form-label">Location</label>-->
+<!--            <input type="text" class="form-control" placeholder="Logansport, IN 46947">-->
+<!--          </div>-->
+<!--          &lt;!&ndash; Add guests &ndash;&gt;-->
+<!--          <div class="col-12">-->
+<!--            <label class="form-label">Add guests</label>-->
+<!--            <input type="email" class="form-control" placeholder="Guest email">-->
+<!--          </div>-->
+<!--          &lt;!&ndash; Avatar group START &ndash;&gt;-->
+<!--          <div class="col-12 mt-3">-->
+<!--            <ul class="avatar-group list-unstyled align-items-center mb-0">-->
+<!--              <li class="avatar avatar-xs">-->
+<!--                <img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar">-->
+<!--              </li>-->
+<!--              <li class="avatar avatar-xs">-->
+<!--                <img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="avatar">-->
+<!--              </li>-->
+<!--              <li class="avatar avatar-xs">-->
+<!--                <img class="avatar-img rounded-circle" src="assets/images/avatar/03.jpg" alt="avatar">-->
+<!--              </li>-->
+<!--              <li class="avatar avatar-xs">-->
+<!--                <img class="avatar-img rounded-circle" src="assets/images/avatar/04.jpg" alt="avatar">-->
+<!--              </li>-->
+<!--              <li class="avatar avatar-xs">-->
+<!--                <img class="avatar-img rounded-circle" src="assets/images/avatar/05.jpg" alt="avatar">-->
+<!--              </li>-->
+<!--              <li class="avatar avatar-xs">-->
+<!--                <img class="avatar-img rounded-circle" src="assets/images/avatar/06.jpg" alt="avatar">-->
+<!--              </li>-->
+<!--              <li class="avatar avatar-xs">-->
+<!--                <img class="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="avatar">-->
+<!--              </li>-->
+<!--              <li class="ms-3">-->
+<!--                <small> +50 </small>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--          &lt;!&ndash; Dropzone photo START &ndash;&gt;-->
+<!--          <div class="mb-3">-->
+<!--            <label class="form-label">Upload attachment</label>-->
+<!--            <div class="dropzone dropzone-default card shadow-none" data-dropzone='{"maxFiles":2}'>-->
+<!--              <div class="dz-message">-->
+<!--                <i class="bi bi-file-earmark-text display-3"></i>-->
+<!--                <p>Drop presentation and document here or click to upload.</p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          &lt;!&ndash; Dropzone photo END &ndash;&gt;-->
+<!--        </form>-->
+<!--        &lt;!&ndash; Form END &ndash;&gt;-->
+<!--      </div>-->
+<!--      &lt;!&ndash; Modal feed body END &ndash;&gt;-->
+<!--      &lt;!&ndash; Modal footer &ndash;&gt;-->
+<!--      &lt;!&ndash; Button &ndash;&gt;-->
+<!--      <div class="modal-footer">-->
+<!--        <button type="button" class="btn btn-danger-soft me-2" data-bs-dismiss="modal"> Cancel</button>-->
+<!--        <button type="button" class="btn btn-success-soft">Create now</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<div class="modal fade" id="modalCreateEvents" tabindex="-1" aria-labelledby="modalLabelCreateEvents" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal feed header START -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabelCreateEvents">Event Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- Modal feed header END -->
+
+      <!-- Modal feed body START -->
+      <div class="modal-body">
+        <!-- Form START -->
+        <form class="row g-4" #eventForm="ngForm" (ngSubmit)="submitEvent()">
+          <!-- Title -->
+          <div class="col-12">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" [(ngModel)]="event.title" name="title" required maxlength="50" #title="ngModel">
+            <small class="text-danger" *ngIf="title.invalid && title.touched">Title is required (max 50 characters).</small>
+          </div>
+
+          <!-- Description -->
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="2" [(ngModel)]="event.description" name="description" required maxlength="500" #description="ngModel"></textarea>
+            <small class="text-danger" *ngIf="description.invalid && description.touched">Description is required (max 500 characters).</small>
+          </div>
+
+          <!-- Date -->
+          <div class="col-sm-4">
+            <label class="form-label">Date</label>
+            <input type="datetime-local" class="form-control" [(ngModel)]="event.date" name="date" required #date="ngModel">
+            <small class="text-danger" *ngIf="date.invalid && date.touched">Please select a future date.</small>
+          </div>
+
+          <!-- Location -->
+          <div class="col-sm-4">
+            <label class="form-label">Location</label>
+            <input type="text" class="form-control" [(ngModel)]="event.location" name="location" required #location="ngModel">
+            <small class="text-danger" *ngIf="location.invalid && location.touched">Location is required.</small>
+          </div>
+
+          <!-- Category -->
+          <div class="col-sm-4">
+            <label class="form-label">Category</label>
+            <select class="form-control" [(ngModel)]="event.category" name="category" required #category="ngModel">
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+            <small class="text-danger" *ngIf="category.invalid && category.touched">Please select a category.</small>
+          </div>
+
+          <!-- Max Participants -->
+          <div class="col-sm-4">
+            <label class="form-label">Max Participants</label>
+            <input type="number" class="form-control" [(ngModel)]="event.maxParticipants" name="maxParticipants" required min="1" #maxParticipants="ngModel">
+            <small class="text-danger" *ngIf="maxParticipants.invalid && maxParticipants.touched">Must be at least 1 participant.</small>
+          </div>
+
+          <!-- Price -->
+          <div class="col-sm-4">
+            <label class="form-label">Price ($)</label>
+            <input type="number" class="form-control" [(ngModel)]="event.price" name="price" required min="0" #price="ngModel">
+            <small class="text-danger" *ngIf="price.invalid && price.touched">Price must be 0 or more.</small>
+          </div>
+
+          <!-- Upload Image File -->
+          <div class="col-12">
+            <label class="form-label">Upload Event Image</label>
+            <input type="file" class="form-control" (change)="onFileSelected($event)">
+          </div>
+
+          <!-- Dropzone preview -->
+          <div class="mb-3">
+            <label class="form-label">Uploaded Image Preview</label>
+            <div class="dropzone dropzone-default card shadow-none">
+              <div class="dz-message text-center">
+                <i class="bi bi-file-earmark-text display-3" *ngIf="!selectedPicture"></i>
+                <p *ngIf="!selectedPicture">Drop an image or click to upload.</p>
+                <img *ngIf="selectedPicture" [src]="selectedPicture" class="img-fluid rounded" style="max-width: 100%; height: auto;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger-soft me-2" data-bs-dismiss="modal" #modalCloseButton> Close</button>
+            <button type="submit" class="btn btn-success-soft" [disabled]="eventForm.invalid">Create Event</button>
+          </div>
+        </form>
+        <!-- Form END -->
+      </div>
+      <!-- Modal feed body END -->
+    </div>
+  </div>
+</div>

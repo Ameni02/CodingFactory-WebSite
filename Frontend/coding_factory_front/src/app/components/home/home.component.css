@@ -1,0 +1,20 @@
+.home-container {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+section {
+  padding: 60px 0;
+  position: relative;
+}
+
+section:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+/* Add responsive styles */
+@media (max-width: 768px) {
+  section {
+    padding: 40px 0;
+  }
+}

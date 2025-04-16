@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/Microservices/PFESpace/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Microservices/eureka/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Microservices/gateway/src/main/java" charset="UTF-8" />
+    
   </component>
 </project>

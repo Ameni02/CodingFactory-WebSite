@@ -1,0 +1,8 @@
+.event-img {
+  width: 80px;          /* Fixed width */
+  height: 60px;         /* Fixed height */
+  object-fit: contain;  /* Keeps the image aspect ratio */
+  border-radius: 5px;   /* Optional: Makes image corners rounded */
+  border: 1px solid #ddd; /* Adds a light border */
+  display: block;
+}

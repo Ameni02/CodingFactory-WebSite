@@ -1,0 +1,139 @@
+<div class="container mt-5 pt-5">
+  <h2 class="mb-4">Manage Events</h2>
+
+  <!-- Event Table -->
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle text-center">
+      <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <td>Image</td>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Category</th>
+        <th>Max Participants</th>
+        <th>Price ($)</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let event of events; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>
+          <img *ngIf="event.image" [src]="'data:image/jpeg;base64,' + event.image" alt="Event Image" class="event-img">
+        </td>
+        <td>{{ event.title }}</td>
+        <td>{{ event.date | date: 'MMM d, y hh:mm a' }}</td>
+        <td>{{ event.description }}</td>
+        <td>{{ event.location }}</td>
+        <td>{{ event.status }}</td>
+        <td><span class="badge bg-primary">{{ event.category }}</span></td>
+        <td>{{ event.maxParticipants }}</td>
+        <td>{{ event.price }}</td>
+        <td>
+          <!-- Show Participation Button -->
+          <button class="btn btn-info btn-sm me-1" (click)="showParticipants(event.id)">
+            <i class="bi bi-people"></i> Participation
+          </button>
+
+          <!-- Show Feedback Button -->
+          <button class="btn btn-warning btn-sm me-1" (click)="showFeedback(event.id)">
+            <i class="bi bi-chat-dots"></i> Feedback
+          </button>
+
+          <!-- Edit Event Button -->
+          <button class="btn btn-success btn-sm me-1" (click)="editEvent(event)">
+            <i class="bi bi-pencil-square"></i> Update
+          </button>
+
+          <!-- Delete Event Button -->
+          <button class="btn btn-danger btn-sm" (click)="deleteEvent(event.id)">
+            <i class="bi bi-trash"></i> Delete
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Update Event Modal -->
+  <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateModalLabel">Update Event</h5>
+          <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form [formGroup]="eventForm">
+            <input type="hidden" formControlName="id" />
+
+            <div class="mb-3">
+              <label class="form-label">Title</label>
+              <input type="text" class="form-control" formControlName="title" required maxlength="50">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" rows="2" formControlName="description" required maxlength="500"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Date</label>
+              <input type="datetime-local" class="form-control" formControlName="date" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Location</label>
+              <input type="text" class="form-control" formControlName="location" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <select class="form-select" formControlName="status" required>
+                <option value="UPCOMING">Upcoming</option>
+                <option value="ONGOING">Ongoing</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="CANCELLED">Cancelled</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Category</label>
+              <select class="form-select" formControlName="category" required>
+                <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Max Participants</label>
+              <input type="number" class="form-control" formControlName="maxParticipants" required min="1">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Price ($)</label>
+              <input type="number" class="form-control" formControlName="price" required min="0">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Event Cover Image</label>
+              <input type="file" class="form-control" (change)="onFileSelected($event)" accept="image/*">
+              <div *ngIf="selectedPicture" class="mt-2">
+                <img [src]="selectedPicture" alt="Selected Image" style="max-width: 100%; max-height: 200px;">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+          <button type="button" class="btn btn-primary" (click)="updateEvent()" [disabled]="!eventForm.valid">Update Event</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

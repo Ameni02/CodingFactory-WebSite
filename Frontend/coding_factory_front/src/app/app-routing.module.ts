@@ -7,6 +7,8 @@ import { AdminPfeSpaceComponent } from './components/admin/admin-pfespace/admin-
 
 const routes: Routes = [
   { path: '', component: HomeComponent }, // Default homepage
+  { path: 'events', loadChildren: () => import('./Modules/front/front.module').then(m => m.FrontModule) },
+  { path: 'back', loadChildren: () => import('./back/back.module').then(m => m.BackModule) },
 
   // Admin routes
   {
@@ -18,7 +20,11 @@ const routes: Routes = [
       { path: 'trainings', component: AdminDashboardComponent }, // Placeholder for now
       { path: 'evaluations', component: AdminDashboardComponent }, // Placeholder for now
       { path: 'consulting', component: AdminDashboardComponent }, // Placeholder for now
-      { path: 'pfespace', component: AdminPfeSpaceComponent } // PFE Space management
+      { path: 'pfespace', component: AdminPfeSpaceComponent }, // PFE Space management
+      {
+        path: 'events',
+        loadChildren: () => import('./back/back.module').then(m => m.BackModule)
+      } // Events management
     ]
   },
 

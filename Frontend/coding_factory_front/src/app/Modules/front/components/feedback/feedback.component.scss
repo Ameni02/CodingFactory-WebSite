@@ -1,0 +1,52 @@
+/* ✅ Ensure the accordion has a white background */
+.accordion {
+  background-color: white !important;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* ✅ Ensure the accordion item background is white */
+.accordion-item {
+  background-color: white !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px;
+}
+
+/* ✅ Fix the accordion header/button styles */
+.accordion-button {
+  background-color: white !important;
+  color: #000 !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+/* ✅ Change button color when active */
+.accordion-button:not(.collapsed) {
+  background-color: #e9ecef !important;
+}
+
+/* ✅ Ensure the entire accordion wrapper does not have the purple background */
+#accordionschedules {
+  background-color: white !important;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* ✅ Remove any extra padding and margins */
+.accordion {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* ✅ Ensure no unwanted shadows */
+.accordion-item {
+  box-shadow: none !important;
+}
+
+/* ✅ Override Bootstrap variables if needed */
+:root {
+  --bs-accordion-bg: white !important;
+  --bs-accordion-btn-bg: white !important;
+  --bs-accordion-active-bg: #f8f9fa !important;
+}

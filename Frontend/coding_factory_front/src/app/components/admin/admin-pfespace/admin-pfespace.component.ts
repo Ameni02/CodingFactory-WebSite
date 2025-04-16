@@ -352,25 +352,26 @@ export class AdminPfeSpaceComponent implements OnInit {
     this.setActiveTab('deliverables');
   }
 
-  viewAllEvaluations(): void {
-    this.setActiveTab('evaluations');
-  }
-
-  // Helper methods
-  getStatusClass(status: string | undefined): string {
-    switch(status) {
+  getStatusClass(status: string): string {
+    switch(status?.toUpperCase()) {
       case 'PENDING':
-        return 'status-pending';
-      case 'ACCEPTED':
+        return 'status-warning';
+      case 'IN_PROGRESS':
+      case 'ACTIVE':
+        return 'status-info';
       case 'COMPLETED':
-      case 'EVALUATED':
+      case 'ACCEPTED':
+      case 'APPROVED':
         return 'status-success';
       case 'REJECTED':
+      case 'FAILED':
         return 'status-danger';
-      case 'IN_PROGRESS':
-        return 'status-warning';
       default:
-        return '';
+        return 'status-pending';
     }
+  }
+
+  viewAllEvaluations(): void {
+    this.setActiveTab('evaluations');
   }
 }

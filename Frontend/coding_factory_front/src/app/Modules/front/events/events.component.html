@@ -1,0 +1,94 @@
+<!-- Hero Section with Search Filters -->
+<app-hero-section (searchFilters)="onSearch($event)"></app-hero-section>
+<section class="pt-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 vstack gap-4">
+        <!-- Card START -->
+        <div class="card">
+          <div class="card-header d-sm-flex align-items-center text-center justify-content-sm-between border-0 pb-0">
+            <h2 class="h4 card-title">Discover Events</h2>
+            <!-- Button to open modal -->
+            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#modalCreateEvents">
+              <i class="bi bi-plus-circle"></i> Create event
+            </a>
+          </div>
+
+          <div class="card-body">
+            <div class="row g-4">
+
+              <!-- Events List -->
+              <ng-container *ngIf="filteredEvents.length > 0; else noEvents">
+                <div class="col-md-4" *ngFor="let event of filteredEvents">
+                  <app-event-card [event]="event"></app-event-card>
+                </div>
+              </ng-container>
+
+              <!-- No Events Found Message -->
+              <ng-template #noEvents>
+                <div class="d-flex flex-column align-items-center justify-content-center py-5" style="text-align: center;">
+                  <h4>No events found</h4>
+                  <p class="text-muted">Try adjusting your filters or check back later.</p>
+                  <button class="btn btn-outline-primary mt-3" (click)="resetFilters()">Reset Filters</button>
+                </div>
+              </ng-template>
+
+            </div>
+          </div>
+        </div>
+        <!-- Card END -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal for creating events -->
+<div class="modal fade" id="modalCreateEvents" tabindex="-1" aria-labelledby="modalCreateEventsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCreateEventsLabel">Create New Event</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitEvent()">
+          <div class="mb-3">
+            <label for="eventTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="eventTitle" [(ngModel)]="event.title" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="eventDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="eventDescription" rows="3" [(ngModel)]="event.description" name="description" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="eventDate" class="form-label">Date</label>
+            <input type="datetime-local" class="form-control" id="eventDate" [(ngModel)]="event.date" name="date" required>
+          </div>
+          <div class="mb-3">
+            <label for="eventLocation" class="form-label">Location</label>
+            <input type="text" class="form-control" id="eventLocation" [(ngModel)]="event.location" name="location" required>
+          </div>
+          <div class="mb-3">
+            <label for="eventCategory" class="form-label">Category</label>
+            <select class="form-control" id="eventCategory" [(ngModel)]="event.category" name="category" required>
+              <option value="">Select a category</option>
+              <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="eventMaxParticipants" class="form-label">Max Participants</label>
+            <input type="number" class="form-control" id="eventMaxParticipants" [(ngModel)]="event.maxParticipants" name="maxParticipants" required min="1">
+          </div>
+          <div class="mb-3">
+            <label for="eventPrice" class="form-label">Price</label>
+            <input type="number" class="form-control" id="eventPrice" [(ngModel)]="event.price" name="price" required min="0">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Create Event</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

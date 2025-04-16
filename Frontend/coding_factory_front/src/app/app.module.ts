@@ -29,6 +29,8 @@ import { AdminDashboardComponent } from './components/admin/admin-dashboard/admi
 // Import Modules
 import { PfeSpaceModule } from './Modules/PfeSpace/pfe-space.module';
 import { AdminModule } from './admin/admin.module';
+import { BackModule } from './back/back.module';
+// FrontModule is lazy loaded in app-routing.module.ts
 
 // Services
 import { DashboardService } from './services/dashboard.service';
@@ -67,6 +69,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ToastrModule.forRoot(),
     PfeSpaceModule,
     AdminModule,
+    BackModule,
     AdminLayoutComponent
   ],
   providers: [DashboardService],

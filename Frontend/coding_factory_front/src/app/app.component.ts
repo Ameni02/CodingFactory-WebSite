@@ -18,7 +18,8 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      this.isAdminRoute = event.url.includes('/admin');
+      console.log('Navigation event:', event.url);
+      this.isAdminRoute = event.url.includes('/admin') || event.url.includes('/back');
       this.updateMainBanner();
     });
   }
