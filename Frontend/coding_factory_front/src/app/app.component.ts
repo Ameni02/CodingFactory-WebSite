@@ -25,12 +25,16 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.updateMainBanner();
+    // Optionally redirect to login if you want to ensure it's always shown first
+    if (this.router.url === '/') {
+      this.router.navigate(['/login']);
+    }
   }
 
   updateMainBanner() {
     const mainBanner = document.querySelector('.main-banner') as HTMLElement;
     if (mainBanner) {
-      if (this.isAdminRoute) {
+      if (this.isAdminRoute || this.router.url === '/login') {
         this.renderer.setStyle(mainBanner, 'display', 'none');
       } else {
         this.renderer.setStyle(mainBanner, 'display', 'block');

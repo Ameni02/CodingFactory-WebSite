@@ -12,7 +12,7 @@
 
 /* Main Banner styles */
 .main-banner {
-  background-image: url('assets/assetsFront/assets/images/banner-bg.jpg');
+  /*background-image: url('assets/assetsFront/assets/images/banner-bg.jpg');*/
   background-position: right bottom;
   background-repeat: no-repeat;
   background-size: cover;

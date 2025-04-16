@@ -1,0 +1,33 @@
+.container {
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .success {
+    color: green;
+    margin-top: 10px;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  

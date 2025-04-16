@@ -1,0 +1,40 @@
+<div class="activation-container">
+  <!-- Success/Error Message Section -->
+  <div *ngIf="submitted; else codeForm" class="message-section">
+    <div class="card" [ngClass]="{'success-card': isOkay, 'error-card': !isOkay}">
+      <div class="card-body text-center">
+        <i class="icon" [ngClass]="{'bi bi-check-circle-fill success-icon': isOkay, 'bi bi-exclamation-circle-fill error-icon': !isOkay}"></i>
+        <h2 class="card-title">{{ isOkay ? 'Activation Successful!' : 'Activation Failed!' }}</h2>
+        <p class="card-text">{{ isOkay ? 'Your account has been successfully activated.' : message }}</p>
+        <button class="btn btn-primary mt-3" (click)="isOkay ? redirectToLogin() : (submitted = false)">
+          {{ isOkay ? 'Go to Login' : 'Try Again' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activation Code Form Section -->
+  <ng-template #codeForm>
+    <div class="form-section">
+      <div class="card">
+        <div class="card-body text-center">
+          <i class="bi bi-shield-lock icon activation-icon"></i>
+          <h2 class="card-title">Account Activation</h2>
+          <p class="card-text">Please enter the 6-digit code sent to your email</p>
+
+          <div class="code-input-container">
+            <code-input
+              [isCodeHidden]="false"
+              [codeLength]="6"
+              [code]="'number'"
+              (codeCompleted)="onCodeCompleted($event)">
+            </code-input>
+          </div>
+
+
+          <button class="btn btn-outline-secondary mt-2" (click)="redirectToLogin()">Back to Login</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,69 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Sign in to continue</p>
+    </div>
+
+    <!-- Error Messages -->
+    <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
+      <p *ngFor="let msg of errorMsg">{{ msg }}</p>
+    </div>
+
+    <!-- Login Form -->
+    <form class="login-form" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="login">Email address</label>
+        <div class="input-with-icon">
+          <!-- Email Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+          <input
+            [(ngModel)]="authRequest.email"
+            type="email"
+            name="email"
+            id="login"
+            placeholder="name@example.com"
+            required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-with-icon">
+          <!-- Password Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          <input
+            [(ngModel)]="authRequest.password"
+            type="password"
+            name="password"
+            id="password"
+            placeholder="••••••••"
+            required />
+        </div>
+      </div>
+
+      <button (click)="login()" type="button" class="login-btn">
+        <span class="diamond">♦</span> SIGN IN
+      </button>
+    </form>
+
+    <!-- Footer Actions -->
+    <div class="login-footer">
+      <div class="footer-links">
+        <a (click)="register()" class="link">Create account</a>
+        <span class="divider">•</span>
+        <a (click)="forgotPassword()" class="link">Forgot password?</a>
+        <span class="divider">•</span>
+        <a (click)="requestUnban()" class="link">Request unban</a>
+      </div>
+    </div>
+  </div>
+</div>
