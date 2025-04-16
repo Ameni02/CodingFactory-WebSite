@@ -1,0 +1,55 @@
+<section class="pt-5 pb-0 position-relative" style="background-image: url(assets/images/bg/07.jpg); background-repeat: no-repeat; background-size: cover; background-position: top center;">
+  <div class="bg-overlay bg-dark opacity-8"></div>
+  <!-- Container START -->
+  <div class="container">
+    <div class="py-5">
+      <div class="row position-relative">
+        <div class="col-lg-9 mx-auto">
+          <div class="text-center">
+            <!-- Title -->
+            <h1 class="text-white">Find events near you</h1>
+            <p class="text-white">Let's uncover the best places to eat, drink, and shop nearest to you.</p>
+          </div>
+          <div class="mx-auto bg-mode shadow rounded p-4 mt-5">
+            <!-- Form START -->
+            <form class="row align-items-end g-4">
+              <!-- Duration -->
+              <div class="col-sm-6 col-lg-3">
+                <label class="form-label">Select genre</label>
+                <select
+                  class="form-select js-choice choice-select-text-none"
+                  data-position="bottom"
+                  data-search-enabled="false"
+                  name="category"
+                  [(ngModel)]="selectedGenre"
+                  (change)="emitFilters()" >
+
+                  <option value="">All Categories</option> <!-- Optional default -->
+                  <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                </select>
+
+              </div>
+              <!-- Date -->
+              <div class="col-sm-6 col-lg-3">
+                <label class="form-label">Date from</label>
+                <input type="text" class="form-control flatpickr" [(ngModel)]="startDate"  (change)="emitFilters()"  name="startDate">
+              </div>
+
+              <!-- End Date -->
+              <div class="col-sm-6 col-lg-3">
+                <label class="form-label">Date to</label>
+                <input type="text" class="form-control flatpickr" [(ngModel)]="endDate"  (change)="emitFilters()"  name="endDate">
+              </div>
+
+              <!-- Filter Button (optional, if you want manual filtering) -->
+              <div class="col-sm-6 col-lg-3">
+                <button class="btn btn-primary w-100" type="button" (click)="emitFilters()">Filter Dates</button>
+              </div>
+            </form>
+            <!-- Form END -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

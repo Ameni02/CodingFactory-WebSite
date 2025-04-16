@@ -1,0 +1,84 @@
+<!--<app-hero-section  (searchFilters)="onSearch($event)"></app-hero-section>-->
+<!--<section class="pt-5">-->
+<!--  <div class="container">-->
+<!--    <div class="row g-4">-->
+<!--      <div class="col-12 vstack gap-4">-->
+<!--        &lt;!&ndash; Card START &ndash;&gt;-->
+<!--        <div class="card">-->
+<!--          <div class="card-header d-sm-flex align-items-center text-center justify-content-sm-between border-0 pb-0">-->
+<!--            <h2 class="h4 card-title">Discover Events</h2>-->
+<!--            &lt;!&ndash; Button to open modal &ndash;&gt;-->
+<!--            <a class="btn btn-primary-soft" href="#" data-bs-toggle="modal" data-bs-target="#modalCreateEvents">-->
+<!--              <i class="fa-solid fa-plus pe-1"></i> Create event-->
+<!--            </a>-->
+<!--          </div>-->
+<!--          <div class="card-body">-->
+<!--            <div class="row g-4">-->
+<!--              <div class="col-md-4"*ngFor="let event of filteredEvents"  ><app-event-card  [event]="event"></app-event-card></div>-->
+
+
+<!--            </div>-->
+<!--          </div>-->
+
+
+
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Include the Add Event Modal Component &ndash;&gt;-->
+<!--  <app-add-event-modal></app-add-event-modal>-->
+
+<!--</section>-->
+<app-hero-section (searchFilters)="onSearch($event)"></app-hero-section>
+
+<section class="pt-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 vstack gap-4">
+        <!-- Card START -->
+        <div class="card">
+          <div class="card-header d-sm-flex align-items-center text-center justify-content-sm-between border-0 pb-0">
+            <h2 class="h4 card-title">Discover Events</h2>
+            <!-- Button to open modal -->
+            <a class="btn btn-primary-soft" href="#" data-bs-toggle="modal" data-bs-target="#modalCreateEvents">
+              <i class="fa-solid fa-plus pe-1"></i> Create event
+            </a>
+          </div>
+
+          <div class="card-body">
+            <div class="row g-4">
+
+              <!-- Events List -->
+              <ng-container *ngIf="filteredEvents.length > 0; else noEvents">
+                <div class="col-md-4" *ngFor="let event of filteredEvents">
+                  <app-event-card [event]="event"></app-event-card>
+                </div>
+              </ng-container>
+
+              <!-- No Events Found Message -->
+              <ng-template #noEvents>
+                <div class="d-flex flex-column align-items-center justify-content-center py-5" style="text-align: center;">
+                  <ng-lottie
+                    [options]="lottieOptions"
+                    style="width: 300px; margin-bottom: 20px;">
+                  </ng-lottie>
+
+                  <h4>No events found</h4>
+                  <p class="text-muted">Try adjusting your filters or check back later.</p>
+                  <button class="btn btn-outline-primary mt-3" (click)="resetFilters()">Reset Filters</button>
+                </div>
+              </ng-template>
+
+            </div>
+          </div>
+        </div>
+        <!-- Card END -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Include the Add Event Modal Component -->
+  <app-add-event-modal></app-add-event-modal>
+</section>

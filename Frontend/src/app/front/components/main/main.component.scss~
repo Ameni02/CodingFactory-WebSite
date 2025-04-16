@@ -1,0 +1,24 @@
+.owl-carousel .item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 400px; /* Adjust height as needed */
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.owl-carousel .header-text {
+  max-width: 600px;
+  margin: auto;
+}
+
+.owl-carousel .header-text h2 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.owl-carousel .header-text p {
+  font-size: 1rem;
+  color: #555;
+}
