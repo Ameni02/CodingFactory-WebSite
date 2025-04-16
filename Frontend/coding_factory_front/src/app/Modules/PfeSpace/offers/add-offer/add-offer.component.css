@@ -1,6 +1,6 @@
 /* General Styles */
 .wrapper {
-  padding: 40px 0;
+  padding: 100px 0 40px 0; /* Increased top padding to prevent header overlap */
   background-color: #F5F7FD;
   min-height: 100vh;
 }
@@ -100,7 +100,7 @@ form {
 }
 
 .save-button {
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   font-size: 1rem;
   padding: 12px 30px;
@@ -118,9 +118,9 @@ form {
 }
 
 .save-button:hover:not(:disabled) {
-  background-color: #6A59C2; /* Darker purple */
+  background-color: #4a1d83; /* Darker purple */
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25);
 }
 
 .btn-back {

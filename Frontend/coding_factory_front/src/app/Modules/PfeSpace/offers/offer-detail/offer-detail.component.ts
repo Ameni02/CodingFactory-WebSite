@@ -49,31 +49,22 @@ export class OfferDetailComponent implements OnInit {
       isActive
     );
   }
-
   onApply(): void {
-    if (!this.project) return;
-
-    if (this.project.archived) {
-      this.toastr.warning('This project is no longer accepting applications');
+    if (!this.project || !this.canApply()) {
+      this.toastr.warning('Cannot apply for this project');
       return;
     }
-
-    if (this.project.numberOfPositions <= 0) {
-      this.toastr.warning('No positions available for this project');
-      return;
-    }
-
-    const status = this.project.status?.toUpperCase();
-    if (status !== 'ACTIVE' && status !== 'PENDING' && status !== 'IN_PROGRESS') {
-      this.toastr.warning('This project is not currently active');
-      return;
-    }
-
-    this.router.navigate(['/pfe-space/applications/new'], {
-      queryParams: { projectId: this.project.id }
+  
+    const url = `/pfe-space/applications/new?projectId=${this.project.id}`;
+  
+    // Attempt 1: Router navigation
+    this.router.navigateByUrl(url).then(success => {
+      if (!success) {
+        // Attempt 2: Fallback to window.location
+        window.location.href = url;
+      }
     });
   }
-
   downloadDescription(): void {
     if (!this.project?.id) {
       this.toastr.warning('Project details not available');

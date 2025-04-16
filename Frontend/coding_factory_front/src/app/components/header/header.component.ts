@@ -1,4 +1,5 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import { Component, Renderer2, Inject,HostListener, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import {AuthenticationService} from "../../services/services/authentication.service";
 import {Router} from "@angular/router";
 import {JwtHelperService} from "@auth0/angular-jwt";
@@ -9,6 +10,20 @@ import {JwtHelperService} from "@auth0/angular-jwt";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  
+
+  openEventModal() {
+    // Try to find the modal element
+    const modalElement = this.document.getElementById('modalCreateEvents');
+
+    if (modalElement) {
+      // Create a new instance of Bootstrap Modal
+      const modal = new (window as any).bootstrap.Modal(modalElement);
+      modal.show();
+    } else {
+      console.error('Modal element not found');
+    }
+  }
   isAuthenticated = false;
   userId: number | null = null;
   showProfileForm = false;
@@ -18,7 +33,9 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private jwtHelper: JwtHelperService
+    private jwtHelper: JwtHelperService,
+    private renderer: Renderer2, 
+    @Inject(DOCUMENT) private document: Document
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +86,10 @@ export class HeaderComponent implements OnInit {
 
   toggleProfileForm(): void {
     this.showProfileForm = !this.showProfileForm;
+  }
+  navigateToEvents() {
+    console.log('Navigating to events page');
+    this.router.navigate(['/events']);
   }
 }
 

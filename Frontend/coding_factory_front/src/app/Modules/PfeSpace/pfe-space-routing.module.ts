@@ -18,24 +18,19 @@ import { AiWorkflowComponent } from './ai-workflow/ai-workflow.component';
 // Chatbot is used as a shared component, not in routing
 
 const routes: Routes = [
-  {
-    path: 'pfe-space',
-    children: [
-      { path: '', component: MainPageComponent },
-      { path: 'offers/add', component: AddOfferComponent },
-      { path: 'offers', component: OfferListComponent },
-      { path: 'offers/:id', component: OfferDetailComponent },
-      { path: 'applications/new', component: ApplicationFormComponent },
-      { path: 'applications/:id', component: ApplicationDetailComponent },
-      { path: 'submissions/new', component: SubmissionFormComponent },
-      { path: 'submissions', component: SubmissionListComponent },
-      { path: 'submissions/:id', component: SubmissionDetailComponent },
-      { path: 'supervisors/dashboard', component: SupervisorDashboardComponent },
-      { path: 'merge', component: PdfMergeComponentComponent },
-      { path: 'evaluations/new', component: EvaluationFormComponent },
-      { path: 'ai-workflow', component: AiWorkflowComponent }
-    ]
-  }
+  { path: '', component: MainPageComponent },
+  { path: 'offers/add', component: AddOfferComponent },
+  { path: 'offers', component: OfferListComponent },
+  { path: 'offers/:id', component: OfferDetailComponent },
+  { path: 'applications/new', component: ApplicationFormComponent },
+  { path: 'applications/:id', component: ApplicationDetailComponent },
+  { path: 'submissions/new', component: SubmissionFormComponent },
+  { path: 'submissions', component: SubmissionListComponent },
+  { path: 'submissions/:id', component: SubmissionDetailComponent },
+  { path: 'supervisors/dashboard', component: SupervisorDashboardComponent },
+  { path: 'merge', component: PdfMergeComponentComponent },
+  { path: 'evaluations/new', component: EvaluationFormComponent },
+  { path: 'ai-workflow', component: AiWorkflowComponent }
 ];
 
 @NgModule({

@@ -46,7 +46,7 @@ export class LoginComponent {
 
         if (userRoles.includes('ADMIN')) {
           console.log("🚀 Redirecting ADMIN to /main");
-          this.router.navigate(['/main']);
+          this.router.navigate(['/admin']);
         } else if (userRoles.includes('USER')) {
           this.router.navigate(['/home']); // ✅ Redirect USERS with valid user ID
         } else {

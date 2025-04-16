@@ -1,3 +1,8 @@
+/* Container Styles */
+.container {
+  margin-top: 100px !important; /* Increased top margin to prevent header overlap */
+}
+
 /* Card Styles */
 .card {
   border: none;
@@ -96,27 +101,27 @@
 }
 
 .btn-primary {
-  background-color: #7B6ADA; /* Custom purple color */
-  border-color: #7B6ADA;
+  background-color: #5b239f; /* Updated purple color */
+  border-color: #5b239f;
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: #6A59C2; /* Darker purple */
-  border-color: #6A59C2;
+  background-color: #4a1d83; /* Darker purple */
+  border-color: #4a1d83;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25);
 }
 
 .btn-outline-secondary {
-  border-color: #7B6ADA;
-  color: #7B6ADA;
+  border-color: #5b239f;
+  color: #5b239f;
 }
 
 .btn-outline-secondary:hover {
   background-color: #f8f9fa;
-  color: #6A59C2;
-  border-color: #6A59C2;
+  color: #4a1d83;
+  border-color: #4a1d83;
   transform: translateY(-2px);
 }
 
@@ -131,7 +136,7 @@
 
 /* Loading Spinner */
 .spinner-border {
-  color: #7B6ADA !important;
+  color: #5b239f !important;
 }
 
 /* Responsive Adjustments */

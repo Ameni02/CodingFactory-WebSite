@@ -1,0 +1,28 @@
+import {Component, Input} from '@angular/core';
+import {ToastrService} from "ngx-toastr";
+import { Router} from "@angular/router";
+
+@Component({
+  selector: 'app-event-card',
+  templateUrl: './event-card.component.html',
+  styleUrls: ['./event-card.component.scss']
+})
+export class EventCardComponent {
+
+  @Input() event: any;
+  private _eventCover: string | undefined;
+  constructor(private toastr:ToastrService,private router:Router) {
+  }
+  get eventCover(): string | undefined {
+    if(this._e.cover)
+    {
+      return 'data:image/jpg;base64,' + this._book.cover;
+    }
+    return 'https://source.unsplash.com/user/c_v_r/1900x800';
+  }
+
+  goToDetailEvent(event:any) {
+    this.toastr.success("Go to detail event");
+    this.router.navigate(['/eventdetail', event.id], { state: { eventData: event } });
+  }
+}

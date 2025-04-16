@@ -1,2 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~ngx-toastr/toastr';
+
+/* Global styles to fix header overlap issues */
+.pfe-space,
+.wrapper,
+.pdf-merge-container,
+[class*='app-pfe'],
+[class*='pfe-'] {
+  padding-top: 100px !important;
+}
+
+/* Adjust for smaller screens */
+@media (max-width: 768px) {
+  .pfe-space,
+  .wrapper,
+  .pdf-merge-container,
+  [class*='app-pfe'],
+  [class*='pfe-'] {
+    padding-top: 80px !important;
+  }
+}

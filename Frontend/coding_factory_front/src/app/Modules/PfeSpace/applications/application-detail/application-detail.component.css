@@ -1,3 +1,8 @@
+/* Container Styles */
+.container {
+  margin-top: 100px !important; /* Increased top margin to prevent header overlap */
+}
+
 /* Card Styles */
 .card {
   border: none;
@@ -8,7 +13,7 @@
 }
 
 .card-header {
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   padding: 20px;
   border-bottom: none;
@@ -69,7 +74,7 @@
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 25px;
-  border-left: 4px solid #7B6ADA; /* Custom purple color */
+  border-left: 4px solid #5b239f; /* Updated purple color */
 }
 
 .student-info p, .project-info p {
@@ -116,7 +121,7 @@
 
 .document-icon {
   font-size: 2.5rem;
-  color: #7B6ADA; /* Custom purple color */
+  color: #5b239f; /* Updated purple color */
   margin-bottom: 15px;
 }
 
@@ -132,13 +137,13 @@
   border-radius: 30px;
   transition: all 0.3s ease;
   background-color: white;
-  color: #7B6ADA; /* Custom purple color */
-  border: 1px solid #7B6ADA;
+  color: #5b239f; /* Updated purple color */
+  border: 1px solid #5b239f;
   font-weight: 600;
 }
 
 .download-btn:hover:not(:disabled) {
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   transform: translateY(-2px);
 }
@@ -164,14 +169,14 @@
 
 .btn-secondary {
   background-color: transparent;
-  color: #7B6ADA; /* Custom purple color */
-  border: 1px solid #7B6ADA;
+  color: #5b239f; /* Updated purple color */
+  border: 1px solid #5b239f;
 }
 
 .btn-secondary:hover {
   background-color: #f8f9fa;
-  color: #6A59C2; /* Darker purple */
-  border-color: #6A59C2;
+  color: #4a1d83; /* Darker purple */
+  border-color: #4a1d83;
   transform: translateY(-2px);
 }
 
@@ -208,7 +213,7 @@
 }
 
 .progress-bar {
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   border-radius: 5px;
 }
 

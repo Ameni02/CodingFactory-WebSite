@@ -1,0 +1,12 @@
+/* Container Styles */
+.container {
+  margin-top: 100px !important; /* Increased top margin to prevent header overlap */
+  padding: 20px;
+}
+
+/* Main Page Styles */
+.main-page {
+  background-color: #F5F7FD;
+  min-height: 100vh;
+  padding: 20px;
+}

@@ -1,0 +1,30 @@
+/* PfeSpace Module Global Styles */
+
+/* Add padding to the top of all PfeSpace components to prevent header overlap */
+.pfe-space,
+.wrapper,
+.pdf-merge-container {
+  padding-top: 100px !important; /* Ensure this overrides any other styles */
+}
+
+/* Adjust for smaller screens */
+@media (max-width: 768px) {
+  .pfe-space,
+  .wrapper,
+  .pdf-merge-container {
+    padding-top: 80px !important;
+  }
+}
+
+/* Ensure content doesn't get hidden under fixed header */
+.section-heading h6,
+.section-heading h2,
+.offers-header,
+.modify-project h2 {
+  margin-top: 0;
+}
+
+/* Ensure proper spacing for all components in the module */
+.container {
+  padding-top: 20px;
+}

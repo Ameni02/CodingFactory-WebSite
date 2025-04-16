@@ -1,3 +1,8 @@
+/* Container Styles */
+.container {
+  margin-top: 100px !important; /* Increased top margin to prevent header overlap */
+}
+
 /* Card Styles */
 .card {
   border: none;
@@ -8,7 +13,7 @@
 }
 
 .card-header {
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   padding: 20px;
   border-bottom: none;
@@ -50,9 +55,9 @@
 }
 
 .form-control:focus {
-  border-color: #7B6ADA; /* Custom purple color */
+  border-color: #5b239f; /* Updated purple color */
   outline: none;
-  box-shadow: 0 0 0 3px rgba(123, 106, 218, 0.1);
+  box-shadow: 0 0 0 3px rgba(91, 35, 159, 0.1);
   background-color: white;
 }
 
@@ -76,7 +81,7 @@
 input[type="file"] {
   padding: 10px;
   background-color: white;
-  border: 1px dashed #7B6ADA; /* Custom purple color */
+  border: 1px dashed #5b239f; /* Updated purple color */
   width: 100%;
   border-radius: 8px;
 }
@@ -101,16 +106,16 @@ input[type="file"] {
 }
 
 .btn-primary {
-  background-color: #7B6ADA; /* Custom purple color */
-  border-color: #7B6ADA;
+  background-color: #5b239f; /* Updated purple color */
+  border-color: #5b239f;
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #6A59C2; /* Darker purple */
-  border-color: #6A59C2;
+  background-color: #4a1d83; /* Darker purple */
+  border-color: #4a1d83;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25);
 }
 
 .btn-primary:disabled {
@@ -121,14 +126,14 @@ input[type="file"] {
 
 .btn-secondary {
   background-color: transparent;
-  color: #7B6ADA; /* Custom purple color */
-  border: 1px solid #7B6ADA;
+  color: #5b239f; /* Updated purple color */
+  border: 1px solid #5b239f;
 }
 
 .btn-secondary:hover {
   background-color: #f8f9fa;
-  color: #6A59C2; /* Darker purple */
-  border-color: #6A59C2;
+  color: #4a1d83; /* Darker purple */
+  border-color: #4a1d83;
   transform: translateY(-2px);
 }
 
@@ -147,7 +152,7 @@ input[type="file"] {
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 25px;
-  border-left: 4px solid #7B6ADA; /* Custom purple color */
+  border-left: 4px solid #5b239f; /* Updated purple color */
 }
 
 .project-info h4 {

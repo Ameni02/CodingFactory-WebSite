@@ -10,6 +10,7 @@ import { filter } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   title = 'coding_factory_front';
   isAdminRoute = false;
+  shouldShowHeader = true;
 
   constructor(
     private router: Router,
@@ -18,7 +19,11 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
+      console.log('Navigation event:', event.url);
       this.isAdminRoute = event.url.includes('/admin');
+      this.shouldShowHeader = !this.isAdminRoute &&
+                             !event.url.includes('/login') &&
+                             !event.url.includes('/register');
       this.updateMainBanner();
     });
   }
@@ -29,6 +34,12 @@ export class AppComponent implements OnInit {
     if (this.router.url === '/') {
       this.router.navigate(['/login']);
     }
+
+    // Set initial header visibility based on current route
+    const currentUrl = this.router.url;
+    this.shouldShowHeader = !currentUrl.includes('/admin') &&
+                           !currentUrl.includes('/login') &&
+                           !currentUrl.includes('/register');
   }
 
   updateMainBanner() {

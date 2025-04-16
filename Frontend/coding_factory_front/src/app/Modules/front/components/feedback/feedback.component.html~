@@ -1,0 +1,93 @@
+<!--<div class="accordion-item mb-3">-->
+<!--  <div class="accordion-header" id="scheduleOne">-->
+<!--    <button class="accordion-button pe-5 flex-wrap mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#schedulecollapseOne" aria-expanded="true" aria-controls="schedulecollapseOne">-->
+<!--      <span class="me-2">November 17, 2022</span>-->
+<!--      <span class="me-2">12:00 </span>-->
+<!--      <strong>Feedback</strong>-->
+<!--    </button>-->
+<!--  </div>-->
+<!--  &lt;!&ndash; Accordion info &ndash;&gt;-->
+<!--  <div id="schedulecollapseOne" class="accordion-collapse collapse show" aria-labelledby="scheduleOne" data-bs-parent="#accordionschedules">-->
+<!--    <div class="accordion-body">-->
+<!--      <p>{{feedback.comment}} </p>-->
+<!--      <div class="row g-4">-->
+<!--        <div class="col-12">-->
+<!--          <h5 class="mb-0">Speaker</h5>-->
+<!--        </div>-->
+<!--        <div class="col-sm-4 col-lg-3">-->
+<!--          &lt;!&ndash; Host Item &ndash;&gt;-->
+<!--          <div class="card card-body text-center">-->
+<!--            <div class="avatar avatar-lg mx-auto mb-3">-->
+<!--              <img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="">-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Host name &ndash;&gt;-->
+<!--            <div>-->
+<!--              <h6 class="mb-0">Bryan Knight</h6>-->
+<!--              <span>Founder</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-sm-4 col-lg-3">-->
+<!--          &lt;!&ndash; Host Item &ndash;&gt;-->
+<!--          <div class="card card-body text-center">-->
+<!--            <div class="avatar avatar-lg mx-auto mb-3">-->
+<!--              <img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="">-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Host name &ndash;&gt;-->
+<!--            <div>-->
+<!--              <h6 class="mb-0">Bryan Knight</h6>-->
+<!--              <span>Founder</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<div class="accordion-item mb-3">
+  <div class="accordion-header" [attr.id]="'schedule' + feedback.id">
+    <button
+      class="accordion-button pe-5 flex-wrap mb-0"
+      type="button"
+      data-bs-toggle="collapse"
+      [attr.data-bs-target]="'#schedulecollapse' + feedback.id"
+      aria-expanded="true"
+      [attr.aria-controls]="'schedulecollapse' + feedback.id">
+
+      <span class="me-2">{{ feedback.date | date:'MMMM d, yyyy' }}</span>
+      <span class="me-2">{{ feedback.time }}</span>
+      <strong>Feedback</strong>
+    </button>
+  </div>
+
+  <!-- Accordion info -->
+  <div
+    [attr.id]="'schedulecollapse' + feedback.id"
+    class="accordion-collapse collapse"
+    [attr.aria-labelledby]="'schedule' + feedback.id"
+    data-bs-parent="#accordionschedules">
+
+    <div class="accordion-body">
+      <p>{{ feedback.comment }}</p>
+      <div class="row g-4">
+        <div class="col-12">
+          <h5 class="mb-0">Speaker</h5>
+        </div>
+
+        <div class="col-sm-4 col-lg-3" *ngFor="let speaker of feedback.speakers">
+          <div class="card card-body text-center">
+            <div class="avatar avatar-lg mx-auto mb-3">
+              <img class="avatar-img rounded-circle" [src]="speaker.image" alt="{{ speaker.name }}">
+            </div>
+            <div>
+              <h6 class="mb-0">{{ speaker.name }}</h6>
+              <span>{{ speaker.role }}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -27,8 +27,10 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
 
 // Import Modules
-import { PfeSpaceModule } from './Modules/PfeSpace/pfe-space.module';
+// PfeSpaceModule is lazy loaded in app-routing.module.ts
 import { AdminModule } from './admin/admin.module';
+import { BackModule } from './back/back.module';
+// FrontModule is lazy loaded in app-routing.module.ts
 
 // Services
 import { DashboardService } from 'src/app/services/dashboard.service';
@@ -44,6 +46,7 @@ import {RegisterComponent} from "./pages/register/register.component";
 import {LoginComponent} from "./pages/login/login.component";
 import {CodeInputModule} from "angular-code-input";
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
+import { PfeSpaceModule } from "./Modules/PfeSpace/pfe-space.module";
 
 
 @NgModule({
@@ -82,17 +85,13 @@ import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    PfeSpaceModule,
+    // PfeSpaceModule is now lazy loaded in app-routing.module.ts
     AdminModule,
-    AdminLayoutComponent,
+    BackModule,
     CodeInputModule,
-
-
-
-  ],
-  exports: [
-    ModifyUserComponent // ✅ Ensure ModifyUserComponent is exported if used in another component
-  ],
+    AdminLayoutComponent,
+    PfeSpaceModule
+],
   providers: [DashboardService,{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService],
   bootstrap: [AppComponent]

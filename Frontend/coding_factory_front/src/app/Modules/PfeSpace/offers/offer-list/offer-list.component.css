@@ -1,6 +1,6 @@
 /* Main Container Styles */
 .pfe-space {
-  padding: 60px 0;
+  padding: 100px 0 60px 0; /* Increased top padding to prevent header overlap */
   background-color: #F5F7FD; /* Kaiadmin body background */
   min-height: 100vh;
 }

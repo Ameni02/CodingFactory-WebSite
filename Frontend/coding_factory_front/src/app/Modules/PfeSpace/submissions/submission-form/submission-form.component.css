@@ -1,14 +1,14 @@
 /* Main Container Styles */
 .container {
   max-width: 1200px;
-  margin: 40px auto;
+  margin: 100px auto 40px auto; /* Increased top margin to prevent header overlap */
   padding: 0 15px;
 }
 
 /* Card Styles */
 .submission-form {
   max-width: 800px;
-  margin: 40px auto;
+  margin: 0 auto 40px auto; /* Adjusted margin to work with container's top margin */
   padding: 0;
   background-color: white;
   border-radius: 12px;
@@ -17,7 +17,7 @@
 }
 
 .form-header {
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   padding: 25px 30px;
   border-bottom: none;
@@ -64,9 +64,9 @@
 }
 
 .form-group input:focus {
-  border-color: #7B6ADA; /* Custom purple color */
+  border-color: #5b239f; /* Updated purple color */
   outline: none;
-  box-shadow: 0 0 0 3px rgba(123, 106, 218, 0.1);
+  box-shadow: 0 0 0 3px rgba(91, 35, 159, 0.1);
   background-color: white;
 }
 
@@ -74,7 +74,7 @@
 .form-group input[type="file"] {
   padding: 12px;
   background-color: white;
-  border: 1px dashed #7B6ADA; /* Custom purple color */
+  border: 1px dashed #5b239f; /* Updated purple color */
   cursor: pointer;
 }
 
@@ -90,7 +90,7 @@
 }
 
 .analyze-button {
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   padding: 8px 15px;
   font-size: 0.9rem;
@@ -98,7 +98,7 @@
 }
 
 .analyze-button:hover:not(:disabled) {
-  background-color: #6A59C2; /* Darker purple */
+  background-color: #4a1d83; /* Darker purple */
 }
 
 .analyze-button:disabled {
@@ -360,16 +360,16 @@ button {
 }
 
 button[type="submit"] {
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   flex: 1;
   min-width: 180px;
 }
 
 button[type="submit"]:hover:not(:disabled) {
-  background-color: #6A59C2; /* Darker purple */
+  background-color: #4a1d83; /* Darker purple */
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25);
 }
 
 button[type="submit"]:disabled {
@@ -378,7 +378,7 @@ button[type="submit"]:disabled {
 }
 
 .merge-button {
-  background-color: #9B8DE3; /* Lighter purple */
+  background-color: #7a3bc7; /* Lighter purple */
   color: white;
   text-decoration: none;
   flex: 1;
@@ -386,15 +386,15 @@ button[type="submit"]:disabled {
 }
 
 .merge-button:hover {
-  background-color: #8A7CD2; /* Slightly darker */
+  background-color: #6a33ad; /* Slightly darker */
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25);
 }
 
 .btn-back {
   background-color: transparent;
-  color: #7B6ADA; /* Custom purple color */
-  border: 1px solid #7B6ADA;
+  color: #5b239f; /* Updated purple color */
+  border: 1px solid #5b239f;
   text-decoration: none;
   flex: 1;
   min-width: 180px;
@@ -402,7 +402,7 @@ button[type="submit"]:disabled {
 
 .btn-back:hover {
   background-color: #f8f9fa;
-  color: #6A59C2; /* Darker purple */
+  color: #4a1d83; /* Darker purple */
   transform: translateY(-2px);
 }
 

@@ -1,0 +1,32 @@
+/* Container Styles */
+.container {
+  margin-top: 100px !important; /* Increased top margin to prevent header overlap */
+}
+
+/* Card Styles */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.card-header {
+  background-color: #5b239f; /* Updated purple color */
+  color: white;
+  padding: 20px;
+  border-bottom: none;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.card-body {
+  padding: 30px;
+  background-color: white;
+}

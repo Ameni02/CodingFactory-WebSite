@@ -1,7 +1,7 @@
 /* Main Container Styles */
 .container {
   max-width: 1200px;
-  margin: 40px auto;
+  margin: 100px auto 40px auto; /* Increased top margin to prevent header overlap */
   padding: 0 15px;
 }
 
