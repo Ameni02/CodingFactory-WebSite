@@ -1,0 +1,57 @@
+# Spring Profiles Configuration
+spring:
+  profiles:
+    active: dev
+  web:
+    resources:
+      static-locations: file:./uploads/
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: Iv23li360GuZ5kFG8Up8
+            clientSecret: c620233f10f2c353ce27f38ff718c2aaf7c340b3
+          google:
+            clientId: 875975552783-cigl0n1vcac2v35vr43l9f8kafa2t5ud.apps.googleusercontent.com
+            clientSecret: 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
+# Servlet Configuration
+spring.servlet:
+  multipart:
+    max-file-size: 50MB
+
+# SpringDoc Configuration (for OpenAPI)
+springdoc:
+  default-produces-media-type: application/json
+
+
+
+# Server Configuration
+server:
+  servlet:
+    context-path: /api/v1
+  port: 8081
+
+# JPA Configuration for Hibernate
+spring.jpa:
+  hibernate:
+    ddl-auto: update
+  show-sql: false
+  properties:
+    hibernate.format_sql: true
+    hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+
+# JWT Security Configuration
+application:
+  security:
+    jwt:
+      expiration: 3600000
+      refresh-expiration: 86400000
+      secret-key: c57e451277d798dc7d63edfc5d420b490d45f345f0529ddff2cd3df5c2ea0236
+
+# Frontend Activation URL
+  mailing:
+    frontend:
+      activation-url: http://localhost:4200/activate-account
+
+
