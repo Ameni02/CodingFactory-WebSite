@@ -1,0 +1,236 @@
+<div class="container">
+  <div class="submission-form">
+    <div class="form-header">
+      <h2>Submit Your Project Deliverables</h2>
+      <p>Complete the form below to submit your project files and documentation</p>
+    </div>
+
+    <div class="form-body">
+      <form [formGroup]="submissionForm" (ngSubmit)="onSubmit()">
+        <!-- Project ID -->
+        <div class="form-group">
+          <label for="projectId">
+            <i class="fas fa-project-diagram"></i> Project ID
+          </label>
+          <input
+            id="projectId"
+            formControlName="projectId"
+            type="number"
+            placeholder="Enter your project ID"
+            required
+          />
+          <div *ngIf="submissionForm.get('projectId')?.invalid && submissionForm.get('projectId')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Project ID is required
+          </div>
+        </div>
+
+        <!-- Academic Supervisor ID -->
+        <div class="form-group">
+          <label for="academicSupervisorId">
+            <i class="fas fa-user-tie"></i> Academic Supervisor ID
+          </label>
+          <input
+            id="academicSupervisorId"
+            formControlName="academicSupervisorId"
+            type="number"
+            placeholder="Enter your supervisor's ID"
+            required
+          />
+          <div *ngIf="submissionForm.get('academicSupervisorId')?.invalid && submissionForm.get('academicSupervisorId')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Supervisor ID is required
+          </div>
+        </div>
+
+        <!-- Title -->
+        <div class="form-group">
+          <label for="title">
+            <i class="fas fa-heading"></i> Project Title
+          </label>
+          <input
+            id="title"
+            formControlName="title"
+            type="text"
+            placeholder="Enter the title of your project"
+            required
+          />
+          <div *ngIf="submissionForm.get('title')?.invalid && submissionForm.get('title')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Title is required
+          </div>
+        </div>
+
+        <!-- Description File -->
+        <div class="form-group">
+          <label for="descriptionFilePath">
+            <i class="fas fa-file-alt"></i> Project Documentation
+          </label>
+          <input
+            id="descriptionFilePath"
+            (change)="handleDescriptionFileInput($event)"
+            type="file"
+            accept="application/pdf, image/*"
+            required
+          />
+          <div *ngIf="descriptionFile" class="file-selected">
+            <i class="fas fa-check-circle"></i> Selected file: {{ descriptionFile.name }}
+          </div>
+          <div *ngIf="submissionForm.get('descriptionFilePath')?.invalid && submissionForm.get('descriptionFilePath')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Documentation file is required
+          </div>
+        </div>
+
+        <!-- Report File -->
+        <div class="form-group">
+          <label for="reportFilePath">
+            <i class="fas fa-file-pdf"></i> Final Report
+          </label>
+          <input
+            id="reportFilePath"
+            (change)="handleReportFileInput($event)"
+            type="file"
+            accept="application/pdf"
+            required
+          />
+          <div *ngIf="reportFile" class="file-selected">
+            <i class="fas fa-check-circle"></i> Selected file: {{ reportFile.name }}
+            <button type="button" (click)="analyzeReport()" [disabled]="isAnalyzing" class="analyze-button">
+              <i class="fas fa-search"></i> {{ isAnalyzing ? 'Analyzing...' : 'Check for Plagiarism & AI Content' }}
+            </button>
+          </div>
+          <div *ngIf="submissionForm.get('reportFilePath')?.invalid && submissionForm.get('reportFilePath')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Report file is required
+          </div>
+        </div>
+
+        <!-- Analysis Results -->
+        <div *ngIf="showAnalysisResults && analysisResult" class="analysis-results">
+          <h3>Report Analysis Results</h3>
+
+          <div class="result-status" [ngClass]="{
+            'status-passed': analysisResult.overallStatus === 'PASSED',
+            'status-warning': analysisResult.overallStatus === 'WARNING',
+            'status-failed': analysisResult.overallStatus === 'FAILED'
+          }">
+            <i class="fas" [ngClass]="{
+              'fa-check-circle': analysisResult.overallStatus === 'PASSED',
+              'fa-exclamation-triangle': analysisResult.overallStatus === 'WARNING',
+              'fa-times-circle': analysisResult.overallStatus === 'FAILED'
+            }"></i>
+            <span>{{ analysisResult.overallStatus }}</span>
+          </div>
+
+          <div class="result-details">
+            <!-- Plagiarism Results -->
+            <div class="result-section">
+              <h4>Plagiarism Detection</h4>
+              <div class="score-indicator" [ngClass]="{
+                'low': analysisResult.plagiarismStatus === 'LOW',
+                'medium': analysisResult.plagiarismStatus === 'MEDIUM',
+                'high': analysisResult.plagiarismStatus === 'HIGH'
+              }">
+                <div class="score-bar" [style.width.%]="analysisResult.plagiarismScore * 100"></div>
+                <span class="score-value">{{ (analysisResult.plagiarismScore * 100).toFixed(1) }}%</span>
+              </div>
+              <p class="status-label">Status: <span [ngClass]="{
+                'status-good': analysisResult.plagiarismStatus === 'LOW',
+                'status-warning': analysisResult.plagiarismStatus === 'MEDIUM',
+                'status-bad': analysisResult.plagiarismStatus === 'HIGH'
+              }">{{ analysisResult.plagiarismStatus }}</span></p>
+            </div>
+
+            <!-- AI Content Results -->
+            <div class="result-section">
+              <h4>AI-Generated Content Detection</h4>
+              <div class="score-indicator" [ngClass]="{
+                'low': analysisResult.aiContentStatus === 'LOW',
+                'medium': analysisResult.aiContentStatus === 'MEDIUM',
+                'high': analysisResult.aiContentStatus === 'HIGH'
+              }">
+                <div class="score-bar" [style.width.%]="analysisResult.aiContentScore * 100"></div>
+                <span class="score-value">{{ (analysisResult.aiContentScore * 100).toFixed(1) }}%</span>
+              </div>
+              <p class="status-label">Status: <span [ngClass]="{
+                'status-good': analysisResult.aiContentStatus === 'LOW',
+                'status-warning': analysisResult.aiContentStatus === 'MEDIUM',
+                'status-bad': analysisResult.aiContentStatus === 'HIGH'
+              }">{{ analysisResult.aiContentStatus }}</span></p>
+            </div>
+          </div>
+
+          <!-- Feedback -->
+          <div class="feedback-section">
+            <h4>Analysis Feedback</h4>
+            <p [innerHTML]="analysisResult.feedback"></p>
+          </div>
+
+          <!-- Matched Sources (if available) -->
+          <div *ngIf="analysisResult.matchedSources && analysisResult.matchedSources.length > 0" class="matched-sources">
+            <h4>Matched Sources</h4>
+            <ul>
+              <li *ngFor="let source of analysisResult.matchedSources">
+                <div class="match-header">
+                  <span class="similarity">{{ (source.similarity * 100).toFixed(1) }}% match</span>
+                  <span *ngIf="source.matchCount" class="match-count">({{ source.matchCount }} phrase matches)</span>
+                </div>
+                <div class="match-details">
+                  <div class="snippet">"{{ source.snippet }}"</div>
+
+                  <!-- Matched Phrases (if available) -->
+                  <div *ngIf="source.matchedPhrases && source.matchedPhrases.length > 0" class="matched-phrases">
+                    <h5>Matched Phrases:</h5>
+                    <ul>
+                      <li *ngFor="let phrase of source.matchedPhrases">
+                        <span class="matched-phrase">"{{ phrase }}"</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Total Match Count (if available) -->
+          <div *ngIf="analysisResult.totalMatchCount" class="total-match-count">
+            <p>Total phrase matches found: <span [ngClass]="{
+              'status-good': analysisResult.totalMatchCount < 5,
+              'status-warning': analysisResult.totalMatchCount >= 5 && analysisResult.totalMatchCount < 10,
+              'status-bad': analysisResult.totalMatchCount >= 10
+            }">{{ analysisResult.totalMatchCount }}</span></p>
+          </div>
+        </div>
+
+        <!-- Submission Date -->
+        <div class="form-group">
+          <label for="submissionDate">
+            <i class="fas fa-calendar-alt"></i> Submission Date
+          </label>
+          <input
+            id="submissionDate"
+            formControlName="submissionDate"
+            type="date"
+            required
+          />
+          <div *ngIf="submissionForm.get('submissionDate')?.invalid && submissionForm.get('submissionDate')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Submission date is required
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-actions">
+          <button type="submit" [disabled]="!submissionForm.valid">
+            <i class="fas fa-paper-plane"></i> Submit Deliverables
+          </button>
+
+          <button [routerLink]="['/merge']" class="merge-button">
+            <i class="fas fa-object-group"></i> Merge PDF Files
+          </button>
+
+          <button [routerLink]="['/offers']" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Back to Offers
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-chatbot></app-chatbot>

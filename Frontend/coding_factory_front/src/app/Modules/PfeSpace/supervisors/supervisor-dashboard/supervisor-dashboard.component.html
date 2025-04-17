@@ -1,0 +1,38 @@
+<h2>Supervisor Dashboard</h2>
+
+<!-- Reports to Evaluate -->
+<div>
+  <h3>Reports to Evaluate</h3>
+  <div *ngIf="reportsToEvaluate.length > 0; else noReports">
+    <div *ngFor="let report of reportsToEvaluate">
+      <p>{{ report.title }}</p>
+      <p>Project ID: {{ report.projectId }}</p>
+      <a [routerLink]="['/submissions', report.id]">Evaluate</a>
+    </div>
+  </div>
+  <ng-template #noReports>
+    <p>No reports to evaluate.</p>
+  </ng-template>
+</div>
+
+<!-- Statistics -->
+<div>
+  <h3>Statistics</h3>
+  <p>Total Evaluated Reports: {{ statistics.totalEvaluated }}</p>
+  <p>Average Grade: {{ statistics.averageGrade | number: '1.2-2' }}</p>
+</div>
+
+<!-- Evaluated Reports -->
+<div>
+  <h3>Evaluated Reports</h3>
+  <div *ngIf="evaluatedReports.length > 0; else noEvaluations">
+    <div *ngFor="let evaluation of evaluatedReports">
+      <p>Deliverable ID: {{ evaluation.deliverable.id }}</p>
+      <p>Grade: {{ evaluation.grade }}</p>
+      <p>Comment: {{ evaluation.comment }}</p>
+    </div>
+  </div>
+  <ng-template #noEvaluations>
+    <p>No evaluations available.</p>
+  </ng-template>
+</div>

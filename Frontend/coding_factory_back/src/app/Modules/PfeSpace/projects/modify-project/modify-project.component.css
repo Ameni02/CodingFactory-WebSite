@@ -1,0 +1,113 @@
+/* modify-project.component.css - Kaiadmin Theme */
+
+/* General Layout */
+.wrapper {
+    font-family: 'Public Sans', sans-serif;
+    background-color: #F5F7FD;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .main-panel {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 800px; /* Adjust max width as needed */
+  }
+  
+  .container {
+    width: 100%;
+  }
+  
+  .modify-project {
+    width: 100%;
+  }
+  
+  /* Title Styling */
+  h2 {
+    color: #2A2F5B;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  /* Form Styling */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  input[type="text"],
+  input[type="date"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    font-family: 'Public Sans', sans-serif;
+  }
+  
+  input[type="text"]:focus,
+  input[type="date"]:focus {
+    outline: none;
+    border-color: #1572E8; /* Kaiadmin primary color */
+    box-shadow: 0 0 5px rgba(21, 114, 232, 0.5); /* Kaiadmin focus shadow */
+  }
+  
+  /* Actions Section */
+  .actions {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .save-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #1572E8; /* Kaiadmin primary color */
+  }
+  
+  .save-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    opacity: 0.95;
+  }
+  
+  /* Loading Message */
+  div[ng-reflect-ng-if="false"] p {
+    text-align: center;
+    margin-top: 50px;
+    font-style: italic;
+    color: #888;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .main-panel {
+      padding: 20px;
+    }
+  }

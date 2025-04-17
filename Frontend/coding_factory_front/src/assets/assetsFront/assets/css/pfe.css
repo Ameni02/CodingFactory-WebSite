@@ -1,0 +1,109 @@
+/* PFE Space Section */
+.pfe-space {
+    padding: 100px 0;
+    
+  }
+  
+  .section-heading .subheading {
+    font-size: 18px;
+    color: #666;
+    margin-top: 10px;
+  }
+  
+  .project-offer {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 30px;
+  }
+  
+  .project-offer:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+  
+  .project-offer .thumb {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+  }
+  
+  .project-offer .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .project-offer:hover .thumb img {
+    transform: scale(1.1);
+  }
+  
+  .project-offer .thumb .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .project-offer:hover .thumb .overlay {
+    opacity: 1;
+  }
+  
+  .project-offer .thumb .overlay h4 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .project-offer .thumb .overlay .technologies {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .project-offer .thumb .overlay .technologies i {
+    color: #fff;
+    font-size: 24px;
+  }
+  
+  .project-offer .down-content {
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .project-offer .down-content p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #4a4a4a;
+  }
+  
+  .project-offer .down-content p strong {
+    color: #2a2a2a;
+  }
+  
+  .project-offer .down-content .btn {
+    background-color: #806cdc;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .project-offer .down-content .btn:hover {
+    background-color: #806cdc;
+    transform: translateX(10px);
+  }

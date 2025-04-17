@@ -1,0 +1,140 @@
+body {
+    background-color: #f0f2f5;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .form-wrapper {
+    max-width: 520px;
+    margin: 60px auto;
+    padding: 35px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .form-field {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+  }
+  
+  input[type="text"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    transition: border 0.3s ease;
+    font-size: 1rem;
+  }
+  
+  input[type="text"]:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Description textarea */
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  /* Upload Area */
+  .upload-box {
+    border: 2px dashed #aaa;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+    transition: background-color 0.3s;
+  }
+  
+  .upload-box:hover {
+    background-color: #f2f9ff;
+  }
+  
+  .file-label {
+    cursor: pointer;
+  }
+  
+  .upload-text {
+    color: #555;
+    font-weight: 500;
+  }
+  
+  /* Submit Button */
+  button {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    background: linear-gradient(135deg, #052b55, #00aaff);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+  }
+  
+  button:hover {
+    transform: scale(1.03);
+    background: linear-gradient(135deg, #053568, #0397c9);
+    box-shadow: 0 10px 24px rgba(0, 123, 255, 0.45);
+  }
+  
+  /* Popup styling */
+  .popup {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 300px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, bottom 0.4s ease;
+  }
+  
+  .popup.show {
+    opacity: 1;
+    pointer-events: auto;
+    bottom: 60px;
+  }
+  
+  .popup.success { background-color: #28a745; }
+  .popup.error   { background-color: #dc3545; }
+  .popup.info    { background-color: #007bff; }
+  
+  .popup-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+  }
+  
+  .icon {
+    font-size: 1.4rem;
+  }
+  

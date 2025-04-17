@@ -1,0 +1,25 @@
+/* Main content styles */
+.main-content {
+  min-height: calc(100vh - 160px); /* Adjust based on header and footer height */
+  padding: 20px 0;
+}
+
+/* Admin content styles */
+.admin-content {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+/* Main Banner styles */
+.main-banner {
+  /* background-image: url('assets/assetsFront/assets/images/banner-bg.jpg'); */
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 170px 0px 120px 0px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}

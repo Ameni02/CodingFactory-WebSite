@@ -1,0 +1,226 @@
+<div class="section ai-workflow" id="ai-workflow">
+  <div class="container">
+    <!-- Header Section -->
+    <div class="workflow-header">
+      <div class="section-heading">
+
+        <h2>Smart CV Matching & Cover Letter Generation</h2>
+        <p class="subheading">Upload your CV to find matching projects and generate tailored cover letters with AI</p>
+      </div>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="progress-steps">
+      <div class="step" [ngClass]="{'active': currentStep >= 1, 'completed': currentStep > 1}">
+        <div class="step-number">1</div>
+        <div class="step-label">Upload CV</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step" [ngClass]="{'active': currentStep >= 2, 'completed': currentStep > 2}">
+        <div class="step-number">2</div>
+        <div class="step-label">Select Project</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step" [ngClass]="{'active': currentStep >= 3, 'completed': currentStep > 3}">
+        <div class="step-number">3</div>
+        <div class="step-label">Generate Cover Letter</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step" [ngClass]="{'active': currentStep >= 4}">
+        <div class="step-number">4</div>
+        <div class="step-label">Review & Download</div>
+      </div>
+    </div>
+
+    <!-- Step 1: Upload CV -->
+    <div class="workflow-step" *ngIf="currentStep === 1">
+      <div class="step-content">
+        <h3>Upload Your CV</h3>
+        <p>Upload your CV in PDF format to find matching projects based on your skills and experience.</p>
+
+        <form [formGroup]="uploadForm" (ngSubmit)="onUploadCV()" class="upload-form">
+          <div class="file-upload-container">
+            <label for="cvFile" class="file-upload-label">
+              <i class="fas fa-file-upload"></i>
+              <span>{{ cvFile ? cvFile.name : 'Choose CV file' }}</span>
+            </label>
+            <input
+              type="file"
+              id="cvFile"
+              accept=".pdf"
+              (change)="onFileChange($event)"
+              formControlName="cvFile"
+              class="file-input">
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn-primary"
+              [disabled]="uploadForm.invalid || isMatching">
+              <span *ngIf="!isMatching">Find Matching Projects</span>
+              <span *ngIf="isMatching">
+                <i class="fas fa-spinner fa-spin"></i> Analyzing CV...
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Step 2: Select Project -->
+    <div class="workflow-step" *ngIf="currentStep === 2">
+      <div class="step-content">
+        <h3>Select a Project</h3>
+        <p>Based on your CV, we've found these matching projects. Select one to generate a tailored cover letter.</p>
+
+        <div class="skills-container" *ngIf="keySkills.length > 0">
+          <h4>Key Skills Detected</h4>
+          <div class="skills-list">
+            <span class="skill-tag" *ngFor="let skill of keySkills">{{ skill }}</span>
+          </div>
+        </div>
+
+        <div class="matched-projects">
+          <div class="project-card" *ngFor="let match of matchedProjects" (click)="selectProject(match.project)">
+            <div class="match-score">
+              <div class="score-circle" [style.--score-percentage]="(match.score * 100) + '%'">
+                {{ (match.score * 100).toFixed(0) }}%
+              </div>
+              <span class="score-label">Match</span>
+            </div>
+
+            <div class="project-info">
+              <h4 class="project-title">{{ match.project.title }}</h4>
+              <p class="project-company">{{ match.project.companyName }}</p>
+
+              <div class="project-details">
+                <div class="detail-item">
+                  <i class="fas fa-code"></i>
+                  <span>{{ match.project.field }}</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-users"></i>
+                  <span>{{ match.project.numberOfPositions }} Position(s)</span>
+                </div>
+              </div>
+
+              <div class="project-skills">
+                <h5>Required Skills:</h5>
+                <p>{{ match.project.requiredSkills }}</p>
+              </div>
+            </div>
+
+            <div class="project-action">
+              <button class="btn-select">Select Project</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Generate Cover Letter -->
+    <div class="workflow-step" *ngIf="currentStep === 3">
+      <div class="step-content">
+        <h3>Generate Cover Letter</h3>
+        <p>Enter your details to generate a personalized cover letter for the selected project.</p>
+
+        <div class="selected-project" *ngIf="selectedProject">
+          <h4>Selected Project: {{ selectedProject.title }}</h4>
+          <p>{{ selectedProject.companyName }} - {{ selectedProject.field }}</p>
+        </div>
+
+        <form [formGroup]="applicationForm" (ngSubmit)="generateCoverLetter()" class="application-form">
+          <div class="form-group">
+            <label for="studentName">Full Name</label>
+            <input
+              type="text"
+              id="studentName"
+              formControlName="studentName"
+              placeholder="Enter your full name">
+            <div class="error-message" *ngIf="applicationForm.get('studentName')?.invalid && applicationForm.get('studentName')?.touched">
+              Full name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="studentEmail">Email Address</label>
+            <input
+              type="email"
+              id="studentEmail"
+              formControlName="studentEmail"
+              placeholder="Enter your email address">
+            <div class="error-message" *ngIf="applicationForm.get('studentEmail')?.invalid && applicationForm.get('studentEmail')?.touched">
+              Valid email address is required
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="goBack()">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button
+              type="submit"
+              class="btn-primary"
+              [disabled]="applicationForm.invalid || isGenerating">
+              <span *ngIf="!isGenerating">Generate Cover Letter</span>
+              <span *ngIf="isGenerating">
+                <i class="fas fa-spinner fa-spin"></i> Generating...
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Step 4: Review & Download -->
+    <div class="workflow-step" *ngIf="currentStep === 4">
+      <div class="step-content">
+        <h3>Review & Download Cover Letter</h3>
+        <p>Your personalized cover letter has been generated. Review it and make any necessary edits before downloading.</p>
+
+        <div class="cover-letter-preview">
+          <div class="preview-header">
+            <h4>Cover Letter Preview</h4>
+            <div class="generated-by" *ngIf="generatedBy">
+              <small [ngClass]="{
+                'huggingface': generatedBy.toLowerCase().includes('hugging'),
+                'openai': generatedBy.toLowerCase().includes('openai'),
+                'template': generatedBy.toLowerCase().includes('template') || generatedBy.toLowerCase().includes('fallback')
+              }">
+                <i class="fas" [ngClass]="{
+                  'fa-robot': generatedBy.toLowerCase().includes('hugging'),
+                  'fa-brain': generatedBy.toLowerCase().includes('openai'),
+                  'fa-file-alt': generatedBy.toLowerCase().includes('template') || generatedBy.toLowerCase().includes('fallback')
+                }"></i>
+                Generated by: {{ generatedBy }}
+              </small>
+            </div>
+            <button class="btn-download" (click)="downloadCoverLetter()">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>
+
+          <div class="preview-content">
+            <pre>{{ generatedCoverLetter }}</pre>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <button type="button" class="btn-primary" (click)="resetWorkflow()">
+            Back
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

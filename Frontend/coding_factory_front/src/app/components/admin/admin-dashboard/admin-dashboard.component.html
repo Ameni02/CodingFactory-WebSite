@@ -1,0 +1,162 @@
+<div class="admin-dashboard">
+  <!-- Main Content Area -->
+  <main class="dashboard-main">
+    <!-- Top Header -->
+    <header class="dashboard-header">
+      <div class="header-search">
+        <input type="text" placeholder="Search...">
+        <i class="bi bi-search"></i>
+      </div>
+      <div class="header-actions">
+        <button class="btn-notification">
+          <i class="bi bi-bell"></i>
+          <span class="notification-badge">3</span>
+        </button>
+        <div class="admin-profile">
+          <img src="assets/img/admin-avatar.jpg" alt="Admin">
+          <span>Admin</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <!-- Quick Actions -->
+      <section class="quick-actions">
+        <h2>Quick Actions</h2>
+        <div class="action-buttons">
+          <button (click)="handleQuickAction('newUser')" class="btn-action">
+            <i class="bi bi-person-plus"></i>
+            New User
+          </button>
+          <a routerLink="/admin/addTraining" class="btn-action">
+            <i class="bi bi-plus-circle"></i>
+            New Training
+          </a>
+          <button (click)="handleQuickAction('viewEvaluations')" class="btn-action">
+            <i class="bi bi-clipboard-check"></i>
+            View Evaluations
+          </button>
+          <button (click)="handleQuickAction('managePFE')" class="btn-action">
+            <i class="bi bi-folder-plus"></i>
+            Manage PFE
+          </button>
+        </div>
+      </section>
+
+      <!-- Statistics Cards -->
+      <div *ngIf="loading" class="loading-indicator">
+        <i class="bi bi-arrow-repeat spinner"></i>
+        <p>Loading dashboard data...</p>
+      </div>
+
+      <div *ngIf="error" class="error-message">
+        <i class="bi bi-exclamation-triangle"></i>
+        <p>{{error}}</p>
+        <p class="error-hint">Make sure your backend API is running and properly configured.</p>
+        <button (click)="loadDashboardData()" class="btn-retry">Retry</button>
+      </div>
+
+      <div *ngIf="!loading && !error && !statistics" class="no-data-message">
+        <i class="bi bi-database-x"></i>
+        <h3>No Dashboard Data Available</h3>
+        <p>The dashboard requires a connection to the backend API.</p>
+        <p>Please ensure your backend server is running at: <code>http://localhost:8080/api/admin</code></p>
+        <p>The API should provide endpoints for:</p>
+        <ul>
+          <li><code>/dashboard/stats</code></li>
+          <li><code>/dashboard/activities</code></li>
+        </ul>
+      </div>
+
+      <section *ngIf="!loading && !error && statistics" class="statistics-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <h3>Users</h3>
+            <i class="bi bi-people"></i>
+          </div>
+          <div class="stat-numbers">
+            <div class="main-stat">{{statistics.users.total}}</div>
+            <div class="sub-stats">
+              <span>New: {{statistics.users.new}}</span>
+              <span>Active: {{statistics.users.active}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header" routerLink="/admin/addTraining">
+            <h3>Trainings</h3>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <h3>Evaluations</h3>
+            <i class="bi bi-clipboard-check"></i>
+          </div>
+          <div class="stat-numbers">
+            <div class="main-stat">{{statistics.evaluations.total}}</div>
+            <div class="sub-stats">
+              <span>Pending: {{statistics.evaluations.pending}}</span>
+              <span>Completed: {{statistics.evaluations.completed}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <h3>Consulting</h3>
+            <i class="bi bi-briefcase"></i>
+          </div>
+          <div class="stat-numbers">
+            <div class="main-stat">{{statistics.consulting.total}}</div>
+            <div class="sub-stats">
+              <span>Ongoing: {{statistics.consulting.ongoing}}</span>
+              <span>Completed: {{statistics.consulting.completed}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <h3>PFE Space</h3>
+            <i class="bi bi-folder"></i>
+          </div>
+          <div class="stat-numbers">
+            <div class="main-stat">{{statistics.pfespace.projects}}</div>
+            <div class="sub-stats">
+              <span>Applications: {{statistics.pfespace.applications}}</span>
+              <span>Submissions: {{statistics.pfespace.submissions}}</span>
+              <span>Supervisors: {{statistics.pfespace.supervisors}}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Activities -->
+      <section class="recent-activities">
+        <h2>Recent Activities</h2>
+        <div *ngIf="recentActivities.length === 0" class="empty-state">
+          <i class="bi bi-clock-history"></i>
+          <p>No recent activities to display</p>
+        </div>
+        <div class="activity-list" *ngIf="recentActivities.length > 0">
+          <div class="activity-item" *ngFor="let activity of recentActivities">
+            <div class="activity-icon">
+              <i class="bi" [ngClass]="getActivityIcon(activity.type)"></i>
+            </div>
+            <div class="activity-details">
+              <div class="activity-description">
+                <strong>{{activity.user}}</strong> {{activity.description}}
+              </div>
+              <div class="activity-time">
+                {{activity.timestamp | date:'medium'}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

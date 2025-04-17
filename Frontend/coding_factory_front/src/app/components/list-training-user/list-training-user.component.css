@@ -1,0 +1,174 @@
+/* =====================
+   General Layout
+======================*/
+.training-cards-wrapper {
+    max-width: 1200px;
+    margin: auto;
+    padding: 3rem 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+  }
+  
+  /* =====================
+     Header Title
+  ======================*/
+  .training-cards-wrapper h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #2d3436;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .training-cards-wrapper h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    margin: 0.5rem auto 0;
+    background: #3498db;
+    border-radius: 4px;
+  }
+  
+  /* =====================
+     Card Grid
+  ======================*/
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  /* =====================
+     Training Card
+  ======================*/
+  .training-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1.8rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .training-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+  
+  /* =====================
+     Card Header Content
+  ======================*/
+  .training-card h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+  
+  .training-card p {
+    font-size: 0.95rem;
+    color: #7f8c8d;
+    margin-bottom: 1rem;
+  }
+  
+  /* =====================
+     Status Badge
+  ======================*/
+  .status-badge {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 12px;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+  }
+  
+  .status-badge.active {
+    background-color: #d1f5e0;
+    color: #27ae60;
+  }
+  
+  .status-badge.archived {
+    background-color: #f9dada;
+    color: #e74c3c;
+  }
+  
+  /* =====================
+     Download Button
+  ======================*/
+  .card-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+  }
+  
+  .card-footer button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.3s ease;
+  }
+  
+  .card-footer button:hover {
+    background: #2980b9;
+  }
+  
+  /* =====================
+     Toast / Popup
+  ======================*/
+  .popup {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    min-width: 300px;
+    max-width: 400px;
+    background: #ffffff;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(30px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 1000;
+  }
+  
+  .popup.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  
+  .popup.success {
+    border-left: 5px solid #27ae60;
+  }
+  
+  .popup.error {
+    border-left: 5px solid #e74c3c;
+  }
+  
+  .popup .icon {
+    font-size: 1.8rem;
+  }
+  
+  .popup p {
+    margin: 0;
+    font-weight: 500;
+    color: #2c3e50;
+  }
+  

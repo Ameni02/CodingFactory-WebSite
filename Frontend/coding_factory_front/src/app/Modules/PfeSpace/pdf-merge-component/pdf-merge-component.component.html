@@ -1,0 +1,22 @@
+<div class="pdf-merge-container">
+    <h2>Merge PDF Files</h2>
+  
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+  
+    <input
+      type="file"
+      (change)="onFileSelect($event)"
+      multiple
+      accept=".pdf"
+      class="file-input"
+    />
+    
+    <button (click)="mergeFiles()" [disabled]="downloading || selectedFiles.length === 0" class="merge-button">
+      {{ downloading ? 'Merging...' : 'Merge Files' }}
+    </button>
+    <button [routerLink]="['/offers']" class="btn btn-back">Back to Offers</button>
+  </div>
+  
+  <app-chatbot></app-chatbot>

@@ -1,0 +1,202 @@
+/* ==========================================================================
+   Kaiadmin Inspired General Styles
+   ========================================================================== */
+
+   body {
+    font-family: 'Public Sans', sans-serif; /* Kaiadmin's font */
+    color: #2A2F5B; /* Kaiadmin's body text color */
+    background-color: #F5F7FD; /* Kaiadmin's body background */
+    line-height: 1.6;
+    margin: 0;
+}
+
+.dashboard {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+h2, .h2 {
+    font-size: 1.85rem; /* Kaiadmin h2 size */
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 12px;
+    text-transform: capitalize;
+}
+
+h3, .h3 {
+    font-size: 1.64rem; /* Kaiadmin h3 size */
+    font-weight: 600;
+    color: #34495e;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    letter-spacing: 0.3px;
+    background: linear-gradient(to right, #34495e, #2980b9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   Kaiadmin Inspired Dashboard Cards
+   ========================================================================== */
+
+.dashboard-cards {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.card {
+    flex: 1;
+    min-width: 250px;
+    padding: 25px;
+    background: #ffffff; /* Kaiadmin card background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #F0F1F3; /* Added a light border like Kaiadmin */
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Adjusted shadow */
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 1.3rem; /* Kaiadmin h5 size */
+    font-weight: 500;
+    color: #2980b9;
+    margin-bottom: 10px;
+}
+
+.card p {
+    margin: 12px 0;
+    font-size: 1.07rem; /* Kaiadmin p size */
+    color: #555;
+}
+
+.highlight {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Kaiadmin Inspired Data Tables
+   ========================================================================== */
+
+.data-table {
+    width: 95%;
+    border-collapse: collapse;
+    margin: 30px auto;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #F0F1F3; /* Added a light border like Kaiadmin */
+}
+
+.data-table th,
+.data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.data-table th {
+    background-color: #34495e;
+    color: white;
+    font-weight: 600;
+}
+
+.data-table tr:hover {
+    background-color: #f8f8f8;
+    transition: background-color 0.3s ease;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* ==========================================================================
+   Kaiadmin Inspired Navigation Buttons
+   ========================================================================== */
+
+.nav-button {
+    padding: 12px 25px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    font-size: 1rem; /* Kaiadmin base font size */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-button:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+    Responsive Considerations
+    ========================================================================== */
+
+@media (max-width: 768px) {
+    .dashboard {
+        padding: 20px;
+    }
+
+    .dashboard-cards {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .data-table {
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+    Accessibility Considerations
+    ========================================================================== */
+
+.nav-button:focus,
+.card:focus,
+.data-table tr:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+
+
+app-footer {
+  /* Ensure the footer stays at the bottom */
+  width: 100%;
+}
+/* See All Buttons */
+.see-all-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #0f4c8d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .see-all-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  .see-all-button:active {
+    transform: translateY(0);
+  }

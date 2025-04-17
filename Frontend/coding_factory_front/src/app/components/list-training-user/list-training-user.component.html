@@ -1,0 +1,29 @@
+<div class="training-cards-wrapper">
+    <h2>Available Trainings</h2>
+  
+    <div class="cards-container">
+      <div class="training-card" *ngFor="let formation of formations">
+        <h3>{{ formation.titre }}</h3>
+        <p><strong>Fichier:</strong> {{ formation.pdfFileName }}</p>
+  
+        <div class="card-footer">
+          <button (click)="downloadPdf(formation.id)">⬇️ Download  PDF</button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Popup -->
+    <div class="popup" [ngClass]="[popup.type, popup.visible ? 'show' : '']">
+      <div class="popup-content">
+        <span class="icon">
+          <ng-container [ngSwitch]="popup.type">
+            <span *ngSwitchCase="'success'">✅</span>
+            <span *ngSwitchCase="'error'">❌</span>
+            <span *ngSwitchDefault>ℹ️</span>
+          </ng-container>
+        </span>
+        <p>{{ popup.message }}</p>
+      </div>
+    </div>
+  </div>
+  

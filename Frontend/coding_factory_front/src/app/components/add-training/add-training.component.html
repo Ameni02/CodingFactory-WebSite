@@ -1,0 +1,36 @@
+<div class="form-wrapper">
+    <h2>📘 Add a New Training</h2>
+  
+    <form [formGroup]="trainingForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="title">Training Title</label>
+        <input id="title" type="text" formControlName="title" placeholder="Enter training title" />
+      </div>
+  
+      <div class="upload-box" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
+        <label for="file-upload" class="file-label">
+          <input id="file-upload" type="file" accept="application/pdf" (change)="onFileChange($event)" formControlName="file" hidden />
+          <span class="upload-text">
+            {{ selectedFile ? '📄 ' + selectedFile.name : 'Click or drag a PDF file here' }}
+          </span>
+        </label>
+      </div>
+  
+      <button type="submit" [disabled]="trainingForm.invalid">🚀 Upload Training</button>
+    </form>
+  </div>
+  
+  <!-- Popup -->
+  <div class="popup" [ngClass]="[popup.type, popup.visible ? 'show' : '']">
+    <div class="popup-content">
+      <span class="icon">
+        <ng-container [ngSwitch]="popup.type">
+          <span *ngSwitchCase="'success'">✅</span>
+          <span *ngSwitchCase="'error'">❌</span>
+          <span *ngSwitchDefault>ℹ️</span>
+        </ng-container>
+      </span>
+      <p>{{ popup.message }}</p>
+    </div>
+  </div>
+  

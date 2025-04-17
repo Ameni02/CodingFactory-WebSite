@@ -1,0 +1,40 @@
+<div class="container">
+  <h2>Projects List</h2>
+
+  <div class="actions">
+    <button (click)="navigateToCreateProject()" class="btn-create">+ Create New Project</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Field</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th> <!-- New column for archived status -->
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of projects" [attr.data-project-id]="project.id">
+        <td (click)="goToDetails(project.id)">{{ project.title }}</td>
+        <td (click)="goToDetails(project.id)">{{ project.field }}</td>
+        <td (click)="goToDetails(project.id)">{{ project.startDate | date }}</td>
+        <td (click)="goToDetails(project.id)">{{ project.endDate | date }}</td>
+        <td>{{ project.archived ? 'Archived' : 'Active' }}</td> <!-- Archived status -->
+        <td>
+          <button *ngIf="!project.archived" (click)="archiveProject(project.id)" class="btn archive">
+            Archive
+          </button>
+          <button *ngIf="project.archived" (click)="unarchiveProject(project.id)" class="btn unarchive">
+            Unarchive
+          </button>
+          <a [routerLink]="['/modify-project', project.id]" class="btn edit">Edit</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="projects.length === 0">No projects available.</p>
+</div>
