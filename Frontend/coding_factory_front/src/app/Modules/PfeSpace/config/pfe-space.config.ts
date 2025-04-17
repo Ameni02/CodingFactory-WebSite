@@ -5,6 +5,7 @@ export const PfeSpaceConfig = {
   // API endpoints
   apiUrl: 'http://localhost:8080/pfespace/api/pfe',
 
+
   // Status options
   projectStatus: {
     PENDING: 'PENDING',
@@ -12,17 +13,20 @@ export const PfeSpaceConfig = {
     COMPLETED: 'COMPLETED'
   },
 
+
   applicationStatus: {
     PENDING: 'PENDING',
     ACCEPTED: 'ACCEPTED',
     REJECTED: 'REJECTED'
   },
 
+
   deliverableStatus: {
     PENDING: 'PENDING',
     EVALUATED: 'EVALUATED',
     REJECTED: 'REJECTED'
   },
+
 
   // File upload settings
   fileUpload: {

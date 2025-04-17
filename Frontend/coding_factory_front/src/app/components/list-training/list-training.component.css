@@ -1,0 +1,192 @@
+/* Container styling */
+.training-list-wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Heading */
+  .training-list-wrapper h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #333;
+  }
+  
+  /* Table styling */
+  .training-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+  
+  .training-table th,
+  .training-table td {
+    padding: 14px 16px;
+    text-align: center;
+  }
+  
+  .training-table th {
+    background-color: #38597c;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  
+  .training-table td {
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #444;
+    transition: background-color 0.2s;
+  }
+  
+  .training-table tr:hover td {
+    background-color: #e9f2ff;
+  }
+  
+  /* Status badges */
+  .archived,
+  .active {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  
+  .archived {
+    background-color: #f8d7da;
+    color: #a94442;
+  }
+  
+  .active {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  /* Buttons */
+/* Base style for all buttons */
+button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #5a6f86;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    margin: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+  }
+  
+  button:active {
+    transform: scale(0.98);
+    box-shadow: none;
+  }
+  
+  
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.4);
+  }
+  
+  /* Specific button types */
+  button.download {
+    background-color: #17a2b8;
+  }
+  
+  button.download:hover {
+    background-color: #138496;
+  }
+  
+  button.archive {
+    background-color: #ffc107;
+    color: #212529;
+  }
+  
+  button.archive:hover {
+    background-color: #e0a800;
+  }
+  
+  button.unarchive {
+    background-color: #28a745;
+  }
+  
+  button.unarchive:hover {
+    background-color: #218838;
+  }
+  
+  /* Popup */
+  .popup {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    background-color: #333;
+    color: white;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease-in-out;
+    z-index: 1000;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 320px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .popup.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .popup.success {
+    background-color: #62c278;
+  }
+  
+  .popup.error {
+    background-color: #dc3545;
+  }
+  
+  .popup.info {
+    background-color: #17a2b8;
+  }
+  
+  .popup .popup-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .popup .popup-content p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  
+  .popup .icon {
+    font-size: 20px;
+  }
+  
+  .btn-add-training {
+    @include button-style; 
+    float: right; 
+    margin-left: auto;
+    display: block;
+    width: fit-content;
+}

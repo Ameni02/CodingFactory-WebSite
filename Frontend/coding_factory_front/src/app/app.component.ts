@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
     ).subscribe((event: any) => {
       console.log('Navigation event:', event.url);
       this.isAdminRoute = event.url.includes('/admin');
-      this.shouldShowHeader = !this.isAdminRoute &&
+      this.shouldShowHeader = !event.url.includes('/admin') &&
                              !event.url.includes('/login') &&
                              !event.url.includes('/register');
       this.updateMainBanner();

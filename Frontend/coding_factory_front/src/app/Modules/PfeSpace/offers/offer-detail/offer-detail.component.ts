@@ -54,9 +54,9 @@ export class OfferDetailComponent implements OnInit {
       this.toastr.warning('Cannot apply for this project');
       return;
     }
-  
+
     const url = `/pfe-space/applications/new?projectId=${this.project.id}`;
-  
+
     // Attempt 1: Router navigation
     this.router.navigateByUrl(url).then(success => {
       if (!success) {

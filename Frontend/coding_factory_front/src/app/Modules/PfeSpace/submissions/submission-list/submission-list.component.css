@@ -42,7 +42,7 @@
 }
 
 .submission-header h3 i {
-  color: #7B6ADA;
+  color: #5b239f; /* Updated purple color */
 }
 
 /* Status Badge Styles */
@@ -89,7 +89,7 @@
 }
 
 .submission-details p i {
-  color: #7B6ADA;
+  color: #5b239f; /* Updated purple color */
   width: 20px;
   text-align: center;
 }
@@ -108,7 +108,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background-color: #7B6ADA;
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   padding: 10px 20px;
   border-radius: 30px;
@@ -118,9 +118,9 @@
 }
 
 .view-details-button:hover {
-  background-color: #6A59C2;
+  background-color: #4a1d83; /* Darker purple */
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25); /* Updated purple color with opacity */
 }
 
 .view-details-button i {
@@ -137,11 +137,11 @@
   padding: 15px;
   background-color: #f8f9fa;
   border-radius: 8px;
-  border-left: 3px solid #7B6ADA;
+  border-left: 3px solid #5b239f; /* Updated purple color */
 }
 
 .file-link {
-  color: #7B6ADA;
+  color: #5b239f; /* Updated purple color */
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -151,7 +151,7 @@
 }
 
 .file-link:hover {
-  color: #6A59C2;
+  color: #4a1d83; /* Darker purple */
   text-decoration: underline;
 }
 
@@ -176,7 +176,7 @@
 .spinner > div {
   width: 14px;
   height: 14px;
-  background-color: #7B6ADA;
+  background-color: #5b239f; /* Updated purple color */
   border-radius: 100%;
   display: inline-block;
   animation: bounce 1.4s infinite ease-in-out both;
@@ -234,7 +234,7 @@
 
 .no-submissions i {
   font-size: 48px;
-  color: #7B6ADA;
+  color: #5b239f; /* Updated purple color */
   margin-bottom: 20px;
   display: block;
 }

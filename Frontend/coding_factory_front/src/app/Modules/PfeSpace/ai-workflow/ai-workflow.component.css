@@ -502,16 +502,19 @@
     margin-left: 20px;
   }
 
+
   .step {
     flex-direction: row;
     margin-bottom: 15px;
     width: 100%;
   }
 
+
   .step-number {
     margin-right: 15px;
     margin-bottom: 0;
   }
+
 
   .step-connector {
     width: 3px;
@@ -524,10 +527,12 @@
     grid-template-columns: 1fr;
   }
 
+
   .form-actions {
     flex-direction: column;
     gap: 15px;
   }
+
 
   .btn-primary, .btn-secondary {
     width: 100%;

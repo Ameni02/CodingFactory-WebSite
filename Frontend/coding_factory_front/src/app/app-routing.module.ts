@@ -18,6 +18,13 @@ import { AdminDashboardComponent } from './components/admin/admin-dashboard/admi
 import { AdminUsersComponent } from './components/admin/admin-user/admin-user.component';
 import { AdminPfeSpaceComponent } from './components/admin/admin-pfespace/admin-pfespace.component';
 
+// Training components
+import { ListTrainingUserComponent } from './components/list-training-user/list-training-user.component';
+import { ListTrainingComponent } from './components/list-training/list-training.component';
+import { AddTrainingComponent } from './components/add-training/add-training.component';
+import { AddEducationalResourceComponent } from './components/add-educational-resource/add-educational-resource.component';
+import { ListResourceAdminComponent } from './components/list-resource-admin/list-resource-admin.component';
+
 const routes: Routes = [
   // Public routes
   { path: 'login', component: LoginComponent },
@@ -31,6 +38,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'modify-user', component: ModifyUserComponent, canActivate: [AuthGuard] },
   { path: 'modify-user/:id', component: ModifyUserComponent, canActivate: [AuthGuard] },
+  { path: 'listTrainingUser', component: ListTrainingUserComponent },
 
   // Lazy-loaded modules
   { path: 'events', loadChildren: () => import('./Modules/front/front.module').then(m => m.FrontModule) },
@@ -53,7 +61,6 @@ const routes: Routes = [
   { path: 'evaluations/new', redirectTo: 'pfe-space/evaluations/new', pathMatch: 'full' },
   { path: 'ai-workflow', redirectTo: 'pfe-space/ai-workflow', pathMatch: 'full' },
   { path: 'merge', redirectTo: 'pfe-space/merge', pathMatch: 'full' },
-
   // Admin routes
   {
     path: 'admin',
@@ -63,10 +70,10 @@ const routes: Routes = [
       { path: '', component: AdminDashboardComponent },
       { path: 'users', component: AdminUsersComponent },
       { path: 'pfespace', component: AdminPfeSpaceComponent },
-      // Add other admin routes as needed
-      // { path: 'trainings', component: AdminTrainingsComponent },
-      // { path: 'evaluations', component: AdminEvaluationsComponent },
-      // { path: 'consulting', component: AdminConsultingComponent },
+      { path: 'listTrainingAdmin', component: ListTrainingComponent },
+      { path: 'addTraining', component: AddTrainingComponent },
+      { path: 'addRousource', component: AddEducationalResourceComponent },
+      { path: 'listPedagogique', component: ListResourceAdminComponent },
       { path: 'events', loadChildren: () => import('./back/back.module').then(m => m.BackModule) },
       { path: 'events/feedbacks/:id', loadChildren: () => import('./back/back.module').then(m => m.BackModule) },
       { path: 'events/participations/:id', loadChildren: () => import('./back/back.module').then(m => m.BackModule) },

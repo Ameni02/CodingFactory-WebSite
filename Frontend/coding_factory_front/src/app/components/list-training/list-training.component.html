@@ -1,0 +1,52 @@
+<div style="padding-top: 80px;">
+<button class="btn-add-training">
+<a routerLink="/admin/addTraining">+ Add New Training</a>
+</button>
+<br>
+<br>
+<div class="training-list-wrapper">
+    <h2>📘 Training List </h2>
+
+    <table class="training-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>PDF</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let formation of formations; ">
+          <td>{{ formation.titre }}</td>
+          <td>
+            <button (click)="downloadPdf(formation.id, formation.pdfFileName)">⬇️ Download</button>
+          </td>
+          <td>
+            <span [ngClass]="formation.archived ? 'archived' : 'active'">
+              {{ formation.archived ? 'Archived' : 'Active' }}
+            </span>
+          </td>
+          <td>
+            <button *ngIf="!formation.archived" (click)="archive(formation.id)">🗄️ Archive</button>
+            <button *ngIf="formation.archived" (click)="unarchive(formation.id)">♻️ Unarchive</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Popup message -->
+    <div class="popup" [ngClass]="[popup.type, popup.visible ? 'show' : '']">
+      <div class="popup-content">
+        <span class="icon">
+          <ng-container [ngSwitch]="popup.type">
+            <span *ngSwitchCase="'success'">✅</span>
+            <span *ngSwitchCase="'error'">❌</span>
+            <span *ngSwitchDefault>ℹ️</span>
+          </ng-container>
+        </span>
+        <p>{{ popup.message }}</p>
+      </div>
+    </div>
+  </div>
+</div>

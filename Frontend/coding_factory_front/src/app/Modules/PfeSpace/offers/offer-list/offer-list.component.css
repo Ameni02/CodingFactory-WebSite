@@ -23,7 +23,7 @@
 }
 
 .section-heading h6 {
-  color: #7B6ADA; /* Custom purple color */
+  color: #5b239f; /* Updated purple color */
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -70,22 +70,22 @@
 }
 
 .document-btn {
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
 }
 
 .submission-btn {
-  background-color: #9B8DE3; /* Lighter purple */
+  background-color: #6c34b9; /* Lighter purple */
   color: white;
 }
 
 .add-offer-btn {
-  background-color: #6A59C2; /* Darker purple */
+  background-color: #4a1d83; /* Darker purple */
   color: white;
 }
 
 .ai-workflow-btn {
-  background-color: #5D4BA8; /* Even darker purple */
+  background-color: #3a1766; /* Even darker purple */
   color: white;
 }
 
@@ -129,8 +129,8 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #7B6ADA; /* Custom purple color */
-  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.15); /* Custom purple color with opacity */
+  border-color: #5b239f; /* Updated purple color */
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.15); /* Updated purple color with opacity */
 }
 
 .filter-box {
@@ -161,8 +161,8 @@
 
 .filter-select:focus {
   outline: none;
-  border-color: #7B6ADA; /* Custom purple color */
-  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.15); /* Custom purple color with opacity */
+  border-color: #5b239f; /* Updated purple color */
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.15); /* Updated purple color with opacity */
 }
 
 /* Loading State Styles */
@@ -181,7 +181,7 @@
 .spinner > div {
   width: 14px;
   height: 14px;
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   border-radius: 100%;
   display: inline-block;
   animation: bounce 1.4s infinite ease-in-out both;
@@ -218,7 +218,7 @@
 
 .empty-icon {
   font-size: 48px;
-  color: #7B6ADA; /* Custom purple color */
+  color: #5b239f; /* Updated purple color */
   margin-bottom: 20px;
 }
 
@@ -269,7 +269,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   display: flex;
   align-items: center;
@@ -322,7 +322,7 @@
 
 .detail-icon {
   width: 20px;
-  color: #7B6ADA; /* Custom purple color */
+  color: #5b239f; /* Updated purple color */
   margin-right: 10px;
   text-align: center;
 }
@@ -336,7 +336,7 @@
 .view-details-btn {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   border-radius: 30px;
   text-decoration: none;
@@ -350,7 +350,7 @@
 }
 
 .view-details-btn:hover {
-  background-color: #6A59C2; /* Darker purple */
+  background-color: #4a1d83; /* Darker purple */
 }
 
 .view-details-btn:hover i {
@@ -370,7 +370,7 @@
   padding: 10px 20px;
   border: none;
   border-radius: 30px;
-  background-color: #7B6ADA; /* Custom purple color */
+  background-color: #5b239f; /* Updated purple color */
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -381,9 +381,9 @@
 }
 
 .pagination-btn:hover:not(:disabled) {
-  background-color: #6A59C2; /* Darker purple */
+  background-color: #4a1d83; /* Darker purple */
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25); /* Custom purple color with opacity */
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25); /* Updated purple color with opacity */
 }
 
 .pagination-btn:disabled {

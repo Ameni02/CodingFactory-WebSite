@@ -29,10 +29,10 @@
             <i class="bi bi-person-plus"></i>
             New User
           </button>
-          <button (click)="handleQuickAction('newTraining')" class="btn-action">
+          <a routerLink="/admin/addTraining" class="btn-action">
             <i class="bi bi-plus-circle"></i>
             New Training
-          </button>
+          </a>
           <button (click)="handleQuickAction('viewEvaluations')" class="btn-action">
             <i class="bi bi-clipboard-check"></i>
             View Evaluations
@@ -85,16 +85,8 @@
         </div>
 
         <div class="stat-card">
-          <div class="stat-header">
+          <div class="stat-header" routerLink="/admin/addTraining">
             <h3>Trainings</h3>
-            <i class="bi bi-book"></i>
-          </div>
-          <div class="stat-numbers">
-            <div class="main-stat">{{statistics.trainings.total}}</div>
-            <div class="sub-stats">
-              <span>Active: {{statistics.trainings.active}}</span>
-              <span>Draft: {{statistics.trainings.draft}}</span>
-            </div>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,29 @@ export class NotificationService {
   notifications$ = this.notificationsSubject.asObservable();
   unreadCount$ = this.unreadCountSubject.asObservable();
 
-  constructor() { }
+  private apiUrl = 'http://localhost:8080/api'; // Update with your actual API URL
+
+  constructor(private http: HttpClient) { }
+
+  /**
+   * Sends an email notification
+   * @param to Recipient email address
+   * @param subject Email subject
+   * @param body Email body content
+   * @returns Observable of the email sending operation
+   */
+  sendEmail(to: string, subject: string, body: string): Observable<any> {
+    // If you have an actual email API endpoint, use this:
+    // return this.http.post(`${this.apiUrl}/notifications/email`, {
+    //   to,
+    //   subject,
+    //   body
+    // });
+
+    // For now, we'll simulate a successful email send with a delay
+    console.log('Sending email to:', to, 'Subject:', subject);
+    return of({ success: true, message: 'Email sent successfully' });
+  }
 
   setNotifications(notifications: any[]) {
     this.notificationsSubject.next(notifications);

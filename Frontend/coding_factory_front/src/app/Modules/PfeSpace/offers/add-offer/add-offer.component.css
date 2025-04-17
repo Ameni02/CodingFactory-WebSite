@@ -27,7 +27,7 @@
 /* Form Header */
 .modify-project h2 {
   font-size: 2rem;
-  color: #7B6ADA; /* Custom purple color */
+  color: #5b239f; /* Updated purple color */
   margin-bottom: 30px;
   text-align: center;
   font-weight: 600;
@@ -64,9 +64,9 @@ form {
 }
 
 .form-group input:focus {
-  border-color: #7B6ADA; /* Custom purple color */
+  border-color: #5b239f; /* Updated purple color */
   outline: none;
-  box-shadow: 0 0 0 3px rgba(123, 106, 218, 0.1);
+  box-shadow: 0 0 0 3px rgba(91, 35, 159, 0.1);
   background-color: white;
 }
 
@@ -80,7 +80,7 @@ form {
 .form-group input[type="file"] {
   padding: 10px;
   background-color: white;
-  border: 1px dashed #7B6ADA; /* Custom purple color */
+  border: 1px dashed #5b239f; /* Updated purple color */
 }
 
 /* Selected File Text */
@@ -125,8 +125,8 @@ form {
 
 .btn-back {
   background-color: transparent;
-  color: #7B6ADA; /* Custom purple color */
-  border: 1px solid #7B6ADA;
+  color: #5b239f; /* Updated purple color */
+  border: 1px solid #5b239f;
   font-size: 1rem;
   padding: 12px 30px;
   border-radius: 30px;
@@ -142,7 +142,7 @@ form {
 
 .btn-back:hover {
   background-color: #f8f9fa;
-  color: #6A59C2; /* Darker purple */
+  color: #4a1d83; /* Darker purple */
   transform: translateY(-2px);
 }
 

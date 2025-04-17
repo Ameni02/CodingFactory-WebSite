@@ -373,5 +373,4 @@ export class AdminPfeSpaceComponent implements OnInit {
         return '';
     }
   }
-
 }

@@ -37,16 +37,23 @@ import { DashboardService } from 'src/app/services/dashboard.service';
 
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {ForgotPasswordComponent} from "./pages/services/forgot-password/forgot-password.component";
-import {ResetPasswordComponent} from "./pages/services/reset-password/reset-password.component";
-import {UnbanRequestComponent} from "./pages/unban-request/unban-request.component";
-import {ModifyUserComponent} from "./pages/modify-user/modify-user.component";
-import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
-import {RegisterComponent} from "./pages/register/register.component";
-import {LoginComponent} from "./pages/login/login.component";
-import {CodeInputModule} from "angular-code-input";
-import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
+import { ForgotPasswordComponent } from "./pages/services/forgot-password/forgot-password.component";
+import { ResetPasswordComponent } from "./pages/services/reset-password/reset-password.component";
+import { UnbanRequestComponent } from "./pages/unban-request/unban-request.component";
+import { ModifyUserComponent } from "./pages/modify-user/modify-user.component";
+import { ActivateAccountComponent } from "./pages/activate-account/activate-account.component";
+import { RegisterComponent } from "./pages/register/register.component";
+import { LoginComponent } from "./pages/login/login.component";
+import { CodeInputModule } from "angular-code-input";
+import { JWT_OPTIONS, JwtHelperService } from "@auth0/angular-jwt";
 import { PfeSpaceModule } from "./Modules/PfeSpace/pfe-space.module";
+
+// Training components
+import { ListTrainingComponent } from './components/list-training/list-training.component';
+import { ListTrainingUserComponent } from './components/list-training-user/list-training-user.component';
+import { AddTrainingComponent } from './components/add-training/add-training.component';
+import { AddEducationalResourceComponent } from './components/add-educational-resource/add-educational-resource.component';
+import { ListResourceAdminComponent } from './components/list-resource-admin/list-resource-admin.component';
 
 
 @NgModule({
@@ -73,7 +80,11 @@ import { PfeSpaceModule } from "./Modules/PfeSpace/pfe-space.module";
     UnbanRequestComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
-
+    ListTrainingComponent,
+    ListTrainingUserComponent,
+    AddTrainingComponent,
+    AddEducationalResourceComponent,
+    ListResourceAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -91,8 +102,8 @@ import { PfeSpaceModule } from "./Modules/PfeSpace/pfe-space.module";
     CodeInputModule,
     AdminLayoutComponent,
     PfeSpaceModule
-],
-  providers: [DashboardService,{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+  ],
+  providers: [DashboardService, { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService],
   bootstrap: [AppComponent]
 })

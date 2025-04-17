@@ -1,0 +1,47 @@
+<button class="btn-add-training">
+    <a routerLink="/admin/addRousource">+ Add New Resource</a>
+  </button>
+  
+  <br><br>
+  
+  <div class="training-list-wrapper">
+    <h2>📚 Educational Resources</h2>
+  
+    <table class="training-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Download</th>
+          <th>Formation ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ressource of ressources">
+          <td>{{ ressource.titre }}</td>
+          <td>{{ ressource.description }}</td>
+          <td>
+            <button class="download" *ngIf="ressource.id" (click)="downloadResource(ressource.id)">
+              ⬇️ Download
+            </button>
+          </td>
+          <td>{{ ressource.formation.id }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Popup message (optional, if you use popups on this page) -->
+    <!-- <div class="popup" [ngClass]="[popup.type, popup.visible ? 'show' : '']">
+      <div class="popup-content">
+        <span class="icon">
+          <ng-container [ngSwitch]="popup.type">
+            <span *ngSwitchCase="'success'">✅</span>
+            <span *ngSwitchCase="'error'">❌</span>
+            <span *ngSwitchDefault>ℹ️</span>
+          </ng-container>
+        </span>
+        <p>{{ popup.message }}</p>
+      </div>
+    </div> -->
+  </div>
+  

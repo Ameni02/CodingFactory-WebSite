@@ -1,0 +1,59 @@
+<div class="form-wrapper">
+    <h2>📚 Add Educational Resource</h2>
+  
+    <form [formGroup]="ressourceForm" (ngSubmit)="onSubmit()">
+      <!-- Titre -->
+      <div class="form-field">
+        <label for="titre">Title</label>
+        <input id="titre" type="text" formControlName="titre" placeholder="Enter the title" />
+      </div>
+  
+      <!-- Description -->
+      <div class="form-field">
+        <label for="description">Description</label>
+        <input id="description" type="text" formControlName="description" placeholder="Enter the description" />
+      </div>
+  
+      <!-- Formation ID -->
+      <div class="form-field">
+        <label for="formationId">Training Id Number</label>
+        <input id="formationId" type="number" formControlName="formationId" placeholder="Enter the trainig's ID" />
+      </div>
+  
+      <!-- Upload PDF -->
+      <div class="upload-box" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
+        <label for="file-upload" class="file-label">
+          <input
+            id="file-upload"
+            type="file"
+            accept="application/pdf"
+            (change)="onFileChange($event)"
+            hidden
+          />
+          <span class="upload-text">
+            {{ selectedFile ? '📄 ' + selectedFile.name : 'Click or drag a PDF file here' }}
+          </span>
+        </label>
+      </div>
+  
+      <!-- Bouton submit -->
+      <button type="submit" [disabled]="ressourceForm.invalid || !selectedFile">
+        🚀 Add Educational Resource
+      </button>
+    </form>
+  </div>
+  
+  <!-- Popup de notification -->
+  <div class="popup" [ngClass]="[popup.type, popup.visible ? 'show' : '']">
+    <div class="popup-content">
+      <span class="icon">
+        <ng-container [ngSwitch]="popup.type">
+          <span *ngSwitchCase="'success'">✅</span>
+          <span *ngSwitchCase="'error'">❌</span>
+          <span *ngSwitchDefault>ℹ️</span>
+        </ng-container>
+      </span>
+      <p>{{ popup.message }}</p>
+    </div>
+  </div>
+  
