@@ -1,0 +1,134 @@
+<div class="training-detail-container">
+  <div class="training-header">
+    <button class="btn btn-outline-primary back-button" (click)="goBack()">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <div class="training-title" *ngIf="formation">
+      <h2>{{ formation.titre }}</h2>
+      <div class="training-badges">
+        <span class="badge bg-secondary" *ngIf="formation.archived">Archived</span>
+        <span class="sentiment-badge"
+              *ngIf="formation.averageSentimentScore"
+              [class]="getSentimentClass(formation)">
+          {{ getSentimentIcon(formation) }}
+          Score: {{ formation.averageSentimentScore }}
+        </span>
+      </div>
+    </div>
+
+    <div class="training-title" *ngIf="!formation && !loading && !error">
+      <h2>Training not found</h2>
+    </div>
+  </div>
+
+  <div class="loading-spinner" *ngIf="loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Chargement...</span>
+    </div>
+  </div>
+
+  <div class="error-message" *ngIf="error">{{ error }}</div>
+
+  <div class="training-content" *ngIf="formation && !loading">
+    <div class="training-tabs">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link"
+             [class.active]="activeTab === 'details'"
+             (click)="setActiveTab('details')">
+            Details
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             [class.active]="activeTab === 'pdf'"
+             (click)="setActiveTab('pdf')">
+            PDF
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             [class.active]="activeTab === 'comments'"
+             (click)="setActiveTab('comments')">
+            Comments
+            <span class="badge bg-primary" *ngIf="formation.totalCommentCount">
+              {{ formation.totalCommentCount }}
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content">
+      <!-- Details Tab -->
+      <div class="tab-pane" [class.active]="activeTab === 'details'">
+        <div class="training-details">
+          <div class="detail-item">
+            <div class="detail-label">Title:</div>
+            <div class="detail-value">{{ formation.titre }}</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">Status:</div>
+            <div class="detail-value">
+              <span class="status-badge" [class.archived]="formation.archived">
+                {{ formation.archived ? 'Archived' : 'Active' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-item" *ngIf="formation.totalCommentCount">
+            <div class="detail-label">Comments:</div>
+            <div class="detail-value">{{ formation.totalCommentCount }}</div>
+          </div>
+
+          <div class="detail-item" *ngIf="formation.averageSentimentScore !== undefined">
+            <div class="detail-label">Sentiment score:</div>
+            <div class="detail-value">
+              <span class="sentiment-value" [class]="getSentimentClass(formation)">
+                {{ getSentimentIcon(formation) }} {{ formation.averageSentimentScore }}
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-item" *ngIf="formation.positiveCommentRatio !== undefined">
+            <div class="detail-label">Positive comments ratio:</div>
+            <div class="detail-value">{{ (formation.positiveCommentRatio * 100) }}%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PDF Tab -->
+      <div class="tab-pane" [class.active]="activeTab === 'pdf'">
+        <div class="pdf-container">
+          <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600"></iframe>
+          <div *ngIf="!pdfUrl" class="pdf-loading">
+            Loading PDF...
+          </div>
+        </div>
+      </div>
+
+      <!-- Comments Tab -->
+      <div class="tab-pane" [class.active]="activeTab === 'comments'">
+        <div class="comments-container">
+          <div class="comment-section-intro">
+            <h3>Give your feedback on this training</h3>
+            <p>Your feedback helps us improve our trainings and helps other users make their choice.</p>
+          </div>
+
+          <app-comment-form
+            [formationId]="formation.id"
+            (commentAdded)="onCommentAdded($event)">
+          </app-comment-form>
+
+          <app-comment-list
+            [formationId]="formation.id"
+            [directComments]="formation.comments"
+            #commentList>
+          </app-comment-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

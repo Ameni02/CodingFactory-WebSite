@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Formation, FormationService } from 'src/app/services/formation.service';
 
 @Component({
@@ -11,11 +12,14 @@ export class ListTrainingUserComponent {
 
   popup = {
     visible: false,
-    type: 'success',
+    type: 'success' as 'success' | 'error' | 'info',
     message: ''
   };
 
-  constructor(private formationService: FormationService) {}
+  constructor(
+    private formationService: FormationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadFormations();
@@ -23,10 +27,18 @@ export class ListTrainingUserComponent {
 
   loadFormations(): void {
     this.formationService.getAllFormationsNonArchivees().subscribe({
-      next: (data) => this.formations = data,
+      next: (data) => {
+        this.formations = data;
+        console.log('Loaded formations:', data);
+
+        if (data.length === 0) {
+          this.showPopup('info', 'No trainings available');
+        }
+      },
       error: (err) => {
-        this.showPopup('error', 'Erreur lors du chargement des formations.');
-        console.error(err);
+        console.error('Error loading trainings:', err);
+        this.showPopup('error', 'Error loading trainings');
+        this.formations = []; // Set empty array on error
       }
     });
   }
@@ -48,8 +60,13 @@ export class ListTrainingUserComponent {
     });
   }
 
-  showPopup(type: 'success' | 'error', message: string): void {
+  showPopup(type: 'success' | 'error' | 'info', message: string): void {
     this.popup = { type, message, visible: true };
     setTimeout(() => this.popup.visible = false, 3000);
+  }
+
+  viewTrainingDetails(id: number): void {
+    console.log('Navigating to training detail with ID:', id);
+    this.router.navigate(['/training-detail', id]);
   }
 }

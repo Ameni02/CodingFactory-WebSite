@@ -1,7 +1,10 @@
 package codingfactory.gestion_formation.Services;
 
 import codingfactory.gestion_formation.Entities.Formation;
+import codingfactory.gestion_formation.Repositories.CommentRepository;
 import codingfactory.gestion_formation.Repositories.FormationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,13 +12,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FormationService {
     private final FormationRepository formationRepository;
     private final String uploadDir = "uploads/";
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     public FormationService(FormationRepository formationRepository) {
         this.formationRepository = formationRepository;
@@ -24,8 +32,57 @@ public class FormationService {
     public List<Formation> getAllFormations() {
         return formationRepository.findAll();
     }
+
     public Optional<Formation> getFormationById(Long id) {
         return formationRepository.findById(id);
+    }
+
+    /**
+     * Get all formations sorted by sentiment score (highest first)
+     */
+    public List<Formation> getAllFormationsBySentiment() {
+        List<Formation> formations = formationRepository.findAll();
+
+        // Sort by average sentiment score (descending)
+        return formations.stream()
+                .sorted(Comparator.comparing(Formation::getAverageSentimentScore, Comparator.nullsLast(Comparator.reverseOrder())))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all non-archived formations sorted by sentiment score (highest first)
+     */
+    public List<Formation> getAllNonArchivedFormationsBySentiment() {
+        List<Formation> formations = formationRepository.findByArchived(false);
+
+        // Sort by average sentiment score (descending)
+        return formations.stream()
+                .sorted(Comparator.comparing(Formation::getAverageSentimentScore, Comparator.nullsLast(Comparator.reverseOrder())))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all formations sorted by positive comment ratio (highest first)
+     */
+    public List<Formation> getAllFormationsByPositiveRatio() {
+        List<Formation> formations = formationRepository.findAll();
+
+        // Sort by positive comment ratio (descending)
+        return formations.stream()
+                .sorted(Comparator.comparing(Formation::getPositiveCommentRatio, Comparator.nullsLast(Comparator.reverseOrder())))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all non-archived formations sorted by positive comment ratio (highest first)
+     */
+    public List<Formation> getAllNonArchivedFormationsByPositiveRatio() {
+        List<Formation> formations = formationRepository.findByArchived(false);
+
+        // Sort by positive comment ratio (descending)
+        return formations.stream()
+                .sorted(Comparator.comparing(Formation::getPositiveCommentRatio, Comparator.nullsLast(Comparator.reverseOrder())))
+                .collect(Collectors.toList());
     }
 
 

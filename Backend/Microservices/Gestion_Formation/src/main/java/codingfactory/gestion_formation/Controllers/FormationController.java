@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 @RestController
 @RequestMapping("/api/formations")
+@CrossOrigin(origins = "*")
 public class FormationController {
     private final FormationService formationService;
 
@@ -34,6 +35,38 @@ public ResponseEntity<List<Formation>> getAllFormations() {
     @GetMapping("/non-archivees")
     public ResponseEntity<List<Formation>> getAllFormationsNonArchivees() {
         return ResponseEntity.ok(formationService.getAllFormationsNonArchivees());
+    }
+
+    /**
+     * Get all formations sorted by sentiment score (highest first)
+     */
+    @GetMapping("/by-sentiment")
+    public ResponseEntity<List<Formation>> getAllFormationsBySentiment() {
+        return ResponseEntity.ok(formationService.getAllFormationsBySentiment());
+    }
+
+    /**
+     * Get all non-archived formations sorted by sentiment score (highest first)
+     */
+    @GetMapping("/non-archivees/by-sentiment")
+    public ResponseEntity<List<Formation>> getAllNonArchivedFormationsBySentiment() {
+        return ResponseEntity.ok(formationService.getAllNonArchivedFormationsBySentiment());
+    }
+
+    /**
+     * Get all formations sorted by positive comment ratio (highest first)
+     */
+    @GetMapping("/by-positive-ratio")
+    public ResponseEntity<List<Formation>> getAllFormationsByPositiveRatio() {
+        return ResponseEntity.ok(formationService.getAllFormationsByPositiveRatio());
+    }
+
+    /**
+     * Get all non-archived formations sorted by positive comment ratio (highest first)
+     */
+    @GetMapping("/non-archivees/by-positive-ratio")
+    public ResponseEntity<List<Formation>> getAllNonArchivedFormationsByPositiveRatio() {
+        return ResponseEntity.ok(formationService.getAllNonArchivedFormationsByPositiveRatio());
     }
 
 

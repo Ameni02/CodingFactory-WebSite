@@ -1,0 +1,104 @@
+<div class="formation-list-container">
+  <div class="formation-header">
+    <h2>Formations</h2>
+    <div class="formation-filters">
+      <div class="filter-group">
+        <label>Trier par:</label>
+        <div class="btn-group">
+          <button 
+            class="btn" 
+            [ngClass]="{'btn-primary': sortOption === 'default', 'btn-outline-primary': sortOption !== 'default'}"
+            (click)="changeSortOption('default')">
+            Par défaut
+          </button>
+          <button 
+            class="btn" 
+            [ngClass]="{'btn-primary': sortOption === 'sentiment', 'btn-outline-primary': sortOption !== 'sentiment'}"
+            (click)="changeSortOption('sentiment')">
+            Sentiment
+          </button>
+          <button 
+            class="btn" 
+            [ngClass]="{'btn-primary': sortOption === 'positive', 'btn-outline-primary': sortOption !== 'positive'}"
+            (click)="changeSortOption('positive')">
+            Commentaires positifs
+          </button>
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <div class="form-check form-switch">
+          <input 
+            class="form-check-input" 
+            type="checkbox" 
+            id="showArchived" 
+            [checked]="showArchived"
+            (change)="toggleArchived()">
+          <label class="form-check-label" for="showArchived">
+            Afficher les formations archivées
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="loading-spinner" *ngIf="loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Chargement...</span>
+    </div>
+  </div>
+  
+  <div class="error-message" *ngIf="error">{{ error }}</div>
+  
+  <div class="no-formations" *ngIf="!loading && formations.length === 0">
+    Aucune formation trouvée.
+  </div>
+  
+  <div class="formation-grid" *ngIf="!loading && formations.length > 0">
+    <div class="formation-card" 
+         *ngFor="let formation of formations"
+         [ngClass]="{'archived': formation.archived}"
+         (click)="viewFormation(formation)">
+      <div class="formation-status" *ngIf="formation.archived">
+        <span class="badge bg-secondary">Archivée</span>
+      </div>
+      
+      <div class="formation-title">{{ formation.titre }}</div>
+      
+      <div class="formation-sentiment" *ngIf="formation.averageSentimentScore">
+        <div class="sentiment-icon" [ngClass]="getSentimentClass(formation)">
+          {{ getSentimentIcon(formation) }}
+        </div>
+        <div class="sentiment-score">
+          {{ formation.averageSentimentScore | number:'1.2-2' }}
+        </div>
+      </div>
+      
+      <div class="formation-stats">
+        <div class="stat-item" *ngIf="formation.totalCommentCount">
+          <i class="fas fa-comments"></i>
+          <span>{{ formation.totalCommentCount }} commentaires</span>
+        </div>
+        <div class="stat-item" *ngIf="formation.positiveCommentRatio !== undefined">
+          <i class="fas fa-smile"></i>
+          <span>{{ (formation.positiveCommentRatio * 100) | number:'1.0-0' }}% positifs</span>
+        </div>
+      </div>
+      
+      <div class="formation-actions">
+        <button 
+          class="btn btn-sm btn-outline-danger" 
+          *ngIf="!formation.archived"
+          (click)="archiveFormation($event, formation)">
+          <i class="fas fa-archive"></i> Archiver
+        </button>
+        <button 
+          class="btn btn-sm btn-outline-success" 
+          *ngIf="formation.archived"
+          (click)="unarchiveFormation($event, formation)">
+          <i class="fas fa-box-open"></i> Désarchiver
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

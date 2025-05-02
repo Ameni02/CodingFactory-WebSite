@@ -1,0 +1,108 @@
+<div class="comment-list-container">
+  <div class="comment-header">
+    <h3>Commentaires ({{ comments.length }})</h3>
+    <div class="comment-actions">
+      <button class="btn btn-outline-primary btn-sm" (click)="refreshComments()">
+        <i class="fas fa-sync-alt"></i> Rafraîchir
+      </button>
+      <button class="btn btn-outline-secondary btn-sm" (click)="analyzeAllComments()">
+        <i class="fas fa-magic"></i> Analyser tous
+      </button>
+    </div>
+  </div>
+  
+  <div class="comment-stats" *ngIf="comments.length > 0">
+    <div class="stat-item">
+      <div class="stat-label">Note moyenne</div>
+      <div class="stat-value">
+        <span class="stars">
+          <span *ngFor="let i of [1, 2, 3, 4, 5]" 
+                [ngClass]="{'star': true, 'filled': averageRating >= i}">
+            ★
+          </span>
+        </span>
+        <span class="rating-text">{{ averageRating | number:'1.1-1' }}/5</span>
+      </div>
+    </div>
+    
+    <div class="stat-item">
+      <div class="stat-label">Sentiments</div>
+      <div class="stat-value sentiment-bars">
+        <div class="sentiment-bar">
+          <div class="bar-label positive">😊 {{ positiveCount }}</div>
+          <div class="progress">
+            <div class="progress-bar bg-success" 
+                 [style.width.%]="comments.length ? (positiveCount / comments.length) * 100 : 0">
+            </div>
+          </div>
+        </div>
+        <div class="sentiment-bar">
+          <div class="bar-label neutral">😐 {{ neutralCount }}</div>
+          <div class="progress">
+            <div class="progress-bar bg-warning" 
+                 [style.width.%]="comments.length ? (neutralCount / comments.length) * 100 : 0">
+            </div>
+          </div>
+        </div>
+        <div class="sentiment-bar">
+          <div class="bar-label negative">😞 {{ negativeCount }}</div>
+          <div class="progress">
+            <div class="progress-bar bg-danger" 
+                 [style.width.%]="comments.length ? (negativeCount / comments.length) * 100 : 0">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="loading-spinner" *ngIf="loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Chargement...</span>
+    </div>
+  </div>
+  
+  <div class="error-message" *ngIf="error">{{ error }}</div>
+  
+  <div class="no-comments" *ngIf="!loading && comments.length === 0">
+    Aucun commentaire pour cette formation. Soyez le premier à commenter !
+  </div>
+  
+  <div class="comment-list" *ngIf="!loading && comments.length > 0">
+    <div class="comment-item" *ngFor="let comment of comments">
+      <div class="comment-header">
+        <div class="user-info">
+          <span class="user-name">{{ comment.userName }}</span>
+          <span class="comment-date">{{ getFormattedDate(comment.createdAt) }}</span>
+        </div>
+        <div class="comment-rating">
+          <span class="stars">
+            <span *ngFor="let i of [1, 2, 3, 4, 5]" 
+                  [ngClass]="{'star': true, 'filled': comment.rating >= i}">
+              ★
+            </span>
+          </span>
+        </div>
+      </div>
+      
+      <div class="comment-category">
+        <span class="category-badge">{{ getCategoryLabel(comment.category) }}</span>
+        <span class="sentiment-badge" [ngClass]="getSentimentClass(comment.sentimentLabel)">
+          {{ getSentimentIcon(comment.sentimentLabel) }} 
+          {{ comment.sentimentLabel }}
+        </span>
+      </div>
+      
+      <div class="comment-content">
+        {{ comment.content }}
+      </div>
+      
+      <div class="comment-metrics" *ngIf="comment.sentimentScore !== undefined">
+        <div class="metric">
+          <span class="metric-label">Score de sentiment:</span>
+          <span class="metric-value">{{ comment.sentimentScore | number:'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

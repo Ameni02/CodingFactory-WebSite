@@ -8,7 +8,7 @@
     border-radius: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
-  
+
   /* Heading */
   .training-list-wrapper h2 {
     text-align: center;
@@ -16,7 +16,7 @@
     margin-bottom: 25px;
     color: #333;
   }
-  
+
   /* Table styling */
   .training-table {
     width: 100%;
@@ -25,31 +25,31 @@
     overflow: hidden;
     border-radius: 12px;
   }
-  
+
   .training-table th,
   .training-table td {
     padding: 14px 16px;
     text-align: center;
   }
-  
+
   .training-table th {
     background-color: #38597c;
     color: white;
     font-weight: 600;
     font-size: 15px;
   }
-  
+
   .training-table td {
     background-color: #f9f9f9;
     font-size: 14px;
     color: #444;
     transition: background-color 0.2s;
   }
-  
+
   .training-table tr:hover td {
     background-color: #e9f2ff;
   }
-  
+
   /* Status badges */
   .archived,
   .active {
@@ -58,17 +58,17 @@
     font-weight: 600;
     font-size: 13px;
   }
-  
+
   .archived {
     background-color: #f8d7da;
     color: #a94442;
   }
-  
+
   .active {
     background-color: #d4edda;
     color: #155724;
   }
-  
+
   /* Buttons */
 /* Base style for all buttons */
 button {
@@ -88,49 +88,49 @@ button {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
   }
-  
+
   button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
   }
-  
+
   button:active {
     transform: scale(0.98);
     box-shadow: none;
   }
-  
-  
+
+
   button:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.4);
   }
-  
+
   /* Specific button types */
   button.download {
     background-color: #17a2b8;
   }
-  
+
   button.download:hover {
     background-color: #138496;
   }
-  
+
   button.archive {
     background-color: #ffc107;
     color: #212529;
   }
-  
+
   button.archive:hover {
     background-color: #e0a800;
   }
-  
+
   button.unarchive {
     background-color: #28a745;
   }
-  
+
   button.unarchive:hover {
     background-color: #218838;
   }
-  
+
   /* Popup */
   .popup {
     position: fixed;
@@ -150,43 +150,294 @@ button {
     align-items: center;
     gap: 12px;
   }
-  
+
   .popup.show {
     opacity: 1;
     transform: translateY(0);
   }
-  
+
   .popup.success {
     background-color: #62c278;
   }
-  
+
   .popup.error {
     background-color: #dc3545;
   }
-  
+
   .popup.info {
     background-color: #17a2b8;
   }
-  
+
   .popup .popup-content {
     display: flex;
     align-items: center;
   }
-  
+
   .popup .popup-content p {
     margin: 0;
     font-size: 15px;
     line-height: 1.4;
   }
-  
+
   .popup .icon {
     font-size: 20px;
   }
-  
+
   .btn-add-training {
-    @include button-style; 
-    float: right; 
+    background-color: #5a6f86;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    float: right;
     margin-left: auto;
     display: block;
     width: fit-content;
+}
+
+.btn-add-training a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Header actions */
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sort-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-options label {
+  font-weight: 500;
+  color: #333;
+}
+
+.btn-group {
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-group button {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  color: #555;
+}
+
+.btn-group button:hover {
+  background-color: #e0e0e0;
+}
+
+.btn-group button.active {
+  background-color: #7B6ADA;
+  color: white;
+}
+
+.archive-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.archive-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+}
+
+.archive-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #7B6ADA;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+  color: #666;
+  font-size: 16px;
+}
+
+.no-trainings {
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.training-table tr.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.training-table tr.clickable-row:hover {
+  background-color: #e9f2ff !important;
+}
+
+/* Sentiment indicator */
+.sentiment-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.sentiment-icon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.sentiment-icon.positive {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.sentiment-icon.neutral {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.sentiment-icon.negative {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.sentiment-score {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Comment stats */
+.comment-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.comment-count {
+  font-weight: 600;
+  color: #333;
+}
+
+.positive-ratio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #28a745;
+  border-radius: 3px;
+}
+
+.positive-ratio span {
+  font-size: 12px;
+  color: #666;
+}
+
+.detail-link {
+  margin-left: 8px;
+  color: #7B6ADA;
+  font-size: 14px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.detail-link:hover {
+  opacity: 1;
+}
+
+/* Prevent the link from triggering the row click */
+.detail-link {
+  position: relative;
+  z-index: 10;
+}
+
+/* Button variants */
+button.archive-btn {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+button.archive-btn:hover {
+  background-color: #e0a800;
+}
+
+button.unarchive-btn {
+  background-color: #28a745;
+}
+
+button.unarchive-btn:hover {
+  background-color: #218838;
 }

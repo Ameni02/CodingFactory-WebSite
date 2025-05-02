@@ -1,15 +1,43 @@
 <div style="padding-top: 80px;">
 <div class="training-cards-wrapper">
     <h2>Available Trainings</h2>
+    <p class="subtitle">Click on a training to view details and add comments</p>
 
-    <div class="cards-container">
-      <div class="training-card" *ngFor="let formation of formations">
+    <div class="cards-container" *ngIf="formations.length > 0">
+      <div class="training-card" *ngFor="let formation of formations" (click)="viewTrainingDetails(formation.id)">
         <h3>{{ formation.titre }}</h3>
         <p><strong>Fichier:</strong> {{ formation.pdfFileName }}</p>
 
-        <div class="card-footer">
-          <button (click)="downloadPdf(formation.id)">⬇️ Download  PDF</button>
+        <!-- Sentiment information if available -->
+        <div class="sentiment-info" *ngIf="formation.averageSentimentScore">
+          <div class="sentiment-score">
+            <span class="sentiment-icon" [class]="formation.averageSentimentScore >= 0.7 ? 'positive' : formation.averageSentimentScore >= 0.4 ? 'neutral' : 'negative'">
+              {{ formation.averageSentimentScore >= 0.7 ? '😊' : formation.averageSentimentScore >= 0.4 ? '😐' : '😞' }}
+            </span>
+            <span>Score: {{ formation.averageSentimentScore }}</span>
+          </div>
+          <div class="comment-count" *ngIf="formation.totalCommentCount">
+            <span>{{ formation.totalCommentCount }} comments</span>
+          </div>
         </div>
+
+        <div class="card-footer">
+          <button class="view-btn" (click)="viewTrainingDetails(formation.id); $event.stopPropagation()">
+            👁️ View Details
+          </button>
+          <button class="download-btn" (click)="downloadPdf(formation.id); $event.stopPropagation()">
+            ⬇️ Download PDF
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- No formations message -->
+    <div class="no-formations-message" *ngIf="formations.length === 0">
+      <div class="message-container">
+        <div class="icon">📚</div>
+        <h3>No Trainings Available</h3>
+        <p>There are no trainings available at the moment. Please check back later.</p>
       </div>
     </div>
 

@@ -3,6 +3,7 @@ package codingfactory.gestion_formation.Entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,18 @@ public class Formation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public List<RessourcePedagogique> getRessourcePedagogiques() {
+        return ressourcePedagogiques;
+    }
+
+    public void setRessourcePedagogiques(List<RessourcePedagogique> ressourcePedagogiques) {
+        this.ressourcePedagogiques = ressourcePedagogiques;
+    }
 
     @NotBlank(message = "Le titre est obligatoire")
     private String titre;
@@ -74,7 +87,51 @@ public class Formation {
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "formation")
+    @JsonIgnore
     List<RessourcePedagogique> ressourcePedagogiques = new ArrayList<>();
+
     @ManyToMany
+    @JsonIgnore
     private List<Formateur> formateursPossibles;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formation")
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
+
+    // Fields for sentiment analysis results
+    private Double averageSentimentScore;
+    private Double positiveCommentRatio;
+    private Integer totalCommentCount;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Double getAverageSentimentScore() {
+        return averageSentimentScore;
+    }
+
+    public void setAverageSentimentScore(Double averageSentimentScore) {
+        this.averageSentimentScore = averageSentimentScore;
+    }
+
+    public Double getPositiveCommentRatio() {
+        return positiveCommentRatio;
+    }
+
+    public void setPositiveCommentRatio(Double positiveCommentRatio) {
+        this.positiveCommentRatio = positiveCommentRatio;
+    }
+
+    public Integer getTotalCommentCount() {
+        return totalCommentCount;
+    }
+
+    public void setTotalCommentCount(Integer totalCommentCount) {
+        this.totalCommentCount = totalCommentCount;
+    }
 }

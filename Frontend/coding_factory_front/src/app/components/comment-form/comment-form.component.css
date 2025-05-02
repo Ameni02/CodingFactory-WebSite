@@ -1,0 +1,100 @@
+.comment-form-container {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #7B6ADA;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(123, 106, 218, 0.25);
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+}
+
+.stars {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-right: 10px;
+}
+
+.star {
+  font-size: 24px;
+  color: #e4e5e9;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-right: 5px;
+}
+
+.star:hover,
+.star:hover ~ .star,
+.filled {
+  color: #ffc107;
+}
+
+.rating-value {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-bottom: 15px;
+}
+
+.btn-primary {
+  background-color: #7B6ADA;
+  border-color: #7B6ADA;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #6a59c9;
+  border-color: #6a59c9;
+}
+
+.btn-primary:disabled {
+  background-color: #b5aedb;
+  border-color: #b5aedb;
+  cursor: not-allowed;
+}
+
+.spinner-border {
+  margin-right: 5px;
+}

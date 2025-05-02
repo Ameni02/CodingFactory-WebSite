@@ -24,6 +24,7 @@ import { ListTrainingComponent } from './components/list-training/list-training.
 import { AddTrainingComponent } from './components/add-training/add-training.component';
 import { AddEducationalResourceComponent } from './components/add-educational-resource/add-educational-resource.component';
 import { ListResourceAdminComponent } from './components/list-resource-admin/list-resource-admin.component';
+import { TrainingDetailComponent } from './components/training-detail/training-detail.component';
 
 const routes: Routes = [
   // Public routes
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'modify-user', component: ModifyUserComponent, canActivate: [AuthGuard] },
   { path: 'modify-user/:id', component: ModifyUserComponent, canActivate: [AuthGuard] },
   { path: 'listTrainingUser', component: ListTrainingUserComponent },
+  { path: 'training-detail/:id', component: TrainingDetailComponent },
 
   // Lazy-loaded modules
   { path: 'events', loadChildren: () => import('./Modules/front/front.module').then(m => m.FrontModule) },
@@ -71,6 +73,7 @@ const routes: Routes = [
       { path: 'users', component: AdminUsersComponent },
       { path: 'pfespace', component: AdminPfeSpaceComponent },
       { path: 'listTrainingAdmin', component: ListTrainingComponent },
+      { path: 'training-detail/:id', component: TrainingDetailComponent },
       { path: 'addTraining', component: AddTrainingComponent },
       { path: 'addRousource', component: AddEducationalResourceComponent },
       { path: 'listPedagogique', component: ListResourceAdminComponent },

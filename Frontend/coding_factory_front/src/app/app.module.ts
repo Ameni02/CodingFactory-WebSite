@@ -54,6 +54,9 @@ import { ListTrainingUserComponent } from './components/list-training-user/list-
 import { AddTrainingComponent } from './components/add-training/add-training.component';
 import { AddEducationalResourceComponent } from './components/add-educational-resource/add-educational-resource.component';
 import { ListResourceAdminComponent } from './components/list-resource-admin/list-resource-admin.component';
+import { TrainingDetailComponent } from './components/training-detail/training-detail.component';
+import { CommentFormComponent } from './components/comment-form/comment-form.component';
+import { CommentListComponent } from './components/comment-list/comment-list.component';
 
 
 @NgModule({
@@ -84,7 +87,10 @@ import { ListResourceAdminComponent } from './components/list-resource-admin/lis
     ListTrainingUserComponent,
     AddTrainingComponent,
     AddEducationalResourceComponent,
-    ListResourceAdminComponent
+    ListResourceAdminComponent,
+    TrainingDetailComponent,
+    CommentFormComponent,
+    CommentListComponent
   ],
   imports: [
     BrowserModule,

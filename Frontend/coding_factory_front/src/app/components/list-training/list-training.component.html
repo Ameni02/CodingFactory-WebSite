@@ -1,35 +1,103 @@
 <div style="padding-top: 80px;">
-<button class="btn-add-training">
-<a routerLink="/admin/addTraining">+ Add New Training</a>
-</button>
-<br>
-<br>
+<div class="header-actions">
+  <button class="btn-add-training">
+    <a routerLink="/admin/addTraining">+ Add New Training</a>
+  </button>
+
+  <div class="filter-controls">
+    <div class="sort-options">
+      <label>Sort by:</label>
+      <div class="btn-group">
+        <button
+          [ngClass]="{'active': sortOption === 'default'}"
+          (click)="changeSortOption('default')">
+          Default
+        </button>
+        <button
+          [ngClass]="{'active': sortOption === 'sentiment'}"
+          (click)="changeSortOption('sentiment')">
+          Sentiment Score
+        </button>
+        <button
+          [ngClass]="{'active': sortOption === 'positive'}"
+          (click)="changeSortOption('positive')">
+          Positive Comments
+        </button>
+      </div>
+    </div>
+
+    <div class="archive-toggle">
+      <label>
+        <input type="checkbox" [checked]="showArchived" (change)="toggleArchived()">
+        Show Archived
+      </label>
+    </div>
+  </div>
+</div>
+
 <div class="training-list-wrapper">
     <h2>📘 Training List </h2>
 
-    <table class="training-table">
+    <div class="loading-spinner" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading trainings...</p>
+    </div>
+
+    <div class="no-trainings" *ngIf="!loading && formations.length === 0">
+      No trainings found.
+    </div>
+
+    <table class="training-table" *ngIf="!loading && formations.length > 0">
       <thead>
         <tr>
           <th>Title</th>
+          <th>Sentiment</th>
+          <th>Comments</th>
           <th>PDF</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let formation of formations; ">
-          <td>{{ formation.titre }}</td>
+        <tr *ngFor="let formation of formations;" (click)="viewFormationDetails(formation.id)" class="clickable-row">
           <td>
-            <button (click)="downloadPdf(formation.id, formation.pdfFileName)">⬇️ Download</button>
+            {{ formation.titre }}
+            <a (click)="viewFormationDetails(formation.id); $event.stopPropagation()" class="detail-link">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
           </td>
           <td>
-            <span [ngClass]="formation.archived ? 'archived' : 'active'">
+            <div class="sentiment-indicator" *ngIf="formation.averageSentimentScore">
+              <span class="sentiment-icon" [class]="getSentimentClass(formation)">
+                {{ getSentimentIcon(formation) }}
+              </span>
+              <span class="sentiment-score">{{ formation.averageSentimentScore }}</span>
+            </div>
+            <span *ngIf="!formation.averageSentimentScore">No data</span>
+          </td>
+          <td>
+            <div class="comment-stats" *ngIf="formation.totalCommentCount">
+              <span class="comment-count">{{ formation.totalCommentCount }}</span>
+              <div class="positive-ratio" *ngIf="formation.positiveCommentRatio !== undefined">
+                <div class="progress-bar">
+                  <div class="progress" [style.width.%]="formation.positiveCommentRatio * 100"></div>
+                </div>
+                <span>{{ (formation.positiveCommentRatio * 100) }}% positive</span>
+              </div>
+            </div>
+            <span *ngIf="!formation.totalCommentCount">No comments</span>
+          </td>
+          <td>
+            <button (click)="downloadPdf(formation.id, formation.pdfFileName); $event.stopPropagation()">⬇️ Download</button>
+          </td>
+          <td>
+            <span [class]="formation.archived ? 'archived' : 'active'">
               {{ formation.archived ? 'Archived' : 'Active' }}
             </span>
           </td>
           <td>
-            <button *ngIf="!formation.archived" (click)="archive(formation.id)">🗄️ Archive</button>
-            <button *ngIf="formation.archived" (click)="unarchive(formation.id)">♻️ Unarchive</button>
+            <button *ngIf="!formation.archived" (click)="archive(formation.id); $event.stopPropagation()" class="archive-btn">🗄️ Archive</button>
+            <button *ngIf="formation.archived" (click)="unarchive(formation.id); $event.stopPropagation()" class="unarchive-btn">♻️ Unarchive</button>
           </td>
         </tr>
       </tbody>

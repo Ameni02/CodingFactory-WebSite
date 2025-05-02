@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Data
@@ -17,6 +18,7 @@ public class CreneauHoraire {
     private String heure; // "9h-11h", "14h-16h"
 
     @ManyToOne
+    @JsonIgnore
     private Formateur formateur;
 
     public Long getId() {
@@ -69,5 +71,6 @@ public class CreneauHoraire {
 
 
     @ManyToOne
+    @JsonIgnore
     private Formation formation;
 }

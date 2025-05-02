@@ -1,0 +1,71 @@
+<div class="comment-form-container">
+  <h3>Add a Comment</h3>
+
+  <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="userName">Your Name</label>
+      <input
+        type="text"
+        id="userName"
+        formControlName="userName"
+        class="form-control"
+        [ngClass]="{'is-invalid': commentForm.get('userName')?.invalid && commentForm.get('userName')?.touched}"
+      >
+      <div class="invalid-feedback" *ngIf="commentForm.get('userName')?.invalid && commentForm.get('userName')?.touched">
+        Name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select
+        id="category"
+        formControlName="category"
+        class="form-control"
+      >
+        <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="rating">Rating</label>
+      <div class="rating-container">
+        <div class="stars">
+          <span *ngFor="let i of [5, 4, 3, 2, 1]"
+                [ngClass]="{'star': true, 'filled': commentForm.get('rating')?.value >= i}"
+                (click)="commentForm.get('rating')?.setValue(i)">
+            ★
+          </span>
+        </div>
+        <span class="rating-value">{{ commentForm.get('rating')?.value }}/5</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="content">Comment</label>
+      <textarea
+        id="content"
+        formControlName="content"
+        class="form-control"
+        rows="4"
+        [ngClass]="{'is-invalid': commentForm.get('content')?.invalid && commentForm.get('content')?.touched}"
+      ></textarea>
+      <div class="invalid-feedback" *ngIf="commentForm.get('content')?.invalid && commentForm.get('content')?.touched">
+        <span *ngIf="commentForm.get('content')?.errors?.['required']">Comment is required</span>
+        <span *ngIf="commentForm.get('content')?.errors?.['minlength']">Comment must be at least 10 characters</span>
+        <span *ngIf="commentForm.get('content')?.errors?.['maxlength']">Comment cannot exceed 1000 characters</span>
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="error">{{ error }}</div>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="commentForm.invalid || submitting"
+    >
+      <span *ngIf="submitting" class="spinner-border spinner-border-sm mr-1"></span>
+      Submit
+    </button>
+  </form>
+</div>

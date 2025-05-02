@@ -1,29 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { Formation, FormationService } from 'src/app/services/formation.service';
+import { FormationService } from '../../services/formation.service';
+import { Formation } from '../../models/formation.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-list-training',
-  templateUrl: './list-training.component.html',
-  styleUrls: ['./list-training.component.css']
+  selector: 'app-formation-list',
+  templateUrl: './formation-list.component.html',
+  styleUrls: ['./formation-list.component.scss']
 })
-export class ListTrainingComponent implements OnInit {
-
+export class FormationListComponent implements OnInit {
   formations: Formation[] = [];
+  loading = false;
+  error = '';
   showArchived = false;
   sortOption = 'default';
-  loading = false;
-
-  popup = {
-    visible: false,
-    message: '',
-    type: 'info' as 'success' | 'error' | 'info'
-  };
 
   constructor(
     private formationService: FormationService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadFormations();
@@ -31,10 +26,11 @@ export class ListTrainingComponent implements OnInit {
 
   loadFormations(): void {
     this.loading = true;
-
+    this.error = '';
+    
     // Choose the appropriate service method based on filters
     let serviceMethod;
-
+    
     if (this.showArchived) {
       // All formations (archived and non-archived)
       switch (this.sortOption) {
@@ -60,16 +56,15 @@ export class ListTrainingComponent implements OnInit {
           serviceMethod = this.formationService.getAllFormationsNonArchivees();
       }
     }
-
+    
     // Execute the selected service method
     serviceMethod.subscribe({
-      next: (data) => {
-        this.formations = data;
+      next: (formations) => {
+        this.formations = formations;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading trainings', err);
-        this.showPopup("❌ Failed to load trainings", "error");
+        this.error = 'Erreur lors du chargement des formations: ' + (err.error || err.message);
         this.loading = false;
       }
     });
@@ -85,62 +80,39 @@ export class ListTrainingComponent implements OnInit {
     this.loadFormations();
   }
 
-  viewFormationDetails(id: number): void {
-    console.log('Navigating to training detail with ID:', id);
-
-    // Check if we're in the admin section
-    const url = this.router.url;
-    if (url.includes('admin')) {
-      this.router.navigate(['/admin/training-detail', id]);
-    } else {
-      this.router.navigate(['/training-detail', id]);
-    }
+  viewFormation(formation: Formation): void {
+    this.router.navigate(['/formations', formation.id]);
   }
 
-  downloadPdf(id: number, fileName: string): void {
-    this.formationService.getPdf(id).subscribe({
-      next: (data) => {
-        const blob = new Blob([data], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName || 'training.pdf';
-        a.click();
-        window.URL.revokeObjectURL(url);
+  archiveFormation(event: Event, formation: Formation): void {
+    event.stopPropagation();
+    
+    this.formationService.archiveFormation(formation.id).subscribe({
+      next: () => {
+        formation.archived = true;
       },
-      error: () => {
-        this.showPopup("❌ Failed to download PDF", "error");
+      error: (err) => {
+        this.error = 'Erreur lors de l\'archivage de la formation: ' + (err.error || err.message);
       }
     });
   }
 
-  archive(id: number): void {
-    this.formationService.archiveFormation(id).subscribe({
+  unarchiveFormation(event: Event, formation: Formation): void {
+    event.stopPropagation();
+    
+    this.formationService.unarchiveFormation(formation.id).subscribe({
       next: () => {
-        this.showPopup("✅ Training successfully archived", "success");
-        this.loadFormations();
+        formation.archived = false;
       },
-      error: () => {
-        this.showPopup("❌ Failed to archive training", "error");
-      }
-    });
-  }
-
-  unarchive(id: number): void {
-    this.formationService.unarchiveFormation(id).subscribe({
-      next: () => {
-        this.showPopup("✅ Training successfully unarchived", "success");
-        this.loadFormations();
-      },
-      error: () => {
-        this.showPopup("❌ Failed to unarchive training", "error");
+      error: (err) => {
+        this.error = 'Erreur lors du désarchivage de la formation: ' + (err.error || err.message);
       }
     });
   }
 
   getSentimentIcon(formation: Formation): string {
     if (!formation.averageSentimentScore) return '😐';
-
+    
     if (formation.averageSentimentScore >= 0.7) {
       return '😊';
     } else if (formation.averageSentimentScore >= 0.4) {
@@ -152,7 +124,7 @@ export class ListTrainingComponent implements OnInit {
 
   getSentimentClass(formation: Formation): string {
     if (!formation.averageSentimentScore) return '';
-
+    
     if (formation.averageSentimentScore >= 0.7) {
       return 'positive';
     } else if (formation.averageSentimentScore >= 0.4) {
@@ -160,12 +132,5 @@ export class ListTrainingComponent implements OnInit {
     } else {
       return 'negative';
     }
-  }
-
-  showPopup(message: string, type: 'success' | 'error' | 'info'): void {
-    this.popup.message = message;
-    this.popup.type = type;
-    this.popup.visible = true;
-    setTimeout(() => this.popup.visible = false, 4000);
   }
 }
