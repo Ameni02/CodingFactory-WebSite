@@ -9,10 +9,11 @@
       <div class="training-badges">
         <span class="badge bg-secondary" *ngIf="formation.archived">Archived</span>
         <span class="sentiment-badge"
-              *ngIf="formation.averageSentimentScore"
-              [class]="getSentimentClass(formation)">
-          {{ getSentimentIcon(formation) }}
-          Score: {{ formation.averageSentimentScore }}
+              *ngIf="formation.dominantSentiment"
+              [class]="formation.dominantSentiment">
+          {{ formation.dominantSentiment === 'Positive' ? '😊' :
+             formation.dominantSentiment === 'Negative' ? '😞' : '😐' }}
+          {{ formation.dominantSentiment }}
         </span>
       </div>
     </div>
@@ -69,32 +70,29 @@
             <div class="detail-value">{{ formation.titre }}</div>
           </div>
 
-          <div class="detail-item">
-            <div class="detail-label">Status:</div>
-            <div class="detail-value">
-              <span class="status-badge" [class.archived]="formation.archived">
-                {{ formation.archived ? 'Archived' : 'Active' }}
-              </span>
-            </div>
-          </div>
-
           <div class="detail-item" *ngIf="formation.totalCommentCount">
             <div class="detail-label">Comments:</div>
-            <div class="detail-value">{{ formation.totalCommentCount }}</div>
+            <div class="detail-value">{{ formation.totalCommentCount }} total</div>
           </div>
 
-          <div class="detail-item" *ngIf="formation.averageSentimentScore !== undefined">
-            <div class="detail-label">Sentiment score:</div>
+          <div class="detail-item" *ngIf="formation.positiveCommentCount">
+            <div class="detail-label">Positive Feedback:</div>
             <div class="detail-value">
-              <span class="sentiment-value" [class]="getSentimentClass(formation)">
-                {{ getSentimentIcon(formation) }} {{ formation.averageSentimentScore }}
+              <span class="positive-feedback">
+                😊 {{ formation.positiveCommentCount }} positive comments
               </span>
             </div>
           </div>
 
-          <div class="detail-item" *ngIf="formation.positiveCommentRatio !== undefined">
-            <div class="detail-label">Positive comments ratio:</div>
-            <div class="detail-value">{{ (formation.positiveCommentRatio * 100) }}%</div>
+          <div class="detail-item" *ngIf="formation.dominantSentiment">
+            <div class="detail-label">Overall Sentiment:</div>
+            <div class="detail-value">
+              <span class="sentiment-value" [class]="formation.dominantSentiment">
+                {{ formation.dominantSentiment === 'Positive' ? '😊' :
+                   formation.dominantSentiment === 'Negative' ? '😞' : '😐' }}
+                {{ formation.dominantSentiment }}
+              </span>
+            </div>
           </div>
         </div>
       </div>

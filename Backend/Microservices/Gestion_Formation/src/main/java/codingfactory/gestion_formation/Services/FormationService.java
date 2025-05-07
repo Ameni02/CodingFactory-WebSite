@@ -65,24 +65,16 @@ public class FormationService {
      * Get all formations sorted by positive comment ratio (highest first)
      */
     public List<Formation> getAllFormationsByPositiveRatio() {
-        List<Formation> formations = formationRepository.findAll();
-
-        // Sort by positive comment ratio (descending)
-        return formations.stream()
-                .sorted(Comparator.comparing(Formation::getPositiveCommentRatio, Comparator.nullsLast(Comparator.reverseOrder())))
-                .collect(Collectors.toList());
+        // Use the repository method that sorts by positive comment ratio
+        return formationRepository.findAllOrderByPositiveCommentRatioDesc();
     }
 
     /**
      * Get all non-archived formations sorted by positive comment ratio (highest first)
      */
     public List<Formation> getAllNonArchivedFormationsByPositiveRatio() {
-        List<Formation> formations = formationRepository.findByArchived(false);
-
-        // Sort by positive comment ratio (descending)
-        return formations.stream()
-                .sorted(Comparator.comparing(Formation::getPositiveCommentRatio, Comparator.nullsLast(Comparator.reverseOrder())))
-                .collect(Collectors.toList());
+        // Use the repository method that sorts by positive comment ratio for non-archived formations
+        return formationRepository.findByArchivedFalseOrderByPositiveCommentRatioDesc();
     }
 
 

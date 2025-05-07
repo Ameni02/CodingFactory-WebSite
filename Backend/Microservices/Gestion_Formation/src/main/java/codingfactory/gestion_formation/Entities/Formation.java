@@ -103,6 +103,12 @@ public class Formation {
     private Double positiveCommentRatio;
     private Integer totalCommentCount;
 
+    // Fields for sentiment distribution
+    private Integer positiveCommentCount = 0;
+    private Integer neutralCommentCount = 0;
+    private Integer negativeCommentCount = 0;
+    private String dominantSentiment = "Neutral";
+
     public List<Comment> getComments() {
         return comments;
     }
@@ -133,5 +139,37 @@ public class Formation {
 
     public void setTotalCommentCount(Integer totalCommentCount) {
         this.totalCommentCount = totalCommentCount;
+    }
+
+    public Integer getPositiveCommentCount() {
+        return positiveCommentCount;
+    }
+
+    public void setPositiveCommentCount(Integer positiveCommentCount) {
+        this.positiveCommentCount = positiveCommentCount;
+    }
+
+    public Integer getNeutralCommentCount() {
+        return neutralCommentCount;
+    }
+
+    public void setNeutralCommentCount(Integer neutralCommentCount) {
+        this.neutralCommentCount = neutralCommentCount;
+    }
+
+    public Integer getNegativeCommentCount() {
+        return negativeCommentCount;
+    }
+
+    public void setNegativeCommentCount(Integer negativeCommentCount) {
+        this.negativeCommentCount = negativeCommentCount;
+    }
+
+    public String getDominantSentiment() {
+        return dominantSentiment;
+    }
+
+    public void setDominantSentiment(String dominantSentiment) {
+        this.dominantSentiment = dominantSentiment;
     }
 }

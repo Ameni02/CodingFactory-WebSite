@@ -1,0 +1,1 @@
+Rating,Category,polarity,comment_length,good_word_count

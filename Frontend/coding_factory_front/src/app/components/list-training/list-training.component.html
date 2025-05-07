@@ -21,7 +21,12 @@
         <button
           [ngClass]="{'active': sortOption === 'positive'}"
           (click)="changeSortOption('positive')">
-          Positive Comments
+          Positive Ratio
+        </button>
+        <button
+          [ngClass]="{'active': sortOption === 'positiveCount'}"
+          (click)="changeSortOption('positiveCount')">
+          Positive Count
         </button>
       </div>
     </div>
@@ -68,21 +73,39 @@
           </td>
           <td>
             <div class="sentiment-indicator" *ngIf="formation.averageSentimentScore">
-              <span class="sentiment-icon" [class]="getSentimentClass(formation)">
-                {{ getSentimentIcon(formation) }}
+              <span class="sentiment-icon" [class]="formation.dominantSentiment">
+                {{ formation.dominantSentiment === 'Positive' ? '😊' :
+                   formation.dominantSentiment === 'Negative' ? '😞' : '😐' }}
               </span>
-              <span class="sentiment-score">{{ formation.averageSentimentScore }}</span>
+              <span class="sentiment-score">{{ formation.averageSentimentScore | number:'1.2-2' }}</span>
+              <div class="sentiment-label">{{ formation.dominantSentiment }}</div>
             </div>
             <span *ngIf="!formation.averageSentimentScore">No data</span>
           </td>
           <td>
             <div class="comment-stats" *ngIf="formation.totalCommentCount">
-              <span class="comment-count">{{ formation.totalCommentCount }}</span>
+              <span class="comment-count">{{ formation.totalCommentCount }} total</span>
+
+              <div class="comment-distribution">
+                <div class="distribution-item positive">
+                  <span class="count">{{ formation.positiveCommentCount || 0 }}</span>
+                  <span class="icon">😊</span>
+                </div>
+                <div class="distribution-item neutral">
+                  <span class="count">{{ formation.neutralCommentCount || 0 }}</span>
+                  <span class="icon">😐</span>
+                </div>
+                <div class="distribution-item negative">
+                  <span class="count">{{ formation.negativeCommentCount || 0 }}</span>
+                  <span class="icon">😞</span>
+                </div>
+              </div>
+
               <div class="positive-ratio" *ngIf="formation.positiveCommentRatio !== undefined">
                 <div class="progress-bar">
                   <div class="progress" [style.width.%]="formation.positiveCommentRatio * 100"></div>
                 </div>
-                <span>{{ (formation.positiveCommentRatio * 100) }}% positive</span>
+                <span>{{ (formation.positiveCommentRatio * 100) | number:'1.0-0' }}% positive</span>
               </div>
             </div>
             <span *ngIf="!formation.totalCommentCount">No comments</span>

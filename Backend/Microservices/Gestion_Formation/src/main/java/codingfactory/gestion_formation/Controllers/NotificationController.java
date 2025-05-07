@@ -21,12 +21,8 @@ public class NotificationController {
 
     @PostMapping("/email")
     public String sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String message) {
-        try {
-            sendGridEmailService.sendEmail(to, subject, message);
-            return "Email envoyé à " + to;
-        } catch (Exception e) {
-            return "Erreur lors de l'envoi de l'email : " + e.getMessage();
-        }
+        sendGridEmailService.sendEmail(to, subject, message);
+        return "Email envoyé à " + to + " (mock implementation - email not actually sent)";
     }
 //
 //    // Envoi de SMS avec des données JSON

@@ -502,26 +502,20 @@ export class TrainingDetailComponent implements OnInit {
   }
 
   getSentimentIcon(formation: Formation): string {
-    if (!formation.averageSentimentScore) return '😐';
+    if (!formation.dominantSentiment) return '😐';
 
-    if (formation.averageSentimentScore >= 0.7) {
-      return '😊';
-    } else if (formation.averageSentimentScore >= 0.4) {
-      return '😐';
-    } else {
-      return '😞';
+    switch (formation.dominantSentiment) {
+      case 'Positive':
+        return '😊';
+      case 'Negative':
+        return '😞';
+      default:
+        return '😐';
     }
   }
 
   getSentimentClass(formation: Formation): string {
-    if (!formation.averageSentimentScore) return '';
-
-    if (formation.averageSentimentScore >= 0.7) {
-      return 'positive';
-    } else if (formation.averageSentimentScore >= 0.4) {
-      return 'neutral';
-    } else {
-      return 'negative';
-    }
+    if (!formation.dominantSentiment) return 'Neutral';
+    return formation.dominantSentiment;
   }
 }

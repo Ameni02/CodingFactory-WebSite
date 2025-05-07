@@ -3,30 +3,35 @@
     <h2>Available Trainings</h2>
     <p class="subtitle">Click on a training to view details and add comments</p>
 
+    <!-- Simple heading for recommended trainings -->
+    <div class="recommended-heading">
+      <h3>Recommended Trainings</h3>
+      <p class="subtitle-small">Trainings with the most positive feedback are shown first</p>
+    </div>
+
     <div class="cards-container" *ngIf="formations.length > 0">
       <div class="training-card" *ngFor="let formation of formations" (click)="viewTrainingDetails(formation.id)">
         <h3>{{ formation.titre }}</h3>
-        <p><strong>Fichier:</strong> {{ formation.pdfFileName }}</p>
 
-        <!-- Sentiment information if available -->
-        <div class="sentiment-info" *ngIf="formation.averageSentimentScore">
+        <!-- Simplified sentiment information for user view -->
+        <div class="sentiment-info" *ngIf="formation.totalCommentCount">
           <div class="sentiment-score">
-            <span class="sentiment-icon" [class]="formation.averageSentimentScore >= 0.7 ? 'positive' : formation.averageSentimentScore >= 0.4 ? 'neutral' : 'negative'">
-              {{ formation.averageSentimentScore >= 0.7 ? '😊' : formation.averageSentimentScore >= 0.4 ? '😐' : '😞' }}
+            <span class="sentiment-icon" [class]="formation.dominantSentiment">
+              {{ formation.dominantSentiment === 'Positive' ? '😊' :
+                 formation.dominantSentiment === 'Negative' ? '😞' : '😐' }}
             </span>
-            <span>Score: {{ formation.averageSentimentScore }}</span>
-          </div>
-          <div class="comment-count" *ngIf="formation.totalCommentCount">
-            <span>{{ formation.totalCommentCount }} comments</span>
+            <span class="positive-count" *ngIf="formation.positiveCommentCount">
+              {{ formation.positiveCommentCount }} positive comments
+            </span>
+            <span class="total-count" *ngIf="!formation.positiveCommentCount">
+              {{ formation.totalCommentCount }} comments
+            </span>
           </div>
         </div>
 
         <div class="card-footer">
           <button class="view-btn" (click)="viewTrainingDetails(formation.id); $event.stopPropagation()">
-            👁️ View Details
-          </button>
-          <button class="download-btn" (click)="downloadPdf(formation.id); $event.stopPropagation()">
-            ⬇️ Download PDF
+            View Details
           </button>
         </div>
       </div>

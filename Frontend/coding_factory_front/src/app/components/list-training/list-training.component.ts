@@ -11,7 +11,7 @@ export class ListTrainingComponent implements OnInit {
 
   formations: Formation[] = [];
   showArchived = false;
-  sortOption = 'default';
+  sortOption = 'positiveCount'; // Default to sorting by positive comment count
   loading = false;
 
   popup = {
@@ -44,6 +44,18 @@ export class ListTrainingComponent implements OnInit {
         case 'positive':
           serviceMethod = this.formationService.getAllFormationsByPositiveRatio();
           break;
+        case 'positiveCount':
+          // For all formations, sort by positive comment count
+          serviceMethod = this.formationService.getAllFormations();
+          serviceMethod.subscribe(formations => {
+            this.formations = formations.sort((a, b) => {
+              const countA = a.positiveCommentCount || 0;
+              const countB = b.positiveCommentCount || 0;
+              return countB - countA; // Descending order
+            });
+            this.loading = false;
+          });
+          return; // Early return since we're handling the subscription here
         default:
           serviceMethod = this.formationService.getAllFormations();
       }
@@ -55,6 +67,9 @@ export class ListTrainingComponent implements OnInit {
           break;
         case 'positive':
           serviceMethod = this.formationService.getAllNonArchivedFormationsByPositiveRatio();
+          break;
+        case 'positiveCount':
+          serviceMethod = this.formationService.getAllNonArchivedFormationsByPositiveCount();
           break;
         default:
           serviceMethod = this.formationService.getAllFormationsNonArchivees();

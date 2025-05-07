@@ -2,7 +2,27 @@
   <div class="comment-header">
     <h3>Comments ({{ comments.length }})</h3>
     <div class="comment-actions">
-      <button class="btn btn-outline-primary btn-sm" (click)="refreshComments()">
+      <div class="sentiment-filter">
+        <div class="btn-group" role="group" aria-label="Sentiment filter">
+          <button class="btn btn-sm" [ngClass]="{'btn-primary': selectedSentiment === null, 'btn-outline-primary': selectedSentiment !== null}"
+                  (click)="filterBySentiment(null)">
+            All
+          </button>
+          <button class="btn btn-sm" [ngClass]="{'btn-success': selectedSentiment === 'Positive', 'btn-outline-success': selectedSentiment !== 'Positive'}"
+                  (click)="filterBySentiment('Positive')">
+            😊 Positive
+          </button>
+          <button class="btn btn-sm" [ngClass]="{'btn-warning': selectedSentiment === 'Neutral', 'btn-outline-warning': selectedSentiment !== 'Neutral'}"
+                  (click)="filterBySentiment('Neutral')">
+            😐 Neutral
+          </button>
+          <button class="btn btn-sm" [ngClass]="{'btn-danger': selectedSentiment === 'Negative', 'btn-outline-danger': selectedSentiment !== 'Negative'}"
+                  (click)="filterBySentiment('Negative')">
+            😞 Negative
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-outline-primary btn-sm ml-2" (click)="refreshComments()">
         <i class="fas fa-sync-alt"></i> Refresh
       </button>
     </div>

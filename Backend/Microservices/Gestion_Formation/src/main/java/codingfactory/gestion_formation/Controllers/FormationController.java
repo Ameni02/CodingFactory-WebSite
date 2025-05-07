@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 @RestController
 @RequestMapping("/api/formations")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class FormationController {
     private final FormationService formationService;
 
@@ -67,6 +67,20 @@ public ResponseEntity<List<Formation>> getAllFormations() {
     @GetMapping("/non-archivees/by-positive-ratio")
     public ResponseEntity<List<Formation>> getAllNonArchivedFormationsByPositiveRatio() {
         return ResponseEntity.ok(formationService.getAllNonArchivedFormationsByPositiveRatio());
+    }
+
+    /**
+     * Get all non-archived formations sorted by positive comment count (highest first)
+     */
+    @GetMapping("/non-archivees/by-positive-count")
+    public ResponseEntity<List<Formation>> getAllNonArchivedFormationsByPositiveCount() {
+        List<Formation> formations = formationService.getAllFormationsNonArchivees();
+        formations.sort((f1, f2) -> {
+            Integer count1 = f1.getPositiveCommentCount() != null ? f1.getPositiveCommentCount() : 0;
+            Integer count2 = f2.getPositiveCommentCount() != null ? f2.getPositiveCommentCount() : 0;
+            return count2.compareTo(count1); // Descending order
+        });
+        return ResponseEntity.ok(formations);
     }
 
 

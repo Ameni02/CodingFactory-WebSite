@@ -60,17 +60,17 @@
   gap: 5px;
 }
 
-.sentiment-badge.positive {
+.sentiment-badge.Positive {
   background-color: #d4edda;
   color: #155724;
 }
 
-.sentiment-badge.neutral {
+.sentiment-badge.Neutral {
   background-color: #fff3cd;
   color: #856404;
 }
 
-.sentiment-badge.negative {
+.sentiment-badge.Negative {
   background-color: #f8d7da;
   color: #721c24;
 }
@@ -193,16 +193,27 @@
   font-weight: 500;
 }
 
-.sentiment-value.positive {
+.sentiment-value.Positive {
   color: #155724;
 }
 
-.sentiment-value.neutral {
+.sentiment-value.Neutral {
   color: #856404;
 }
 
-.sentiment-value.negative {
+.sentiment-value.Negative {
   color: #721c24;
+}
+
+.positive-feedback {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #155724;
+  background-color: rgba(212, 237, 218, 0.5);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: 500;
 }
 
 .pdf-container {

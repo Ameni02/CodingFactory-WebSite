@@ -14,6 +14,7 @@ export class CommentListComponent implements OnInit, OnChanges {
   comments: Comment[] = [];
   loading = false;
   error = '';
+  selectedSentiment: string | null = null;
 
   // Sentiment statistics
   positiveCount = 0;
@@ -73,10 +74,15 @@ export class CommentListComponent implements OnInit, OnChanges {
   }
 
   fetchComments(): void {
-    console.log('Fetching comments for formation ID:', this.formationId);
+    console.log('Fetching comments for formation ID:', this.formationId, 'with sentiment filter:', this.selectedSentiment);
+
+    // Build URL with optional sentiment filter
+    const url = this.selectedSentiment
+      ? `http://localhost:8057/api/comments/formation/${this.formationId}?sentiment=${this.selectedSentiment}`
+      : `http://localhost:8057/api/comments/formation/${this.formationId}`;
 
     // Make a direct fetch request to see the raw response
-    fetch(`http://localhost:8057/api/comments/formation/${this.formationId}`)
+    fetch(url)
       .then(response => {
         console.log('Fetch response status:', response.status);
         console.log('Fetch response headers:', response.headers);
@@ -403,12 +409,39 @@ export class CommentListComponent implements OnInit, OnChanges {
     // Check if direct comments have been updated
     if (this.directComments && this.directComments.length > 0) {
       console.log('Using updated direct comments:', this.directComments);
-      this.comments = [...this.directComments];
+
+      // Apply sentiment filter if selected
+      if (this.selectedSentiment) {
+        this.comments = [...this.directComments].filter(
+          comment => comment.sentimentLabel === this.selectedSentiment
+        );
+      } else {
+        this.comments = [...this.directComments];
+      }
+
       this.loading = false;
       this.calculateStatistics();
     } else {
       // Otherwise fetch comments using fetch API
       this.fetchComments();
     }
+  }
+
+  /**
+   * Filter comments by sentiment
+   */
+  filterBySentiment(sentiment: string | null): void {
+    console.log('Filtering by sentiment:', sentiment);
+
+    if (this.selectedSentiment === sentiment) {
+      // If clicking the same filter, toggle it off
+      this.selectedSentiment = null;
+    } else {
+      // Otherwise, set the new filter
+      this.selectedSentiment = sentiment;
+    }
+
+    // Refresh comments with the new filter
+    this.refreshComments();
   }
 }

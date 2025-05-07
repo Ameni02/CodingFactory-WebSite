@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Formation, FormationService } from 'src/app/services/formation.service';
 
@@ -7,8 +7,9 @@ import { Formation, FormationService } from 'src/app/services/formation.service'
   templateUrl: './list-training-user.component.html',
   styleUrls: ['./list-training-user.component.css']
 })
-export class ListTrainingUserComponent {
+export class ListTrainingUserComponent implements OnInit {
   formations: Formation[] = [];
+  sortOption: string = 'positiveCount'; // Default to sorting by positive comment count
 
   popup = {
     visible: false,
@@ -26,7 +27,10 @@ export class ListTrainingUserComponent {
   }
 
   loadFormations(): void {
-    this.formationService.getAllFormationsNonArchivees().subscribe({
+    // Always use the positive count sorting for user view
+    const observable = this.formationService.getAllNonArchivedFormationsByPositiveCount();
+
+    observable.subscribe({
       next: (data) => {
         this.formations = data;
         console.log('Loaded formations:', data);
@@ -46,16 +50,16 @@ export class ListTrainingUserComponent {
   downloadPdf(id: number): void {
     this.formationService.getFormationById(id).subscribe({
       next: (formation) => {
-        const url = `http://localhost:8080/api/formations/${id}/pdf`; // même endpoint que l'admin
+        const url = `http://localhost:8057/api/formations/${id}/pdf`;
         const link = document.createElement('a');
         link.href = url;
         link.download = formation.pdfFileName || 'formation.pdf';
         link.target = '_blank';
         link.click();
-        this.showPopup('success', 'Téléchargement lancé avec succès.');
+        this.showPopup('success', 'Download started successfully.');
       },
       error: () => {
-        this.showPopup('error', 'Erreur lors du téléchargement.');
+        this.showPopup('error', 'Error downloading the file.');
       }
     });
   }
