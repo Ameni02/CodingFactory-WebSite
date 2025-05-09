@@ -1,9 +1,39 @@
-<div class="container">
-    <h2>Demande de Débanissement</h2>
-    <input type="email" [(ngModel)]="email" placeholder="Entrez votre email" required>
-    <button (click)="requestUnban()">Envoyer la demande</button>
-  
-    <p *ngIf="message" class="success">{{ message }}</p>
-    <p *ngIf="error" class="error">{{ error }}</p>
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="logo">
+        <h3><span class="logo-highlight">Coding</span> Factory</h3>
+      </div>
+      <h2>Unban Request</h2>
+      <p class="subtitle">Enter your email to request account unban</p>
+    </div>
+
+    <div class="alert alert-success" *ngIf="message">
+      <p>{{ message }}</p>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="error">
+      <p>{{ error }}</p>
+    </div>
+
+    <form>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-with-icon">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="name@example.com" required>
+        </div>
+      </div>
+
+      <button (click)="requestUnban()" type="button" class="auth-btn">
+        <i class="fas fa-paper-plane"></i> SEND REQUEST
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <div class="footer-links">
+        <a routerLink="/login" class="link">Back to Login</a>
+      </div>
+    </div>
   </div>
-  
+</div>

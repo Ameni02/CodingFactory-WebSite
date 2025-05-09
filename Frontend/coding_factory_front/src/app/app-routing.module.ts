@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 
 // Import components for direct routing
 import { LoginComponent } from './pages/login/login.component';
@@ -34,9 +35,9 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'unban-req', component: UnbanRequestComponent },
+  { path: 'home', component: HomeComponent },
 
   // Authenticated routes
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'modify-user', component: ModifyUserComponent, canActivate: [AuthGuard] },
   { path: 'modify-user/:id', component: ModifyUserComponent, canActivate: [AuthGuard] },
   { path: 'listTrainingUser', component: ListTrainingUserComponent },
@@ -83,9 +84,12 @@ const routes: Routes = [
     ]
   },
 
+  // Landing page
+  { path: 'landing', component: LandingPageComponent },
+
   // Default redirects
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'home' }
+  { path: '', redirectTo: 'landing', pathMatch: 'full' },
+  { path: '**', redirectTo: 'landing' }
 ];
 
 @NgModule({

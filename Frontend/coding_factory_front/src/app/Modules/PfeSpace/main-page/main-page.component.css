@@ -1,12 +1,110 @@
-/* Container Styles */
-.container {
-  margin-top: 100px !important; /* Increased top margin to prevent header overlap */
-  padding: 20px;
-}
-
 /* Main Page Styles */
 .main-page {
   background-color: #F5F7FD;
   min-height: 100vh;
+  padding-top: 100px; /* Prevent header overlap */
+}
+
+/* Container Styles */
+.container {
   padding: 20px;
+}
+
+/* Section Heading */
+.pfe-subtitle {
+  color: #7B6ADA;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.pfe-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2A2F5B;
+  margin-bottom: 15px;
+}
+
+.pfe-text {
+  color: #575962;
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+/* Card Styles */
+.pfe-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.pfe-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Icon Styles */
+.card-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #7B6ADA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.card-icon i {
+  font-size: 28px;
+  color: white;
+}
+
+.pfe-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2A2F5B;
+  margin-bottom: 15px;
+}
+
+.pfe-card .pfe-text {
+  flex-grow: 1;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/* Button Styles */
+.pfe-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #7B6ADA;
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  align-self: center;
+}
+
+.pfe-btn:hover {
+  background-color: #5b239f;
+}
+
+.pfe-btn-icon {
+  margin-left: 5px;
+  transition: transform 0.3s ease;
+}
+
+.pfe-btn:hover .pfe-btn-icon {
+  transform: translateX(5px);
 }

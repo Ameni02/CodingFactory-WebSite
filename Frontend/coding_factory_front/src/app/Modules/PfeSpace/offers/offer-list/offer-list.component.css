@@ -1,8 +1,19 @@
 /* Main Container Styles */
 .pfe-space {
-  padding: 100px 0 60px 0; /* Increased top padding to prevent header overlap */
-  background-color: #F5F7FD; /* Kaiadmin body background */
+  padding-top: 100px; /* Prevent header overlap */
+  background-color: #F5F7FD;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background elements */
+.bg-dots {
+  display: none; /* Hide the dots pattern */
+}
+
+.bg-wave {
+  display: none; /* Hide the wave pattern */
 }
 
 .container {
@@ -23,7 +34,7 @@
 }
 
 .section-heading h6 {
-  color: #5b239f; /* Updated purple color */
+  color: #7B6ADA;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -34,12 +45,12 @@
 .section-heading h2 {
   font-size: 36px;
   font-weight: 700;
-  color: #2A2F5B; /* Kaiadmin body text color */
+  color: #2A2F5B;
   margin-bottom: 15px;
 }
 
 .section-heading .subheading {
-  color: #575962; /* Kaiadmin body-text-color */
+  color: #575962;
   font-size: 18px;
   max-width: 600px;
   margin: 0 auto 30px;
@@ -70,22 +81,22 @@
 }
 
 .document-btn {
-  background-color: #5b239f; /* Updated purple color */
+  background-color: #7B6ADA;
   color: white;
 }
 
 .submission-btn {
-  background-color: #6c34b9; /* Lighter purple */
+  background-color: #6c34b9;
   color: white;
 }
 
 .add-offer-btn {
-  background-color: #4a1d83; /* Darker purple */
+  background-color: #4a1d83;
   color: white;
 }
 
 .ai-workflow-btn {
-  background-color: #3a1766; /* Even darker purple */
+  background-color: #3a1766;
   color: white;
 }
 
@@ -129,8 +140,8 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #5b239f; /* Updated purple color */
-  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.15); /* Updated purple color with opacity */
+  border-color: #7B6ADA;
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.15);
 }
 
 .filter-box {
@@ -143,7 +154,7 @@
   left: 15px;
   top: 50%;
   transform: translateY(-50%);
-  color: #575962; /* Kaiadmin body-text-color */
+  color: #575962;
 }
 
 .filter-select {
@@ -161,8 +172,8 @@
 
 .filter-select:focus {
   outline: none;
-  border-color: #5b239f; /* Updated purple color */
-  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.15); /* Updated purple color with opacity */
+  border-color: #7B6ADA;
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.15);
 }
 
 /* Loading State Styles */
@@ -251,6 +262,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .offer-card:hover {
@@ -263,13 +276,14 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid #f0f0f0;
+  position: relative;
 }
 
 .company-badge {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #5b239f; /* Updated purple color */
+  background-color: #7B6ADA;
   color: white;
   display: flex;
   align-items: center;
@@ -278,6 +292,10 @@
   font-weight: 700;
   margin-right: 15px;
   flex-shrink: 0;
+}
+
+.offer-card:hover .company-badge {
+  background-color: #5b239f;
 }
 
 .company-badge::before {
@@ -289,40 +307,46 @@
 }
 
 .offer-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #2A2F5B; /* Kaiadmin body text color */
-  margin: 0 0 5px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin: 0 0 8px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.3s ease;
+}
+
+.offer-card:hover .offer-title {
+  color: var(--primary-color);
 }
 
 .company-name {
-  font-size: 14px;
-  color: #575962; /* Kaiadmin body-text-color */
+  font-size: 15px;
+  color: var(--text-light);
   display: block;
 }
 
 .card-body {
-  padding: 20px;
+  padding: 25px 20px;
   flex-grow: 1;
 }
 
 .offer-details {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
 }
 
 .detail-item {
   display: flex;
   align-items: center;
+  margin-bottom: 8px;
 }
 
 .detail-icon {
   width: 20px;
-  color: #5b239f; /* Updated purple color */
+  color: #7B6ADA;
   margin-right: 10px;
   text-align: center;
 }
@@ -336,7 +360,7 @@
 .view-details-btn {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #5b239f; /* Updated purple color */
+  background-color: #7B6ADA;
   color: white;
   border-radius: 30px;
   text-decoration: none;
@@ -350,7 +374,7 @@
 }
 
 .view-details-btn:hover {
-  background-color: #4a1d83; /* Darker purple */
+  background-color: #5b239f;
 }
 
 .view-details-btn:hover i {
@@ -370,7 +394,7 @@
   padding: 10px 20px;
   border: none;
   border-radius: 30px;
-  background-color: #5b239f; /* Updated purple color */
+  background-color: #7B6ADA;
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -381,9 +405,9 @@
 }
 
 .pagination-btn:hover:not(:disabled) {
-  background-color: #4a1d83; /* Darker purple */
+  background-color: #5b239f;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25); /* Updated purple color with opacity */
+  box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25);
 }
 
 .pagination-btn:disabled {
@@ -394,7 +418,7 @@
 .pagination-info {
   font-size: 16px;
   font-weight: 500;
-  color: #2A2F5B; /* Kaiadmin body text color */
+  color: #2A2F5B;
 }
 
 /* Responsive Styles */

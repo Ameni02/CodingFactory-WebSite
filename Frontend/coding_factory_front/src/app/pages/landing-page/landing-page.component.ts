@@ -1,23 +1,21 @@
 import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-landing-page',
+  templateUrl: './landing-page.component.html',
+  styleUrls: ['./landing-page.component.css']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class LandingPageComponent implements OnInit, AfterViewInit {
   isScrolled = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     // Initialize any data or services
   }
 
   ngAfterViewInit(): void {
-    // Add smooth scrolling for anchor links
-    this.setupSmoothScrolling();
-
     // Add animation to elements when they come into view
     this.setupScrollAnimations();
   }
@@ -29,34 +27,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.isScrolled = scrollPosition > 50;
   }
 
-  private setupSmoothScrolling(): void {
-    // Get all links with hash
-    const links = document.querySelectorAll('a[href^="#"]');
+  navigateToLogin(): void {
+    this.router.navigate(['/login']);
+  }
 
-    // Add click event to each link
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        // Get the target element
-        const targetId = (link as HTMLAnchorElement).getAttribute('href')?.substring(1);
-        if (!targetId) return;
-
-        const targetElement = document.getElementById(targetId);
-        if (!targetElement) return;
-
-        // Calculate position to scroll to
-        const headerOffset = 80;
-        const elementPosition = targetElement.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-        // Smooth scroll to target
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      });
-    });
+  navigateToRegister(): void {
+    this.router.navigate(['/register']);
   }
 
   private setupScrollAnimations(): void {

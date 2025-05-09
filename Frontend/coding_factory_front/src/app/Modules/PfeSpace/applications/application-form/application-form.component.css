@@ -13,7 +13,7 @@
 }
 
 .card-header {
-  background-color: #5b239f; /* Updated purple color */
+  background-color: #7B6ADA;
   color: white;
   padding: 20px;
   border-bottom: none;
@@ -40,7 +40,7 @@
   display: block;
   margin-bottom: 10px;
   font-weight: 500;
-  color: #2A2F5B; /* Kaiadmin body text color */
+  color: #2A2F5B;
   font-size: 1rem;
 }
 
@@ -55,23 +55,23 @@
 }
 
 .form-control:focus {
-  border-color: #5b239f; /* Updated purple color */
+  border-color: #7B6ADA;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(91, 35, 159, 0.1);
+  box-shadow: 0 0 0 3px rgba(123, 106, 218, 0.1);
   background-color: white;
 }
 
 .form-control.is-invalid {
-  border-color: #F25961; /* Kaiadmin danger color */
+  border-color: #dc3545;
   background-image: none;
 }
 
 .form-control.is-invalid:focus {
-  box-shadow: 0 0 0 0.2rem rgba(242, 89, 97, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
 .invalid-feedback {
-  color: #F25961; /* Kaiadmin danger color */
+  color: #dc3545;
   font-size: 0.875rem;
   margin-top: 8px;
   display: block;
@@ -81,7 +81,7 @@
 input[type="file"] {
   padding: 10px;
   background-color: white;
-  border: 1px dashed #5b239f; /* Updated purple color */
+  border: 1px dashed #7B6ADA;
   width: 100%;
   border-radius: 8px;
 }
@@ -89,7 +89,7 @@ input[type="file"] {
 .file-selected {
   margin-top: 8px;
   font-size: 0.9rem;
-  color: #575962; /* Kaiadmin body-text-color */
+  color: #575962;
 }
 
 /* Button Styles */
@@ -106,14 +106,14 @@ input[type="file"] {
 }
 
 .btn-primary {
-  background-color: #5b239f; /* Updated purple color */
-  border-color: #5b239f;
+  background-color: #7B6ADA;
+  border-color: #7B6ADA;
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #4a1d83; /* Darker purple */
-  border-color: #4a1d83;
+  background-color: #5b239f;
+  border-color: #5b239f;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(91, 35, 159, 0.25);
 }
@@ -126,14 +126,14 @@ input[type="file"] {
 
 .btn-secondary {
   background-color: transparent;
-  color: #5b239f; /* Updated purple color */
-  border: 1px solid #5b239f;
+  color: #7B6ADA;
+  border: 1px solid #7B6ADA;
 }
 
 .btn-secondary:hover {
   background-color: #f8f9fa;
-  color: #4a1d83; /* Darker purple */
-  border-color: #4a1d83;
+  color: #5b239f;
+  border-color: #5b239f;
   transform: translateY(-2px);
 }
 
@@ -152,11 +152,11 @@ input[type="file"] {
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 25px;
-  border-left: 4px solid #5b239f; /* Updated purple color */
+  border-left: 4px solid #7B6ADA;
 }
 
 .project-info h4 {
-  color: #2A2F5B; /* Kaiadmin body text color */
+  color: #2A2F5B;
   margin-top: 0;
   margin-bottom: 15px;
   font-size: 1.2rem;
@@ -165,11 +165,11 @@ input[type="file"] {
 
 .project-info p {
   margin-bottom: 8px;
-  color: #575962; /* Kaiadmin body-text-color */
+  color: #575962;
 }
 
 .project-info p strong {
-  color: #2A2F5B; /* Kaiadmin body text color */
+  color: #2A2F5B;
   font-weight: 600;
 }
 

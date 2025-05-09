@@ -47,6 +47,7 @@ import { LoginComponent } from "./pages/login/login.component";
 import { CodeInputModule } from "angular-code-input";
 import { JWT_OPTIONS, JwtHelperService } from "@auth0/angular-jwt";
 import { PfeSpaceModule } from "./Modules/PfeSpace/pfe-space.module";
+import { LandingPageComponent } from "./pages/landing-page/landing-page.component";
 
 // Training components
 import { ListTrainingComponent } from './components/list-training/list-training.component';
@@ -90,7 +91,8 @@ import { CommentListComponent } from './components/comment-list/comment-list.com
     ListResourceAdminComponent,
     TrainingDetailComponent,
     CommentFormComponent,
-    CommentListComponent
+    CommentListComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,

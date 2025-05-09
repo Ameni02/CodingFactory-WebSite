@@ -1,8 +1,10 @@
 /* Main Container Styles */
 .ai-workflow {
-  padding: 100px 0 60px 0; /* Increased top padding to prevent header overlap */
+  padding-top: 100px; /* Prevent header overlap */
+  padding-bottom: 60px;
   background-color: #F5F7FD;
   min-height: 100vh;
+  position: relative;
 }
 
 .container {
@@ -18,7 +20,7 @@
 }
 
 .section-heading h6 {
-  color: #5b239f;
+  color: #7B6ADA;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -89,7 +91,7 @@
 }
 
 .step.active .step-number {
-  background-color: #5b239f;
+  background-color: #7B6ADA;
   color: white;
 }
 
@@ -99,7 +101,7 @@
 }
 
 .step.completed .step-number {
-  background-color: #4a1d83;
+  background-color: #5b239f;
   color: white;
 }
 
@@ -109,7 +111,7 @@
 }
 
 .step.completed .step-label {
-  color: #4a1d83;
+  color: #5b239f;
 }
 
 /* Workflow Step Styles */
@@ -153,7 +155,7 @@
   align-items: center;
   justify-content: center;
   padding: 15px;
-  border: 2px dashed #5b239f;
+  border: 2px dashed #7B6ADA;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -166,7 +168,7 @@
 
 .file-upload-label i {
   font-size: 24px;
-  color: #5b239f;
+  color: #7B6ADA;
   margin-right: 10px;
 }
 
@@ -196,8 +198,8 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #5b239f;
-  box-shadow: 0 0 0 2px rgba(91, 35, 159, 0.2);
+  border-color: #7B6ADA;
+  box-shadow: 0 0 0 2px rgba(123, 106, 218, 0.2);
 }
 
 .form-control-readonly {
@@ -253,19 +255,19 @@
 }
 
 .btn-primary {
-  background-color: #5b239f;
+  background-color: #7B6ADA;
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #4a1d83;
+  background-color: #5b239f;
   transform: translateY(-2px);
 }
 
 .btn-secondary {
   background-color: #f0f2ff;
-  color: #5b239f;
-  border: 1px solid #5b239f;
+  color: #7B6ADA;
+  border: 1px solid #7B6ADA;
 }
 
 .btn-secondary:hover {
@@ -273,12 +275,12 @@
 }
 
 .btn-download {
-  background-color: #4a1d83;
+  background-color: #5b239f;
   color: white;
 }
 
 .btn-download:hover {
-  background-color: #3a1766;
+  background-color: #4a1d83;
 }
 
 .btn-primary:disabled {
@@ -314,7 +316,7 @@
 }
 
 .skill-tag {
-  background-color: #5b239f;
+  background-color: #7B6ADA;
   color: white;
   padding: 6px 12px;
   border-radius: 20px;
@@ -345,7 +347,7 @@
 .project-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  border-color: #5b239f;
+  border-color: #7B6ADA;
 }
 
 .match-score {
@@ -359,7 +361,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: conic-gradient(#5b239f var(--score-percentage), #e0e0e0 0);
+  background: conic-gradient(#7B6ADA var(--score-percentage), #e0e0e0 0);
   display: flex;
   align-items: center;
   justify-content: center;

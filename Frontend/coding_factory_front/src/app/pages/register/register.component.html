@@ -1,6 +1,9 @@
-<div class="register-wrapper">
-  <div class="register-card">
-    <div class="register-header">
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="logo">
+        <h3><span class="logo-highlight">Coding</span> Factory</h3>
+      </div>
       <h2>Create Your Account</h2>
       <p class="subtitle">Join our community today</p>
     </div>
@@ -59,12 +62,14 @@
         </div>
       </div>
 
-      <button (click)="register()" type="button" class="register-btn">
-        <span class="diamond">♦</span> CREATE ACCOUNT
+      <button (click)="register()" type="button" class="auth-btn">
+        <i class="fas fa-user-plus"></i> CREATE ACCOUNT
       </button>
 
-      <div class="register-footer">
-        <p>Already have an account? <a (click)="login()" class="link">Sign in</a></p>
+      <div class="auth-footer">
+        <div class="footer-links">
+          <a (click)="login()" class="link">Already have an account? Sign in</a>
+        </div>
       </div>
     </form>
   </div>

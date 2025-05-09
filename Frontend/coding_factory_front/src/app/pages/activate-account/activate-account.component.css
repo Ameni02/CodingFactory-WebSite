@@ -1,104 +1,66 @@
-/* Activation Container */
-.activation-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 70vh;
-  padding: 2rem;
-}
+/* Import Common Auth Styles */
+@import '../auth-common.css';
 
-/* Card Styling */
-.card {
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border: none;
-  width: 100%;
-  max-width: 450px;
-  margin: 0 auto;
-}
-
+/* Additional Activation Styles */
 .success-card {
-  border-left: 5px solid #28a745;
+  border-left: 5px solid #48bb78;
 }
 
 .error-card {
-  border-left: 5px solid #dc3545;
+  border-left: 5px solid #e53e3e;
 }
 
 /* Icon Styling */
 .icon {
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
+  display: block;
 }
 
 .success-icon {
-  color: #28a745;
+  color: #48bb78;
 }
 
 .error-icon {
-  color: #dc3545;
-}
-
-.activation-icon {
-  color: #007bff;
+  color: #e53e3e;
 }
 
 /* Text Styling */
 .card-title {
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 1rem;
-  color: #343a40;
+  color: #2A2F5B;
+  font-size: 1.8rem;
 }
 
 .card-text {
-  color: #6c757d;
+  color: #575962;
   margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.text-center {
+  text-align: center;
 }
 
 /* Code Input Styling */
 .code-input-container {
-  margin: 1.5rem 0;
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
 }
 
-/* Button Styling */
-.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-  padding: 0.5rem 2rem;
-  border-radius: 30px;
-  font-weight: 500;
-}
-
-.btn-primary:hover {
-  background-color: #0069d9;
-  border-color: #0062cc;
-}
-
-.btn-outline-secondary {
-  border-radius: 30px;
-  padding: 0.5rem 2rem;
-}
-
-.btn-link {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.btn-link:hover {
-  text-decoration: underline;
-}
-
-/* Responsive Adjustments */
+/* Additional Responsive Adjustments */
 @media (max-width: 576px) {
-  .activation-container {
-    padding: 1rem;
-  }
-
-  .card {
-    max-width: 100%;
-  }
-
   .icon {
     font-size: 2.5rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+  }
+
+  .card-text {
+    font-size: 1rem;
   }
 }

@@ -1,13 +1,63 @@
- <!--<app-main-banner></app-main-banner> -->
- <app-header></app-header>
- <app-services></app-services>
- <app-about-us></app-about-us>
- <app-courses></app-courses>
-<!-- <app-facts></app-facts>-->
-<app-team></app-team>
-<!-- <app-events></app-events> -->
-<app-pfespace></app-pfespace>
-<!-- Modal will be opened from the header -->
-<!-- Your existing content -->
-<app-chatbot></app-chatbot>
-<app-contact-us></app-contact-us>
+<div class="home-container">
+  <app-header></app-header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="hero-content">
+            <h6 class="subtitle animate-on-scroll slide-in-left">Welcome to</h6>
+            <h1 class="title animate-on-scroll slide-in-left delay-200">Coding Factory</h1>
+            <p class="description animate-on-scroll slide-in-left delay-400">Your gateway to innovative learning, professional development, and career opportunities in technology.</p>
+            <div class="hero-buttons animate-on-scroll slide-in-left delay-600">
+              <a href="#services" class="primary-btn">Explore Services</a>
+              <a routerLink="/offers" class="secondary-btn">PFE Projects</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero-image animate-on-scroll slide-in-right delay-300">
+            <img src="assets/assetsFront/assets/images/banner-item-01.jpg" alt="Coding Factory" class="img-fluid rounded-lg">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="shape-divider"></div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="services-section">
+    <app-services></app-services>
+  </section>
+
+  <!-- About Us Section -->
+  <section id="about" class="about-section">
+    <app-about-us></app-about-us>
+  </section>
+
+  <!-- Courses Section -->
+  <section id="courses" class="courses-section">
+    <app-courses></app-courses>
+  </section>
+
+  <!-- Team Section -->
+  <section id="team" class="team-section">
+    <app-team></app-team>
+  </section>
+
+  <!-- PFE Space Section -->
+  <section id="pfespace" class="pfespace-section">
+    <app-pfespace></app-pfespace>
+  </section>
+
+  <!-- Chatbot Section -->
+  <section class="chatbot-section">
+    <app-chatbot></app-chatbot>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section">
+    <app-contact-us></app-contact-us>
+  </section>
+</div>

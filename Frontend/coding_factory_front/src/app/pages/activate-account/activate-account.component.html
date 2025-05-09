@@ -1,12 +1,16 @@
-<div class="activation-container">
+<div class="auth-wrapper">
   <!-- Success/Error Message Section -->
   <div *ngIf="submitted; else codeForm" class="message-section">
-    <div class="card" [ngClass]="{'success-card': isOkay, 'error-card': !isOkay}">
-      <div class="card-body text-center">
-        <i class="icon" [ngClass]="{'bi bi-check-circle-fill success-icon': isOkay, 'bi bi-exclamation-circle-fill error-icon': !isOkay}"></i>
+    <div class="auth-card" [ngClass]="{'success-card': isOkay, 'error-card': !isOkay}">
+      <div class="logo">
+        <h3><span class="logo-highlight">Coding</span> Factory</h3>
+      </div>
+      <div class="text-center">
+        <i class="icon" [ngClass]="{'fas fa-check-circle success-icon': isOkay, 'fas fa-exclamation-circle error-icon': !isOkay}"></i>
         <h2 class="card-title">{{ isOkay ? 'Activation Successful!' : 'Activation Failed!' }}</h2>
         <p class="card-text">{{ isOkay ? 'Your account has been successfully activated.' : message }}</p>
-        <button class="btn btn-primary mt-3" (click)="isOkay ? redirectToLogin() : (submitted = false)">
+        <button class="auth-btn mt-3" (click)="isOkay ? redirectToLogin() : (submitted = false)">
+          <i [ngClass]="{'fas fa-sign-in-alt': isOkay, 'fas fa-redo': !isOkay}"></i>
           {{ isOkay ? 'Go to Login' : 'Try Again' }}
         </button>
       </div>
@@ -15,24 +19,27 @@
 
   <!-- Activation Code Form Section -->
   <ng-template #codeForm>
-    <div class="form-section">
-      <div class="card">
-        <div class="card-body text-center">
-          <i class="bi bi-shield-lock icon activation-icon"></i>
-          <h2 class="card-title">Account Activation</h2>
-          <p class="card-text">Please enter the 6-digit code sent to your email</p>
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="logo">
+          <h3><span class="logo-highlight">Coding</span> Factory</h3>
+        </div>
+        <h2>Account Activation</h2>
+        <p class="subtitle">Please enter the 6-digit code sent to your email</p>
+      </div>
 
-          <div class="code-input-container">
-            <code-input
-              [isCodeHidden]="false"
-              [codeLength]="6"
-              [code]="'number'"
-              (codeCompleted)="onCodeCompleted($event)">
-            </code-input>
-          </div>
+      <div class="code-input-container">
+        <code-input
+          [isCodeHidden]="false"
+          [codeLength]="6"
+          [code]="'number'"
+          (codeCompleted)="onCodeCompleted($event)">
+        </code-input>
+      </div>
 
-
-          <button class="btn btn-outline-secondary mt-2" (click)="redirectToLogin()">Back to Login</button>
+      <div class="auth-footer">
+        <div class="footer-links">
+          <a (click)="redirectToLogin()" class="link">Back to Login</a>
         </div>
       </div>
     </div>

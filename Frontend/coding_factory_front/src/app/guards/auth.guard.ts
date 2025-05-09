@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     // Skip guard for public routes
-    const publicRoutes = ['/login', '/register', '/activate-account', '/forgot-password', '/reset-password', '/unban-req'];
+    const publicRoutes = ['/login', '/register', '/activate-account', '/forgot-password', '/reset-password', '/unban-req', '/landing'];
     if (publicRoutes.some(publicRoute => state.url.startsWith(publicRoute))) {
       return true;
     }

@@ -26,7 +26,7 @@
   }
 
   .chatbot-header {
-    background: linear-gradient(135deg, #4568dc, #3f51b5);
+    background: linear-gradient(135deg, #5b239f, #7B6ADA);
     color: white;
     padding: 18px 20px;
     cursor: pointer;
@@ -34,7 +34,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 2px 10px rgba(63, 81, 181, 0.2);
+    box-shadow: 0 2px 10px rgba(123, 106, 218, 0.2);
   }
 
   .chatbot-header h3 {
@@ -137,11 +137,11 @@
   }
 
   .message.user {
-    background: linear-gradient(135deg, #4568dc, #3f51b5);
+    background: linear-gradient(135deg, #5b239f, #7B6ADA);
     color: white;
     margin-left: auto;
     border-bottom-right-radius: 4px;
-    box-shadow: 0 3px 10px rgba(63, 81, 181, 0.3);
+    box-shadow: 0 3px 10px rgba(123, 106, 218, 0.3);
   }
 
   .message.bot {
@@ -150,7 +150,7 @@
     margin-right: auto;
     border-bottom-left-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border-left: 4px solid #4568dc;
+    border-left: 4px solid #7B6ADA;
     position: relative;
   }
 
@@ -161,7 +161,7 @@
     left: -4px;
     width: 4px;
     height: 100%;
-    background: linear-gradient(to bottom, #4568dc, #3f51b5);
+    background: linear-gradient(to bottom, #7B6ADA, #5b239f);
     border-radius: 2px 0 0 2px;
   }
 
@@ -205,7 +205,7 @@
   .typing-indicator span {
     height: 8px;
     width: 8px;
-    background: #4568dc;
+    background: #7B6ADA;
     border-radius: 50%;
     display: inline-block;
     margin: 0 2px;
@@ -262,12 +262,12 @@
   }
 
   .suggestion-btn {
-    background: rgba(69, 104, 220, 0.08);
-    border: 1px solid rgba(69, 104, 220, 0.2);
+    background: rgba(123, 106, 218, 0.08);
+    border: 1px solid rgba(123, 106, 218, 0.2);
     border-radius: 14px;
     padding: 5px 10px;
     font-size: 0.75rem;
-    color: #4568dc;
+    color: #7B6ADA;
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
@@ -288,9 +288,9 @@
   }
 
   .suggestion-btn:hover {
-    background: rgba(69, 104, 220, 0.15);
+    background: rgba(123, 106, 218, 0.15);
     transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(69, 104, 220, 0.15);
+    box-shadow: 0 2px 5px rgba(123, 106, 218, 0.15);
   }
 
   .suggestion-btn:hover::before {
@@ -308,7 +308,7 @@
   .message-form input {
     flex: 1;
     padding: 12px 18px;
-    border: 2px solid rgba(69, 104, 220, 0.2);
+    border: 2px solid rgba(123, 106, 218, 0.2);
     border-radius: 24px;
     outline: none;
     font-size: 0.95rem;
@@ -318,8 +318,8 @@
   }
 
   .message-form input:focus {
-    border-color: #4568dc;
-    box-shadow: 0 2px 8px rgba(69, 104, 220, 0.2);
+    border-color: #7B6ADA;
+    box-shadow: 0 2px 8px rgba(123, 106, 218, 0.2);
     background-color: white;
   }
 
@@ -329,7 +329,7 @@
   }
 
   .message-form button {
-    background: linear-gradient(135deg, #4568dc, #3f51b5);
+    background: linear-gradient(135deg, #5b239f, #7B6ADA);
     color: white;
     border: none;
     border-radius: 8px;
@@ -341,7 +341,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 6px rgba(63, 81, 181, 0.3);
+    box-shadow: 0 2px 6px rgba(123, 106, 218, 0.3);
     position: relative;
     overflow: hidden;
   }
@@ -366,8 +366,8 @@
 
   .message-form button:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(63, 81, 181, 0.4);
-    background: linear-gradient(135deg, #5273e0, #4568dc);
+    box-shadow: 0 3px 8px rgba(123, 106, 218, 0.4);
+    background: linear-gradient(135deg, #7B6ADA, #5b239f);
   }
 
   .message-form button:disabled {
@@ -388,7 +388,7 @@
     width: 60px;
     height: 60px;
     border-radius: 30px;
-    background: linear-gradient(135deg, #4568dc, #3f51b5);
+    background: linear-gradient(135deg, #5b239f, #7B6ADA);
     color: white;
     display: flex;
     align-items: center;
@@ -407,9 +407,9 @@
 
   /* Pulse animation for the toggle button */
   @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(69, 104, 220, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(69, 104, 220, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(69, 104, 220, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(123, 106, 218, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(123, 106, 218, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(123, 106, 218, 0); }
   }
 
   .pulse {

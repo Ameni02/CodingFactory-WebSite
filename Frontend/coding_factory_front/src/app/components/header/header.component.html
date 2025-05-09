@@ -1,54 +1,70 @@
 <!-- ***** Header Area Start ***** -->
-<header class="header-area header-sticky" [class.hidden]="isHeaderHidden">
+<header class="header-area header-sticky" [class.hidden]="isHeaderHidden" [class.scrolled]="isScrolled" [class.transparent]="isHomePage">
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <nav class="main-nav">
+        <nav class="main-nav" [class.menu-active]="isMobileMenuActive">
           <!-- ***** Logo Start ***** -->
-          <a routerLink="/" class="logo">
-            <h1>Coding Factory</h1>
+          <a routerLink="/home" class="logo">
+            <h1><span class="logo-highlight">Coding</span> Factory</h1>
           </a>
           <!-- ***** Logo End ***** -->
 
           <!-- ***** Search Bar Start ***** -->
           <div class="search-input">
             <form id="search">
-              <input type="text" placeholder="Type Something" id="searchText" name="searchKeyword" (keypress)="handleSearch($event)" />
+              <input type="text" placeholder="Search for courses, events..." id="searchText" name="searchKeyword" (keypress)="handleSearch($event)" />
               <i class="fa fa-search"></i>
             </form>
           </div>
-
           <!-- ***** Search Bar End ***** -->
 
           <!-- ***** Menu Start ***** -->
           <ul class="nav">
-            <li class="scroll-to-section"><a routerLink="/" fragment="top" class="active">Home</a></li>
-            <li class="scroll-to-section"><a routerLink="/" fragment="services">Services</a></li>
-            <li class="scroll-to-section"><a routerLink="/listTrainingUser">Courses</a></li>
-            <li class="scroll-to-section"><a routerLink="/" fragment="team">Team</a></li>
-            <li class="scroll-to-section"><a href="javascript:void(0)" (click)="navigateToEvents()">Events</a></li>
+            <li class="scroll-to-section"><a routerLink="/home" [class.active]="activeSection === 'home'">Home</a></li>
+            <li class="scroll-to-section"><a routerLink="/home" fragment="services" [class.active]="activeSection === 'services'">Services</a></li>
+            <li class="scroll-to-section"><a routerLink="/listTrainingUser" [class.active]="activeSection === 'courses'">Courses</a></li>
+            <li class="scroll-to-section"><a routerLink="/offers" [class.active]="activeSection === 'pfespace'">PFEspace</a></li>
+            <li class="scroll-to-section"><a href="javascript:void(0)" (click)="navigateToEvents()" [class.active]="activeSection === 'events'">Events</a></li>
 
             <!-- ***** Modify Profile Button ***** -->
-            <li class="scroll-to-section" *ngIf="isAuthenticated">
-              <a (click)="toggleProfileForm()" title="Modify Profile">
-                <i class="fas fa-user-edit"></i>
+            <li class="scroll-to-section profile-item" *ngIf="isAuthenticated">
+              <a (click)="toggleProfileForm()" title="Modify Profile" [class.active]="showProfileForm">
+                <i class="fas fa-user-circle"></i>
               </a>
 
-              <div *ngIf="showProfileForm" class="profile-dropdown">
+              <div [class.show]="showProfileForm" class="profile-dropdown">
                 <app-modify-user></app-modify-user>
               </div>
-
             </li>
 
+            <!-- ***** Login/Register Button ***** -->
+            <li class="scroll-to-section" *ngIf="!isAuthenticated">
+              <a routerLink="/login" class="login-btn">
+                Login
+              </a>
+            </li>
           </ul>
 
           <!-- Menu Trigger -->
-          <a class="menu-trigger">
-            <span>Menu</span>
+          <a class="menu-trigger" (click)="toggleMobileMenu()">
+            <span></span>
           </a>
           <!-- ***** Menu End ***** -->
         </nav>
 
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" [class.active]="isMobileMenuActive" [class.transparent]="isHomePage">
+          <ul>
+            <li><a routerLink="/home" (click)="closeMobileMenu()">Home</a></li>
+            <li><a routerLink="/home" fragment="services" (click)="closeMobileMenu()">Services</a></li>
+            <li><a routerLink="/listTrainingUser" (click)="closeMobileMenu()">Courses</a></li>
+            <li><a routerLink="/offers" (click)="closeMobileMenu()">PFEspace</a></li>
+            <li><a href="javascript:void(0)" (click)="navigateToEventsAndCloseMobile()">Events</a></li>
+            <li *ngIf="isAuthenticated"><a (click)="toggleProfileFormMobile()">Profile</a></li>
+            <li *ngIf="!isAuthenticated"><a routerLink="/login" (click)="closeMobileMenu()">Login</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
