@@ -2,10 +2,12 @@ package com.esprit.microservice.pfespace.RestController;
 
 import com.esprit.microservice.pfespace.Entities.*;
 import com.esprit.microservice.pfespace.Services.PFEService;
+import com.esprit.microservice.pfespace.Services.UserService;
 import com.esprit.microservice.pfespace.RestController.CvAnalysisController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,9 @@ public class PfeRestController {
 
     @Autowired
     private CvAnalysisController cvAnalysisController;
+
+    @Autowired
+    private UserService userService;
 
     // =========================== PROJECTS ===========================
     @PostMapping(value = "/projects/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -381,13 +386,26 @@ public class PfeRestController {
             @PathVariable Long projectId,
             @RequestPart("application") String applicationJson,
             @RequestPart("cvFile") MultipartFile cvFile,
-            @RequestPart("coverLetterFile") MultipartFile coverLetterFile) {
+            @RequestPart("coverLetterFile") MultipartFile coverLetterFile,
+            HttpServletRequest request) {
 
         // Detailed logging
         System.out.println("Received application for project: " + projectId);
         System.out.println("Application JSON: " + applicationJson);
         System.out.println("CV file: " + cvFile.getOriginalFilename());
         System.out.println("Cover letter: " + coverLetterFile.getOriginalFilename());
+
+        // Get user information from JWT token
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            try {
+                UserDTO user = userService.getCurrentUser(authHeader);
+                System.out.println("Authenticated user: " + user.getFullName() + " (" + user.getEmail() + ")");
+            } catch (Exception e) {
+                System.err.println("Error getting user information: " + e.getMessage());
+                // Continue without user information
+            }
+        }
 
         try {
             System.out.println("Processing application JSON: " + applicationJson);
@@ -406,6 +424,22 @@ public class PfeRestController {
             // Set file paths in application
             application.setCvFilePath(cvFilePath);
             application.setCoverLetterFilePath(coverLetterFilePath);
+
+            // Set user information from JWT token if available
+            // Reuse the authHeader variable that was declared earlier
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                try {
+                    UserDTO user = userService.getCurrentUser(authHeader);
+                    // Update application with user information
+                    application.setStudentName(user.getFullName());
+                    application.setStudentEmail(user.getEmail());
+                    application.setUserId(user.getId());
+                    System.out.println("Updated application with user information: " + user.getFullName() + " (" + user.getEmail() + ")");
+                } catch (Exception e) {
+                    System.err.println("Error setting user information: " + e.getMessage());
+                    // Continue with the information provided in the application
+                }
+            }
 
             // Get the project
             Project project = pfeService.getProjectById(projectId)
@@ -708,7 +742,10 @@ public class PfeRestController {
             @RequestParam("title") String title,
             @RequestParam("descriptionFile") MultipartFile descriptionFile,
             @RequestParam("submissionDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate submissionDate,
-            @RequestParam("reportFile") MultipartFile reportFile
+            @RequestParam("reportFile") MultipartFile reportFile,
+            @RequestParam(value = "projectName", required = false) String projectName,
+            @RequestParam(value = "academicSupervisorName", required = false) String academicSupervisorName,
+            HttpServletRequest request
     ) {
         try {
             // Save the files and get their paths
@@ -720,6 +757,29 @@ public class PfeRestController {
             deliverable.setTitle(title);
             deliverable.setSubmissionDate(submissionDate);
             deliverable.setStatus("PENDING"); // Set initial status to PENDING
+
+            // Set project and academic supervisor names if provided
+            if (projectName != null && !projectName.isEmpty()) {
+                deliverable.setProjectName(projectName);
+            }
+
+            if (academicSupervisorName != null && !academicSupervisorName.isEmpty()) {
+                deliverable.setAcademicSupervisorName(academicSupervisorName);
+            }
+
+            // Set user information from JWT token if available
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                try {
+                    UserDTO user = userService.getCurrentUser(authHeader);
+                    // Update deliverable with user information
+                    deliverable.setUserId(user.getId());
+                    System.out.println("Updated deliverable with user information: " + user.getFullName() + " (ID: " + user.getId() + ")");
+                } catch (Exception e) {
+                    System.err.println("Error setting user information for deliverable: " + e.getMessage());
+                    // Continue without user information
+                }
+            }
 
             // Call the service to create the deliverable
             Deliverable createdDeliverable = pfeService.createDeliverable(projectId, academicSupervisorId, deliverable, descriptionFilePath, reportFilePath);

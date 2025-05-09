@@ -2,59 +2,87 @@
   <div class="submission-form">
     <div class="form-header">
       <h2>Submit Your Project Deliverables</h2>
-      <p>Complete the form below to submit your project files and documentation</p>
+      <p>Select your project by name, choose your academic supervisor, and provide a title for this specific deliverable submission</p>
     </div>
 
     <div class="form-body">
       <form [formGroup]="submissionForm" (ngSubmit)="onSubmit()">
-        <!-- Project ID -->
+        <div class="section-divider">
+          <h4>Project Information</h4>
+        </div>
+
+        <!-- Project Name -->
         <div class="form-group">
-          <label for="projectId">
-            <i class="fas fa-project-diagram"></i> Project ID
+          <label for="projectName">
+            <i class="fas fa-project-diagram"></i> Project Name
           </label>
           <input
-            id="projectId"
-            formControlName="projectId"
-            type="number"
-            placeholder="Enter your project ID"
+            id="projectName"
+            formControlName="projectName"
+            type="text"
+            placeholder="Enter your project name"
             required
+            (input)="onProjectNameChange($event)"
+            [ngClass]="{'is-invalid': submissionForm.get('projectName')?.invalid && submissionForm.get('projectName')?.touched}"
           />
-          <div *ngIf="submissionForm.get('projectId')?.invalid && submissionForm.get('projectId')?.touched" class="error-message">
-            <i class="fas fa-exclamation-circle"></i> Project ID is required
+          <div *ngIf="isLoadingProjects" class="loading-indicator">
+            <i class="fas fa-spinner fa-spin"></i> Loading projects...
+          </div>
+          <div *ngIf="projectSuggestions.length > 0" class="suggestions-container">
+            <div *ngFor="let project of projectSuggestions" class="suggestion-item" (click)="selectProject(project)">
+              {{ project.title }}
+            </div>
+          </div>
+          <div *ngIf="submissionForm.get('projectName')?.invalid && submissionForm.get('projectName')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Project name is required
           </div>
         </div>
 
-        <!-- Academic Supervisor ID -->
+        <!-- Academic Supervisor Name -->
         <div class="form-group">
-          <label for="academicSupervisorId">
-            <i class="fas fa-user-tie"></i> Academic Supervisor ID
+          <label for="academicSupervisorName">
+            <i class="fas fa-user-tie"></i> Academic Supervisor Name
           </label>
           <input
-            id="academicSupervisorId"
-            formControlName="academicSupervisorId"
-            type="number"
-            placeholder="Enter your supervisor's ID"
+            id="academicSupervisorName"
+            formControlName="academicSupervisorName"
+            type="text"
+            placeholder="Enter your supervisor's name"
             required
+            (input)="onSupervisorNameChange($event)"
+            [ngClass]="{'is-invalid': submissionForm.get('academicSupervisorName')?.invalid && submissionForm.get('academicSupervisorName')?.touched}"
           />
-          <div *ngIf="submissionForm.get('academicSupervisorId')?.invalid && submissionForm.get('academicSupervisorId')?.touched" class="error-message">
-            <i class="fas fa-exclamation-circle"></i> Supervisor ID is required
+          <div *ngIf="isLoadingSupervisors" class="loading-indicator">
+            <i class="fas fa-spinner fa-spin"></i> Loading supervisors...
+          </div>
+          <div *ngIf="supervisorSuggestions.length > 0" class="suggestions-container">
+            <div *ngFor="let supervisor of supervisorSuggestions" class="suggestion-item" (click)="selectSupervisor(supervisor)">
+              {{ supervisor.name }}
+            </div>
+          </div>
+          <div *ngIf="submissionForm.get('academicSupervisorName')?.invalid && submissionForm.get('academicSupervisorName')?.touched" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> Supervisor name is required
           </div>
         </div>
 
-        <!-- Title -->
+        <div class="section-divider">
+          <h4>Deliverable Details</h4>
+        </div>
+
+        <!-- Deliverable Title -->
         <div class="form-group">
           <label for="title">
-            <i class="fas fa-heading"></i> Project Title
+            <i class="fas fa-project"></i> Deliverable Title
           </label>
           <input
             id="title"
             formControlName="title"
             type="text"
-            placeholder="Enter the title of your project"
+            placeholder="Enter a title for this deliverable submission"
             required
           />
           <div *ngIf="submissionForm.get('title')?.invalid && submissionForm.get('title')?.touched" class="error-message">
-            <i class="fas fa-exclamation-circle"></i> Title is required
+            <i class="fas fa-exclamation-circle"></i> Deliverable title is required
           </div>
         </div>
 

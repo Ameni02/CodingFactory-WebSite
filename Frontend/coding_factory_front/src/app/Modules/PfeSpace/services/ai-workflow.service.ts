@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CoverLetterRequest, CoverLetterResponse, MatchProjectsResponse } from '../models/ai-workflow.model';
@@ -13,6 +13,16 @@ export class AiWorkflowService {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+    }
+    return new HttpHeaders();
+  }
+
   /**
    * Match CV to projects using SBERT
    * @param cvFile The CV file (PDF)
@@ -22,7 +32,11 @@ export class AiWorkflowService {
     const formData = new FormData();
     formData.append('cvFile', cvFile);
 
-    return this.http.post<MatchProjectsResponse>(`${this.apiUrl}/match-projects`, formData)
+    return this.http.post<MatchProjectsResponse>(
+      `${this.apiUrl}/match-projects`,
+      formData,
+      { headers: this.getAuthHeaders() }
+    )
     .pipe(
       catchError(error => {
         console.error('Error matching projects:', error);
@@ -54,7 +68,11 @@ export class AiWorkflowService {
 
     console.log('Sending cover letter request:', JSON.stringify(requestBody));
 
-    return this.http.post<CoverLetterResponse>(`${this.apiUrl}/generate-cover-letter`, requestBody)
+    return this.http.post<CoverLetterResponse>(
+      `${this.apiUrl}/generate-cover-letter`,
+      requestBody,
+      { headers: this.getAuthHeaders() }
+    )
     .pipe(
       catchError(error => {
         console.error('Error generating cover letter:', error);

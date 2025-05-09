@@ -47,6 +47,9 @@ public class Application {
 
     private boolean archived = false;
 
+    // User ID from Gestion_User microservice
+    private Integer userId;
+
     @Column(columnDefinition = "TEXT")
     private String cvAnalysisFeedback;
 
@@ -89,6 +92,14 @@ public class Application {
 
     public void setDetailedScores(Map<String, Integer> detailedScores) {
         this.detailedScores = detailedScores;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Long getId() {

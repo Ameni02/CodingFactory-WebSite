@@ -67,12 +67,30 @@ public class Deliverable {
 
     private boolean archived = false;
 
+    // User ID from Gestion_User microservice
+    private Integer userId;
+
+    // Project and academic supervisor names for reference
+    @Transient
+    private String projectName;
+
+    @Transient
+    private String academicSupervisorName;
+
     public boolean isArchived() {
         return archived;
     }
 
     public void setArchived(boolean archived) {
         this.archived = archived;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Project getProject() {
@@ -137,5 +155,21 @@ public class Deliverable {
 
     public void setEvaluation(Evaluation evaluation) {
         this.evaluation = evaluation;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getAcademicSupervisorName() {
+        return academicSupervisorName;
+    }
+
+    public void setAcademicSupervisorName(String academicSupervisorName) {
+        this.academicSupervisorName = academicSupervisorName;
     }
 }

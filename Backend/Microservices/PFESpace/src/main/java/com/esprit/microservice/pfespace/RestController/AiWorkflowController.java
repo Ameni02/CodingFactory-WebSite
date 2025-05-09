@@ -5,6 +5,8 @@ import com.esprit.microservice.pfespace.Services.HuggingFaceCoverLetterService;
 import com.esprit.microservice.pfespace.Services.CoverLetterGenerationService;
 import com.esprit.microservice.pfespace.Services.PFEService;
 import com.esprit.microservice.pfespace.Services.SbertMatchingService;
+import com.esprit.microservice.pfespace.Services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class AiWorkflowController {
 
     @Autowired
     private CvAnalysisController cvAnalysisController;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * Match CV to projects using SBERT
@@ -79,9 +84,26 @@ public class AiWorkflowController {
      */
     @PostMapping("/generate-cover-letter")
     public ResponseEntity<?> generateCoverLetter(
-            @RequestBody CoverLetterRequest request) {
+            @RequestBody CoverLetterRequest request,
+            HttpServletRequest httpRequest) {
 
         System.out.println("Received cover letter request: " + request);
+
+        // Get user information from JWT token if available
+        String authHeader = httpRequest.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            try {
+                UserDTO user = userService.getCurrentUser(authHeader);
+                // Update request with user information
+                request.setStudentName(user.getFullName());
+                request.setStudentEmail(user.getEmail());
+                request.setUserId(user.getId());
+                System.out.println("Updated cover letter request with user information: " + user.getFullName() + " (" + user.getEmail() + ")");
+            } catch (Exception e) {
+                System.err.println("Error setting user information for cover letter: " + e.getMessage());
+                // Continue with the information provided in the request
+            }
+        }
 
         try {
             // Get project details

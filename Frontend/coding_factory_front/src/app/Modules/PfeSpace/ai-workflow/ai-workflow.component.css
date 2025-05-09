@@ -200,6 +200,34 @@
   box-shadow: 0 0 0 2px rgba(91, 35, 159, 0.2);
 }
 
+.form-control-readonly {
+  background-color: #f8f9ff;
+  cursor: not-allowed;
+  border: 1px solid #e6e9ff;
+}
+
+.info-text {
+  color: #6c757d;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+.user-info-section {
+  background-color: #f8f9ff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #e6e9ff;
+}
+
+.user-info-section h5 {
+  color: #2A2F5B;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
 .error-message {
   color: #e74c3c;
   font-size: 14px;

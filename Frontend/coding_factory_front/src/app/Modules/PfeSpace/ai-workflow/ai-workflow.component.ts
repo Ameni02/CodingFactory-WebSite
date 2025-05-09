@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AiWorkflowService } from '../services/ai-workflow.service';
 import { TestService } from '../services/test.service';
 import { Project } from '../models/project.model';
 import { ProjectDTO, ProjectMatch } from '../models/ai-workflow.model';
 import { ToastrService } from 'ngx-toastr';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserControllerService } from 'src/app/services/services/user-controller.service';
 
 @Component({
   selector: 'app-ai-workflow',
@@ -28,6 +30,12 @@ export class AiWorkflowComponent implements OnInit {
   generatedCoverLetter: string = '';
   generatedBy: string = '';
 
+  userId: number | null = null;
+  userFullName: string = '';
+  userEmail: string = '';
+  userFirstName: string = '';
+  userLastName: string = '';
+
   currentStep = 1; // 1: Upload CV, 2: Select Project, 3: Generate Cover Letter, 4: Review & Submit
 
   constructor(
@@ -35,16 +43,22 @@ export class AiWorkflowComponent implements OnInit {
     private aiWorkflowService: AiWorkflowService,
     private testService: TestService,
     private toastr: ToastrService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private jwtHelper: JwtHelperService,
+    private userService: UserControllerService
   ) {
     this.uploadForm = this.fb.group({
       cvFile: [null, Validators.required]
     });
 
     this.applicationForm = this.fb.group({
-      studentName: ['', [Validators.required, Validators.minLength(2)]],
-      studentEmail: ['', [Validators.required, Validators.email]]
+      studentName: [{value: '', disabled: true}, [Validators.required, Validators.minLength(2)]],
+      studentEmail: [{value: '', disabled: true}, [Validators.required, Validators.email]]
     });
+
+    // Get user information from JWT token
+    this.getUserInfoFromToken();
   }
 
   ngOnInit(): void {
@@ -71,6 +85,44 @@ export class AiWorkflowComponent implements OnInit {
   }
 
   preSelectedProjectId: number | null = null;
+
+  // Get user information from JWT token
+  private getUserInfoFromToken(): void {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        this.userId = decodedToken.userId;
+
+        // Get user details from the API
+        if (this.userId) {
+          this.userService.getUserById({ id: this.userId }).subscribe({
+            next: (user) => {
+              this.userFirstName = user.firstname || '';
+              this.userLastName = user.lastname || '';
+              this.userFullName = this.userFirstName + ' ' + this.userLastName;
+              this.userEmail = user.email || '';
+
+              // Update form with user information
+              this.applicationForm.patchValue({
+                studentName: this.userFullName,
+                studentEmail: this.userEmail
+              });
+            },
+            error: (error) => {
+              console.error('Error fetching user details:', error);
+              this.toastr.error('Failed to load user information');
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    } else {
+      this.toastr.warning('You need to be logged in to use this feature');
+      this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+    }
+  }
 
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
@@ -133,22 +185,24 @@ export class AiWorkflowComponent implements OnInit {
   }
 
   generateCoverLetter(): void {
-    if (this.applicationForm.invalid || !this.selectedProject) {
-      this.toastr.error('Please fill in all required fields');
+    if (!this.selectedProject) {
+      this.toastr.error('Please select a project');
+      return;
+    }
+
+    if (!this.userId || !this.userFullName || !this.userEmail) {
+      this.toastr.warning('User information is missing. Please log in again.');
       return;
     }
 
     this.isGenerating = true;
 
-    // Get form values and ensure they're strings
-    const studentName = this.applicationForm.get('studentName')?.value || '';
-    const studentEmail = this.applicationForm.get('studentEmail')?.value || '';
-
     const requestData = {
       projectId: this.selectedProject!.id,
       cvText: this.cvText || '',
-      studentName,
-      studentEmail
+      studentName: this.userFullName,
+      studentEmail: this.userEmail,
+      userId: this.userId
     };
 
     console.log('Generating cover letter with:', {

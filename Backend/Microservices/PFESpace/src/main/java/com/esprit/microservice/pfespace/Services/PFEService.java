@@ -143,6 +143,11 @@ public class PFEService {
             Project project = projectRepository.findById(projectId)
                     .orElseThrow(() -> new RuntimeException("Project not found"));
             deliverable.setProject(project);
+
+            // If project name is not set but we have a project, set the name
+            if ((deliverable.getProjectName() == null || deliverable.getProjectName().isEmpty()) && project.getTitle() != null) {
+                deliverable.setProjectName(project.getTitle());
+            }
         } else {
             deliverable.setProject(null);
         }
@@ -153,6 +158,11 @@ public class PFEService {
         AcademicSupervisor academicSupervisor = academicSupervisorRepository.findById(academicSupervisorId)
                 .orElseThrow(() -> new RuntimeException("Academic Supervisor not found"));
         deliverable.setAcademicSupervisor(academicSupervisor);
+
+        // If academic supervisor name is not set but we have a supervisor, set the name
+        if ((deliverable.getAcademicSupervisorName() == null || deliverable.getAcademicSupervisorName().isEmpty()) && academicSupervisor.getName() != null) {
+            deliverable.setAcademicSupervisorName(academicSupervisor.getName());
+        }
 
         return deliverableRepository.save(deliverable);
     }

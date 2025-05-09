@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DeliverableService } from '../../services/deliverable.service';
 import { ContentAnalysisService } from '../../services/content-analysis.service';
+import { ProjectService } from '../../services/project.service';
+import { AcademicSupervisorService } from '../../services/academicsupervisor.service';
 import { Router } from '@angular/router';
 import { ContentAnalysisResult } from '../../models/content-analysis-result.model';
+import { Project } from '../../models/project.model';
+import { AcademicSupervisor } from '../../models/academicsupervisor.model';
 
 @Component({
   selector: 'app-submission-form',
@@ -18,17 +22,35 @@ export class SubmissionFormComponent implements OnInit {
   isAnalyzing: boolean = false;
   showAnalysisResults: boolean = false;
 
+  // Lists for project and supervisor data
+  projects: Project[] = [];
+  academicSupervisors: AcademicSupervisor[] = [];
+  isLoadingProjects: boolean = false;
+  isLoadingSupervisors: boolean = false;
+
+  // For autocomplete suggestions
+  projectSuggestions: Project[] = [];
+  supervisorSuggestions: AcademicSupervisor[] = [];
+
+  // Selected entities
+  selectedProject: Project | null = null;
+  selectedSupervisor: AcademicSupervisor | null = null;
+
   constructor(
     private fb: FormBuilder,
     private deliverableService: DeliverableService,
     private contentAnalysisService: ContentAnalysisService,
+    private projectService: ProjectService,
+    private academicSupervisorService: AcademicSupervisorService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.submissionForm = this.fb.group({
       projectId: [null, Validators.required],
+      projectName: ['', Validators.required],
       academicSupervisorId: [null, Validators.required],
+      academicSupervisorName: ['', Validators.required],
       title: ['', Validators.required],
       descriptionFilePath: [null, Validators.required],
       reportFilePath: [null, Validators.required],
@@ -36,6 +58,90 @@ export class SubmissionFormComponent implements OnInit {
         new Date().toISOString().split('T')[0],
         Validators.required,
       ],
+    });
+
+    // Load projects and academic supervisors for dropdowns
+    this.loadProjects();
+    this.loadAcademicSupervisors();
+  }
+
+  // Project name input change handler
+  onProjectNameChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const searchTerm = input.value.toLowerCase();
+
+    if (searchTerm.length < 2) {
+      this.projectSuggestions = [];
+      return;
+    }
+
+    this.projectSuggestions = this.projects.filter(project =>
+      project.title.toLowerCase().includes(searchTerm)
+    ).slice(0, 5); // Limit to 5 suggestions
+  }
+
+  // Supervisor name input change handler
+  onSupervisorNameChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const searchTerm = input.value.toLowerCase();
+
+    if (searchTerm.length < 2) {
+      this.supervisorSuggestions = [];
+      return;
+    }
+
+    this.supervisorSuggestions = this.academicSupervisors.filter(supervisor =>
+      supervisor.name.toLowerCase().includes(searchTerm)
+    ).slice(0, 5); // Limit to 5 suggestions
+  }
+
+  // Select a project from suggestions
+  selectProject(project: Project): void {
+    this.selectedProject = project;
+    this.submissionForm.patchValue({
+      projectId: project.id,
+      projectName: project.title
+    });
+    this.projectSuggestions = [];
+  }
+
+  // Select a supervisor from suggestions
+  selectSupervisor(supervisor: AcademicSupervisor): void {
+    this.selectedSupervisor = supervisor;
+    this.submissionForm.patchValue({
+      academicSupervisorId: supervisor.id,
+      academicSupervisorName: supervisor.name
+    });
+    this.supervisorSuggestions = [];
+  }
+
+  // Load projects for dropdown
+  loadProjects(): void {
+    this.isLoadingProjects = true;
+    this.projectService.getProjects().subscribe({
+      next: (projects) => {
+        this.projects = projects;
+        this.isLoadingProjects = false;
+      },
+      error: (error) => {
+        console.error('Error loading projects:', error);
+        this.isLoadingProjects = false;
+      }
+    });
+  }
+
+  // Load academic supervisors for dropdown
+  loadAcademicSupervisors(): void {
+    this.isLoadingSupervisors = true;
+    this.academicSupervisorService.getAllSupervisors().subscribe({
+      next: (supervisors) => {
+        this.academicSupervisors = supervisors;
+        this.isLoadingSupervisors = false;
+      },
+      error: (error) => {
+        console.error('Error loading academic supervisors:', error);
+        this.isLoadingSupervisors = false;
+      }
     });
   }
 
@@ -46,20 +152,32 @@ export class SubmissionFormComponent implements OnInit {
       return; // Prevent submission if form is invalid
     }
 
+    // Validate that we have selected a project and supervisor
+    if (!this.selectedProject || !this.selectedSupervisor) {
+      if (!this.selectedProject) {
+        alert('Please select a valid project from the suggestions');
+      } else {
+        alert('Please select a valid academic supervisor from the suggestions');
+      }
+      return;
+    }
+
     // Create FormData object
     const formData = new FormData();
 
     // Get form control values
-    const projectId = this.submissionForm.get('projectId')?.value;
-    const academicSupervisorId = this.submissionForm.get('academicSupervisorId')?.value;
     const title = this.submissionForm.get('title')?.value;
     const submissionDate = this.submissionForm.get('submissionDate')?.value || new Date().toISOString().split('T')[0];
 
     // Append form values to FormData
-    formData.append('projectId', projectId);
-    formData.append('academicSupervisorId', academicSupervisorId);
+    formData.append('projectId', this.selectedProject.id.toString());
+    formData.append('academicSupervisorId', this.selectedSupervisor.id.toString());
     formData.append('title', title);
     formData.append('submissionDate', submissionDate);
+
+    // Add project and supervisor names for reference
+    formData.append('projectName', this.selectedProject.title);
+    formData.append('academicSupervisorName', this.selectedSupervisor.name);
 
     // Only append files if they are selected
     if (this.descriptionFile) {
@@ -79,8 +197,8 @@ export class SubmissionFormComponent implements OnInit {
     }
 
     // Call the service to add the deliverable
-    this.deliverableService.addDeliverable(formData).subscribe(
-      (response) => {
+    this.deliverableService.addDeliverable(formData).subscribe({
+      next: (response) => {
         console.log('Deliverable added successfully:', response);
 
         // Check if the response contains analysis results
@@ -116,11 +234,11 @@ export class SubmissionFormComponent implements OnInit {
           this.router.navigate(['/deliverables']);
         }, 5000);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error creating deliverable:', error);
         alert('Error creating deliverable. Please try again.');
       }
-    );
+    });
   }
 
   handleDescriptionFileInput(event: Event): void {
@@ -151,17 +269,17 @@ export class SubmissionFormComponent implements OnInit {
     }
 
     this.isAnalyzing = true;
-    this.contentAnalysisService.analyzeReport(this.reportFile).subscribe(
-      (result) => {
+    this.contentAnalysisService.analyzeReport(this.reportFile).subscribe({
+      next: (result) => {
         this.analysisResult = result;
         this.showAnalysisResults = true;
         this.isAnalyzing = false;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error analyzing report:', error);
         this.isAnalyzing = false;
         alert('Error analyzing report. Please try again.');
       }
-    );
+    });
   }
 }

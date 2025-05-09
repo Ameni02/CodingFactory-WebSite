@@ -9,9 +9,9 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="PFESpace" />
+        <module name="Gestion_Formation" />
       </profile>
       <profile name="Annotation profile for gestion_event" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -29,15 +29,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="eureka" />
         <module name="Gestion_User" />
-      </profile>
-      <profile name="Annotation profile for Gestion_Formation" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
-        <module name="Gestion_Formation" />
       </profile>
     </annotationProcessing>
   </component>

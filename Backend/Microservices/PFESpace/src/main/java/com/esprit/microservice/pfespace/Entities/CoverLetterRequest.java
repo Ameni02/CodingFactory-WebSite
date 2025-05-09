@@ -19,14 +19,18 @@ public class CoverLetterRequest {
     @Email(message = "Invalid email format")
     private String studentEmail;
 
+    // User ID from Gestion_User microservice
+    private Integer userId;
+
     public CoverLetterRequest() {
     }
 
-    public CoverLetterRequest(Long projectId, String cvText, String studentName, String studentEmail) {
+    public CoverLetterRequest(Long projectId, String cvText, String studentName, String studentEmail, Integer userId) {
         this.projectId = projectId;
         this.cvText = cvText;
         this.studentName = studentName;
         this.studentEmail = studentEmail;
+        this.userId = userId;
     }
 
     public @NotNull(message = "Project ID is required") Long getProjectId() {
@@ -61,6 +65,14 @@ public class CoverLetterRequest {
         this.studentEmail = studentEmail;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "CoverLetterRequest{" +
@@ -68,6 +80,7 @@ public class CoverLetterRequest {
                 ", cvText=" + (cvText != null ? cvText.substring(0, Math.min(cvText.length(), 50)) + "..." : "null") +
                 ", studentName='" + studentName + '\'' +
                 ", studentEmail='" + studentEmail + '\'' +
+                ", userId=" + userId +
                 '}';
     }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Deliverable } from '../models/deliverable.model';
 
@@ -11,12 +11,28 @@ export class DeliverableService {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+    }
+    return new HttpHeaders();
+  }
+
   getDeliverables(): Observable<Deliverable[]> {
-    return this.http.get<Deliverable[]>(`${this.apiUrl}/deliverables`);
+    return this.http.get<Deliverable[]>(
+      `${this.apiUrl}/deliverables`,
+      { headers: this.getAuthHeaders() }
+    );
   }
 
   getDeliverableById(id: number): Observable<Deliverable> {
-    return this.http.get<Deliverable>(`${this.apiUrl}/deliverables/${id}`);
+    return this.http.get<Deliverable>(
+      `${this.apiUrl}/deliverables/${id}`,
+      { headers: this.getAuthHeaders() }
+    );
   }
 
   createDeliverable(
@@ -33,16 +49,25 @@ export class DeliverableService {
 
     return this.http.post<Deliverable>(
       `${this.apiUrl}/projects/${projectId}/supervisors/${academicSupervisorId}/deliverables`,
-      formData
+      formData,
+      { headers: this.getAuthHeaders() }
     );
   }
 
   updateDeliverable(id: number, deliverable: Deliverable): Observable<Deliverable> {
-    return this.http.put<Deliverable>(`${this.apiUrl}/deliverables/${id}`, deliverable);
+    return this.http.put<Deliverable>(
+      `${this.apiUrl}/deliverables/${id}`,
+      deliverable,
+      { headers: this.getAuthHeaders() }
+    );
   }
 
   archiveDeliverable(id: number): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/deliverables/${id}/archive`, {});
+    return this.http.put<void>(
+      `${this.apiUrl}/deliverables/${id}/archive`,
+      {},
+      { headers: this.getAuthHeaders() }
+    );
   }
 
   /**
@@ -51,6 +76,10 @@ export class DeliverableService {
    * @returns Observable with the created deliverable
    */
   addDeliverable(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/deliverables`, formData);
+    return this.http.post<any>(
+      `${this.apiUrl}/deliverables/add`,
+      formData,
+      { headers: this.getAuthHeaders() }
+    );
   }
 }

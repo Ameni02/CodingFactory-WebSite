@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Application } from '../../models/application.model';
 import { Project } from '../../models/project.model';
 import { ProjectService } from '../../services/project.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserControllerService } from 'src/app/services/services/user-controller.service';
 
 @Component({
   selector: 'app-application-form',
@@ -20,6 +22,11 @@ export class ApplicationFormComponent implements OnInit {
   isSubmitting = false;
   project!: Project;
   isLoading = false;
+  userId: number | null = null;
+  userFullName: string = '';
+  userEmail: string = '';
+  userFirstName: string = '';
+  userLastName: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -27,13 +34,18 @@ export class ApplicationFormComponent implements OnInit {
     private router: Router,
     private applicationService: ApplicationService,
     private toastr: ToastrService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private jwtHelper: JwtHelperService,
+    private userService: UserControllerService
   ) {
     this.applicationForm = this.fb.group({
-      studentName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
-      studentEmail: ['', [Validators.required, Validators.email]],
+      studentName: [{value: '', disabled: true}, [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      studentEmail: [{value: '', disabled: true}, [Validators.required, Validators.email]],
       cvFile: [null, Validators.required]
     });
+
+    // Get user information from JWT token
+    this.getUserInfoFromToken();
   }
 
   ngOnInit(): void {
@@ -90,10 +102,48 @@ export class ApplicationFormComponent implements OnInit {
     }
   }
 
+  // Get user information from JWT token
+  private getUserInfoFromToken(): void {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        this.userId = decodedToken.userId;
+
+        // Get user details from the API
+        if (this.userId) {
+          this.userService.getUserById({ id: this.userId }).subscribe({
+            next: (user) => {
+              this.userFirstName = user.firstname || '';
+              this.userLastName = user.lastname || '';
+              this.userFullName = this.userFirstName + ' ' + this.userLastName;
+              this.userEmail = user.email || '';
+
+              // Update form with user information
+              this.applicationForm.patchValue({
+                studentName: this.userFullName,
+                studentEmail: this.userEmail
+              });
+            },
+            error: (error) => {
+              console.error('Error fetching user details:', error);
+              this.toastr.error('Failed to load user information');
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    } else {
+      this.toastr.warning('You need to be logged in to submit an application');
+      this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
+    }
+  }
+
   onSubmit(): void {
     console.log('Submit button clicked');
     console.log('Form valid:', this.applicationForm.valid);
-    console.log('Form values:', this.applicationForm.value);
+    console.log('Form values:', this.applicationForm.getRawValue()); // Use getRawValue to get disabled fields
     console.log('CV file:', this.cvFile);
     console.log('Cover letter file:', this.coverLetterFile);
 
@@ -109,15 +159,21 @@ export class ApplicationFormComponent implements OnInit {
       return;
     }
 
+    if (!this.userId || !this.userFullName || !this.userEmail) {
+      this.toastr.warning('User information is missing. Please log in again.');
+      return;
+    }
+
     this.isSubmitting = true;
     console.log('Submitting application...');
 
     const applicationData: any = {
       project: { id: this.projectId },
-      studentName: this.applicationForm.value.studentName,
-      studentEmail: this.applicationForm.value.studentEmail,
+      studentName: this.userFullName,
+      studentEmail: this.userEmail,
       status: 'PENDING',
-      archived: false
+      archived: false,
+      userId: this.userId
     };
 
     this.applicationService.addApplication(

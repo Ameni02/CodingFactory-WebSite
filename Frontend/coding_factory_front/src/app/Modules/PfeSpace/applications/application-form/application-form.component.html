@@ -7,38 +7,40 @@
         </div>
         <div class="card-body">
           <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
-            <!-- Student Name -->
-            <div class="mb-3">
-              <label for="studentName" class="form-label">Full Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="studentName"
-                formControlName="studentName"
-                [ngClass]="{'is-invalid': applicationForm.get('studentName')?.invalid && applicationForm.get('studentName')?.touched}"
-              >
-              <div class="invalid-feedback" *ngIf="applicationForm.get('studentName')?.invalid && applicationForm.get('studentName')?.touched">
-                <div *ngIf="applicationForm.get('studentName')?.errors?.['required']">Student name is required</div>
-                <div *ngIf="applicationForm.get('studentName')?.errors?.['minlength']">Student name must be at least 2 characters</div>
-                <div *ngIf="applicationForm.get('studentName')?.errors?.['maxlength']">Student name must not exceed 100 characters</div>
+            <!-- User Information Section -->
+            <div class="mb-4">
+              <h5 class="mb-3">Your Information</h5>
+              <div class="card bg-light">
+                <div class="card-body">
+                  <!-- Student Name -->
+                  <div class="mb-3">
+                    <label for="studentName" class="form-label">Full Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="studentName"
+                      formControlName="studentName"
+                      readonly
+                    >
+                    <small class="text-muted">This information is automatically retrieved from your account</small>
+                  </div>
+
+                  <!-- Student Email -->
+                  <div class="mb-3">
+                    <label for="studentEmail" class="form-label">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="studentEmail"
+                      formControlName="studentEmail"
+                      readonly
+                    >
+                  </div>
+                </div>
               </div>
             </div>
 
-            <!-- Student Email -->
-            <div class="mb-3">
-              <label for="studentEmail" class="form-label">Email</label>
-              <input
-                type="email"
-                class="form-control"
-                id="studentEmail"
-                formControlName="studentEmail"
-                [ngClass]="{'is-invalid': applicationForm.get('studentEmail')?.invalid && applicationForm.get('studentEmail')?.touched}"
-              >
-              <div class="invalid-feedback" *ngIf="applicationForm.get('studentEmail')?.invalid && applicationForm.get('studentEmail')?.touched">
-                <div *ngIf="applicationForm.get('studentEmail')?.errors?.['required']">Email is required</div>
-                <div *ngIf="applicationForm.get('studentEmail')?.errors?.['email']">Please enter a valid email address</div>
-              </div>
-            </div>
+            <h5 class="mb-3">Application Documents</h5>
 
 
 
