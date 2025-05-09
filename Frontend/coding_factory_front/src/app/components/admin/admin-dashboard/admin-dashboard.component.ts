@@ -29,31 +29,94 @@ export class AdminDashboardComponent implements OnInit {
   loadDashboardData(): void {
     this.loading = true;
     this.error = null;
-    this.statistics = null;
-    this.recentActivities = [];
 
-    this.dashboardService.getDashboardStats().subscribe({
-      next: (stats) => {
-        this.statistics = stats;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = 'Failed to load dashboard statistics. ' + (err.message || 'Please check your connection and try again.');
-        this.loading = false;
-        console.error('Error loading dashboard stats:', err);
-      }
-    });
+    // Simulate loading delay
+    setTimeout(() => {
+      // Mock statistics data
+      this.statistics = {
+        users: {
+          total: 248,
+          new: 32,
+          active: 186
+        },
+        trainings: {
+          total: 45,
+          active: 28,
+          draft: 17
+        },
+        evaluations: {
+          total: 156,
+          pending: 23,
+          completed: 133
+        },
+        consulting: {
+          total: 87,
+          ongoing: 14,
+          completed: 73
+        },
+        pfespace: {
+          projects: 64,
+          applications: 128,
+          submissions: 92,
+          supervisors: 18
+        }
+      };
 
-    this.dashboardService.getRecentActivities().subscribe({
-      next: (activities) => {
-        this.recentActivities = activities;
-      },
-      error: (err) => {
-        console.error('Error loading activities:', err);
-        // We don't set the main error here to avoid overriding the stats error
-        // Instead, the activities section will just be empty
-      }
-    });
+      // Mock recent activities
+      this.recentActivities = [
+        {
+          id: 1,
+          type: 'user',
+          user: 'Sarah Johnson',
+          description: 'created a new account',
+          timestamp: new Date(Date.now() - 15 * 60000) // 15 minutes ago
+        },
+        {
+          id: 2,
+          type: 'training',
+          user: 'Prof. Ahmed Malik',
+          description: 'added a new training course "Advanced Machine Learning"',
+          timestamp: new Date(Date.now() - 45 * 60000) // 45 minutes ago
+        },
+        {
+          id: 3,
+          type: 'pfespace',
+          user: 'TechSolutions Inc.',
+          description: 'posted a new project "AI-Powered Customer Service Bot"',
+          timestamp: new Date(Date.now() - 2 * 3600000) // 2 hours ago
+        },
+        {
+          id: 4,
+          type: 'evaluation',
+          user: 'Dr. Emma Chen',
+          description: 'completed 5 student evaluations',
+          timestamp: new Date(Date.now() - 3 * 3600000) // 3 hours ago
+        },
+        {
+          id: 5,
+          type: 'consulting',
+          user: 'Michael Rodriguez',
+          description: 'scheduled a consulting session for tomorrow',
+          timestamp: new Date(Date.now() - 5 * 3600000) // 5 hours ago
+        },
+        {
+          id: 6,
+          type: 'pfespace',
+          user: 'Amal Benali',
+          description: 'submitted a project deliverable for review',
+          timestamp: new Date(Date.now() - 8 * 3600000) // 8 hours ago
+        },
+        {
+          id: 7,
+          type: 'user',
+          user: 'Admin',
+          description: 'approved 12 new user registrations',
+          timestamp: new Date(Date.now() - 24 * 3600000) // 1 day ago
+        }
+      ];
+
+      this.loading = false;
+    }, 800); // Simulate network delay
   }
 
   getActivityIcon(type: string): string {
@@ -70,6 +133,23 @@ export class AdminDashboardComponent implements OnInit {
         return 'bi-folder';
       default:
         return 'bi-circle';
+    }
+  }
+
+  getActivityColor(type: string): string {
+    switch(type) {
+      case 'user':
+        return '#3498db'; // Blue
+      case 'training':
+        return '#2ecc71'; // Green
+      case 'evaluation':
+        return '#e74c3c'; // Red
+      case 'consulting':
+        return '#f39c12'; // Orange
+      case 'pfespace':
+        return '#9b59b6'; // Purple
+      default:
+        return '#95a5a6'; // Gray
     }
   }
 

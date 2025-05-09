@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodingFactory - Logical Architecture</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #5b239f;
+            margin-bottom: 30px;
+        }
+
+        .architecture-diagram {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .user-layer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .user-icon {
+            background-color: #e6f7ff;
+            border: 2px solid #1890ff;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .arrow {
+            text-align: center;
+            font-size: 24px;
+            margin: 15px 0;
+            color: #5b239f;
+        }
+
+        .frontend-layer {
+            background-color: #fafafa;
+            border: 2px solid #5b239f;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .components-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .component {
+            flex: 1;
+            min-width: 250px;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .component h3 {
+            text-align: center;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .component-features {
+            padding-left: 20px;
+        }
+
+        .component-features li {
+            margin-bottom: 8px;
+        }
+
+        .user-management {
+            background-color: #e6f7ff;
+            border: 2px solid #1890ff;
+        }
+
+        .event-management {
+            background-color: #f6ffed;
+            border: 2px solid #52c41a;
+        }
+
+        .training-management {
+            background-color: #fff7e6;
+            border: 2px solid #fa8c16;
+        }
+
+        .pfe-space {
+            background-color: #f9f0ff;
+            border: 2px solid #722ed1;
+        }
+
+        .data-layer {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .database {
+            background-color: #f5f5f5;
+            border: 2px solid #595959;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .database-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .ai-layer {
+            background-color: #fff2e8;
+            border: 2px solid #fa541c;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .ai-services {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .ai-service {
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            width: 200px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CodingFactory Platform - Logical Architecture</h1>
+
+        <div class="architecture-diagram">
+            <!-- User Layer -->
+            <div class="user-layer">
+                <div class="user-icon">👥</div>
+                <h3>Users / Students</h3>
+            </div>
+
+            <!-- Arrow -->
+            <div class="arrow">↓</div>
+
+            <!-- Frontend Layer -->
+            <div class="frontend-layer">
+                <h3>Web Interface</h3>
+                <p>The unified user interface that students and administrators interact with</p>
+                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+                    <div style="background-color: white; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); width: 180px;">
+                        <h4 style="margin-top: 0;">Angular 16.2</h4>
+                        <p style="font-size: 12px; color: #666; margin: 5px 0;">
+                            Frontend Framework
+                        </p>
+                        <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                            Components, Services, Routing
+                        </p>
+                    </div>
+                    <div style="background-color: white; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); width: 180px;">
+                        <h4 style="margin-top: 0;">Bootstrap 5</h4>
+                        <p style="font-size: 12px; color: #666; margin: 5px 0;">
+                            UI Framework
+                        </p>
+                        <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                            Responsive Design, PrimeNG
+                        </p>
+                    </div>
+                    <div style="background-color: white; border-radius: 8px; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); width: 180px;">
+                        <h4 style="margin-top: 0;">TypeScript 5.1</h4>
+                        <p style="font-size: 12px; color: #666; margin: 5px 0;">
+                            Programming Language
+                        </p>
+                        <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                            RxJS 7.8, JWT Authentication
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arrow -->
+            <div class="arrow">↓</div>
+
+            <!-- Components Layer -->
+            <div class="components-container">
+                <!-- User Management -->
+                <div class="component user-management">
+                    <h3>User Management</h3>
+                    <ul class="component-features">
+                        <li>Registration & Login <small>(JWT Authentication)</small></li>
+                        <li>Profile Management <small>(Angular Forms)</small></li>
+                        <li>Security & Access Control <small>(Spring Security)</small></li>
+                        <li>User Roles & Permissions <small>(ADMIN, USER)</small></li>
+                        <li>Email Verification <small>(SMTP)</small></li>
+                        <li>Password Reset <small>(Token-based)</small></li>
+                    </ul>
+                    <div style="text-align: center; margin-top: 10px; font-size: 12px; color: #666;">
+                        <span style="background: #e8f4ff; padding: 3px 6px; border-radius: 4px;">Spring Boot</span>
+                        <span style="background: #e8f4ff; padding: 3px 6px; border-radius: 4px; margin-left: 5px;">Angular</span>
+                    </div>
+                </div>
+
+                <!-- Event Management -->
+                <div class="component event-management">
+                    <h3>Event Management</h3>
+                    <ul class="component-features">
+                        <li>Event Creation & Listing <small>(CRUD Operations)</small></li>
+                        <li>Registration for Events <small>(Real-time Updates)</small></li>
+                        <li>Feedback Collection <small>(Rating System)</small></li>
+                        <li>Notifications System <small>(WebSockets)</small></li>
+                        <li>Event Categories <small>(Workshops, Conferences)</small></li>
+                        <li>Calendar Integration <small>(iCal Format)</small></li>
+                    </ul>
+                    <div style="text-align: center; margin-top: 10px; font-size: 12px; color: #666;">
+                        <span style="background: #e8f4ff; padding: 3px 6px; border-radius: 4px;">Spring Boot</span>
+                        <span style="background: #e8f4ff; padding: 3px 6px; border-radius: 4px; margin-left: 5px;">JPA/Hibernate</span>
+                    </div>
+                </div>
+
+                <!-- Training Management -->
+                <div class="component training-management">
+                    <h3>Training Management</h3>
+                    <ul class="component-features">
+                        <li>Course Catalog <small>(Filterable Listings)</small></li>
+                        <li>Educational Resources <small>(PDF, Video)</small></li>
+                        <li>Comment System <small>(Threaded Comments)</small></li>
+                        <li>Sentiment Analysis <small>(XGBoost Model)</small></li>
+                        <li>Training Scheduling <small>(Calendar API)</small></li>
+                        <li>AI-Powered Recommendations <small>(Based on Sentiment)</small></li>
+                        <li>Instructor Management <small>(Profiles, Ratings)</small></li>
+                    </ul>
+                    <div style="text-align: center; margin-top: 10px; font-size: 12px; color: #666;">
+                        <span style="background: #e8f4ff; padding: 3px 6px; border-radius: 4px;">Spring Boot</span>
+                        <span style="background: #e8f4ff; padding: 3px 6px; border-radius: 4px; margin-left: 5px;">Python NLTK</span>
+                    </div>
+                </div>
+
+                <!-- PFE Space -->
+                <div class="component pfe-space">
+                    <h3>PFE Space</h3>
+                    <ul class="component-features">
+                        <li>Project Listings <small>(Company Offerings)</small></li>
+                        <li>CV-Project Matching <small>(SBERT Embeddings)</small></li>
+                        <li>Cover Letter Generation <small>(Hugging Face API)</small></li>
+                        <li>Application Tracking <small>(Status Updates)</small></li>
+                        <li>Deliverable Submission <small>(File Upload)</small></li>
+                        <li>Plagiarism Detection <small>(Text Similarity)</small></li>
+                        <li>Evaluation System <small>(Grading, Feedback)</small></li>
+                        <li>Chatbot Assistance <small>(Q&A Support)</small></li>
+                    </ul>
+                    <div style="text-align: center; margin-top: 10px; font-size: 12px; color: #666;">
+                        <span style="background: #e8f4ff; padding: 3px 6px; border-radius: 4px;">Spring Boot</span>
+                        <span style="background: #e8f4ff; padding: 3px 6px; border-radius: 4px; margin-left: 5px;">Hugging Face</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arrow -->
+            <div class="arrow">↓</div>
+
+            <!-- Data Layer -->
+            <h3 style="text-align: center;">Data Storage Layer</h3>
+            <div class="data-layer">
+                <div class="database">
+                    <div class="database-icon">💾</div>
+                    <h4>User Database</h4>
+                    <p style="font-size: 12px; margin-top: 5px;">
+                        <span style="background: #f5f5f5; padding: 3px 6px; border-radius: 4px;">MySQL</span>
+                    </p>
+                    <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                        Tables: Users, Roles, Permissions
+                    </p>
+                </div>
+                <div class="database">
+                    <div class="database-icon">💾</div>
+                    <h4>Event Database</h4>
+                    <p style="font-size: 12px; margin-top: 5px;">
+                        <span style="background: #f5f5f5; padding: 3px 6px; border-radius: 4px;">MySQL</span>
+                    </p>
+                    <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                        Tables: Events, Registrations, Feedback
+                    </p>
+                </div>
+                <div class="database">
+                    <div class="database-icon">💾</div>
+                    <h4>Training Database</h4>
+                    <p style="font-size: 12px; margin-top: 5px;">
+                        <span style="background: #f5f5f5; padding: 3px 6px; border-radius: 4px;">MySQL</span>
+                    </p>
+                    <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                        Tables: Formations, Comments, Resources
+                    </p>
+                </div>
+                <div class="database">
+                    <div class="database-icon">💾</div>
+                    <h4>PFE Database</h4>
+                    <p style="font-size: 12px; margin-top: 5px;">
+                        <span style="background: #f5f5f5; padding: 3px 6px; border-radius: 4px;">MySQL</span>
+                    </p>
+                    <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                        Tables: Projects, Applications, Deliverables
+                    </p>
+                </div>
+            </div>
+
+            <!-- Arrow -->
+            <div class="arrow">↓</div>
+
+            <!-- AI Layer -->
+            <div class="ai-layer">
+                <h3>AI Services Layer</h3>
+                <div class="ai-services">
+                    <div class="ai-service">
+                        <h4>Sentiment Analysis</h4>
+                        <p>Analyzes comment tone</p>
+                        <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                            <span style="background: #fff2e8; padding: 3px 6px; border-radius: 4px;">NLTK VADER</span>
+                            <span style="background: #fff2e8; padding: 3px 6px; border-radius: 4px; margin-left: 3px;">Rule-based</span>
+                        </p>
+                        <p style="font-size: 10px; color: #666; margin-top: 5px;">
+                            Python Flask API (Port: 5000)
+                        </p>
+                    </div>
+                    <div class="ai-service">
+                        <h4>CV Matching</h4>
+                        <p>Matches skills to projects</p>
+                        <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                            <span style="background: #fff2e8; padding: 3px 6px; border-radius: 4px;">SBERT</span>
+                            <span style="background: #fff2e8; padding: 3px 6px; border-radius: 4px; margin-left: 3px;">Embeddings</span>
+                        </p>
+                        <p style="font-size: 10px; color: #666; margin-top: 5px;">
+                            Hugging Face Inference API
+                        </p>
+                    </div>
+                    <div class="ai-service">
+                        <h4>Cover Letter Generation</h4>
+                        <p>Creates personalized letters</p>
+                        <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                            <span style="background: #fff2e8; padding: 3px 6px; border-radius: 4px;">LLM</span>
+                            <span style="background: #fff2e8; padding: 3px 6px; border-radius: 4px; margin-left: 3px;">Templates</span>
+                        </p>
+                        <p style="font-size: 10px; color: #666; margin-top: 5px;">
+                            Hugging Face Inference API
+                        </p>
+                    </div>
+                    <div class="ai-service">
+                        <h4>Plagiarism Detection</h4>
+                        <p>Checks document originality</p>
+                        <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                            <span style="background: #fff2e8; padding: 3px 6px; border-radius: 4px;">Text Similarity</span>
+                            <span style="background: #fff2e8; padding: 3px 6px; border-radius: 4px; margin-left: 3px;">Pattern Matching</span>
+                        </p>
+                        <p style="font-size: 10px; color: #666; margin-top: 5px;">
+                            Java Implementation
+                        </p>
+                    </div>
+                    <div class="ai-service">
+                        <h4>Chatbot Intelligence</h4>
+                        <p>Answers student questions</p>
+                        <p style="font-size: 11px; color: #666; margin-top: 5px;">
+                            <span style="background: #fff2e8; padding: 3px 6px; border-radius: 4px;">Q&A Model</span>
+                        </p>
+                        <p style="font-size: 10px; color: #666; margin-top: 5px;">
+                            Hugging Face Inference API
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e6f7ff; border: 1px solid #1890ff;"></div>
+                <span>User Management</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f6ffed; border: 1px solid #52c41a;"></div>
+                <span>Event Management</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #fff7e6; border: 1px solid #fa8c16;"></div>
+                <span>Training Management</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f9f0ff; border: 1px solid #722ed1;"></div>
+                <span>PFE Space</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f5f5f5; border: 1px solid #595959;"></div>
+                <span>Data Storage</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #fff2e8; border: 1px solid #fa541c;"></div>
+                <span>AI Services</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

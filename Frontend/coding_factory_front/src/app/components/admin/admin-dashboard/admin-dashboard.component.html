@@ -70,65 +70,73 @@
       </div>
 
       <section *ngIf="!loading && !error && statistics" class="statistics-grid">
-        <div class="stat-card">
+        <div class="stat-card" style="border-top: 4px solid #3498db;">
           <div class="stat-header">
             <h3>Users</h3>
-            <i class="bi bi-people"></i>
+            <i class="bi bi-people" style="color: #3498db;"></i>
           </div>
           <div class="stat-numbers">
             <div class="main-stat">{{statistics.users.total}}</div>
             <div class="sub-stats">
-              <span>New: {{statistics.users.new}}</span>
-              <span>Active: {{statistics.users.active}}</span>
+              <span>New: <strong>{{statistics.users.new}}</strong></span>
+              <span>Active: <strong>{{statistics.users.active}}</strong></span>
             </div>
           </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" style="border-top: 4px solid #2ecc71;">
           <div class="stat-header" routerLink="/admin/addTraining">
             <h3>Trainings</h3>
+            <i class="bi bi-book" style="color: #2ecc71;"></i>
+          </div>
+          <div class="stat-numbers">
+            <div class="main-stat">{{statistics.trainings.total}}</div>
+            <div class="sub-stats">
+              <span>Active: <strong>{{statistics.trainings.active}}</strong></span>
+              <span>Draft: <strong>{{statistics.trainings.draft}}</strong></span>
+            </div>
           </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" style="border-top: 4px solid #e74c3c;">
           <div class="stat-header">
             <h3>Evaluations</h3>
-            <i class="bi bi-clipboard-check"></i>
+            <i class="bi bi-clipboard-check" style="color: #e74c3c;"></i>
           </div>
           <div class="stat-numbers">
             <div class="main-stat">{{statistics.evaluations.total}}</div>
             <div class="sub-stats">
-              <span>Pending: {{statistics.evaluations.pending}}</span>
-              <span>Completed: {{statistics.evaluations.completed}}</span>
+              <span>Pending: <strong>{{statistics.evaluations.pending}}</strong></span>
+              <span>Completed: <strong>{{statistics.evaluations.completed}}</strong></span>
             </div>
           </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" style="border-top: 4px solid #f39c12;">
           <div class="stat-header">
             <h3>Consulting</h3>
-            <i class="bi bi-briefcase"></i>
+            <i class="bi bi-briefcase" style="color: #f39c12;"></i>
           </div>
           <div class="stat-numbers">
             <div class="main-stat">{{statistics.consulting.total}}</div>
             <div class="sub-stats">
-              <span>Ongoing: {{statistics.consulting.ongoing}}</span>
-              <span>Completed: {{statistics.consulting.completed}}</span>
+              <span>Ongoing: <strong>{{statistics.consulting.ongoing}}</strong></span>
+              <span>Completed: <strong>{{statistics.consulting.completed}}</strong></span>
             </div>
           </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" style="border-top: 4px solid #9b59b6;">
           <div class="stat-header">
             <h3>PFE Space</h3>
-            <i class="bi bi-folder"></i>
+            <i class="bi bi-folder" style="color: #9b59b6;"></i>
           </div>
           <div class="stat-numbers">
             <div class="main-stat">{{statistics.pfespace.projects}}</div>
             <div class="sub-stats">
-              <span>Applications: {{statistics.pfespace.applications}}</span>
-              <span>Submissions: {{statistics.pfespace.submissions}}</span>
-              <span>Supervisors: {{statistics.pfespace.supervisors}}</span>
+              <span>Applications: <strong>{{statistics.pfespace.applications}}</strong></span>
+              <span>Submissions: <strong>{{statistics.pfespace.submissions}}</strong></span>
+              <span>Supervisors: <strong>{{statistics.pfespace.supervisors}}</strong></span>
             </div>
           </div>
         </div>
@@ -142,8 +150,10 @@
           <p>No recent activities to display</p>
         </div>
         <div class="activity-list" *ngIf="recentActivities.length > 0">
-          <div class="activity-item" *ngFor="let activity of recentActivities">
-            <div class="activity-icon">
+          <div class="activity-item" *ngFor="let activity of recentActivities; let i = index"
+               [style.border-left]="'4px solid ' + getActivityColor(activity.type)">
+            <div class="activity-icon" [style.background-color]="getActivityColor(activity.type) + '20'"
+                 [style.color]="getActivityColor(activity.type)">
               <i class="bi" [ngClass]="getActivityIcon(activity.type)"></i>
             </div>
             <div class="activity-details">
@@ -151,6 +161,7 @@
                 <strong>{{activity.user}}</strong> {{activity.description}}
               </div>
               <div class="activity-time">
+                <i class="bi bi-clock" style="margin-right: 5px; font-size: 12px;"></i>
                 {{activity.timestamp | date:'medium'}}
               </div>
             </div>
