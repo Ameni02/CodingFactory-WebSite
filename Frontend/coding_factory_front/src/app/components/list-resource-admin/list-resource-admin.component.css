@@ -1,98 +1,246 @@
-/* Assure-toi que .training-list-wrapper, .training-table, .btn-add-training, etc. existent */
+/* Resource Admin List Styles */
 .training-list-wrapper {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 30px;
-    background: #ffffff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    border-radius: 16px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 35px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(123, 106, 218, 0.08);
+  border-radius: 20px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.training-list-wrapper:hover {
+  box-shadow: 0 15px 40px rgba(123, 106, 218, 0.12);
+  transform: translateY(-5px);
+}
+
+.training-list-wrapper h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #2A2F5B;
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.training-list-wrapper h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, #7B6ADA, #5b239f);
+  border-radius: 2px;
+}
+
+.training-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(123, 106, 218, 0.08);
+  margin-bottom: 25px;
+}
+
+.training-table th,
+.training-table td {
+  padding: 16px 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(123, 106, 218, 0.1);
+}
+
+.training-table th {
+  background-color: #a99fe0;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.training-table td {
+  background-color: #f8f9fd;
+  font-size: 14px;
+  color: #2A2F5B;
+  transition: all 0.3s ease;
+}
+
+.training-table tr {
+  transition: all 0.3s ease;
+}
+
+.training-table tr:hover td {
+  background-color: rgba(123, 106, 218, 0.05);
+  transform: scale(1.01);
+  box-shadow: 0 5px 15px rgba(123, 106, 218, 0.05);
+  z-index: 1;
+  position: relative;
+}
+
+.training-table tr:last-child td {
+  border-bottom: none;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #a99fe0;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  margin: 4px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(169, 159, 224, 0.2);
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(169, 159, 224, 0.3);
+  background-color: #8b7ac5;
+}
+
+button.download {
+  background-color: #3498db;
+}
+
+button.download:hover {
+  background-color: #2980b9;
+}
+
+button.edit {
+  background-color: #f39c12;
+}
+
+button.edit:hover {
+  background-color: #e67e22;
+}
+
+button.delete {
+  background-color: #e74c3c;
+}
+
+button.delete:hover {
+  background-color: #c0392b;
+}
+
+.btn-add-training {
+  float: right;
+  margin-left: auto;
+  margin-bottom: 20px;
+  display: block;
+  width: fit-content;
+  background-color: #a99fe0;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 5px 15px rgba(169, 159, 224, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-add-training:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(169, 159, 224, 0.3);
+  background-color: #8b7ac5;
+}
+
+.btn-add-training a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .training-list-wrapper {
+    padding: 25px 20px;
+    margin: 30px 15px;
   }
-  
+
   .training-list-wrapper h2 {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 25px;
-    color: #333;
+    font-size: 24px;
   }
-  
-  .training-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    overflow: hidden;
-    border-radius: 12px;
-  }
-  
+
   .training-table th,
   .training-table td {
-    padding: 14px 16px;
-    text-align: center;
+    padding: 12px 15px;
   }
-  
-  .training-table th {
-    background-color: #38597c;
-    color: white;
-    font-weight: 600;
-    font-size: 15px;
-  }
-  
-  .training-table td {
-    background-color: #f9f9f9;
-    font-size: 14px;
-    color: #444;
-    transition: background-color 0.2s;
-  }
-  
-  .training-table tr:hover td {
-    background-color: #e9f2ff;
-  }
-  
+
   button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #5a6f86;
-    color: #fff;
-    border: none;
-    padding: 10px 16px;
-    margin: 4px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+    padding: 8px 14px;
+    font-size: 13px;
   }
-  
-  button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
-  }
-  
-  button.download {
-    background-color: #17a2b8;
-  }
-  
-  button.download:hover {
-    background-color: #138496;
-  }
-  
+
   .btn-add-training {
-    float: right;
-    margin-left: auto;
-    display: block;
-    width: fit-content;
-    background-color: #38597c;
     padding: 10px 18px;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
+    float: none;
+    margin: 0 auto 20px;
   }
-  
-  .btn-add-training a {
-    color: white;
-    text-decoration: none;
+}
+
+@media (max-width: 576px) {
+  .training-list-wrapper {
+    padding: 20px 15px;
+    margin: 20px 10px;
   }
-  
+
+  .training-list-wrapper h2 {
+    font-size: 22px;
+  }
+
+  .training-table {
+    display: block;
+  }
+
+  .training-table thead {
+    display: none;
+  }
+
+  .training-table tbody,
+  .training-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .training-table tr {
+    margin-bottom: 15px;
+    border: 1px solid rgba(123, 106, 218, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .training-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    padding: 12px 15px;
+  }
+
+  .training-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    text-align: left;
+    color: #2A2F5B;
+  }
+
+  button {
+    width: 100%;
+    margin: 4px 0;
+  }
+}

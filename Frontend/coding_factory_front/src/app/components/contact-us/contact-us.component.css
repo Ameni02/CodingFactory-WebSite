@@ -1,0 +1,27 @@
+.contact-info {
+  margin-top: 30px;
+}
+
+.info-item {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.info-item i {
+  font-size: 20px;
+  color: #7B6ADA;
+  margin-right: 15px;
+  margin-top: 5px;
+}
+
+.info-item h6 {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #2A2F5B;
+}
+
+.info-item p {
+  margin: 0;
+  color: #575962;
+}

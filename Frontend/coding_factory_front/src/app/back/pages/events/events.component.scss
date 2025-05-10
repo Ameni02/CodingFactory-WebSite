@@ -2,7 +2,114 @@
   width: 80px;          /* Fixed width */
   height: 60px;         /* Fixed height */
   object-fit: contain;  /* Keeps the image aspect ratio */
-  border-radius: 5px;   /* Optional: Makes image corners rounded */
-  border: 1px solid #ddd; /* Adds a light border */
+  border-radius: 10px;  /* Makes image corners rounded */
+  border: 1px solid rgba(169, 159, 224, 0.2); /* Adds a light purple border */
   display: block;
+  box-shadow: 0 3px 10px rgba(169, 159, 224, 0.1);
+  transition: all 0.3s ease;
+}
+
+.event-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(169, 159, 224, 0.2);
+}
+
+/* Card styling */
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(169, 159, 224, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(169, 159, 224, 0.12);
+}
+
+.card-header {
+  background: linear-gradient(to right, rgba(169, 159, 224, 0.05), rgba(139, 122, 197, 0.05));
+  border-bottom: 1px solid rgba(169, 159, 224, 0.1);
+  padding: 15px 20px;
+}
+
+.card-header h5 {
+  margin: 0;
+  color: #2A2F5B;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.table th {
+  background: linear-gradient(to right, rgba(169, 159, 224, 0.1), rgba(139, 122, 197, 0.1));
+  color: #2A2F5B;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(169, 159, 224, 0.1);
+  padding: 12px 15px;
+}
+
+.table td {
+  padding: 12px 15px;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(169, 159, 224, 0.05);
+}
+
+.table tr:hover {
+  background-color: rgba(169, 159, 224, 0.03);
+}
+
+/* Button styling */
+.btn {
+  border-radius: 10px;
+  padding: 8px 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #a99fe0 0%, #8b7ac5 100%);
+  border: none;
+  box-shadow: 0 4px 10px rgba(169, 159, 224, 0.2);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #8b7ac5 0%, #7b6ad0 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(169, 159, 224, 0.3);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
+  border: none;
+  box-shadow: 0 4px 10px rgba(214, 48, 49, 0.2);
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #d63031 0%, #c0392b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(214, 48, 49, 0.3);
+}
+
+/* Form styling */
+.form-control {
+  border-radius: 10px;
+  border: 1px solid rgba(169, 159, 224, 0.2);
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #8b7ac5;
+  box-shadow: 0 0 0 3px rgba(169, 159, 224, 0.1);
 }
