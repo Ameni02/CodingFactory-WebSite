@@ -1,12 +1,12 @@
 <div align="center">
 
+<img src="Frontend/coding_factory_front/src/assets/assetsFront/assets/images/logo.png" alt="Coding Factory Logo" width="350"/>
+
 # 🚀 Coding Factory Platform
 
-<img src="Frontend/coding_factory_front/src/assets/assetsFront/assets/images/logo.png" alt="Coding Factory Logo" width="250"/>
-
 <p align="center">
-  <img src="https://img.shields.io/badge/Spring%20Boot-2.7-brightgreen" alt="Spring Boot"/>
-  <img src="https://img.shields.io/badge/Angular-14-red" alt="Angular"/>
+  <img src="https://img.shields.io/badge/Spring%20Boot-brightgreen" alt="Spring Boot"/>
+  <img src="https://img.shields.io/badge/Angular-16-red" alt="Angular"/>
   <img src="https://img.shields.io/badge/Microservices-Architecture-blue" alt="Microservices"/>
   <img src="https://img.shields.io/badge/AI%20Powered-Hugging%20Face-orange" alt="AI Powered"/>
 </p>
@@ -28,7 +28,10 @@
 
 ## 📋 Overview
 
-<img align="right" width="300" src="https://cdn.pixabay.com/photo/2018/09/24/08/31/pixel-cells-3699334_1280.png" alt="Education Illustration"/>
+<div align="center">
+  <img width="800" src="Frontend/coding_factory_front/src/assets/assetsFront/assets/images/landing.png" alt="Coding Factory Landing Page"/>
+  <p><i>Coding Factory Platform - Landing Page</i></p>
+</div>
 
 **Coding Factory** is primarily a training center platform that suggests personalized training courses to users. Built with a microservices architecture, it helps students find the most relevant programming and technology courses based on their interests and career goals.
 
@@ -40,34 +43,34 @@ The platform's main role is to recommend appropriate trainings using intelligent
   <table>
     <tr>
       <td align="center" width="33%">
-        <img width="80" src="https://cdn.pixabay.com/photo/2020/07/14/13/07/icon-5404125_1280.png" alt="User Management"/><br/>
+        <img width="80" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Bust%20in%20Silhouette.png" alt="User Management"/><br/>
         <b>User Management</b><br/>
         Authentication, role-based access control, and profile management
       </td>
       <td align="center" width="33%">
-        <img width="80" src="https://cdn.pixabay.com/photo/2018/09/04/10/27/learn-3653430_1280.png" alt="Training Management"/><br/>
-        <b>Training Management</b><br/>
-        Course creation, enrollment, and intelligent recommendations
+        <img width="80" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Books.png" alt="Training Management"/><br/>
+        <b>Training Center</b><br/>
+        Course suggestions, enrollment, and intelligent recommendations
       </td>
       <td align="center" width="33%">
-        <img width="80" src="https://cdn.pixabay.com/photo/2017/01/10/03/54/icon-1968240_1280.png" alt="Event Management"/><br/>
+        <img width="80" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Party%20Popper.png" alt="Event Management"/><br/>
         <b>Event Management</b><br/>
         Organization, registration, and participant tracking
       </td>
     </tr>
     <tr>
       <td align="center">
-        <img width="80" src="https://cdn.pixabay.com/photo/2016/12/18/13/45/refresh-1915341_1280.png" alt="Evaluation System"/><br/>
+        <img width="80" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Clipboard.png" alt="Evaluation System"/><br/>
         <b>Evaluation System</b><br/>
         Assessment creation, grading, and performance analytics
       </td>
       <td align="center">
-        <img width="80" src="https://cdn.pixabay.com/photo/2017/01/10/23/01/seo-1970475_1280.png" alt="Consulting Services"/><br/>
+        <img width="80" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Person%20Tipping%20Hand.png" alt="Consulting Services"/><br/>
         <b>Consulting Services</b><br/>
         Appointment scheduling and session tracking
       </td>
       <td align="center">
-        <img width="80" src="https://cdn.pixabay.com/photo/2017/01/31/15/33/artificial-intelligence-2025110_1280.png" alt="PFE Space"/><br/>
+        <img width="80" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Graduation%20Cap.png" alt="PFE Space"/><br/>
         <b>PFE Space</b><br/>
         Project management with AI-powered tools
       </td>
@@ -272,7 +275,7 @@ python sentiment_api.py
       <li><b>Security:</b> Password encryption and account recovery</li>
     </ul>
     <div align="center">
-      <img width="200" src="https://cdn.pixabay.com/photo/2016/06/13/17/30/user-1454901_1280.png" alt="User Management"/>
+      <img width="150" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Technologist.png" alt="User Management"/>
     </div>
   </div>
 
@@ -287,7 +290,7 @@ python sentiment_api.py
       <li><b>Career Path Guidance:</b> Courses aligned with career goals</li>
     </ul>
     <div align="center">
-      <img width="200" src="https://cdn.pixabay.com/photo/2016/01/19/01/42/library-1147815_1280.jpg" alt="Training Center"/>
+      <img width="150" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Open%20Book.png" alt="Training Center"/>
     </div>
   </div>
 
@@ -302,7 +305,7 @@ python sentiment_api.py
       <li><b>AI Assistant:</b> Chatbot for project-related questions</li>
     </ul>
     <div align="center">
-      <img width="200" src="https://cdn.pixabay.com/photo/2017/01/31/15/33/artificial-intelligence-2025110_1280.png" alt="PFE Space"/>
+      <img width="150" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Robot.png" alt="PFE Space"/>
     </div>
   </div>
 </div>
@@ -310,7 +313,7 @@ python sentiment_api.py
 ## ❓ FAQ
 
 <div align="center">
-  <img width="600" src="https://cdn.pixabay.com/photo/2017/07/10/23/43/question-mark-2492009_1280.jpg" alt="FAQ"/>
+  <img width="150" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Light%20Bulb.png" alt="FAQ"/>
 </div>
 
 <details>
@@ -359,9 +362,7 @@ Yes, the Angular frontend is fully responsive and works on mobile devices, table
 
 <div align="center">
   <p>You can reach us through our GitHub accounts.</p>
-  <a href="https://github.com/coding-factory">
-    <img src="https://img.shields.io/badge/GitHub-coding--factory-blue?style=for-the-badge&logo=github" alt="GitHub"/>
-  </a>
+ 
 </div>
 
 <div align="center">
