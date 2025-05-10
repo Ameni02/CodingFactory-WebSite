@@ -1,90 +1,369 @@
-# CodingFactory-WebSite
-# CodingFactory-WebSite
+<div align="center">
 
-## Description du Projet
-CodingFactory-WebSite est une plateforme de gestion éducative développée en architecture microservices. Ce projet vise à offrir une solution complète aux centres de formation pour gérer les utilisateurs, les formations, les évaluations, les événements, les services de consulting et l'espace PFE.
+# 🚀 Coding Factory Platform
 
-## Membres du Groupe
-- Ons Fendouli
-- Belkis Sekri
-- Ameni Zoubeir
-- Mohamed Amine Kalai
-- Mouna Chokri
-- Mootaz Chouchene
+<img src="Frontend/coding_factory_front/src/assets/assetsFront/assets/images/logo.png" alt="Coding Factory Logo" width="250"/>
 
-## Technologies Utilisées
-### Backend (Spring Boot)
-- **Spring Boot** - Framework principal pour la gestion des microservices
-- **Spring Security** - Gestion des utilisateurs et authentification
-- **Spring Cloud (Eureka, API Gateway)** - Gestion des microservices
-- **Spring Data JPA** - Interaction avec la base de données
-- **Hibernate** - ORM pour la gestion des entités
-- **PostgreSQL / MySQL** - Base de données principale
-- **Docker** - Conteneurisation des services
+<p align="center">
+  <img src="https://img.shields.io/badge/Spring%20Boot-2.7-brightgreen" alt="Spring Boot"/>
+  <img src="https://img.shields.io/badge/Angular-14-red" alt="Angular"/>
+  <img src="https://img.shields.io/badge/Microservices-Architecture-blue" alt="Microservices"/>
+  <img src="https://img.shields.io/badge/AI%20Powered-Hugging%20Face-orange" alt="AI Powered"/>
+</p>
 
-### Frontend (Angular)
-- **Angular** - Framework JavaScript pour le développement du front-end
-- **Angular Material** - Composants UI modernes
-- **RxJS** - Gestion des flux de données asynchrones
+<h3>A Smart Training Center Platform with AI-Powered Recommendations</h3>
+</div>
 
-### Autres Outils
-- **Maven** - Gestion des dépendances
-- **Swagger** - Documentation des APIs
-- **Postman** - Test des APIs
-- **Git & GitHub** - Gestion du code source
-- **GitHub Actions** - CI/CD pour l'automatisation des déploiements
+<p align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#key-features">Features</a> •
+  <a href="#architecture">Architecture</a> •
+  <a href="#technologies">Technologies</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#module-details">Modules</a> •
+  <a href="#faq">FAQ</a>
+</p>
 
-## Modules de Gestion
-### 1. Gestion des Utilisateurs
-- Authentification 
-- Gestion des rôles (Administrateur, Formateur, Étudiant, Consultant)
+---
 
-### 2. Gestion des Formations
-- Création et modification des formations
-- Inscriptions et suivi des apprenants
+## 📋 Overview
 
-### 3. Gestion des Évaluations
-- Création et attribution des évaluations
-- Suivi des performances des étudiants
+<img align="right" width="300" src="https://cdn.pixabay.com/photo/2018/09/24/08/31/pixel-cells-3699334_1280.png" alt="Education Illustration"/>
 
-### 4. Gestion des Événements
-- Organisation et gestion des événements éducatifs
-- Inscriptions aux événements
+**Coding Factory** is primarily a training center platform that suggests personalized training courses to users. Built with a microservices architecture, it helps students find the most relevant programming and technology courses based on their interests and career goals.
 
-### 5. Gestion du Consulting
-- Prise de rendez-vous avec des consultants
-- Suivi des sessions de consulting
+The platform's main role is to recommend appropriate trainings using intelligent features like sentiment analysis on course reviews. It also manages users, events, evaluations, consulting services, and final projects (PFE - Projet de Fin d'Études) to provide a complete educational experience.
 
-### 6. Gestion de l'Espace PFE
-- Suivi des projets de fin d'études
-- Gestion des livrables et des feedbacks
+## ✨ Key Features
 
-## Installation et Lancement du Projet
-### Prérequis
-- Java 17+
-- Node.js & Angular CLI
-- Docker
-- PostgreSQL / MySQL
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="33%">
+        <img width="80" src="https://cdn.pixabay.com/photo/2020/07/14/13/07/icon-5404125_1280.png" alt="User Management"/><br/>
+        <b>User Management</b><br/>
+        Authentication, role-based access control, and profile management
+      </td>
+      <td align="center" width="33%">
+        <img width="80" src="https://cdn.pixabay.com/photo/2018/09/04/10/27/learn-3653430_1280.png" alt="Training Management"/><br/>
+        <b>Training Management</b><br/>
+        Course creation, enrollment, and intelligent recommendations
+      </td>
+      <td align="center" width="33%">
+        <img width="80" src="https://cdn.pixabay.com/photo/2017/01/10/03/54/icon-1968240_1280.png" alt="Event Management"/><br/>
+        <b>Event Management</b><br/>
+        Organization, registration, and participant tracking
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img width="80" src="https://cdn.pixabay.com/photo/2016/12/18/13/45/refresh-1915341_1280.png" alt="Evaluation System"/><br/>
+        <b>Evaluation System</b><br/>
+        Assessment creation, grading, and performance analytics
+      </td>
+      <td align="center">
+        <img width="80" src="https://cdn.pixabay.com/photo/2017/01/10/23/01/seo-1970475_1280.png" alt="Consulting Services"/><br/>
+        <b>Consulting Services</b><br/>
+        Appointment scheduling and session tracking
+      </td>
+      <td align="center">
+        <img width="80" src="https://cdn.pixabay.com/photo/2017/01/31/15/33/artificial-intelligence-2025110_1280.png" alt="PFE Space"/><br/>
+        <b>PFE Space</b><br/>
+        Project management with AI-powered tools
+      </td>
+    </tr>
+  </table>
+</div>
 
-### Backend (Spring Boot)
+### 🤖 AI-Powered Features
+
+- **CV Analysis & Project Matching** - Automatically match students to projects based on skills
+- **Cover Letter Generation** - AI-generated personalized cover letters
+- **Plagiarism Detection** - Ensure originality in student submissions
+- **AI Chatbot** - Intelligent assistant for project-related questions
+
+## 🏗️ Architecture
+
+<div align="center">
+  <img width="800" src="https://miro.medium.com/v2/resize:fit:1400/1*wOHyKy6fl3HVSmF24xBK_A.png" alt="Microservices Architecture"/>
+</div>
+
+The platform follows a microservices architecture for scalability and maintainability:
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="33%" style="background-color: #f8f9fa; padding: 15px; border-radius: 10px;">
+        <h3>🌐 Gateway Layer</h3>
+        <ul align="left">
+          <li>API Gateway</li>
+          <li>Eureka Service Discovery</li>
+          <li>Config Server</li>
+        </ul>
+      </td>
+      <td align="center" width="33%" style="background-color: #f8f9fa; padding: 15px; border-radius: 10px;">
+        <h3>🔧 Core Services</h3>
+        <ul align="left">
+          <li>User Service</li>
+          <li>Training Service</li>
+          <li>Event Service</li>
+          <li>PFE Service</li>
+        </ul>
+      </td>
+      <td align="center" width="33%" style="background-color: #f8f9fa; padding: 15px; border-radius: 10px;">
+        <h3>🧠 Intelligence Layer</h3>
+        <ul align="left">
+          <li>Sentiment Analysis</li>
+          <li>AI Service</li>
+          <li>Recommendation Engine</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+## 🛠️ Technologies
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="50%" style="padding: 20px;">
+        <h3>🔙 Backend</h3>
+        <p align="center">
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="Spring"/>
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"/>
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL"/>
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker"/>
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"/>
+        </p>
+        <ul align="left">
+          <li><b>Spring Boot</b> - Core framework for microservices</li>
+          <li><b>Spring Security</b> - Authentication and authorization</li>
+          <li><b>Spring Cloud</b> - Service discovery, configuration, and API gateway</li>
+          <li><b>Spring Data JPA</b> - Database interaction</li>
+          <li><b>PostgreSQL/MySQL</b> - Primary databases</li>
+          <li><b>Docker</b> - Service containerization</li>
+          <li><b>Hugging Face API</b> - AI models for NLP tasks</li>
+          <li><b>Python Flask</b> - Sentiment analysis service</li>
+        </ul>
+      </td>
+      <td align="center" width="50%" style="padding: 20px;">
+        <h3>🖥️ Frontend</h3>
+        <p align="center">
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular"/>
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript"/>
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap"/>
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"/>
+          <img height="50" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"/>
+        </p>
+        <ul align="left">
+          <li><b>Angular</b> - Main frontend framework</li>
+          <li><b>TypeScript</b> - Programming language</li>
+          <li><b>Bootstrap</b> - Responsive UI components</li>
+          <li><b>PrimeNG</b> - Advanced UI components</li>
+          <li><b>RxJS</b> - Asynchronous data handling</li>
+          <li><b>HTML5/CSS3</b> - Markup and styling</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+## 🚀 Getting Started
+
+<div align="center">
+  <img width="700" src="https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_1280.jpg" alt="Getting Started"/>
+</div>
+
+### Prerequisites
+
+<table>
+  <tr>
+    <td>
+      <ul>
+        <li>☕ Java 17+</li>
+        <li>📦 Node.js & Angular CLI</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>🐳 Docker</li>
+        <li>🗄️ PostgreSQL/MySQL</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>🐍 Python 3.8+ (for sentiment analysis)</li>
+        <li>📊 Maven</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+### Installation
+
+<details>
+<summary><b>🔧 Backend Setup</b></summary>
+<br>
+
 ```bash
-cd backend
+# Clone the repository
+git clone https://github.com/your-username/coding-factory-platform.git
+
+# Navigate to backend directory
+cd Backend
+
+# Build the project
 mvn clean install
-mvn spring-boot:run
+
+# Start the services
+docker-compose up
 ```
 
-### Frontend (Angular)
+> 💡 **Tip:** Make sure Docker is running before starting the services.
+</details>
+
+<details>
+<summary><b>🖥️ Frontend Setup</b></summary>
+<br>
+
 ```bash
-cd frontend
+# Navigate to frontend directory
+cd Frontend/coding_factory_front
+
+# Install dependencies
 npm install
+
+# Start the development server
 ng serve
 ```
 
-## Contribution
-- Cloner le projet
-- Créer une branche pour vos modifications
-- Faire une Pull Request
+> 💡 **Tip:** The application will be available at http://localhost:4200
+</details>
 
-## Contact
-Pour toute question ou suggestion, contactez l'un des membres de l'équipe via GitHub.
+<details>
+<summary><b>🧠 Sentiment Analysis Service Setup</b></summary>
+<br>
 
+```bash
+# Navigate to sentiment analysis directory
+cd Backend/Microservices/SentimentAnalysis
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start the service
+python sentiment_api.py
+```
+
+> 💡 **Tip:** The service will be available at http://localhost:5000
+</details>
+
+## 🔍 Module Details
+
+<div class="module-cards" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+  <div style="flex: 1; min-width: 300px; border: 1px solid #e1e4e8; border-radius: 10px; padding: 20px; margin-bottom: 20px; background-color: #f6f8fa;">
+    <h3>👤 User Management</h3>
+    <hr style="border: 1px solid #e1e4e8;">
+    <ul>
+      <li><b>Authentication:</b> Secure login with JWT tokens</li>
+      <li><b>Role Management:</b> Admin, Trainer, Student, Consultant</li>
+      <li><b>Profile Settings:</b> Customizable user profiles</li>
+      <li><b>Security:</b> Password encryption and account recovery</li>
+    </ul>
+    <div align="center">
+      <img width="200" src="https://cdn.pixabay.com/photo/2016/06/13/17/30/user-1454901_1280.png" alt="User Management"/>
+    </div>
+  </div>
+
+  <div style="flex: 1; min-width: 300px; border: 1px solid #e1e4e8; border-radius: 10px; padding: 20px; margin-bottom: 20px; background-color: #f6f8fa;">
+    <h3>📚 Training Center</h3>
+    <hr style="border: 1px solid #e1e4e8;">
+    <ul>
+      <li><b>Course Suggestions:</b> Personalized training recommendations</li>
+      <li><b>Enrollment:</b> Easy registration for suggested courses</li>
+      <li><b>Smart Recommendations:</b> Based on sentiment analysis of reviews</li>
+      <li><b>Comment Filtering:</b> Find the most positively reviewed trainings</li>
+      <li><b>Career Path Guidance:</b> Courses aligned with career goals</li>
+    </ul>
+    <div align="center">
+      <img width="200" src="https://cdn.pixabay.com/photo/2016/01/19/01/42/library-1147815_1280.jpg" alt="Training Center"/>
+    </div>
+  </div>
+
+  <div style="flex: 1; min-width: 300px; border: 1px solid #e1e4e8; border-radius: 10px; padding: 20px; margin-bottom: 20px; background-color: #f6f8fa;">
+    <h3>🎓 PFE Space</h3>
+    <hr style="border: 1px solid #e1e4e8;">
+    <ul>
+      <li><b>Project Management:</b> Creation, assignment, and tracking</li>
+      <li><b>AI Matching:</b> CV analysis and project matching with SBERT</li>
+      <li><b>Document Generation:</b> AI-powered cover letter creation</li>
+      <li><b>Plagiarism Detection:</b> Ensure originality in submissions</li>
+      <li><b>AI Assistant:</b> Chatbot for project-related questions</li>
+    </ul>
+    <div align="center">
+      <img width="200" src="https://cdn.pixabay.com/photo/2017/01/31/15/33/artificial-intelligence-2025110_1280.png" alt="PFE Space"/>
+    </div>
+  </div>
+</div>
+
+## ❓ FAQ
+
+<div align="center">
+  <img width="600" src="https://cdn.pixabay.com/photo/2017/07/10/23/43/question-mark-2492009_1280.jpg" alt="FAQ"/>
+</div>
+
+<details>
+<summary><b>How does the recommendation system work?</b></summary>
+<p>
+The system uses sentiment analysis on training comments to prioritize courses with positive feedback. It employs either XGBoost or NLTK's VADER analyzer to classify comments and rank courses accordingly. This creates a personalized learning experience based on what other students have found most valuable.
+</p>
+</details>
+
+<details>
+<summary><b>Can I use the platform without the AI features?</b></summary>
+<p>
+Yes, all AI features are optional and the platform functions fully without them. They simply enhance the user experience when enabled. The core functionality of user management, training courses, and event organization works independently of the AI components.
+</p>
+</details>
+
+<details>
+<summary><b>How secure is the user data?</b></summary>
+<p>
+The platform implements Spring Security with JWT authentication, role-based access control, and secure password storage to protect user data. All sensitive information is encrypted, and the system follows industry best practices for data protection and privacy.
+</p>
+</details>
+
+<details>
+<summary><b>Is the platform mobile-friendly?</b></summary>
+<p>
+Yes, the Angular frontend is fully responsive and works on mobile devices, tablets, and desktops. Users can access all features from any device with a modern web browser.
+</p>
+</details>
+
+## 👥 Team
+
+<div align="center">
+  <p>This project was developed by:</p>
+  <p>
+    <b>Ameni Zoubeir</b> •
+    <b>Mohamed Amine Kalai</b> •
+    <b>Mouna Chokri</b> •
+    <b>Ons Fendouli</b> •
+    <b>Belkis Sekri</b> •
+    <b>Mootaz Chouchene</b>
+  </p>
+</div>
+
+## 📞 Contact
+
+<div align="center">
+  <p>You can reach us through our GitHub accounts.</p>
+  <a href="https://github.com/coding-factory">
+    <img src="https://img.shields.io/badge/GitHub-coding--factory-blue?style=for-the-badge&logo=github" alt="GitHub"/>
+  </a>
+</div>
+
+<div align="center">
+  <sub>Built with ❤️ by the Coding Factory Team</sub>
+</div>
