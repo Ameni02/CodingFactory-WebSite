@@ -2,16 +2,17 @@
 
 <img src="Frontend/coding_factory_front/src/assets/assetsFront/assets/images/logo.png" alt="Coding Factory Logo" width="350"/>
 
-# 🚀 Coding Factory Platform
+# 🚀 Coding Factory Platform - Full-Stack Training Management System
 
 <p align="center">
   <img src="https://img.shields.io/badge/Spring%20Boot-brightgreen" alt="Spring Boot"/>
   <img src="https://img.shields.io/badge/Angular-16-red" alt="Angular"/>
   <img src="https://img.shields.io/badge/Microservices-Architecture-blue" alt="Microservices"/>
   <img src="https://img.shields.io/badge/AI%20Powered-Hugging%20Face-orange" alt="AI Powered"/>
+  <img src="https://img.shields.io/badge/Esprit-School%20of%20Engineering-purple" alt="Esprit School of Engineering"/>
 </p>
 
-<h3>A Smart Training Center Platform with AI-Powered Recommendations</h3>
+<h3>A Smart Training Center Platform with AI-Powered Recommendations and Intelligent Course Management</h3>
 </div>
 
 <p align="center">
@@ -19,9 +20,12 @@
   <a href="#key-features">Features</a> •
   <a href="#architecture">Architecture</a> •
   <a href="#technologies">Technologies</a> •
+  <a href="#directory-structure">Directory Structure</a> •
   <a href="#getting-started">Getting Started</a> •
   <a href="#module-details">Modules</a> •
-  <a href="#faq">FAQ</a>
+  <a href="#faq">FAQ</a> •
+  <a href="#team">Team</a> •
+  <a href="#acknowledgments">Acknowledgments</a>
 </p>
 
 ---
@@ -33,9 +37,11 @@
   <p><i>Coding Factory Platform - Landing Page</i></p>
 </div>
 
-**Coding Factory** is primarily a training center platform that suggests personalized training courses to users. Built with a microservices architecture, it helps students find the most relevant programming and technology courses based on their interests and career goals.
+**Coding Factory** is an innovative training center platform developed at **Esprit School of Engineering** that suggests personalized training courses to users. Built with a modern **microservices architecture**, it helps students find the most relevant programming and technology courses based on their interests and career goals.
 
-The platform's main role is to recommend appropriate trainings using intelligent features like sentiment analysis on course reviews. It also manages users, events, evaluations, consulting services, and final projects (PFE - Projet de Fin d'Études) to provide a complete educational experience.
+The platform's main role is to recommend appropriate trainings using **intelligent features** like **sentiment analysis** on course reviews. It also manages users, events, evaluations, consulting services, and final projects (PFE - Final Year Project) to provide a complete educational experience.
+
+This project was developed as part of the curriculum at **Esprit School of Engineering** to create a full-stack application that demonstrates real-world software engineering practices and emerging technologies in AI and web development.
 
 ## ✨ Key Features
 
@@ -172,7 +178,41 @@ The platform follows a microservices architecture for scalability and maintainab
   </table>
 </div>
 
-## 🚀 Getting Started
+## � Directory Structure
+
+<div align="center">
+  <img width="700" src="https://cdn.pixabay.com/photo/2018/04/17/11/03/structure-3327439_1280.jpg" alt="Directory Structure"/>
+</div>
+
+```
+CodingFactory-WebSite/
+├── Backend/
+│   ├── Microservices/
+│   │   ├── ApiGateway/                # API Gateway service
+│   │   ├── ConfigServer/              # Configuration server
+│   │   ├── EurekaServer/              # Service discovery
+│   │   ├── Gestion_Evenement/         # Event management service
+│   │   ├── Gestion_Formation/         # Training management service
+│   │   ├── Gestion_User/              # User management service
+│   │   ├── PFESpace/                  # Final year project space service
+│   │   └── SentimentAnalysis/         # Python sentiment analysis service
+│   └── docker-compose.yml             # Docker configuration
+├── Frontend/
+│   └── coding_factory_front/
+│       ├── src/
+│       │   ├── app/
+│       │   │   ├── components/        # Reusable UI components
+│       │   │   ├── models/            # Data models and interfaces
+│       │   │   ├── services/          # API services and business logic
+│       │   │   ├── shared/            # Shared utilities and helpers
+│       │   │   └── views/             # Page components
+│       │   ├── assets/                # Static assets and images
+│       │   └── environments/          # Environment configurations
+│       └── package.json               # Frontend dependencies
+└── README.md                          # Project documentation
+```
+
+## �🚀 Getting Started
 
 <div align="center">
   <img width="700" src="https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_1280.jpg" alt="Getting Started"/>
@@ -347,7 +387,7 @@ Yes, the Angular frontend is fully responsive and works on mobile devices, table
 ## 👥 Team
 
 <div align="center">
-  <p>This project was developed by:</p>
+  <p>This project was developed by students from <b>4 SAE5</b>:</p>
   <p>
     <b>Ameni Zoubeir</b> •
     <b>Mohamed Amine Kalai</b> •
@@ -362,9 +402,15 @@ Yes, the Angular frontend is fully responsive and works on mobile devices, table
 
 <div align="center">
   <p>You can reach us through our GitHub accounts.</p>
- 
+</div>
+
+## 🙏 Acknowledgments
+
+<div align="center">
+  <p>This project was completed under the guidance of professors at <b>Esprit School of Engineering</b>.</p>
+  <p>Special thanks to all mentors and advisors who contributed to the success of this project.</p>
 </div>
 
 <div align="center">
-  <sub>Built with ❤️ by the Coding Factory Team</sub>
+  <sub>Built with ❤️ by the Coding Factory Team 4SAE5</sub>
 </div>
