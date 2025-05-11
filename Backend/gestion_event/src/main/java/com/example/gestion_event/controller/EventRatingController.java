@@ -23,6 +23,7 @@ public class EventRatingController {
     private final EventRepository eventRepository;
 
 
+
    // private UserService userService;
 
     // Add a rating to an event

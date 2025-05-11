@@ -13,12 +13,16 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NgxStarRatingModule} from "ngx-star-rating";
 import {LottieModule} from "ngx-lottie";
 import player from "lottie-web";
+import { SegmentationComponent } from './segmentation/segmentation.component';
+import { RecommandationComponent } from './recommandation/recommandation.component';
 export function playerFactory() {
   return player;
 }
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SegmentationComponent,
+    RecommandationComponent
   ],
   imports: [
     BrowserModule,
