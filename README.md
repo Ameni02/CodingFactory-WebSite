@@ -11,7 +11,7 @@
 
   
 
-<h1  align="center">✨ PFESpace - End-of-Study Project Management Platform ✨</h1>
+<h1  align="center">✨ PFESpace - End-of-Study Project Management Space✨</h1>
 
   
 
