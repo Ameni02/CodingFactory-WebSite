@@ -1,0 +1,34 @@
+<div class="ai-quiz-container">
+  <h3>🤖 Générer un Quiz avec IA</h3>
+
+  <!-- Sujet -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Sujet du quiz</mat-label>
+    <input matInput [(ngModel)]="topic" placeholder="Ex : Sécurité Web" />
+  </mat-form-field>
+
+  <!-- Nombre de questions -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nombre de questions</mat-label>
+    <input matInput type="number" min="1" [(ngModel)]="numQuestions" />
+  </mat-form-field>
+
+  <!-- Bouton Génération -->
+  <button mat-raised-button color="primary" (click)="generateQuiz()" [disabled]="loading">
+    {{ loading ? '⏳ Génération en cours...' : '⚙️ Générer le quiz' }}
+  </button>
+
+  <!-- Message d'erreur -->
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <!-- Affichage JSON généré -->
+  <div *ngIf="rawAiText" class="result-preview">
+    <h4>📦 Aperçu JSON généré</h4>
+    <pre>{{ rawAiText }}</pre>
+
+    <!-- ✅ Bouton d'import vers le parent (add-quiz.component) -->
+    <button mat-raised-button color="accent" (click)="importQuiz()">
+      ➕ Ajouter ce quiz à la base
+    </button>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+.ai-quiz-container {
+  background-color: #f2f6fc;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+.result-preview {
+  margin-top: 25px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 5px solid #4caf50;
+}
+
+pre {
+  background-color: #272822;
+  color: #f8f8f2;
+  padding: 15px;
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}

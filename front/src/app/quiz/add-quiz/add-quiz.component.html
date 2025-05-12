@@ -1,0 +1,203 @@
+<div class="add-quiz-page" style="max-width: 900px; margin: auto;">
+    <h2>🎯 Générer un Quiz avec IA</h2>
+
+  <!-- 🔎 Saisie du sujet et du nombre de questions -->
+  <form>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Sujet du quiz</mat-label>
+      <input matInput [(ngModel)]="topic" name="topic" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre de questions</mat-label>
+      <input matInput type="number" min="1" [(ngModel)]="numQuestions" name="numQuestions" required />
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="generateQuiz()"
+      [disabled]="loading">
+      ⚙️ Générer le Quiz
+    </button>
+  </form>
+
+  <!-- ⚠️ Message d'erreur -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- ✅ Prévisualisation brute JSON -->
+  <div *ngIf="rawAiText" class="raw-json">
+    <h4>🧠 Contenu généré brut (JSON)</h4>
+    <pre>{{ rawAiText }}</pre>
+  </div>
+
+  <div *ngIf="aiQuiz?.quiz" class="quiz-preview">
+    <div *ngFor="let q of aiQuiz.quiz; let i = index" class="question-section">
+      <h3>Question {{ i + 1 }}</h3>
+      <mat-form-field appearance="outline" class="full-width" color="primary">
+        <mat-label style="color: #0080ff;">Question</mat-label>
+        <input matInput [(ngModel)]="q.question" name="question{{i}}" placeholder="Question" style="font-size: 0.8em" />
+      </mat-form-field>
+      
+      <div *ngFor="let opt of q.options; let j = index" class="option-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Option {{ j + 1 }}</mat-label>
+          <input matInput [(ngModel)]="q.options[j]" name="option{{i}}_{{j}}" placeholder="Option {{ j + 1 }}" style="font-size: 0.8em" />
+        </mat-form-field>
+      </div>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label style="color: #00bb45;">Correct Answer</mat-label>
+        <input matInput [(ngModel)]="q.answer" name="answer{{i}}" placeholder="Correct Answer" style="font-size: 0.8em" />
+      </mat-form-field>
+      <hr />
+    </div>
+  </div>
+  
+  <!-- ✅ Formulaire d'ajout après génération -->
+  <div *ngIf="aiQuiz?.quiz">
+    <h3>📝 Compléter les infos du Quiz</h3>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Titre du Quiz</mat-label>
+      <input matInput [(ngModel)]="title" name="title" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="3" [(ngModel)]="description" name="description"></textarea>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="addQuiz()"
+      [disabled]="loading">
+      ➕ Ajouter le Quiz
+    </button>
+  </div>
+</div>
+
+<style>
+.add-quiz-page {
+  max-width: 1200px;
+  width: 1200px;
+  margin: auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.add-quiz-page h2 {
+  font-size: 28px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+mat-form-field mat-label {
+  color: #333;
+}
+
+mat-form-field input,
+mat-form-field textarea {
+  font-size: 1em;
+}
+
+button[mat-raised-button] {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[mat-raised-button]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button[mat-raised-button]:not(:disabled) {
+  background-image: linear-gradient(to right,#F07081, #B793BC);
+  color: white;
+}
+
+button[mat-raised-button]:not(:disabled):hover {
+  background-image: linear-gradient(to right,#F07081, #B793BC);
+}
+
+.error-message {
+  color: #d32f2f;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.raw-json {
+  background-color: #fafafa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.raw-json pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.quiz-preview {
+  margin-top: 40px;
+}
+
+.question-section {
+  margin-bottom: 30px;
+}
+
+.question-section h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.option-section {
+  margin-bottom: 20px;
+}
+
+.option-section mat-form-field {
+  width: 100%;
+}
+
+textarea {
+  font-size: 1em;
+  resize: vertical;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+button[mat-raised-button][color="accent"] {
+  background-color: #43a047;
+  color: white;
+  margin-top: 20px;
+}
+
+button[mat-raised-button][color="accent"]:hover {
+  background-color: #2e7d32;
+}
+
+</style>

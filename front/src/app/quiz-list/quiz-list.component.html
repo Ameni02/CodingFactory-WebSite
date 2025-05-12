@@ -1,0 +1,95 @@
+<div class="quiz-list-container">
+  <h2>Available Quizzes</h2>
+
+  <!-- Search Input -->
+  <mat-form-field appearance="outline" class="search-box">
+    <mat-label>Search for a quiz...</mat-label>
+    <input matInput type="text" [(ngModel)]="searchQuery" (input)="filterQuizzes()" placeholder="Enter quiz title...">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <!-- Quiz List -->
+  <div class="quiz-grid">
+    <div class="quiz-card" *ngFor="let quiz of filteredQuizzes">
+      <mat-card class="quiz-card-content">
+        <mat-card-header>
+          <mat-card-title>{{ quiz.title }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ quiz.description }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" style="background-image: linear-gradient(to right, #F07081, #B793BC); color: white;" (click)="takeQuiz(quiz.id)">
+            Start Quiz
+          </button>
+          </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<style>
+
+  .quiz-list-container {
+  max-width: 1200px;
+  width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  
+  border-radius: 20px;
+  background-image: linear-gradient(135deg, #ffffff, #f7f7f7);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-list-container h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.search-box {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.quiz-card {
+  display: flex;
+  justify-content: center;
+}
+
+.quiz-card-content {
+  width: 100%;  
+  outline: 2px solid #F07081;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quiz-card-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+mat-card-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+mat-card-content p {
+  font-size: 14px;
+  color: #555;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+</style>
+

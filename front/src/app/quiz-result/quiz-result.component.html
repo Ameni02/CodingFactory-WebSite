@@ -1,0 +1,208 @@
+<div class="quiz-header">
+
+</div>
+
+<div class="container">
+  <!-- ✅ Left panel: User's result -->
+  <div class="left-panel pizzazz-panel">
+ 
+    <h1>{{ quizDetails.title }}</h1>
+    <p>{{ quizDetails.description }}</p>
+  
+    <div *ngIf="myResult" class="result-card">
+      <div class="progress-wrapper">
+        <svg viewBox="0 0 36 36" class="circular-chart">
+          <path class="circle-bg"
+                d="M18 2.0845
+                   a 15.9155 15.9155 0 0 1 0 31.831
+                   a 15.9155 15.9155 0 0 1 0 -31.831" />
+          <path class="circle"
+                [attr.stroke-dasharray]="(myResult.score / myResult.questionCount * 100) + ', 100'"
+                d="M18 2.0845
+                   a 15.9155 15.9155 0 0 1 0 31.831
+                   a 15.9155 15.9155 0 0 1 0 -31.831" />
+          <text x="18" y="20.35" class="percentage">
+            {{ ((myResult.score / myResult.questionCount) * 100) | number:'1.0-0' }}%
+          </text>
+        </svg>
+      </div>
+
+      <div class="info">
+        <p><strong>👤 Utilisateur :</strong> {{ myResult.username }}</p>
+        <p><strong>✅ Score :</strong> {{ myResult.score }} / {{ myResult.questionCount }}</p>
+        <p><strong>📊 Rang :</strong> {{ myResult.rank }}</p>
+        <!-- ✅ Time Spent -->
+        <p><strong>⏱️ Temps passé :</strong> {{ formatTime(myResult.timeSpent) }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="!myResult">
+      <p>Aucun score trouvé pour cet utilisateur.</p>
+    </div>
+  </div>
+
+  <!-- ✅ Right panel: Leaderboard -->
+  <div class="right-panel">
+    <h2 class="quiz-title">🏆 Leaderboard</h2>
+    <div style="overflow-y: scroll; max-height: 60vh;">
+      <table>
+        <thead>
+          <tr>
+            <th>🏅 Rang</th>
+            <th>Utilisateur</th>
+            <th>Score</th>
+            <th>Temps passé</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of quizResults">
+            <td>
+              {{ result.rank === 1 ? '🥇' : result.rank === 2 ? '🥈' : result.rank === 3 ? '🥉' : '#' + result.rank }}
+            </td>
+            <td>{{ result.username }}</td>
+            <td>{{ result.score }} / {{ result.questionCount }}</td>
+            <td>   {{ formatTime(result.timeSpent) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ Button to go back -->
+<div class="bottom-button">
+  <button (click)="goBack()">⬅️ Retour aux quiz</button>
+</div>
+
+
+<style>
+.pizzazz-panel {
+  background-image: linear-gradient(135deg, #ffffff, #f7f7f7);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.result-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.progress-wrapper {
+  width: 140px;
+  height: 140px;
+  margin: 20px 0;
+}
+
+.circular-chart {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 3.8;
+}
+
+.circle {
+  fill: none;
+  stroke-width: 2.8;
+  stroke: #F07081;
+  stroke-linecap: round;
+  animation: progress 1s ease-out forwards;
+}
+
+.percentage {
+  fill: #333;
+  font-size: 0.5em;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0, 100;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+  .quiz-header {
+  text-align: center;
+
+
+}
+
+.quiz-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+
+}
+
+.quiz-header p {
+  font-size: 18px;
+  color: #ffffff;
+}
+
+  .container {
+    
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    width: 1280px;
+   
+  }
+
+  .left-panel,
+  .right-panel {
+    background-image: linear-gradient(135deg, #ffffff, #f7f7f7);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    width: 45%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    max-height: 70vh;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .bottom-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+  }
+
+  .bottom-button button {
+    padding: 12px 24px;
+    font-weight: bold;
+    background-color: #3c89ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .bottom-button button:hover {
+    background-color: #2e6fd6;
+  }
+</style>

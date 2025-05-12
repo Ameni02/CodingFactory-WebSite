@@ -1,0 +1,48 @@
+/* Center the search bar */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+  width: 100%;
+}
+
+/* Adjusting the search bar width */
+mat-form-field {
+  width: 50%;
+  max-width: 500px;
+}
+
+/* Grid-like layout with space between cards */
+.quiz-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center; /* Center the quiz cards */
+  padding: 16px;
+}
+
+/* Card styling */
+.quiz-card {
+  width: 320px; /* Slightly wider for better readability */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.quiz-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Card padding and rounded edges */
+mat-card {
+  padding: 16px;
+  border-radius: 12px;
+}
+
+/* Centering buttons inside each card */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 12px;
+}

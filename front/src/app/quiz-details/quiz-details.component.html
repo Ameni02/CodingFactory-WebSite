@@ -1,0 +1,33 @@
+<mat-card *ngIf="quiz" class="quiz-details-card">
+  <mat-card-header>
+    <mat-card-title>{{ quiz.title }}</mat-card-title>
+    <mat-card-subtitle>{{ quiz.description }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div *ngFor="let question of quiz.questions">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <strong>Question: </strong>{{ question.text }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-list>
+          <mat-list-item *ngFor="let option of question.options">
+            <mat-radio-button
+              [checked]="option.isCorrect"
+              [disabled]="true"
+              color="primary"
+            >
+              {{ option.text }}
+            </mat-radio-button>
+          </mat-list-item>
+        </mat-list>
+      </mat-expansion-panel>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+

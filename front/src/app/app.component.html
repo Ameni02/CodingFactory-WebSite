@@ -1,0 +1,41 @@
+<div class="app-container">
+  <h1 style="color: white;">Welcome to the Quiz App!</h1>
+  <nav class="nav">
+    <a routerLink="/" style="color: white;" class="nav-link">Home</a> | 
+    <a routerLink="/add-quiz" style="color: white;" class="nav-link">Add Quiz</a>|
+    <a routerLink="/quizzes" style="color: white;" class="nav-link">Quiz-list</a>|
+    <a routerLink="/user-stats" style="color: white;" class="nav-link">My Stats</a>
+  </nav>
+<br>
+  <router-outlet></router-outlet>
+</div>
+
+<style>
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+  
+  }
+  .app-container {
+    background-image: url('../assets/background.jpg');
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    font-family: 'Cascadia Code', sans-serif;
+  }
+
+
+  .nav {
+    display: flex;
+    justify-content: center;
+   
+  }
+
+  .nav-link {
+    margin: 0 10px;
+    text-decoration: none;
+  }
+</style>
+

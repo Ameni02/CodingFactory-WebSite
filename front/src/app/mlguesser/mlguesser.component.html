@@ -1,0 +1,107 @@
+<div class="quiz-list-container">
+  <h2>What Domain Should I Work On</h2>
+
+
+  <br />
+  <button (click)="getWorstQuizTitlesAndPredict()">Predict</button>
+
+  <div *ngIf="predictionResult" class="quiz-card">
+    <mat-card class="quiz-card-content">
+      <mat-card-header>
+        <mat-card-title>Predicted Category:</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ predictionResult }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="errorMessage" style="color: red;">
+    {{ errorMessage }}
+  </div>
+</div>
+<style>
+.quiz-list-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.quiz-list-container h2 {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.search-box {
+  width: 100%;
+  height: 120px;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-box:focus {
+  border-color: #F07081;
+}
+
+button {
+  background-color: #F07081;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: block;
+  margin: 20px auto;
+}
+
+button:hover {
+  background-color: #d35a6a;
+}
+
+.quiz-card {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.quiz-card-content {
+  width: 100%;
+  max-width: 600px;
+  outline: 2px solid #F07081;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quiz-card-content:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+mat-card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+mat-card-content p {
+  font-size: 16px;
+  color: #444;
+  padding-top: 8px;
+}
+
+</style>
