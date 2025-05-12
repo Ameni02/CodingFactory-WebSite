@@ -1,0 +1,4 @@
+package com.quizz.quizz.Dto;
+
+public class QuizSubmissionRequest {
+}

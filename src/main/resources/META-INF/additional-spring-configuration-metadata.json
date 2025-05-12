@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.ai.huggingface.api-key",
+      "type": "java.lang.String",
+      "description": "Description for spring.ai.huggingface.api-key."
+  }
+] }
