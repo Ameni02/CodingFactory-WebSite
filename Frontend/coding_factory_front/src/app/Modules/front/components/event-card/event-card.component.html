@@ -2,21 +2,38 @@
 <div class="card h-100" (click)="goToDetailEvent(event)" style="cursor: pointer;">
   <div class="position-relative">
     <img class="img-fluid rounded-top" [src]="eventCover" alt="Event image">
-
-
     <div class="badge bg-danger text-white mt-2 me-2 position-absolute top-0 end-0">
       {{ event.category }}
     </div>
   </div>
 
   <div class="card-body position-relative pt-0">
-    <a class="btn btn-xs btn-primary mt-n3" href="#" (click)="$event.stopPropagation()">{{ event.category }}</a>
-    <h6 class="mt-3"><a href="#" (click)="$event.stopPropagation()">{{ event.title }}</a></h6>
-    <p class="mb-0 small"><i class="bi bi-calendar-check pe-1"></i> {{ event.date | date: 'EEEE, MMM d, y hh:mm a' }} </p>
-    <p class="small"><i class="bi bi-geo-alt pe-1"></i> {{event.location }}</p>
-    <p class="small">{{ event.description }}</p>
+    <a class="btn btn-xs mt-n3" href="#" (click)="$event.stopPropagation()">{{ event.category }}</a>
+    <h6 class="mt-3 fw-bold"><a href="#" (click)="$event.stopPropagation()" class="text-decoration-none text-dark">{{ event.title }}</a></h6>
 
-    <ul class="avatar-group list-unstyled align-items-center mb-0">
+    <div class="d-flex align-items-center mt-2 mb-1">
+      <i class="bi bi-calendar-check pe-1" style="color: #7B6ADA;"></i>
+      <p class="mb-0 small">{{ event.date | date: 'EEE, MMM d, y • h:mm a' }}</p>
+    </div>
+
+    <div class="d-flex align-items-center mb-2">
+      <i class="bi bi-geo-alt pe-1" style="color: #7B6ADA;"></i>
+      <p class="mb-0 small">{{event.location }}</p>
+    </div>
+
+    <p class="small text-muted mb-3">{{ event.description | slice:0:120 }}{{ event.description.length > 120 ? '...' : '' }}</p>
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div>
+        <span class="fw-bold">Price:</span>
+        <span class="badge" [ngClass]="event.price > 0 ? 'bg-warning text-dark' : 'bg-success text-white'">
+          {{ event.price > 0 ? '$' + event.price : 'Free' }}
+        </span>
+      </div>
+      <span class="badge bg-success" *ngIf="event.status === 'ACTIVE'">Active</span>
+    </div>
+
+    <ul class="avatar-group list-unstyled align-items-center mb-3">
       <li class="avatar avatar-xs">
         <img class="avatar-img rounded-circle" src="assets/assets/images/avatar/06.jpg" alt="avatar">
       </li>
@@ -27,27 +44,25 @@
         <img class="avatar-img rounded-circle" src="assets/assets/images/avatar/08.jpg" alt="avatar">
       </li>
       <li class="avatar avatar-xs">
-        <img class="avatar-img rounded-circle" src="assets/assets/images/avatar/09.jpg" alt="avatar">
-      </li>
-      <li class="avatar avatar-xs">
         <div class="avatar-img rounded-circle bg-primary"><span class="smaller text-white position-absolute top-50 start-50 translate-middle">+{{ event.maxParticipants }}</span></div>
       </li>
-      <li class="ms-3">
-        <small> are attending</small>
+      <li class="ms-2">
+        <small class="text-muted"> attending</small>
       </li>
     </ul>
 
-    <p class="small mt-2"><strong>Price:</strong> ${{ event.price }}</p>
-    <p class="small"><strong>Status:</strong> <span class="badge bg-success" *ngIf="event.status === 'ACTIVE'">Active</span></p>
-
     <div class="d-flex mt-3 justify-content-between">
       <div class="w-100">
-        <button type="button" class="btn btn-sm btn-outline-success d-block w-100" (click)="markAsInterested(event, $event)">
-          <i class="fa-solid fa-thumbs-up me-1"></i> Interested
+        <button type="button" class="btn btn-sm d-block w-100"
+                style="background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%); color: white; border: none;"
+                (click)="markAsInterested(event, $event)">
+          <i class="bi bi-hand-thumbs-up-fill me-1"></i> Interested
         </button>
       </div>
-      <div class="dropdown ms-3">
-        <button type="button" class="btn btn-sm btn-primary-soft" data-bs-toggle="dropdown" aria-expanded="false" (click)="$event.stopPropagation()">
+      <div class="dropdown ms-2">
+        <button type="button" class="btn btn-sm"
+                style="background-color: rgba(123, 106, 218, 0.1); color: #7B6ADA;"
+                data-bs-toggle="dropdown" aria-expanded="false" (click)="$event.stopPropagation()">
           <i class="bi bi-share-fill"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-end">

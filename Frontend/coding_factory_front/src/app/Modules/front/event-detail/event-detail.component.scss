@@ -1,0 +1,218 @@
+/* Hero Section Styles */
+.event-hero {
+  position: relative;
+  padding: 7rem 0 5rem;
+  background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%);
+  overflow: hidden;
+}
+
+.event-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 80%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  transform: rotate(35deg);
+}
+
+.event-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 60%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%);
+  transform: rotate(-15deg);
+}
+
+.event-badge {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+}
+
+/* Sticky Sidebar */
+.sticky-sidebar {
+  position: sticky;
+  top: 100px;
+}
+
+/* Event Image Gallery */
+.event-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 70%, rgba(0,0,0,0.2) 100%);
+    pointer-events: none;
+  }
+}
+
+.event-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+/* Stats Cards */
+.stat-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(123, 106, 218, 0.15);
+
+    i {
+      transform: scale(1.1);
+    }
+  }
+
+  i {
+    transition: transform 0.3s ease;
+  }
+}
+
+/* Feedback Section */
+.feedback-container {
+  position: relative;
+}
+
+.feedback-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(123, 106, 218, 0.5) 0%, rgba(123, 106, 218, 0) 100%);
+  z-index: 0;
+}
+
+.feedback-item {
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(5px);
+  }
+}
+
+/* Social Share Buttons */
+.social-share-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background-color: rgba(123, 106, 218, 0.1);
+  color: #7B6ADA;
+
+  &:hover {
+    transform: translateY(-3px);
+    background-color: #7B6ADA;
+    color: white;
+    box-shadow: 0 5px 15px rgba(123, 106, 218, 0.3);
+  }
+}
+
+/* Rating Stars Animation */
+.animated-star {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: rotate(15deg) scale(1.2);
+  }
+}
+
+/* Register Button Animation */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(123, 106, 218, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(123, 106, 218, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(123, 106, 218, 0);
+  }
+}
+
+.register-btn {
+  animation: pulse 2s infinite;
+
+  &:hover {
+    animation: none;
+    transform: translateY(-3px);
+  }
+}
+
+/* Map Container */
+.map-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #7B6ADA 0%, #5b239f 100%);
+    z-index: 10;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .sticky-sidebar {
+    position: relative;
+    top: 0;
+  }
+
+  .event-image {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .event-hero {
+    padding: 5rem 0 3rem;
+  }
+
+  .event-image {
+    height: 250px;
+  }
+}

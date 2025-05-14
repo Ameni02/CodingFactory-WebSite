@@ -5,18 +5,18 @@
     <div class="row g-4">
       <div class="col-12 vstack gap-4">
         <!-- Card START -->
-        <div class="card">
-          <div class="card-header d-sm-flex align-items-center text-center justify-content-sm-between border-0 pb-0">
-            <h2 class="h4 card-title">Discover Events</h2>
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+          <div class="card-header d-sm-flex align-items-center text-center justify-content-sm-between border-0 pb-0 bg-white">
+            <h2 class="h4 card-title fw-bold" style="color: #2A2F5B;">Discover Events</h2>
             <!-- Button to open modal -->
-            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#modalCreateEvents">
-              <i class="bi bi-plus-circle"></i> Create event
+            <a class="btn rounded-pill" href="#" data-bs-toggle="modal" data-bs-target="#modalCreateEvents"
+               style="background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%); color: white; font-weight: 500;">
+              <i class="bi bi-plus-circle me-1"></i> Create Event
             </a>
           </div>
 
           <div class="card-body">
             <div class="row g-4">
-
               <!-- Events List -->
               <ng-container *ngIf="filteredEvents.length > 0; else noEvents">
                 <div class="col-md-4" *ngFor="let event of filteredEvents">
@@ -27,12 +27,17 @@
               <!-- No Events Found Message -->
               <ng-template #noEvents>
                 <div class="d-flex flex-column align-items-center justify-content-center py-5" style="text-align: center;">
-                  <h4>No events found</h4>
+                  <div class="mb-4">
+                    <i class="bi bi-calendar-x" style="font-size: 3rem; color: #7B6ADA;"></i>
+                  </div>
+                  <h4 class="fw-bold" style="color: #2A2F5B;">No events found</h4>
                   <p class="text-muted">Try adjusting your filters or check back later.</p>
-                  <button class="btn btn-outline-primary mt-3" (click)="resetFilters()">Reset Filters</button>
+                  <button class="btn rounded-pill mt-3" (click)="resetFilters()"
+                          style="background-color: rgba(123, 106, 218, 0.1); color: #7B6ADA; border: none; font-weight: 500;">
+                    <i class="bi bi-arrow-repeat me-1"></i> Reset Filters
+                  </button>
                 </div>
               </ng-template>
-
             </div>
           </div>
         </div>
@@ -45,47 +50,130 @@
 <!-- Modal for creating events -->
 <div class="modal fade" id="modalCreateEvents" tabindex="-1" aria-labelledby="modalCreateEventsLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalCreateEventsLabel">Create New Event</h5>
+    <div class="modal-content border-0 shadow rounded-3 overflow-hidden">
+      <div class="modal-header bg-light border-0">
+        <h5 class="modal-title fw-bold" id="modalCreateEventsLabel" style="color: #2A2F5B;">
+          <i class="bi bi-calendar-plus me-2" style="color: #7B6ADA;"></i>Create New Event
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <form (ngSubmit)="submitEvent()">
-          <div class="mb-3">
-            <label for="eventTitle" class="form-label">Title</label>
-            <input type="text" class="form-control" id="eventTitle" [(ngModel)]="event.title" name="title" required>
+      <div class="modal-body p-4">
+        <form (ngSubmit)="submitEvent()" #eventForm="ngForm">
+          <div class="row g-4">
+            <!-- Title -->
+            <div class="col-12">
+              <label for="eventTitle" class="form-label fw-medium">Event Title</label>
+              <div class="input-group">
+                <span class="input-group-text border-0 bg-light">
+                  <i class="bi bi-type-h1" style="color: #7B6ADA;"></i>
+                </span>
+                <input type="text" class="form-control border-0 bg-light" id="eventTitle"
+                       [(ngModel)]="event.title" name="title" required #title="ngModel">
+              </div>
+              <small class="text-danger" *ngIf="title?.invalid && title?.touched">Title is required</small>
+            </div>
+
+            <!-- Description -->
+            <div class="col-12">
+              <label for="eventDescription" class="form-label fw-medium">Description</label>
+              <div class="input-group">
+                <span class="input-group-text border-0 bg-light">
+                  <i class="bi bi-text-paragraph" style="color: #7B6ADA;"></i>
+                </span>
+                <textarea class="form-control border-0 bg-light" id="eventDescription" rows="3"
+                          [(ngModel)]="event.description" name="description" required #description="ngModel"></textarea>
+              </div>
+              <small class="text-danger" *ngIf="description?.invalid && description?.touched">Description is required</small>
+            </div>
+
+            <!-- Date and Location -->
+            <div class="col-md-6">
+              <label for="eventDate" class="form-label fw-medium">Event Date & Time</label>
+              <div class="input-group">
+                <span class="input-group-text border-0 bg-light">
+                  <i class="bi bi-calendar-date" style="color: #7B6ADA;"></i>
+                </span>
+                <input type="datetime-local" class="form-control border-0 bg-light" id="eventDate"
+                       [(ngModel)]="event.date" name="date" required #date="ngModel">
+              </div>
+              <small class="text-danger" *ngIf="date?.invalid && date?.touched">Date is required</small>
+            </div>
+
+            <div class="col-md-6">
+              <label for="eventLocation" class="form-label fw-medium">Location</label>
+              <div class="input-group">
+                <span class="input-group-text border-0 bg-light">
+                  <i class="bi bi-geo-alt" style="color: #7B6ADA;"></i>
+                </span>
+                <input type="text" class="form-control border-0 bg-light" id="eventLocation"
+                       [(ngModel)]="event.location" name="location" required #location="ngModel">
+              </div>
+              <small class="text-danger" *ngIf="location?.invalid && location?.touched">Location is required</small>
+            </div>
+
+            <!-- Category, Max Participants, and Price -->
+            <div class="col-md-4">
+              <label for="eventCategory" class="form-label fw-medium">Category</label>
+              <div class="input-group">
+                <span class="input-group-text border-0 bg-light">
+                  <i class="bi bi-tag" style="color: #7B6ADA;"></i>
+                </span>
+                <select class="form-select border-0 bg-light" id="eventCategory"
+                        [(ngModel)]="event.category" name="category" required #category="ngModel">
+                  <option value="">Select a category</option>
+                  <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+                </select>
+              </div>
+              <small class="text-danger" *ngIf="category?.invalid && category?.touched">Category is required</small>
+            </div>
+
+            <div class="col-md-4">
+              <label for="eventMaxParticipants" class="form-label fw-medium">Max Participants</label>
+              <div class="input-group">
+                <span class="input-group-text border-0 bg-light">
+                  <i class="bi bi-people" style="color: #7B6ADA;"></i>
+                </span>
+                <input type="number" class="form-control border-0 bg-light" id="eventMaxParticipants"
+                       [(ngModel)]="event.maxParticipants" name="maxParticipants" required min="1" #maxParticipants="ngModel">
+              </div>
+              <small class="text-danger" *ngIf="maxParticipants?.invalid && maxParticipants?.touched">Must be at least 1</small>
+            </div>
+
+            <div class="col-md-4">
+              <label for="eventPrice" class="form-label fw-medium">Price ($)</label>
+              <div class="input-group">
+                <span class="input-group-text border-0 bg-light">
+                  <i class="bi bi-currency-dollar" style="color: #7B6ADA;"></i>
+                </span>
+                <input type="number" class="form-control border-0 bg-light" id="eventPrice"
+                       [(ngModel)]="event.price" name="price" required min="0" #price="ngModel">
+              </div>
+              <small class="text-danger" *ngIf="price?.invalid && price?.touched">Price must be 0 or more</small>
+            </div>
+
+            <!-- Image Upload (Optional) -->
+            <div class="col-12">
+              <label class="form-label fw-medium">Event Image (Optional)</label>
+              <div class="input-group">
+                <span class="input-group-text border-0 bg-light">
+                  <i class="bi bi-image" style="color: #7B6ADA;"></i>
+                </span>
+                <input type="file" class="form-control border-0 bg-light" accept="image/*">
+              </div>
+              <small class="text-muted">Upload an image to make your event stand out</small>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="eventDescription" class="form-label">Description</label>
-            <textarea class="form-control" id="eventDescription" rows="3" [(ngModel)]="event.description" name="description" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="eventDate" class="form-label">Date</label>
-            <input type="datetime-local" class="form-control" id="eventDate" [(ngModel)]="event.date" name="date" required>
-          </div>
-          <div class="mb-3">
-            <label for="eventLocation" class="form-label">Location</label>
-            <input type="text" class="form-control" id="eventLocation" [(ngModel)]="event.location" name="location" required>
-          </div>
-          <div class="mb-3">
-            <label for="eventCategory" class="form-label">Category</label>
-            <select class="form-control" id="eventCategory" [(ngModel)]="event.category" name="category" required>
-              <option value="">Select a category</option>
-              <option *ngFor="let category of categories" [value]="category">{{category}}</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="eventMaxParticipants" class="form-label">Max Participants</label>
-            <input type="number" class="form-control" id="eventMaxParticipants" [(ngModel)]="event.maxParticipants" name="maxParticipants" required min="1">
-          </div>
-          <div class="mb-3">
-            <label for="eventPrice" class="form-label">Price</label>
-            <input type="number" class="form-control" id="eventPrice" [(ngModel)]="event.price" name="price" required min="0">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Create Event</button>
+
+          <!-- Footer Buttons -->
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="button" class="btn rounded-pill px-4" data-bs-dismiss="modal"
+                    style="background-color: rgba(123, 106, 218, 0.1); color: #7B6ADA; border: none;">
+              Cancel
+            </button>
+            <button type="submit" class="btn rounded-pill px-4" [disabled]="eventForm.invalid"
+                    style="background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%); color: white; border: none;">
+              <i class="bi bi-plus-circle me-1"></i> Create Event
+            </button>
           </div>
         </form>
       </div>

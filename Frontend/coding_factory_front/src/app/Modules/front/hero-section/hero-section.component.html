@@ -1,5 +1,5 @@
-<section class="pt-5 pb-0 position-relative" style="background-image: url(assets/assets/images/bg/07.jpg); background-repeat: no-repeat; background-size: cover; background-position: top center;">
-  <div class="bg-overlay bg-dark opacity-8"></div>
+<section class="pt-5 pb-0 position-relative" style="background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%); background-repeat: no-repeat; background-size: cover; background-position: top center;">
+  <div class="bg-overlay opacity-5" style="background-image: url(assets/assets/images/bg/07.jpg); background-repeat: no-repeat; background-size: cover; background-position: top center;"></div>
   <!-- Container START -->
   <div class="container">
     <div class="py-5">
@@ -7,43 +7,62 @@
         <div class="col-lg-9 mx-auto">
           <div class="text-center">
             <!-- Title -->
-            <h1 class="text-white">Find events near you</h1>
-            <p class="text-white">Let's uncover the best places to eat, drink, and shop nearest to you.</p>
+            <h1 class="text-white display-4 fw-bold">Discover Amazing Events</h1>
+            <p class="text-white lead">Find the perfect events to connect, learn, and have fun!</p>
           </div>
-          <div class="mx-auto bg-mode shadow rounded p-4 mt-5">
+          <div class="mx-auto bg-white shadow rounded-3 p-4 mt-5">
             <!-- Form START -->
             <form class="row align-items-end g-4" #filterForm="ngForm">
-              <!-- Duration -->
+              <!-- Category -->
               <div class="col-sm-6 col-lg-3">
-                <label class="form-label">Select genre</label>
+                <label class="form-label fw-medium">Event Category</label>
                 <select
-                  class="form-select js-choice choice-select-text-none"
+                  class="form-select border-0 bg-light rounded-pill ps-3"
+                  style="height: 50px;"
                   data-position="bottom"
                   data-search-enabled="false"
                   name="category"
                   [(ngModel)]="selectedGenre"
                   (change)="emitFilters()" >
-
-                  <option value="">All Categories</option> <!-- Optional default -->
+                  <option value="">All Categories</option>
                   <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
                 </select>
-
               </div>
-              <!-- Date -->
+
+              <!-- Start Date -->
               <div class="col-sm-6 col-lg-3">
-                <label class="form-label">Date from</label>
-                <input type="date" class="form-control" [(ngModel)]="startDate" (change)="emitFilters()" name="startDate">
+                <label class="form-label fw-medium">Date From</label>
+                <div class="input-group">
+                  <span class="input-group-text border-0 bg-light rounded-start"
+                        style="border-top-left-radius: 50px !important; border-bottom-left-radius: 50px !important;">
+                    <i class="bi bi-calendar-date" style="color: #7B6ADA;"></i>
+                  </span>
+                  <input type="date" class="form-control border-0 bg-light rounded-end"
+                         [(ngModel)]="startDate" (change)="emitFilters()" name="startDate"
+                         style="height: 50px; border-top-right-radius: 50px !important; border-bottom-right-radius: 50px !important;">
+                </div>
               </div>
 
               <!-- End Date -->
               <div class="col-sm-6 col-lg-3">
-                <label class="form-label">Date to</label>
-                <input type="date" class="form-control" [(ngModel)]="endDate" (change)="emitFilters()" name="endDate">
+                <label class="form-label fw-medium">Date To</label>
+                <div class="input-group">
+                  <span class="input-group-text border-0 bg-light rounded-start"
+                        style="border-top-left-radius: 50px !important; border-bottom-left-radius: 50px !important;">
+                    <i class="bi bi-calendar-date" style="color: #7B6ADA;"></i>
+                  </span>
+                  <input type="date" class="form-control border-0 bg-light rounded-end"
+                         [(ngModel)]="endDate" (change)="emitFilters()" name="endDate"
+                         style="height: 50px; border-top-right-radius: 50px !important; border-bottom-right-radius: 50px !important;">
+                </div>
               </div>
 
-              <!-- Filter Button (optional, if you want manual filtering) -->
-              <div class="col-sm-6 col-lg-3">
-                <button class="btn btn-primary w-100" type="button" (click)="emitFilters()">Filter Dates</button>
+              <!-- Filter Button -->
+              <div class="col-sm-6 col-lg-3 d-grid">
+                <button type="button" class="btn rounded-pill" (click)="emitFilters()"
+                        style="background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%); color: white; height: 50px; font-weight: 500;">
+                  <i class="bi bi-search me-2"></i> Find Events
+                </button>
               </div>
             </form>
             <!-- Form END -->

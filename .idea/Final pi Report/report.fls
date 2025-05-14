@@ -1,0 +1,434 @@
+PWD c:\Users\zbira\OneDrive - ESPRIT\Bureau\Final pi Report
+INPUT C:\Users\zbira\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
+INPUT c:\Users\zbira\OneDrive - ESPRIT\Bureau\Final pi Report\report.tex
+OUTPUT report.log
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\report.cls
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\report.cls
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\size12.clo
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\size12.clo
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\size12.clo
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\inputenc.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\inputenc.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\fontenc.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\fontenc.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecrm1200.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\lmodern.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\lmodern.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\graphicx.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\graphicx.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\keyval.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\keyval.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\graphics.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\graphics.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\trig.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\trig.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics-cfg\graphics.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics-cfg\graphics.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics-cfg\graphics.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics-def\pdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics-def\pdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics-def\pdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\xcolor\xcolor.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\xcolor\xcolor.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics-cfg\color.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics-cfg\color.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics-cfg\color.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\mathcolor.ltx
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\mathcolor.ltx
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\mathcolor.ltx
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\iftex\ifvtex.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\iftex\ifvtex.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\iftex\iftex.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\iftex\iftex.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\geometry\geometry.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\fancyhdr\fancyhdr.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\fancyhdr\fancyhdr.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\eso-pic\eso-pic.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\eso-pic\eso-pic.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\setspace\setspace.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\setspace\setspace.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\booktabs\booktabs.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\booktabs\booktabs.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\enumitem\enumitem.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\enumitem\enumitem.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\multirow\multirow.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\tools\array.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\tools\array.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\colortbl\colortbl.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\colortbl\colortbl.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\graphics\color.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\titlesec\titlesec.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\titlesec\titlesec.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\microtype.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\microtype.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\etoolbox\etoolbox.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\etoolbox\etoolbox.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\microtype-pdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\microtype-pdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\microtype-pdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\microtype.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\microtype.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\microtype.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\float\float.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\float\float.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\hyperref.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\hyperref.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\infwarerr\infwarerr.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\infwarerr\infwarerr.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\kvsetkeys\kvsetkeys.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\kvsetkeys\kvsetkeys.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\kvdefinekeys\kvdefinekeys.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\kvdefinekeys\kvdefinekeys.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\pdfescape\pdfescape.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\pdfescape\pdfescape.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\ltxcmds\ltxcmds.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\ltxcmds\ltxcmds.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\pdftexcmds\pdftexcmds.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\pdftexcmds\pdftexcmds.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hycolor\hycolor.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hycolor\hycolor.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\letltxmacro\letltxmacro.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\letltxmacro\letltxmacro.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\auxhook\auxhook.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\auxhook\auxhook.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\nameref.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\nameref.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\refcount\refcount.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\refcount\refcount.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\gettitlestring\gettitlestring.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\kvoptions\kvoptions.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\kvoptions\kvoptions.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\pd1enc.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\pd1enc.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\pd1enc.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\intcalc\intcalc.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\intcalc\intcalc.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\puenc.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\puenc.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\puenc.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\url\url.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\url\url.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\bitset\bitset.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\bitset\bitset.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\bigintcalc\bigintcalc.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\bigintcalc\bigintcalc.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\atbegshi\atbegshi.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\atbegshi-ltx.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\atbegshi-ltx.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\hpdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\hpdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\hyperref\hpdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\atveryend\atveryend.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\atveryend-ltx.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\base\atveryend-ltx.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\rerunfilecheck\rerunfilecheck.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\rerunfilecheck\rerunfilecheck.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\uniquecounter\uniquecounter.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\generic\uniquecounter\uniquecounter.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmr.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmr.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmr.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
+INPUT .\report.aux
+INPUT .\report.aux
+INPUT report.aux
+OUTPUT report.aux
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\epstopdf-pkg\epstopdf-base.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\epstopdf-pkg\epstopdf-base.sty
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\00miktex\epstopdf-sys.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\mt-cmr.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\mt-cmr.cfg
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\microtype\mt-cmr.cfg
+INPUT .\report.out
+INPUT .\report.out
+INPUT report.out
+INPUT report.out
+OUTPUT report.pdf
+INPUT .\report.out
+INPUT .\report.out
+OUTPUT report.out
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr17.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmri12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\ot1lmr.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\ot1lmr.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\ot1lmr.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\rm-lmr12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\rm-lmr8.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\rm-lmr6.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\omllmm.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\omllmm.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\omllmm.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmmi12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmmi8.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmmi6.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\omslmsy.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\omslmsy.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\omslmsy.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmsy10.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmsy8.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmsy6.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\omxlmex.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\omxlmex.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\omxlmex.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmex10.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
+INPUT .\media\esprit.png
+INPUT .\media\esprit.png
+INPUT .\media\esprit.png
+INPUT .\media\esprit.png
+INPUT .\media\esprit.png
+INPUT .\media\esprit.png
+INPUT .\media\esprit.png
+INPUT C:\Users\zbira\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-ec.enc
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr17.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
+INPUT .\report.toc
+INPUT .\report.toc
+INPUT report.toc
+OUTPUT report.toc
+INPUT .\report.lof
+INPUT .\report.lof
+INPUT report.lof
+OUTPUT report.lof
+INPUT .\report.lot
+INPUT .\report.lot
+INPUT report.lot
+OUTPUT report.lot
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr17.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\ts1lmr.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\ts1lmr.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\tex\latex\lm\ts1lmr.fd
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ts1-lmr12.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-ts1.enc
+INPUT .\media\sdg4.png
+INPUT .\media\sdg4.png
+INPUT .\media\sdg4.png
+INPUT .\media\sdg4.png
+INPUT .\media\sdg4.png
+INPUT .\media\sdg4.png
+INPUT .\media\sdg4.png
+INPUT .\media\sdg8.png
+INPUT .\media\sdg8.png
+INPUT .\media\sdg8.png
+INPUT .\media\sdg8.png
+INPUT .\media\sdg8.png
+INPUT .\media\sdg8.png
+INPUT .\media\sdg8.png
+INPUT .\media\sdg9.png
+INPUT .\media\sdg9.png
+INPUT .\media\sdg9.png
+INPUT .\media\sdg9.png
+INPUT .\media\sdg9.png
+INPUT .\media\sdg9.png
+INPUT .\media\sdg9.png
+INPUT .\media\sdg17.png
+INPUT .\media\sdg17.png
+INPUT .\media\sdg17.png
+INPUT .\media\sdg17.png
+INPUT .\media\sdg17.png
+INPUT .\media\sdg17.png
+INPUT .\media\sdg17.png
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr10.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\rm-lmr10.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmmi10.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmsy10.tfm
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmbx10.tfm
+INPUT .\media\openclassroom.png
+INPUT .\media\openclassroom.png
+INPUT .\media\openclassroom.png
+INPUT .\media\openclassroom.png
+INPUT .\media\openclassroom.png
+INPUT .\media\openclassroom.png
+INPUT .\media\openclassroom.png
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ts1-lmr10.tfm
+INPUT .\media\LeWagon.png
+INPUT .\media\LeWagon.png
+INPUT .\media\LeWagon.png
+INPUT .\media\LeWagon.png
+INPUT .\media\LeWagon.png
+INPUT .\media\LeWagon.png
+INPUT .\media\LeWagon.png
+INPUT .\media\udemy.png
+INPUT .\media\udemy.png
+INPUT .\media\udemy.png
+INPUT .\media\udemy.png
+INPUT .\media\udemy.png
+INPUT .\media\udemy.png
+INPUT .\media\udemy.png
+INPUT .\media\coursera.png
+INPUT .\media\coursera.png
+INPUT .\media\coursera.png
+INPUT .\media\coursera.png
+INPUT .\media\coursera.png
+INPUT .\media\coursera.png
+INPUT .\media\coursera.png
+INPUT .\media\freecodecamp.jpeg
+INPUT .\media\freecodecamp.jpeg
+INPUT .\media\freecodecamp.jpeg
+INPUT .\media\freecodecamp.jpeg
+INPUT .\media\freecodecamp.jpeg
+INPUT .\media\freecodecamp.jpeg
+INPUT .\media\freecodecamp.jpeg
+INPUT .\media\usecase.png
+INPUT .\media\usecase.png
+INPUT .\media\usecase.png
+INPUT .\media\usecase.png
+INPUT .\media\usecase.png
+INPUT .\media\usecase.png
+INPUT .\media\usecase.png
+INPUT .\media\diagramclass.png
+INPUT .\media\diagramclass.png
+INPUT .\media\diagramclass.png
+INPUT .\media\diagramclass.png
+INPUT .\media\diagramclass.png
+INPUT .\media\diagramclass.png
+INPUT .\media\diagramclass.png
+INPUT .\media\Angular_full_color_logo.svg.png
+INPUT .\media\Angular_full_color_logo.svg.png
+INPUT .\media\Angular_full_color_logo.svg.png
+INPUT .\media\Angular_full_color_logo.svg.png
+INPUT .\media\Angular_full_color_logo.svg.png
+INPUT .\media\Angular_full_color_logo.svg.png
+INPUT .\media\Angular_full_color_logo.svg.png
+INPUT .\media\spring-boot-logo.png
+INPUT .\media\spring-boot-logo.png
+INPUT .\media\spring-boot-logo.png
+INPUT .\media\spring-boot-logo.png
+INPUT .\media\spring-boot-logo.png
+INPUT .\media\spring-boot-logo.png
+INPUT .\media\spring-boot-logo.png
+INPUT .\media\Python-logo-notext.svg.png
+INPUT .\media\Python-logo-notext.svg.png
+INPUT .\media\Python-logo-notext.svg.png
+INPUT .\media\Python-logo-notext.svg.png
+INPUT .\media\Python-logo-notext.svg.png
+INPUT .\media\Python-logo-notext.svg.png
+INPUT .\media\Python-logo-notext.svg.png
+INPUT .\media\Landing Page.png
+INPUT .\media\Landing Page.png
+INPUT .\media\Landing Page.png
+INPUT .\media\Landing Page.png
+INPUT .\media\Landing Page.png
+INPUT .\media\Landing Page.png
+INPUT .\media\Landing Page.png
+INPUT .\media\signin.png
+INPUT .\media\signin.png
+INPUT .\media\signin.png
+INPUT .\media\signin.png
+INPUT .\media\signin.png
+INPUT .\media\signin.png
+INPUT .\media\signin.png
+INPUT .\media\create account.png
+INPUT .\media\create account.png
+INPUT .\media\create account.png
+INPUT .\media\create account.png
+INPUT .\media\create account.png
+INPUT .\media\create account.png
+INPUT .\media\create account.png
+INPUT .\media\reset password.png
+INPUT .\media\reset password.png
+INPUT .\media\reset password.png
+INPUT .\media\reset password.png
+INPUT .\media\reset password.png
+INPUT .\media\reset password.png
+INPUT .\media\reset password.png
+INPUT .\media\courses.png
+INPUT .\media\courses.png
+INPUT .\media\courses.png
+INPUT .\media\courses.png
+INPUT .\media\courses.png
+INPUT .\media\courses.png
+INPUT .\media\courses.png
+INPUT .\media\sentiment analysis.png
+INPUT .\media\sentiment analysis.png
+INPUT .\media\sentiment analysis.png
+INPUT .\media\sentiment analysis.png
+INPUT .\media\sentiment analysis.png
+INPUT .\media\sentiment analysis.png
+INPUT .\media\sentiment analysis.png
+INPUT .\media\project match.png
+INPUT .\media\project match.png
+INPUT .\media\project match.png
+INPUT .\media\project match.png
+INPUT .\media\project match.png
+INPUT .\media\project match.png
+INPUT .\media\project match.png
+INPUT .\media\cv analysis.png
+INPUT .\media\cv analysis.png
+INPUT .\media\cv analysis.png
+INPUT .\media\cv analysis.png
+INPUT .\media\cv analysis.png
+INPUT .\media\cv analysis.png
+INPUT .\media\cv analysis.png
+INPUT .\media\plagiat.png
+INPUT .\media\plagiat.png
+INPUT .\media\plagiat.png
+INPUT .\media\plagiat.png
+INPUT .\media\plagiat.png
+INPUT .\media\plagiat.png
+INPUT .\media\plagiat.png
+INPUT .\media\profile.png
+INPUT .\media\profile.png
+INPUT .\media\profile.png
+INPUT .\media\profile.png
+INPUT .\media\profile.png
+INPUT .\media\profile.png
+INPUT .\media\profile.png
+INPUT .\media\admin dashboard.png
+INPUT .\media\admin dashboard.png
+INPUT .\media\admin dashboard.png
+INPUT .\media\admin dashboard.png
+INPUT .\media\admin dashboard.png
+INPUT .\media\admin dashboard.png
+INPUT .\media\admin dashboard.png
+INPUT .\media\snetiment anlysis.png
+INPUT .\media\snetiment anlysis.png
+INPUT .\media\snetiment anlysis.png
+INPUT .\media\snetiment anlysis.png
+INPUT .\media\snetiment anlysis.png
+INPUT .\media\snetiment anlysis.png
+INPUT .\media\snetiment anlysis.png
+INPUT .\media\courses.png
+INPUT .\media\courses.png
+INPUT .\media\courses.png
+INPUT .\media\courses.png
+INPUT .\media\cover letter.png
+INPUT .\media\cover letter.png
+INPUT .\media\cover letter.png
+INPUT .\media\cover letter.png
+INPUT .\media\cover letter.png
+INPUT .\media\cover letter.png
+INPUT .\media\cover letter.png
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmri12.tfm
+INPUT report.aux
+INPUT .\report.out
+INPUT .\report.out
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmbx10.pfb
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmbx10.pfb
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmbx12.pfb
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmbx12.pfb
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr10.pfb
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr10.pfb
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr12.pfb
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr12.pfb
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmri12.pfb
+INPUT C:\Users\zbira\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmri12.pfb

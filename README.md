@@ -37,7 +37,7 @@
   <p><i>Coding Factory Platform - Landing Page</i></p>
 </div>
 
-**Coding Factory** is an innovative training center platform developed at **Esprit School of Engineering** that suggests personalized training courses to users. Built with a modern **microservices architecture**, it helps students find the most relevant programming and technology courses based on their interests and career goals.
+**Coding Factory** is an innovative training center platform developed at **#Esprit_school_of_engineering** that suggests personalized training courses to users. Built with a modern **microservices architecture**, it helps students find the most relevant programming and technology courses based on their interests and career goals.
 
 The platform's main role is to recommend appropriate trainings using **intelligent features** like **sentiment analysis** on course reviews. It also manages users, events, evaluations, consulting services, and final projects (PFE - Final Year Project) to provide a complete educational experience.
 
@@ -343,6 +343,7 @@ python sentiment_api.py
       <li><b>Document Generation:</b> AI-powered cover letter creation</li>
       <li><b>Plagiarism Detection:</b> Ensure originality in submissions</li>
       <li><b>AI Assistant:</b> Chatbot for project-related questions</li>
+      <li><b>Admin Management:</b> Comprehensive admin dashboard for platform oversight</li>
     </ul>
     <div align="center">
       <img width="150" src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Robot.png" alt="PFE Space"/>
@@ -381,6 +382,13 @@ The platform implements Spring Security with JWT authentication, role-based acce
 <summary><b>Is the platform mobile-friendly?</b></summary>
 <p>
 Yes, the Angular frontend is fully responsive and works on mobile devices, tablets, and desktops. Users can access all features from any device with a modern web browser.
+</p>
+</details>
+
+<details>
+<summary><b>What can administrators do in the platform?</b></summary>
+<p>
+Administrators manage the entire platform through a centralized dashboard. They handle user accounts, create and monitor training courses, manage events, oversee PFE projects, access analytics, and configure system settings. The admin dashboard provides quick access to all management functions.
 </p>
 </details>
 

@@ -1,27 +1,60 @@
-<section class="py-5 position-relative" style="background-image: url(assets/assets/images/bg/07.jpg); background-repeat: no-repeat; background-size: cover; background-position: top center;">
-  <div class="bg-overlay bg-dark opacity-8"></div>
+<section class="event-hero">
+  <div class="bg-overlay opacity-5" style="background-image: url(assets/assets/images/bg/07.jpg); background-repeat: no-repeat; background-size: cover; background-position: top center;"></div>
   <!-- Container START -->
   <div class="container">
     <div class="py-5">
       <div class="row position-relative">
-        <div class="col-xl-8 col-lg-10 mx-auto pt-sm-5 text-center">
-          <!-- Nav -->
-          <ul class="nav nav-divider justify-content-center text-white pt-2 small mb-4">
-            <li class="nav-item">
-              <a class="nav-link text-white" href="#!"> Events</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="#!"> Live Event</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="#!"> Featured </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="#!"> Music </a>
-            </li>
-          </ul>
+        <div class="col-xl-10 mx-auto pt-sm-5 text-center">
+          <!-- Breadcrumb -->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-light justify-content-center mb-4">
+              <li class="breadcrumb-item"><a href="/events" class="text-white opacity-75">Events</a></li>
+              <li class="breadcrumb-item text-white active" aria-current="page">Event Details</li>
+            </ol>
+          </nav>
+
+          <!-- Status Badge -->
+          <div class="mb-3">
+            <span class="badge rounded-pill px-3 py-2"
+                  [ngClass]="event?.status === 'ACTIVE' ? 'bg-success' : 'bg-danger'">
+              <i class="bi" [ngClass]="event?.status === 'ACTIVE' ? 'bi-check-circle-fill' : 'bi-x-circle-fill'"></i>
+              {{ event?.status || 'ACTIVE' }}
+            </span>
+          </div>
+
           <!-- Title -->
-          <h1 class="text-white">Details of Event</h1>
+          <h1 class="text-white display-4 fw-bold mb-4">{{ event?.title || 'Event Details' }}</h1>
+
+          <!-- Event Meta -->
+          <div class="d-flex flex-wrap justify-content-center align-items-center gap-3 mt-3">
+            <span class="badge rounded-pill event-badge px-3 py-2" style="background-color: rgba(255, 255, 255, 0.2);">
+              <i class="bi bi-calendar-check me-2"></i> {{ event?.date | date: 'EEE, MMM d, y • h:mm a' }}
+            </span>
+            <span class="badge rounded-pill event-badge px-3 py-2" style="background-color: rgba(255, 255, 255, 0.2);">
+              <i class="bi bi-geo-alt me-2"></i> {{ event?.location }}
+            </span>
+            <span class="badge rounded-pill event-badge px-3 py-2" style="background-color: rgba(255, 255, 255, 0.2);">
+              <i class="bi bi-tag me-2"></i> {{ event?.category }}
+            </span>
+            <span class="badge rounded-pill event-badge px-3 py-2" style="background-color: rgba(255, 255, 255, 0.2);">
+              <i class="bi bi-currency-dollar me-2"></i> {{ event?.price > 0 ? '$' + event?.price : 'Free' }}
+            </span>
+          </div>
+
+          <!-- Rating Preview -->
+          <div class="mt-4 d-flex justify-content-center align-items-center">
+            <div class="bg-white rounded-pill px-4 py-2 d-inline-flex align-items-center">
+              <div class="me-2">
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi" [ngClass]="averageRating >= 2 ? 'bi-star-fill text-warning' : 'bi-star text-warning'"></i>
+                <i class="bi" [ngClass]="averageRating >= 3 ? 'bi-star-fill text-warning' : 'bi-star text-warning'"></i>
+                <i class="bi" [ngClass]="averageRating >= 4 ? 'bi-star-fill text-warning' : 'bi-star text-warning'"></i>
+                <i class="bi" [ngClass]="averageRating >= 5 ? 'bi-star-fill text-warning' : 'bi-star text-warning'"></i>
+              </div>
+              <span class="fw-bold" style="color: #2A2F5B;">{{ averageRating | number:'1.1-1' }}</span>
+              <span class="text-muted ms-1">({{ feedbacks.length || 0 }} reviews)</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -31,101 +64,144 @@
 <section class="py-5">
   <div class="container">
     <div class="row g-4">
-      <div class="col-lg-4">
-        <div class="card card-body">
-          <button class="btn btn-primary w-100" (click)="participateInEvent()" [disabled]="isParticipating">
-            {{ isParticipating ? 'Already Participated' : 'Participate' }}
-          </button>
-          <div class="mt-4">
-            <ul class="list-unstyled mb-4">
-              <li class="d-flex justify-content-between mb-3"> <strong class="w-150px">Show Date & time:</strong> <span class="text-end"> 12 December, 8:20PM </span></li>
-              <li class="d-flex justify-content-between mb-3"> <strong class="w-150px">Ticket Price:</strong> <span class="text-end"> $210.00 </span></li>
-              <li class="d-flex justify-content-between mb-3"> <strong class="w-150px">Entry fees:</strong> <span class="text-end"> $1 per ticket </span></li>
-              <li class="d-flex justify-content-between mb-3"> <strong class="w-150px">Address:</strong> <span class="text-end"> 750 Sing Sing Rd, Horseheads, NY, 14845 </span></li>
-            </ul>
-            <iframe class="w-100 d-block rounded-bottom grayscale" height="230" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00425878428698!3d40.74076684379132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sGoogle!5e0!3m2!1sen!2sin!4v1586000412513!5m2!1sen!2sin"  style="border:0;" aria-hidden="false" tabindex="0"></iframe>
+      <!-- Main Content -->
+      <div class="col-lg-8 order-lg-1 order-2">
+        <!-- Event Image Gallery -->
+        <div class="event-image-container mb-4">
+          <img [src]="getEventImage()" alt="Event Image" class="event-image">
+          <div class="position-absolute top-0 end-0 m-3">
+            <span class="badge rounded-pill px-3 py-2"
+                  [ngClass]="event?.status === 'ACTIVE' ? 'bg-success' : 'bg-danger'">
+              <i class="bi" [ngClass]="event?.status === 'ACTIVE' ? 'bi-check-circle-fill' : 'bi-x-circle-fill'"></i>
+              {{ event?.status || 'ACTIVE' }}
+            </span>
           </div>
         </div>
-      </div>
-      <div class="col-lg-8">
-        <div class="card card-body">
-          <!-- Overview -->
-          <h4>{{ event?.title }}</h4>
 
-          <p>{{ event?.description }}</p>
+        <!-- Social Share -->
+        <div class="d-flex justify-content-end mb-4 gap-2">
+          <span class="text-muted me-2 d-flex align-items-center">Share:</span>
+          <a href="javascript:void(0)" class="social-share-btn" title="Share on Facebook">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="javascript:void(0)" class="social-share-btn" title="Share on Twitter">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="javascript:void(0)" class="social-share-btn" title="Share on LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="javascript:void(0)" class="social-share-btn" title="Share via Email">
+            <i class="bi bi-envelope"></i>
+          </a>
+        </div>
 
-          <img class="img-fluid mb-3" [src]="getEventImage()" alt="Event Image">
+        <!-- Event Overview -->
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
+          <div class="card-header bg-transparent border-0 pt-4 pb-0">
+            <h4 class="fw-bold" style="color: #2A2F5B;">About This Event</h4>
+          </div>
+          <div class="card-body">
+            <!-- Event Description -->
+            <div class="mb-4">
+              <p class="mb-4 lead">{{ event?.description }}</p>
 
-          <h6>{{ event?.category }} Event</h6>
+              <!-- Event Highlights -->
+              <div class="bg-light p-4 rounded-3 mb-4">
+                <h5 class="fw-bold mb-3" style="color: #2A2F5B;">Event Highlights</h5>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="d-flex">
+                      <div class="me-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                             style="width: 40px; height: 40px; background-color: rgba(123, 106, 218, 0.1);">
+                          <i class="bi bi-calendar-check" style="color: #7B6ADA;"></i>
+                        </div>
+                      </div>
+                      <div>
+                        <h6 class="fw-bold mb-1" style="color: #2A2F5B;">Date and Time</h6>
+                        <p class="mb-0 small">{{ event?.date | date: 'EEEE, MMMM d, y • h:mm a' }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex">
+                      <div class="me-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                             style="width: 40px; height: 40px; background-color: rgba(123, 106, 218, 0.1);">
+                          <i class="bi bi-geo-alt" style="color: #7B6ADA;"></i>
+                        </div>
+                      </div>
+                      <div>
+                        <h6 class="fw-bold mb-1" style="color: #2A2F5B;">Location</h6>
+                        <p class="mb-0 small">{{ event?.location }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex">
+                      <div class="me-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                             style="width: 40px; height: 40px; background-color: rgba(123, 106, 218, 0.1);">
+                          <i class="bi bi-tag" style="color: #7B6ADA;"></i>
+                        </div>
+                      </div>
+                      <div>
+                        <h6 class="fw-bold mb-1" style="color: #2A2F5B;">Category</h6>
+                        <p class="mb-0 small">{{ event?.category }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex">
+                      <div class="me-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                             style="width: 40px; height: 40px; background-color: rgba(123, 106, 218, 0.1);">
+                          <i class="bi bi-currency-dollar" style="color: #7B6ADA;"></i>
+                        </div>
+                      </div>
+                      <div>
+                        <h6 class="fw-bold mb-1" style="color: #2A2F5B;">Price</h6>
+                        <p class="mb-0 small">{{ event?.price > 0 ? '$' + event?.price : 'Free Entry' }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <p>
-            This event will take place in <strong>{{ event?.location }}</strong> on
-            <strong>{{ event?.date | date: 'EEEE, MMM d, y hh:mm a' }}</strong>.
-            The event is currently <span class="badge bg-success" *ngIf="event?.status === 'ACTIVE'">Active</span>
-            <span class="badge bg-danger" *ngIf="event?.status === 'CANCELLED'">Cancelled</span>.
-          </p>
-
-
-
-<!--          <div class="mt-4 mt-sm-5">-->
-<!--            &lt;!&ndash; Host START &ndash;&gt;-->
-<!--            <h4>Host </h4>-->
-<!--            <div class="row g-4">-->
-<!--              <div class="col-sm-4">-->
-<!--                &lt;!&ndash; Host Item &ndash;&gt;-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <div class="avatar avatar-lg me-3">-->
-<!--                    <img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="">-->
-<!--                  </div>-->
-<!--                  <div>-->
-<!--                    <h6 class="mb-0">Bryan Knight</h6>-->
-<!--                    <span>Founder</span>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="col-sm-4">-->
-<!--                &lt;!&ndash; Host Item &ndash;&gt;-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <div class="avatar avatar-lg me-3">-->
-<!--                    <img class="avatar-img rounded-circle" src="assets/images/avatar/02.jpg" alt="">-->
-<!--                  </div>-->
-<!--                  <div>-->
-<!--                    <h6 class="mb-0">Carolyn Ortiz</h6>-->
-<!--                    <span>CEO</span>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="col-sm-4">-->
-<!--                &lt;!&ndash; Host Item &ndash;&gt;-->
-<!--                <div class="d-flex align-items-center">-->
-<!--                  <div class="avatar avatar-lg me-3">-->
-<!--                    <img class="avatar-img rounded-circle" src="assets/images/avatar/03.jpg" alt="">-->
-<!--                  </div>-->
-<!--                  <div>-->
-<!--                    <h6 class="mb-0">Dennis Barrett</h6>-->
-<!--                    <span>Manager</span>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-          <!-- Host END -->
-
-          <div class="mt-4 mt-sm-5">
-            <h4>Feedbacks </h4>
-            <button class="btn btn-outline-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#feedbackModal">
-              Add Feedback
-            </button>
-            <div class="accordion accordion-icon" id="accordionschedules">
-              <!-- Accordion item -->
-            <app-feedback *ngFor="let feed of feedbacks" [feedback]="feed"></app-feedback>
-              <!-- Accordion item -->
-
+            <!-- Event Stats -->
+            <div class="row g-4 mt-4">
+              <div class="col-sm-4">
+                <div class="p-3 rounded-3 text-center stat-card" style="background-color: rgba(123, 106, 218, 0.1);">
+                  <i class="bi bi-people fs-3" style="color: #7B6ADA;"></i>
+                  <h5 class="mt-2 mb-0 fw-bold">{{ event?.maxParticipants }}</h5>
+                  <p class="mb-0 small">Max Participants</p>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="p-3 rounded-3 text-center stat-card" style="background-color: rgba(123, 106, 218, 0.1);">
+                  <i class="bi bi-currency-dollar fs-3" style="color: #7B6ADA;"></i>
+                  <h5 class="mt-2 mb-0 fw-bold">${{ event?.price }}</h5>
+                  <p class="mb-0 small">Event Price</p>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="p-3 rounded-3 text-center stat-card" style="background-color: rgba(123, 106, 218, 0.1);">
+                  <i class="bi bi-star fs-3" style="color: #7B6ADA;"></i>
+                  <h5 class="mt-2 mb-0 fw-bold">{{ averageRating | number:'1.1-1' }}</h5>
+                  <p class="mb-0 small">Average Rating</p>
+                </div>
+              </div>
             </div>
           </div>
-          <!-- Rating Card -->
-          <div class="card card-body p-4 mb-4">
-            <h5 class="card-title mb-3">Rate this event</h5>
+        </div>
+
+        <!-- Rating Section -->
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
+          <div class="card-header bg-transparent border-0 pt-4 pb-0">
+            <h4 class="fw-bold" style="color: #2A2F5B;">Rate This Event</h4>
+          </div>
+          <div class="card-body">
             <div class="d-flex align-items-center mb-2">
               <app-star-rating
                 [rating]="averageRating"
@@ -135,73 +211,197 @@
             </div>
             <p class="text-muted small">Click on a star to submit your rating</p>
           </div>
+        </div>
 
-          <!-- Statistics START -->
-          <div class="card card-body p-4 mt-5">
-            <div class="row g-2">
-              <div class="col-sm-4">
-                <!-- Visitors -->
-                <div class="d-flex">
-                  <i class="bi bi-people fs-4"></i>
-                  <div class="ms-3">
-                    <h5 class="mb-0">{{event?.maxParticipants}}</h5>
-                    <p class="mb-0">Participants</p>
-                  </div>
-                </div>
+        <!-- Feedback Section -->
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+          <div class="card-header bg-transparent border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+            <h4 class="fw-bold mb-0" style="color: #2A2F5B;">Event Feedback</h4>
+            <button class="btn rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#feedbackModal"
+                    style="background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%); color: white; font-weight: 500;">
+              <i class="bi bi-plus-circle me-2"></i>Add Feedback
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="feedback-container">
+              <!-- Feedback Items -->
+              <div class="feedback-item mb-3" *ngFor="let feed of feedbacks">
+                <app-feedback [feedback]="feed"></app-feedback>
               </div>
 
-              <div class="col-sm-4">
-                <!-- Attendance -->
-                <div class="d-flex">
-                  <i class="bi bi-cash-coin fs-4"></i>
-                  <div class="ms-3">
-                    <h5 class="mb-0">${{ event?.price }}</h5>
-                    <p class="mb-0">Price</p>
-                  </div>
-                </div>
+              <!-- No Feedback Message -->
+              <div *ngIf="!feedbacks || feedbacks.length === 0" class="text-center py-5">
+                <i class="bi bi-chat-square-text" style="font-size: 3rem; color: #7B6ADA; opacity: 0.5;"></i>
+                <p class="mt-3 text-muted">No feedback yet. Be the first to share your thoughts!</p>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
+      <!-- Sidebar -->
+      <div class="col-lg-4 order-lg-2 order-1">
+        <div class="sticky-sidebar">
+          <!-- Registration Card -->
+          <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
+            <!-- Participation Button -->
+            <div class="p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0" style="color: #2A2F5B;">Registration</h5>
+                <span class="badge bg-success">{{ event?.maxParticipants }} spots</span>
+              </div>
 
+              <div class="d-flex align-items-center mb-3">
+                <div class="me-3">
+                  <i class="bi bi-currency-dollar fs-4" style="color: #7B6ADA;"></i>
+                </div>
+                <div>
+                  <span class="text-muted small">Price</span>
+                  <h5 class="mb-0 fw-bold">{{ event?.price > 0 ? '$' + event?.price : 'Free' }}</h5>
+                </div>
+              </div>
 
+              <button class="btn rounded-pill w-100 register-btn" (click)="participateInEvent()" [disabled]="isParticipating"
+                      style="background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%); color: white; font-weight: 500; height: 50px;">
+                <i class="bi bi-calendar-check-fill me-2"></i>
+                {{ isParticipating ? 'Already Registered' : 'Register for Event' }}
+              </button>
 
+              <p class="text-center small text-muted mt-3 mb-0">
+                <i class="bi bi-shield-check me-1"></i> Secure registration
+              </p>
+            </div>
+          </div>
+
+          <!-- Location Map -->
+          <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4">
+            <div class="p-4">
+              <h5 class="fw-bold mb-3" style="color: #2A2F5B;">
+                <i class="bi bi-geo-alt me-2" style="color: #7B6ADA;"></i>Location
+              </h5>
+              <p class="mb-3">{{ event?.location }}</p>
+              <div class="map-container">
+                <iframe class="w-100 d-block" height="230"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.9663095343008!2d-74.00425878428698!3d40.74076684379132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259bf5c1654f3%3A0xc80f9cfce5383d5d!2sGoogle!5e0!3m2!1sen!2sin!4v1586000412513!5m2!1sen!2sin"
+                        style="border:0;" aria-hidden="false" tabindex="0"></iframe>
+              </div>
+              <a href="https://maps.google.com/?q={{ event?.location }}" target="_blank" class="btn btn-sm w-100 mt-3"
+                 style="background-color: rgba(123, 106, 218, 0.1); color: #7B6ADA; border: none;">
+                <i class="bi bi-box-arrow-up-right me-2"></i>Open in Google Maps
+              </a>
+            </div>
+          </div>
+
+          <!-- Organizer Info -->
+          <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+            <div class="p-4">
+              <h5 class="fw-bold mb-3" style="color: #2A2F5B;">
+                <i class="bi bi-person-circle me-2" style="color: #7B6ADA;"></i>Organizer
+              </h5>
+              <div class="d-flex align-items-center mb-3">
+                <div class="me-3">
+                  <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+                       style="width: 50px; height: 50px; overflow: hidden;">
+                    <i class="bi bi-building fs-3" style="color: #7B6ADA;"></i>
+                  </div>
+                </div>
+                <div>
+                  <h6 class="mb-1 fw-bold">Coding Factory</h6>
+                  <p class="mb-0 small text-muted">Event Organizer</p>
+                </div>
+              </div>
+              <p class="small mb-3">Contact the organizer for any questions about this event.</p>
+              <a href="mailto:contact@codingfactory.fr" class="btn btn-sm w-100"
+                 style="background-color: rgba(123, 106, 218, 0.1); color: #7B6ADA; border: none;">
+                <i class="bi bi-envelope me-2"></i>Contact Organizer
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+<!-- Feedback Modal -->
 <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h5 class="modal-title" id="feedbackModalLabel">Ajouter un Feedback</h5>
+    <div class="modal-content border-0 shadow rounded-3 overflow-hidden">
+      <!-- Modal Header with Gradient Background -->
+      <div class="modal-header border-0" style="background: linear-gradient(135deg, rgba(123, 106, 218, 0.1) 0%, rgba(91, 35, 159, 0.05) 100%);">
+        <h5 class="modal-title fw-bold" id="feedbackModalLabel" style="color: #2A2F5B;">
+          <i class="bi bi-chat-square-text me-2" style="color: #7B6ADA;"></i>Share Your Feedback
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <!-- Modal Body -->
-      <div class="modal-body">
-        <form>
-          <!-- Rating -->
-<!--          <div class="mb-3">-->
-<!--            <label class="form-label">Rating (1-5)</label>-->
-<!--            <input type="number" class="form-control" [(ngModel)]="feedback.rating" name="rating" min="1" max="5">-->
-<!--          </div>--><
+      <div class="modal-body p-4">
+        <form #feedbackForm="ngForm">
+          <!-- User Info Preview -->
+          <div class="d-flex align-items-center mb-4 p-3 rounded-3" style="background-color: rgba(123, 106, 218, 0.05);">
+            <div class="me-3">
+              <div class="rounded-circle bg-white d-flex align-items-center justify-content-center"
+                   style="width: 50px; height: 50px; border: 2px solid rgba(123, 106, 218, 0.2);">
+                <i class="bi bi-person fs-3" style="color: #7B6ADA;"></i>
+              </div>
+            </div>
+            <div>
+              <h6 class="mb-1 fw-bold">Your Review</h6>
+              <p class="mb-0 small text-muted">for {{ event?.title }}</p>
+            </div>
+          </div>
 
+          <!-- Rating -->
+          <div class="mb-4">
+            <label class="form-label fw-medium">Your Rating</label>
+            <div class="d-flex align-items-center">
+              <div class="animated-stars d-flex">
+                <app-star-rating
+                  [rating]="feedback.rating || 0"
+                  (ratingChange)="feedback.rating = $event">
+                </app-star-rating>
+              </div>
+              <span class="ms-3 fs-5 fw-bold" style="color: #2A2F5B;">{{ feedback.rating || 0 }} / 5</span>
+            </div>
+            <small class="text-muted">Click on a star to rate this event</small>
+          </div>
 
           <!-- Comment -->
-          <div class="mb-3">
-            <label class="form-label">Comment</label>
-            <textarea class="form-control" [(ngModel)]="feedback.comment" name="comment" rows="3"></textarea>
+          <div class="mb-4">
+            <label class="form-label fw-medium">Your Comment</label>
+            <div class="input-group">
+              <span class="input-group-text border-0" style="background-color: rgba(123, 106, 218, 0.1);">
+                <i class="bi bi-chat-text" style="color: #7B6ADA;"></i>
+              </span>
+              <textarea class="form-control border-0" style="background-color: rgba(123, 106, 218, 0.05);"
+                        [(ngModel)]="feedback.comment" name="comment"
+                        rows="4" placeholder="Share your experience with this event..."></textarea>
+            </div>
+            <small class="text-muted mt-2 d-block">Your feedback helps others make informed decisions</small>
+          </div>
+
+          <!-- Guidelines -->
+          <div class="bg-light p-3 rounded-3 mb-3">
+            <h6 class="fw-bold mb-2" style="color: #2A2F5B;"><i class="bi bi-info-circle me-2" style="color: #7B6ADA;"></i>Review Guidelines</h6>
+            <ul class="mb-0 ps-3 small text-muted">
+              <li>Be specific and honest about your experience</li>
+              <li>Focus on the event content and organization</li>
+              <li>Keep it respectful and constructive</li>
+            </ul>
           </div>
         </form>
       </div>
 
       <!-- Modal Footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success" (click)="submitFeedback()">Submit Feedback</button>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn rounded-pill px-4" data-bs-dismiss="modal"
+                style="background-color: rgba(123, 106, 218, 0.1); color: #7B6ADA; border: none;">
+          <i class="bi bi-x-circle me-2"></i>Cancel
+        </button>
+        <button type="button" class="btn rounded-pill px-4" (click)="submitFeedback()"
+                style="background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%); color: white; border: none;">
+          <i class="bi bi-send me-2"></i>Submit Feedback
+        </button>
       </div>
     </div>
   </div>

@@ -45,14 +45,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
       this.addBotMessage("👋 Hello! I'm your PFE assistant. How can I help you today?", false);
     }
 
-    // Check if the chatbot should be automatically opened
-    const lastOpenTime = localStorage.getItem('chatbot_last_open');
-    if (!lastOpenTime || (Date.now() - parseInt(lastOpenTime)) > 24 * 60 * 60 * 1000) {
-      // Auto-open after 1 second if not opened in the last 24 hours
-      setTimeout(() => {
-        this.isOpen = true;
-      }, 1000);
-    }
+    // Don't auto-open the chatbot, keep it closed by default
+    this.isOpen = false;
   }
 
   ngAfterViewChecked(): void {

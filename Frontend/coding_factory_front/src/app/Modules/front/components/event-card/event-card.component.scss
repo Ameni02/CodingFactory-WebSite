@@ -1,12 +1,14 @@
 .card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 1px solid rgba(123, 106, 218, 0.1);
+  border-radius: 12px;
   position: relative;
   overflow: hidden;
+  background-color: #ffffff;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(123, 106, 218, 0.15);
   }
 
   &::after {
@@ -15,7 +17,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 123, 255, 0.8);
+    background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%);
     color: white;
     text-align: center;
     padding: 5px;
@@ -38,6 +40,14 @@
   font-size: 0.75rem;
   line-height: 1.5;
   border-radius: 0.2rem;
+  background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%);
+  border: none;
+  color: white;
+
+  &:hover {
+    background: linear-gradient(135deg, #6a59c9 0%, #4a1c80 100%);
+    color: white;
+  }
 }
 
 .avatar-group {
@@ -52,15 +62,22 @@
   justify-content: center;
   border-radius: 50%;
   transition: all 0.3s ease;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
   &.avatar-xs {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
     font-size: 0.75rem;
   }
 
   &:not(:last-child) {
     margin-right: -0.5rem;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    z-index: 10;
   }
 }
 
@@ -76,4 +93,18 @@
 
 .badge {
   padding: 0.35em 0.65em;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+
+  &.bg-danger {
+    background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%) !important;
+  }
+
+  &.bg-success {
+    background: linear-gradient(135deg, #0cbc87 0%, #09a875 100%) !important;
+  }
+
+  &.bg-primary {
+    background: linear-gradient(135deg, #7B6ADA 0%, #5b239f 100%) !important;
+  }
 }

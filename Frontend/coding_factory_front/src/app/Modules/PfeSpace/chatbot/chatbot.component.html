@@ -4,8 +4,8 @@
 </div>
 
 <!-- Main chatbot container -->
-<div class="chatbot-container" [class.open]="isOpen">
-  <div class="chatbot-header" (click)="toggleChat()">
+<div class="chatbot-container" [class.open]="isOpen" (click)="$event.stopPropagation()">
+  <div class="chatbot-header" (click)="toggleChat(); $event.stopPropagation()">
     <h3>PFE Assistant</h3>
     <div class="header-controls">
       <button class="clear-btn" (click)="$event.stopPropagation(); clearConversation()" title="Clear conversation">
