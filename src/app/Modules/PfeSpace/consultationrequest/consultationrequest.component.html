@@ -1,0 +1,88 @@
+<div class="wrapper">
+    <div class="main-panel">
+      <div class="container">
+        <div class="modify-project">
+          <h2>Request a Consultation</h2>
+  
+          <form (ngSubmit)="onSubmit()" #consultationForm="ngForm">
+            <!-- Specialties -->
+            <div class="form-group">
+              <label for="specialty">Your Desired Specialties</label>
+              <input
+                type="text"
+                id="specialty"
+                name="specialty"
+                [(ngModel)]="specialty"
+                required
+                minlength="3"
+                maxlength="100"
+                #specialtyInput="ngModel"
+                placeholder="e.g., Java, Angular"
+              />
+              <div *ngIf="specialtyInput.invalid && (specialtyInput.dirty || specialtyInput.touched)" class="error-message">
+                <div *ngIf="specialtyInput.errors?.['required']">Specialty is required.</div>
+                <div *ngIf="specialtyInput.errors?.['minlength']">Specialty must be at least 3 characters long.</div>
+                <div *ngIf="specialtyInput.errors?.['maxlength']">Specialty cannot exceed 100 characters.</div>
+              </div>
+            </div>
+  
+            <!-- Start Time -->
+            <div class="form-group">
+              <label for="startTime">Start Time</label>
+              <input
+                type="datetime-local"
+                id="startTime"
+                [(ngModel)]="startTime"
+                name="startTime"
+                required
+                #startTimeInput="ngModel"
+                (change)="updateEndTimeLimit()"
+              />
+              <div *ngIf="startTimeInput.invalid && (startTimeInput.dirty || startTimeInput.touched)" class="error-message">
+                <div *ngIf="startTimeInput.errors?.['required']">Start time is required.</div>
+              </div>
+            </div>
+  
+            <!-- End Time -->
+            <div class="form-group">
+              <label for="endTime">End Time (Max 40 mins after start)</label>
+              <input
+                type="datetime-local"
+                id="endTime"
+                [(ngModel)]="endTime"
+                name="endTime"
+                required
+                [min]="startTime"
+                [max]="maxEndTime"
+                #endTimeInput="ngModel"
+              />
+              <div *ngIf="endTimeInput.invalid && (endTimeInput.dirty || endTimeInput.touched)" class="error-message">
+                <div *ngIf="endTimeInput.errors?.['required']">End time is required.</div>
+                <div *ngIf="endTime && startTime && endTime > maxEndTime">End time cannot be more than 40 minutes from start.</div>
+              </div>
+            </div>
+  
+            <!-- Submit Button -->
+            <div class="actions">
+              <button type="submit" class="save-button" [disabled]="consultationForm.invalid">
+                Submit Consultation Request
+              </button>
+              
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+    <div *ngFor="let toast of toasts" class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          {{ toast.message }}
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+  
+  

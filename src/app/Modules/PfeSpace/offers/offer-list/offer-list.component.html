@@ -1,0 +1,117 @@
+<div class="section pfe-space" id="pfe">
+  <div class="container">
+    <!-- Header Section with Title and Action Buttons -->
+    <div class="offers-header">
+      <div class="header-content">
+        <div class="section-heading">
+          <h6>PFE Space</h6>
+          <h2>End-of-Study Projects</h2>
+          <p class="subheading">Browse and choose from a variety of innovative project offers.</p>
+        </div>
+        <div class="header-actions">
+          <a [routerLink]="['/ai-workflow']" class="action-btn ai-workflow-btn">
+            <i class="fas fa-robot"></i> AI Matching & Cover Letter
+          </a>
+          <a [routerLink]="['/submissions/new']" class="action-btn document-btn">
+            <i class="fas fa-file-upload"></i> Submit Documents
+          </a>
+          <a [routerLink]="['/submissions']" class="action-btn submission-btn">
+            <i class="fas fa-clipboard-list"></i> My Submissions
+          </a>
+          <a [routerLink]="['/offers/add']" class="action-btn add-offer-btn">
+            <i class="fas fa-plus-circle"></i> Add New Offer
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="search-filter-container">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (input)="onSearch()"
+          class="search-input"
+          placeholder="Search offers by title, company, or field">
+      </div>
+      <div class="filter-box">
+        <i class="fas fa-filter filter-icon"></i>
+        <select [(ngModel)]="selectedField" (change)="onFilterChange()" class="filter-select">
+          <option value="">All Fields</option>
+          <option *ngFor="let field of fields" [value]="field">{{ field }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Offer Cards Section -->
+    <div class="offers-container">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="loading-container">
+        <div class="spinner">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+        <p>Loading offers...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!isLoading && paginatedOffers.length === 0" class="empty-state">
+        <i class="fas fa-search-minus empty-icon"></i>
+        <p class="empty-message">No offers found</p>
+        <p class="empty-submessage">Try adjusting your search criteria or check back later</p>
+      </div>
+
+      <!-- Offer Cards -->
+      <div class="offers-grid">
+        <div *ngFor="let offer of paginatedOffers" class="offer-card">
+          <div class="card-header">
+            <div class="company-badge" [attr.data-letter]="offer.companyName.charAt(0) || 'C'"></div>
+            <div class="header-info">
+              <h3 class="offer-title">{{ offer.title }}</h3>
+              <span class="company-name">{{ offer.companyName }}</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="offer-details">
+              <div class="detail-item">
+                <i class="fas fa-code detail-icon"></i>
+                <span>{{ offer.field }}</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-users detail-icon"></i>
+                <span>{{ offer.numberOfPositions }} Position<span *ngIf="offer.numberOfPositions > 1">s</span></span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-calendar-alt detail-icon"></i>
+                <span>{{ offer.startDate | date:'mediumDate' }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a [routerLink]="['/offers', offer.id]" class="view-details-btn">
+              View Details <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination Section -->
+    <div class="pagination-container" *ngIf="!isLoading && paginatedOffers.length > 0">
+      <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination-btn prev-btn">
+        <i class="fas fa-chevron-left"></i> Previous
+      </button>
+      <div class="pagination-info">
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      </div>
+      <button (click)="nextPage()" [disabled]="currentPage >= totalPages" class="pagination-btn next-btn">
+        Next <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-chatbot></app-chatbot>

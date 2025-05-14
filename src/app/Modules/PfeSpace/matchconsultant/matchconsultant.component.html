@@ -1,0 +1,183 @@
+<!-- Consultant AI Match Section -->
+<div class="section client-space" id="ai-match">
+    <div class="container">
+      <!-- Section Header -->
+      <div class="offers-header">
+        <div class="header-content">
+          <div class="section-heading">
+            <h6>AI Recommendation</h6>
+            <h2>Find the Best Consultant Match</h2>
+            <p class="subheading">Describe your issue to get smart consultant recommendations.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Main Form Card -->
+      <div class="offers-container">
+        <div class="offer-card wide-card">
+          <div class="card-body">
+  
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger">
+              {{ errorMessage }}
+            </div>
+  
+            <!-- Loading Spinner -->
+            <div *ngIf="loading" class="loading-container mb-3 d-flex align-items-center">
+              <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+              </div>
+              <p class="ml-2 mb-0">Finding best consultant matches...</p>
+            </div>
+  
+            <!-- Problem Input -->
+            <div class="form-group">
+              <label for="problemText" class="form-label">Describe Your Issue</label>
+              <textarea [(ngModel)]="problemText"
+                        id="problemText"
+                        class="form-control"
+                        rows="4"
+                        placeholder="e.g. I want to create a DevOps pipeline..."></textarea>
+            </div>
+  
+            <!-- Find Button -->
+            <button (click)="findMatch()"
+                    class="action-btn add-client-btn mt-3"
+                    [disabled]="loading || !problemText.trim()">
+              <i class="fas fa-search"></i> Find Consultant
+            </button>
+  
+            <!-- Match Results -->
+            <div *ngIf="matches.length > 0" class="mt-5">
+              <h4 class="mb-3">Top Matches:</h4>
+  
+              <div class="offers-grid">
+                <div *ngFor="let match of matches" class="offer-card">
+                  <div class="card-header">
+                    <div class="company-badge" [attr.data-letter]="match.consultant.fullName.charAt(0) || 'C'"></div>
+                    <div class="header-info">
+                      <h3 class="offer-title">{{ match.consultant.fullName }}</h3>
+                      <span class="company-name">{{ match.consultant.specialty }}</span>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="offer-details">
+                      <div class="detail-item">
+                        <i class="fas fa-envelope detail-icon"></i>
+                        <span>{{ match.consultant.email }}</span>
+                      </div>
+                      <div class="detail-item mt-2">
+                        <i class="fas fa-star detail-icon"></i>
+                        <span>Match Score:
+                          <span >
+                            {{ match.score | number: '1.2-2' }}
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <button class="view-details-btn" (click)="openModal(match.consultant)">
+                      View Profile <i class="fas fa-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade show d-block" tabindex="-1" *ngIf="selectedConsultant">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h5 class="modal-title">{{ selectedConsultant.fullName }}</h5>
+          <button type="button" class="close" (click)="closeModal()">
+            <span>&times;</span>
+          </button>
+        </div>
+  
+        <div class="modal-body">
+          
+          <!-- Consultant Info -->
+          <p><strong>Specialty:</strong> {{ selectedConsultant.specialty }}</p>
+          <p><strong>Email:</strong> {{ selectedConsultant.email }}</p>
+          <p *ngIf="selectedConsultant.profileDescription"><strong>Description:</strong></p>
+          <p *ngIf="selectedConsultant.profileDescription">{{ selectedConsultant.profileDescription }}</p>
+  
+          <hr>
+  
+          <!-- Register Client Form -->
+          <div *ngIf="isRegisteringClient">
+            <h5>Register New Client</h5>
+            <form #registerForm="ngForm" (ngSubmit)="registerNewClient(registerForm)">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" class="form-control" name="fullName" [(ngModel)]="newClient.fullName" required minlength="3">
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" [(ngModel)]="newClient.email" required>
+              </div>
+              <button type="submit" class="btn btn-primary mt-3" [disabled]="registerForm.invalid">
+                Register and Continue
+              </button>
+              <button type="button" class="btn btn-secondary mt-2" (click)="isRegisteringClient = false">
+                Cancel
+              </button>
+            </form>
+          </div>
+  
+          <!-- Normal Date and Slot Selection -->
+          <div *ngIf="!isRegisteringClient">
+  
+            <!-- Register New Client Button -->
+            <div class="text-center mb-3">
+              <button class="btn btn-primary" (click)="isRegisteringClient = true">
+                Register New Client
+              </button>
+            </div>
+  
+            <div class="form-group">
+              <label>Select Date:</label>
+              <input type="date" [(ngModel)]="selectedDate" (change)="loadTimeSlots()" class="form-control" />
+            </div>
+  
+            <div *ngIf="availableSlots.length > 0" class="mt-3">
+              <label>Available Time Slots:</label>
+              <div class="list-group">
+                <button 
+                  *ngFor="let slot of availableSlots"
+                  (click)="selectedSlot = slot"
+                  [class.active]="selectedSlot === slot"
+                  class="list-group-item list-group-item-action">
+                  {{ slot.startTime | date:'shortTime' }} - {{ slot.endTime | date:'shortTime' }}
+                </button>
+              </div>
+            </div>
+  
+            <div *ngIf="selectedSlot" class="mt-3 text-center">
+              <button class="btn btn-success" (click)="bookConsultation()">Book Consultation</button>
+            </div>
+  
+          </div>
+  
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!-- Backdrop -->
+  <div class="modal-backdrop fade show" *ngIf="selectedConsultant"></div>

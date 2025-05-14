@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="modify-consultant">
+      <h2>Create Consultant</h2>
+  
+      <form (ngSubmit)="onSave()" #consultantForm="ngForm">
+  
+        <!-- Full Name -->
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            [(ngModel)]="consultant.fullName"
+            name="fullName"
+            required
+            minlength="3"
+            maxlength="100"
+            #fullName="ngModel"
+          />
+          <div *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)" class="error-message">
+            <div *ngIf="fullName.errors?.['required']">Full Name is required.</div>
+            <div *ngIf="fullName.errors?.['minlength']">Must be at least 3 characters.</div>
+            <div *ngIf="fullName.errors?.['maxlength']">Cannot exceed 100 characters.</div>
+          </div>
+        </div>
+  
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="consultant.email"
+            name="email"
+            required
+            email
+            #email="ngModel"
+          />
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
+            <div *ngIf="email.errors?.['required']">Email is required.</div>
+            <div *ngIf="email.errors?.['email']">Invalid email format.</div>
+          </div>
+        </div>
+  
+        <!-- Specialty -->
+        <div class="form-group">
+          <label for="specialty">Specialty</label>
+          <input
+            type="text"
+            id="specialty"
+            [(ngModel)]="consultant.specialty"
+            name="specialty"
+            required
+            minlength="3"
+            maxlength="100"
+            #specialty="ngModel"
+          />
+          <div *ngIf="specialty.invalid && (specialty.dirty || specialty.touched)" class="error-message">
+            <div *ngIf="specialty.errors?.['required']">Specialty is required.</div>
+            <div *ngIf="specialty.errors?.['minlength']">Must be at least 3 characters.</div>
+            <div *ngIf="specialty.errors?.['maxlength']">Cannot exceed 100 characters.</div>
+          </div>
+        </div>
+  
+        <!-- Save Button -->
+        <div class="actions">
+          <button type="submit" class="save-button" [disabled]="consultantForm.invalid">
+            Create Consultant
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

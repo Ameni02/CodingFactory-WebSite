@@ -1,0 +1,683 @@
+<div class="admin-pfespace">
+  <!-- Header with tabs -->
+  <header class="pfespace-header">
+    <h1>PFE Space Management</h1>
+    <div class="tab-navigation">
+      <button
+        [ngClass]="{'active': activeTab === 'dashboard'}"
+        (click)="setActiveTab('dashboard')">
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </button>
+      <button
+        [ngClass]="{'active': activeTab === 'projects'}"
+        (click)="setActiveTab('projects')">
+        <i class="bi bi-folder"></i> Projects
+      </button>
+      <button
+        [ngClass]="{'active': activeTab === 'applications'}"
+        (click)="setActiveTab('applications')">
+        <i class="bi bi-file-earmark-text"></i> Applications
+      </button>
+      <button
+        [ngClass]="{'active': activeTab === 'deliverables'}"
+        (click)="setActiveTab('deliverables')">
+        <i class="bi bi-file-earmark-check"></i> Deliverables
+      </button>
+      <button
+        [ngClass]="{'active': activeTab === 'evaluations'}"
+        (click)="setActiveTab('evaluations')">
+        <i class="bi bi-clipboard-check"></i> Evaluations
+      </button>
+      <button
+        [ngClass]="{'active': activeTab === 'supervisors'}"
+        (click)="setActiveTab('supervisors')">
+        <i class="bi bi-person-badge"></i> Supervisors
+      </button>
+    </div>
+  </header>
+
+  <!-- Dashboard Tab -->
+  <div *ngIf="activeTab === 'dashboard'" class="tab-content">
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="action-buttons">
+        <button (click)="createNewProject()" class="btn-action">
+          <i class="bi bi-plus-circle"></i>
+          New Project
+        </button>
+        <button (click)="viewAllProjects()" class="btn-action">
+          <i class="bi bi-folder"></i>
+          View All Projects
+        </button>
+        <button (click)="viewAllApplications()" class="btn-action">
+          <i class="bi bi-file-earmark-text"></i>
+          View Applications
+        </button>
+        <button (click)="viewAllDeliverables()" class="btn-action">
+          <i class="bi bi-file-earmark-check"></i>
+          View Deliverables
+        </button>
+      </div>
+    </section>
+
+    <!-- Statistics Cards -->
+    <section class="statistics-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Projects</h3>
+          <i class="bi bi-folder"></i>
+        </div>
+        <div class="stat-numbers">
+          <div class="main-stat">{{ (projectStats.pending || 0) + (projectStats.inProgress || 0) + (projectStats.completed || 0) }}</div>
+          <div class="sub-stats">
+            <span>Pending: <span class="highlight">{{ projectStats.pending || 0 }}</span></span>
+            <span>In Progress: <span class="highlight">{{ projectStats.inProgress || 0 }}</span></span>
+            <span>Completed: <span class="highlight">{{ projectStats.completed || 0 }}</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Applications</h3>
+          <i class="bi bi-file-earmark-text"></i>
+        </div>
+        <div class="stat-numbers">
+          <div class="main-stat">{{ (applicationStats.pending || 0) + (applicationStats.accepted || 0) + (applicationStats.rejected || 0) }}</div>
+          <div class="sub-stats">
+            <span>Pending: <span class="highlight">{{ applicationStats.pending || 0 }}</span></span>
+            <span>Accepted: <span class="highlight">{{ applicationStats.accepted || 0 }}</span></span>
+            <span>Rejected: <span class="highlight">{{ applicationStats.rejected || 0 }}</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <h3>Deliverables</h3>
+          <i class="bi bi-file-earmark-check"></i>
+        </div>
+        <div class="stat-numbers">
+          <div class="main-stat">{{ (deliverableStats.pendingChanges || 0) + (deliverableStats.evaluated || 0) + (deliverableStats.rejected || 0) }}</div>
+          <div class="sub-stats">
+            <span>Pending: <span class="highlight">{{ deliverableStats.pendingChanges || 0 }}</span></span>
+            <span>Evaluated: <span class="highlight">{{ deliverableStats.evaluated || 0 }}</span></span>
+            <span>Rejected: <span class="highlight">{{ deliverableStats.rejected || 0 }}</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Activities -->
+    <section class="recent-activities">
+      <h2>Recent Projects</h2>
+      <div *ngIf="loading.projects" class="loading-indicator">
+        <i class="bi bi-hourglass"></i>
+        <p>Loading recent projects...</p>
+      </div>
+      <div *ngIf="error.projects" class="error-message">
+        <i class="bi bi-exclamation-triangle"></i>
+        <p>{{ error.projects }}</p>
+      </div>
+      <div *ngIf="!loading.projects && !error.projects && recentProjects.length === 0" class="empty-state">
+        <i class="bi bi-folder"></i>
+        <p>No recent projects to display</p>
+      </div>
+      <div class="activity-list" *ngIf="!loading.projects && !error.projects && recentProjects.length > 0">
+        <div class="activity-item" *ngFor="let project of recentProjects">
+          <div class="activity-icon">
+            <i class="bi bi-folder"></i>
+          </div>
+          <div class="activity-details">
+            <div class="activity-title">{{ project.title }}</div>
+            <div class="activity-description">
+              <span class="status-badge" [ngClass]="getStatusClass(project.status || 'PENDING')">{{ project.status || 'PENDING' }}</span>
+              <span>Company: {{ project.companyName }}</span>
+              <span>Positions: {{ project.numberOfPositions }}</span>
+            </div>
+            <div class="activity-actions">
+              <a [routerLink]="['/pfe-space/offers', project.id]">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-activities">
+      <h2>Recent Applications</h2>
+      <div *ngIf="loading.applications" class="loading-indicator">
+        <i class="bi bi-hourglass"></i>
+        <p>Loading recent applications...</p>
+      </div>
+      <div *ngIf="error.applications" class="error-message">
+        <i class="bi bi-exclamation-triangle"></i>
+        <p>{{ error.applications }}</p>
+      </div>
+      <div *ngIf="!loading.applications && !error.applications && recentApplications.length === 0" class="empty-state">
+        <i class="bi bi-file-earmark-text"></i>
+        <p>No recent applications to display</p>
+      </div>
+      <div class="activity-list" *ngIf="!loading.applications && !error.applications && recentApplications.length > 0">
+        <div class="activity-item" *ngFor="let application of recentApplications">
+          <div class="activity-icon">
+            <i class="bi bi-file-earmark-text"></i>
+          </div>
+          <div class="activity-details">
+            <div class="activity-title">{{ application.studentName }}</div>
+            <div class="activity-description">
+              <span class="status-badge" [ngClass]="getStatusClass(application.status)">{{ application.status }}</span>
+              <span>Project: {{ application.project && application.project.title || 'Unknown' }}</span>
+              <span>Email: {{ application.studentEmail }}</span>
+            </div>
+            <div class="activity-actions">
+              <a [routerLink]="['/pfe-space/applications', application.id]">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-activities">
+      <h2>Recent Evaluations</h2>
+      <div *ngIf="loading.evaluations" class="loading-indicator">
+        <i class="bi bi-hourglass"></i>
+        <p>Loading recent evaluations...</p>
+      </div>
+      <div *ngIf="error.evaluations" class="error-message">
+        <i class="bi bi-exclamation-triangle"></i>
+        <p>{{ error.evaluations }}</p>
+      </div>
+      <div *ngIf="!loading.evaluations && !error.evaluations && recentEvaluations.length === 0" class="empty-state">
+        <i class="bi bi-clipboard-check"></i>
+        <p>No recent evaluations to display</p>
+      </div>
+      <div class="activity-list" *ngIf="!loading.evaluations && !error.evaluations && recentEvaluations.length > 0">
+        <div class="activity-item" *ngFor="let evaluation of recentEvaluations">
+          <div class="activity-icon">
+            <i class="bi bi-clipboard-check"></i>
+          </div>
+          <div class="activity-details">
+            <div class="activity-title">Evaluation for {{ evaluation.deliverable && evaluation.deliverable.title || 'Unknown Deliverable' }}</div>
+            <div class="activity-description">
+              <span>Grade: {{ evaluation.grade }}/20</span>
+              <span>Comment: {{ evaluation.comment }}</span>
+            </div>
+            <div class="activity-actions">
+              <a [routerLink]="['/pfe-space/submissions', evaluation.deliverable && evaluation.deliverable.id]">View Deliverable</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Projects Tab -->
+  <div *ngIf="activeTab === 'projects'" class="tab-content">
+    <div class="tab-header">
+      <h2>Projects Management</h2>
+      <button class="btn-primary" (click)="createNewProject()">
+        <i class="bi bi-plus-circle"></i> Add New Project
+      </button>
+    </div>
+
+    <!-- Projects list -->
+    <div class="projects-list">
+      <div *ngIf="allProjects.length === 0" class="empty-state">
+        <i class="bi bi-folder"></i>
+        <p>No projects found.</p>
+      </div>
+
+      <div *ngIf="allProjects.length > 0" class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Company</th>
+              <th>Field</th>
+              <th>Status</th>
+              <th>Archived</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let project of allProjects">
+              <td>{{ project.id }}</td>
+              <td>{{ project.title }}</td>
+              <td>{{ project.companyName }}</td>
+              <td>{{ project.field }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(project.status || 'PENDING')">
+                  {{ project.status || 'PENDING' }}
+                </span>
+              </td>
+              <td>
+                <span [ngClass]="project.archived ? 'status-danger' : 'status-success'">
+                  {{ project.archived ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-action" (click)="viewProjectDetails(project)">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button *ngIf="!project.archived" class="btn-action" (click)="archiveProject(project.id!)">
+                    <i class="bi bi-archive"></i>
+                  </button>
+                  <button *ngIf="project.archived" class="btn-action" (click)="unarchiveProject(project.id!)">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Project Details Modal -->
+    <div *ngIf="showProjectDetails" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Project Details</h3>
+          <button class="close-btn" (click)="closeDetails()">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedProject">
+          <div class="detail-row">
+            <span class="detail-label">Title:</span>
+            <span class="detail-value">{{ selectedProject.title }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Field:</span>
+            <span class="detail-value">{{ selectedProject.field }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Required Skills:</span>
+            <span class="detail-value">{{ selectedProject.requiredSkills }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Number of Positions:</span>
+            <span class="detail-value">{{ selectedProject.numberOfPositions }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Start Date:</span>
+            <span class="detail-value">{{ selectedProject.startDate }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">End Date:</span>
+            <span class="detail-value">{{ selectedProject.endDate }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Company:</span>
+            <span class="detail-value">{{ selectedProject.companyName }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Professional Supervisor:</span>
+            <span class="detail-value">{{ selectedProject.professionalSupervisor }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Company Address:</span>
+            <span class="detail-value">{{ selectedProject.companyAddress }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Company Email:</span>
+            <span class="detail-value">{{ selectedProject.companyEmail }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Company Phone:</span>
+            <span class="detail-value">{{ selectedProject.companyPhone }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Status:</span>
+            <span class="detail-value status-badge" [ngClass]="getStatusClass(selectedProject.status || 'PENDING')">
+              {{ selectedProject.status || 'PENDING' }}
+            </span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Archived:</span>
+            <span class="detail-value" [ngClass]="selectedProject.archived ? 'status-danger' : 'status-success'">
+              {{ selectedProject.archived ? 'Yes' : 'No' }}
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" (click)="closeDetails()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Applications Tab -->
+  <div *ngIf="activeTab === 'applications'" class="tab-content">
+    <div class="tab-header">
+      <h2>Applications Management</h2>
+    </div>
+
+    <!-- Applications list -->
+    <div class="applications-list">
+      <div *ngIf="allApplications.length === 0" class="empty-state">
+        <i class="bi bi-file-earmark-text"></i>
+        <p>No applications found.</p>
+      </div>
+
+      <div *ngIf="allApplications.length > 0" class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Student Name</th>
+              <th>Student Email</th>
+              <th>Project</th>
+              <th>Status</th>
+              <th>Archived</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let application of allApplications">
+              <td>{{ application.id }}</td>
+              <td>{{ application.studentName }}</td>
+              <td>{{ application.studentEmail }}</td>
+              <td>{{ application.project && application.project.title || 'Unknown' }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(application.status || 'PENDING')">
+                  {{ application.status || 'PENDING' }}
+                </span>
+              </td>
+              <td>
+                <span [ngClass]="application.archived ? 'status-danger' : 'status-success'">
+                  {{ application.archived ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-action" (click)="viewApplicationDetails(application)">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button *ngIf="!application.archived" class="btn-action" (click)="archiveApplication(application.id!)">
+                    <i class="bi bi-archive"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Application Details Modal -->
+    <div *ngIf="showApplicationDetails" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Application Details</h3>
+          <button class="close-btn" (click)="closeDetails()">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedApplication">
+          <div class="detail-row">
+            <span class="detail-label">Student Name:</span>
+            <span class="detail-value">{{ selectedApplication.studentName }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Student Email:</span>
+            <span class="detail-value">{{ selectedApplication.studentEmail }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Project:</span>
+            <span class="detail-value">{{ selectedApplication.project && selectedApplication.project.title || 'Unknown' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">CV File:</span>
+            <span class="detail-value">{{ selectedApplication.cvFilePath }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Cover Letter File:</span>
+            <span class="detail-value">{{ selectedApplication.coverLetterFilePath }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Status:</span>
+            <span class="detail-value status-badge" [ngClass]="getStatusClass(selectedApplication.status || 'PENDING')">
+              {{ selectedApplication.status || 'PENDING' }}
+            </span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Archived:</span>
+            <span class="detail-value" [ngClass]="selectedApplication.archived ? 'status-danger' : 'status-success'">
+              {{ selectedApplication.archived ? 'Yes' : 'No' }}
+            </span>
+          </div>
+          <div *ngIf="selectedApplication.cvAnalysisScore" class="detail-row">
+            <span class="detail-label">CV Analysis Score:</span>
+            <span class="detail-value">{{ selectedApplication.cvAnalysisScore }}/100</span>
+          </div>
+          <div *ngIf="selectedApplication.cvAnalysisFeedback" class="detail-row">
+            <span class="detail-label">CV Analysis Feedback:</span>
+            <span class="detail-value">{{ selectedApplication.cvAnalysisFeedback }}</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" (click)="closeDetails()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deliverables Tab -->
+  <div *ngIf="activeTab === 'deliverables'" class="tab-content">
+    <div class="tab-header">
+      <h2>Deliverables Management</h2>
+    </div>
+
+    <!-- Deliverables list -->
+    <div class="deliverables-list">
+      <div *ngIf="allDeliverables.length === 0" class="empty-state">
+        <i class="bi bi-file-earmark-check"></i>
+        <p>No deliverables found.</p>
+      </div>
+
+      <div *ngIf="allDeliverables.length > 0" class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Project</th>
+              <th>Submission Date</th>
+              <th>Status</th>
+              <th>Archived</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let deliverable of allDeliverables">
+              <td>{{ deliverable.id }}</td>
+              <td>{{ deliverable.title }}</td>
+              <td>{{ deliverable.projectId ? ('Project #' + deliverable.projectId) : 'No Project' }}</td>
+              <td>{{ deliverable.submissionDate | date:'medium' }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="getStatusClass(deliverable.status || 'PENDING')">
+                  {{ deliverable.status || 'PENDING' }}
+                </span>
+              </td>
+              <td>
+                <span [ngClass]="deliverable.archived ? 'status-danger' : 'status-success'">
+                  {{ deliverable.archived ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-action" (click)="viewDeliverableDetails(deliverable)">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button *ngIf="!deliverable.archived" class="btn-action" (click)="archiveDeliverable(deliverable.id!)">
+                    <i class="bi bi-archive"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Deliverable Details Modal -->
+    <div *ngIf="showDeliverableDetails" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Deliverable Details</h3>
+          <button class="close-btn" (click)="closeDetails()">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedDeliverable">
+          <div class="detail-row">
+            <span class="detail-label">Title:</span>
+            <span class="detail-value">{{ selectedDeliverable.title }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Project:</span>
+            <span class="detail-value">{{ selectedDeliverable.projectId ? ('Project #' + selectedDeliverable.projectId) : 'No Project' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Description File:</span>
+            <span class="detail-value">{{ selectedDeliverable.descriptionFilePath }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Report File:</span>
+            <span class="detail-value">{{ selectedDeliverable.reportFilePath }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Submission Date:</span>
+            <span class="detail-value">{{ selectedDeliverable.submissionDate | date:'medium' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Status:</span>
+            <span class="detail-value status-badge" [ngClass]="getStatusClass(selectedDeliverable.status || 'PENDING')">
+              {{ selectedDeliverable.status || 'PENDING' }}
+            </span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Archived:</span>
+            <span class="detail-value" [ngClass]="selectedDeliverable.archived ? 'status-danger' : 'status-success'">
+              {{ selectedDeliverable.archived ? 'Yes' : 'No' }}
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" (click)="closeDetails()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evaluations Tab -->
+  <div *ngIf="activeTab === 'evaluations'" class="tab-content">
+    <div class="tab-header">
+      <h2>Evaluations Management</h2>
+    </div>
+
+    <!-- Evaluations list -->
+    <div class="evaluations-list">
+      <div *ngIf="allEvaluations.length === 0" class="empty-state">
+        <i class="bi bi-clipboard-check"></i>
+        <p>No evaluations found.</p>
+      </div>
+
+      <div *ngIf="allEvaluations.length > 0" class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Deliverable</th>
+              <th>Grade</th>
+              <th>Evaluation Date</th>
+              <th>Archived</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let evaluation of allEvaluations">
+              <td>{{ evaluation.id }}</td>
+              <td>{{ evaluation.deliverable && evaluation.deliverable.title || 'Unknown Deliverable' }}</td>
+              <td>{{ evaluation.grade }}/20</td>
+              <td>{{ evaluation.evaluationDate | date:'medium' }}</td>
+              <td>
+                <span [ngClass]="evaluation.archived ? 'status-danger' : 'status-success'">
+                  {{ evaluation.archived ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-action" (click)="viewEvaluationDetails(evaluation)">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button *ngIf="!evaluation.archived" class="btn-action" (click)="archiveEvaluation(evaluation.id!)">
+                    <i class="bi bi-archive"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Evaluation Details Modal -->
+    <div *ngIf="showEvaluationDetails" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Evaluation Details</h3>
+          <button class="close-btn" (click)="closeDetails()">
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedEvaluation">
+          <div class="detail-row">
+            <span class="detail-label">Deliverable:</span>
+            <span class="detail-value">{{ selectedEvaluation.deliverable && selectedEvaluation.deliverable.title || 'Unknown Deliverable' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Grade:</span>
+            <span class="detail-value">{{ selectedEvaluation.grade }}/20</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Comment:</span>
+            <span class="detail-value">{{ selectedEvaluation.comment }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Evaluation Date:</span>
+            <span class="detail-value">{{ selectedEvaluation.evaluationDate | date:'medium' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Archived:</span>
+            <span class="detail-value" [ngClass]="selectedEvaluation.archived ? 'status-danger' : 'status-success'">
+              {{ selectedEvaluation.archived ? 'Yes' : 'No' }}
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" (click)="closeDetails()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supervisors Tab -->
+  <div *ngIf="activeTab === 'supervisors'" class="tab-content">
+    <div class="tab-header">
+      <h2>Supervisors Management</h2>
+      <button class="btn-primary">
+        <i class="bi bi-plus-circle"></i> Add New Supervisor
+      </button>
+    </div>
+
+    <!-- Supervisors list will be implemented here -->
+    <div class="supervisors-list">
+      <p>Supervisors list will be displayed here.</p>
+    </div>
+  </div>
+</div>

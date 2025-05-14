@@ -1,0 +1,9 @@
+<div *ngIf="submission">
+  <h2>{{ submission.title }}</h2>
+  <p>Project ID: {{ submission.projectId }}</p>
+  <p>Status: {{ submission.status }}</p>
+  <p>Description File: <a [href]="submission.descriptionFilePath" target="_blank">Download</a></p>
+  <p>Report File: <a [href]="submission.reportFilePath" target="_blank">Download</a></p>
+</div>
+
+<app-chatbot></app-chatbot>

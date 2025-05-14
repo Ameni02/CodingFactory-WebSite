@@ -1,0 +1,134 @@
+<div class="section client-space" id="client">
+    <div class="container">
+      <!-- Header Section with Title and Action Buttons -->
+      <div class="offers-header">
+        <div class="header-content">
+          <div class="section-heading">
+            <h6>Client Space</h6>
+            <h2>Client Management</h2>
+            <p class="subheading">Register and manage your consulting clients.</p>
+          </div>
+          <div class="header-actions">
+            <a [routerLink]="['/clients/add']" class="action-btn add-client-btn">
+              <i class="fas fa-plus-circle"></i> Require Consultation By Speciality
+            </a>
+            <a [routerLink]="['/matchconsultant']" class="action-btn add-client-btn">
+              <i class="fas fa-plus-circle"></i> AI Consultation Recommendation
+            </a>
+            
+          </div>
+          
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  <div class="search-filter-container">
+    <div class="search-box">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+        class="search-input"
+        placeholder="Search consultants by name or specialty">
+    </div>
+    <div class="filter-box">
+      <i class="fas fa-filter filter-icon"></i>
+      <select [(ngModel)]="selectedSpecialty" (change)="onFilterChange()" class="filter-select">
+        <option value="">All Specialties</option>
+        <option *ngFor="let specialty of specialties" [value]="specialty">{{ specialty }}</option>
+      </select>
+    </div>
+  </div>
+  
+  <!-- Consultant Cards Section -->
+  <div class="offers-container">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+      <p>Loading consultants...</p>
+    </div>
+  
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && paginatedConsultants.length === 0" class="empty-state">
+      <i class="fas fa-user-times empty-icon"></i>
+      <p class="empty-message">No consultants found</p>
+      <p class="empty-submessage">Try adjusting your search or filters</p>
+    </div>
+  
+    <!-- Consultant Cards -->
+    <div class="offers-grid">
+
+      <div *ngFor="let consultant of paginatedConsultants" class="offer-card">
+        <div class="card-header">
+
+          <div class="company-badge" [attr.data-letter]="consultant.fullName.charAt(0) || 'C'"></div>
+          <div class="header-info">
+            <h3 class="offer-title">{{ consultant.fullName }}</h3>
+            <span class="company-name">{{ consultant.specialty }}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="offer-details">
+            <div class="detail-item">
+              <i class="fas fa-envelope detail-icon"></i>
+              <span>{{ consultant.email }}</span>
+            </div>
+            <!-- Add more consultant fields here if needed -->
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="view-details-btn" (click)="openModal(consultant)">
+            View Profile <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="!isLoading && paginatedConsultants.length > 0">
+    <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination-btn prev-btn">
+      <i class="fas fa-chevron-left"></i> Previous
+    </button>
+    <div class="pagination-info">
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    </div>
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages" class="pagination-btn next-btn">
+      Next <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  <div class="modal fade show d-block" tabindex="-1" *ngIf="selectedConsultant">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h5 class="modal-title">{{ selectedConsultant.fullName }}</h5>
+          <button type="button" class="close" (click)="closeModal()">
+            <span>&times;</span>
+          </button>
+        </div>
+  
+        <div class="modal-body">
+          <p><strong>Specialty:</strong> {{ selectedConsultant.specialty }}</p>
+          <p><strong>Email:</strong> {{ selectedConsultant.email }}</p>
+          <p *ngIf="selectedConsultant.profileDescription"><strong>Description:</strong></p>
+          <p *ngIf="selectedConsultant.profileDescription">{{ selectedConsultant.profileDescription }}</p>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!-- Backdrop -->
+  <div class="modal-backdrop fade show" *ngIf="selectedConsultant"></div>
+  

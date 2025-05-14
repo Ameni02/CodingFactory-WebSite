@@ -1,0 +1,271 @@
+/* Main Container Styles */
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 15px;
+}
+
+/* Card Styles */
+.submission-card {
+  border: none;
+  padding: 0;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.submission-card:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+}
+
+.submission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: white;
+}
+
+.submission-header h3 {
+  font-size: 1.25rem;
+  color: #2A2F5B;
+  margin: 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.submission-header h3 i {
+  color: #7B6ADA;
+}
+
+/* Status Badge Styles */
+.status {
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 8px 15px;
+  border-radius: 30px;
+  text-transform: capitalize;
+}
+
+.status.evaluated {
+  background-color: #31CE36;
+  color: white;
+}
+
+.status.pending {
+  background-color: #FFAD46;
+  color: white;
+}
+
+.status.rejected {
+  background-color: #F25961;
+  color: white;
+}
+
+/* Submission Details */
+.submission-details {
+  padding: 20px;
+}
+
+.submission-details p {
+  font-size: 1rem;
+  color: #575962;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.submission-details p strong {
+  color: #2A2F5B;
+  font-weight: 600;
+}
+
+.submission-details p i {
+  color: #7B6ADA;
+  width: 20px;
+  text-align: center;
+}
+
+/* Action Buttons */
+.submission-actions {
+  padding: 15px 20px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: white;
+}
+
+.view-details-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #7B6ADA;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.view-details-button:hover {
+  background-color: #6A59C2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(123, 106, 218, 0.25);
+}
+
+.view-details-button i {
+  transition: transform 0.3s ease;
+}
+
+.view-details-button:hover i {
+  transform: translateX(3px);
+}
+
+/* File Link Styles */
+.file-link-container {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #7B6ADA;
+}
+
+.file-link {
+  color: #7B6ADA;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-link:hover {
+  color: #6A59C2;
+  text-decoration: underline;
+}
+
+.file-link i {
+  font-size: 1.1rem;
+}
+
+/* Loading and Error States */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.spinner {
+  margin-bottom: 20px;
+}
+
+.spinner > div {
+  width: 14px;
+  height: 14px;
+  background-color: #7B6ADA;
+  border-radius: 100%;
+  display: inline-block;
+  animation: bounce 1.4s infinite ease-in-out both;
+  margin: 0 5px;
+}
+
+.spinner .bounce1 {
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+.loading-message {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #575962;
+  font-weight: 500;
+}
+
+.error-message {
+  color: #F25961;
+  font-weight: 500;
+  margin-top: 20px;
+  text-align: center;
+  background-color: rgba(242, 89, 97, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.error-message i {
+  font-size: 1.2rem;
+}
+
+/* Empty State */
+.no-submissions {
+  text-align: center;
+  padding: 60px 0;
+  color: #575962;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  margin-top: 30px;
+}
+
+.no-submissions i {
+  font-size: 48px;
+  color: #7B6ADA;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.no-submissions h3 {
+  color: #2A2F5B;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.no-submissions p {
+  color: #575962;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .submission-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .submission-actions {
+    flex-direction: column;
+  }
+
+  .view-details-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
