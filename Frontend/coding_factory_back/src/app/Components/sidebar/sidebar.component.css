@@ -1,0 +1,24 @@
+.nav-collapse {
+  list-style: none;
+  padding-left: 20px; /* Indent submenu */
+  margin: 5px 0;
+}
+
+.nav-collapse li {
+  margin: 8px 0; /* spacing between submenu items */
+}
+
+.nav-collapse li a {
+  font-size: 14px;
+  color: #cfd8dc;
+  display: block;
+  padding: 5px 0;
+  text-decoration: none;
+}
+
+.nav-collapse li a:hover {
+  color: #ffffff;
+}
+.sub-item {
+  margin-left: 5px;
+}

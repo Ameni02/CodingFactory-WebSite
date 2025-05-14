@@ -1,0 +1,57 @@
+<div class="page-inner">
+    <div class="page-header">
+      <h4 class="page-title">Consultations</h4>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">List of Consultations</div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead class="bg-primary text-white">
+                  <tr>
+                    <th>#</th>
+                    <th>Consultant</th>
+                    <th>Client</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Status</th>
+                    <th>Meeting</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let consultation of consultations; index as i">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ consultation.consultant?.fullName }}</td>
+                    <td>{{ consultation.client?.fullName }}</td>
+                    <td>{{ consultation.slot?.startTime | date: 'short' }}</td>
+                    <td>{{ consultation.slot?.endTime | date: 'short' }}</td>
+                    <td>
+                      <span class="badge"
+                            [ngClass]="{
+                              'badge-warning': consultation.status === 'PENDING',
+                              'badge-success': consultation.status === 'ACCEPTED',
+                              'badge-danger': consultation.status === 'REJECTED'
+                            }">
+                        {{ consultation.status }}
+                      </span>
+                    </td>
+                    <td>
+                      <a *ngIf="consultation.meetingLink" class="btn btn-sm btn-info" [href]="consultation.meetingLink" target="_blank">
+                        Join
+                      </a>
+                      <span *ngIf="!consultation.meetingLink" class="text-muted">N/A</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

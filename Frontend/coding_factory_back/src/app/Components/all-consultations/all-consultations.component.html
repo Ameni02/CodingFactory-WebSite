@@ -1,0 +1,73 @@
+<div class="card shadow mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4 class="card-title mb-0">Consultation List</h4>
+      <button class="btn btn-secondary btn-sm" (click)="toggleView()">
+        <i class="fas fa-exchange-alt"></i> Toggle View
+      </button>
+    </div>
+    <div class="card-body">
+      <!-- Filter input -->
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Filter"
+          (keyup)="applyFilter($event)"
+          #filterInput
+        >
+      </div>
+  
+      <!-- Calendar View -->
+      <div *ngIf="showCalendarView">
+        <full-calendar [options]="calendarOptions" class="full-calendar"></full-calendar>
+      </div>
+  
+      <!-- Table View -->
+      <div *ngIf="!showCalendarView" class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Client</th>
+              <th>Consultant</th>
+              <th>Specialty</th>
+              <th>Status</th>
+              <th>Meeting Link</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of filteredDataSource; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ row.client?.fullName }}</td>
+              <td>{{ row.consultant?.fullName }}</td>
+              <td>{{ row.consultant?.specialty }}</td>
+              <td>
+                <span class="badge"
+                  [ngClass]="{
+                    'badge-warning': row.status === 'PENDING',
+                    'badge-primary': row.status === 'CONFIRMED',
+                    'badge-success': row.status === 'COMPLETED',
+                    'badge-danger': row.status === 'CANCELLED'
+                  }">
+                  {{ row.status }}
+                </span>
+              </td>
+              <td>
+                <a *ngIf="row.meetingLink" [href]="row.meetingLink" target="_blank">Join</a>
+                <span *ngIf="!row.meetingLink" class="text-muted">N/A</span>
+              </td>
+              <td>{{ row.slot?.startTime | date: 'short' }}</td>
+              <td>{{ row.slot?.endTime | date: 'short' }}</td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <div *ngIf="filteredDataSource.length === 0" class="text-muted text-center mt-3">
+          No data matching the filter "{{ filterInput.value }}"
+        </div>
+      </div>
+    </div>
+  </div>
+  

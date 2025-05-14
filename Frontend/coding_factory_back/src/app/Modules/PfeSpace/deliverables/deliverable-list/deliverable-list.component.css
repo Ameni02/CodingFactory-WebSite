@@ -1,0 +1,104 @@
+h2 {
+    color: #2A2F5B;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: separate; /* Change to separate to show cell borders */
+    margin-bottom: 30px;
+    border: 1px solid #ddd; /* Overall table border */
+    border-spacing: 0; /* Remove spacing between cells */
+  }
+  
+  th, td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #eee; /* Lighter horizontal borders */
+    border-right: 1px solid #eee; /* Add right border to cells */
+  }
+  
+  th {
+    background-color: #f8f8f8;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  /* Remove right border from the last column */
+  th:last-child, td:last-child {
+    border-right: none;
+  }
+  
+  tbody tr:hover {
+    background-color: #f5f5f5;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button Styles */
+  button, .btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    margin-right: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  button {
+    background-color: #f3545d;
+  }
+  
+  .btn.edit {
+    background-color: #1572E8;
+  }
+  
+  .btn.details {
+    background-color: #36a3f7;
+  }
+  
+  button:hover, .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    opacity: 0.95;
+  }
+  
+  p[ng-reflect-ng-if="false"] {
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .main-panel {
+      padding: 20px;
+    }
+  
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    th, td {
+      padding: 10px 12px;
+    }
+  
+    button, .btn {
+      padding: 10px 18px;
+      font-size: 14px;
+    }
+  }

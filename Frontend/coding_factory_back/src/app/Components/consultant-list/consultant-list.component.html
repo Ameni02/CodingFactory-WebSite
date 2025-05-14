@@ -1,0 +1,38 @@
+<div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Consultant Management</h4>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Specialty</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let consultant of consultants; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ consultant.fullName }}</td>
+            <td>{{ consultant.email }}</td>
+            <td>{{ consultant.specialty }}</td>
+            <td>
+              <button class="btn btn-sm btn-info" (click)="editConsultant(consultant.id)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="deleteConsultant(consultant.id)">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+              <button class="btn btn-sm btn-primary" (click)="viewConsultations(consultant.id)">
+                <i class="fas fa-calendar-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

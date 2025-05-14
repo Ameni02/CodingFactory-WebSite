@@ -1,0 +1,53 @@
+<div class="card shadow mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4 class="card-title mb-0">Consultations for Client #{{ clientId }}</h4>
+      <button class="btn btn-secondary btn-sm" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i> Back to Clients
+      </button>
+    </div>
+    <div class="card-body">
+      <div *ngIf="consultations.length === 0" class="text-muted text-center">
+        No consultations found for this client.
+      </div>
+      <div *ngIf="consultations.length > 0" class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Consultant</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Status</th>
+              <th>Meeting Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let consultation of consultations; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ consultation.consultant.fullName }}</td>
+              <td>{{ consultation.slot.startTime | date:'short' }}</td>
+              <td>{{ consultation.slot.endTime | date:'short' }}</td>
+              <td>
+                <span class="badge"
+                [ngClass]="{
+                  'badge-warning': consultation.status === consultationStatus.PENDING,
+                  'badge-primary': consultation.status === consultationStatus.CONFIRMED,
+                  'badge-success': consultation.status === consultationStatus.COMPLETED,
+                  'badge-danger': consultation.status === consultationStatus.CANCELLED
+                }">
+            {{ consultation.status }}
+          </span>
+              </td>
+              <td>
+                <a *ngIf="consultation.meetingLink" [href]="consultation.meetingLink" target="_blank">
+                  Join Meeting
+                </a>
+                <span *ngIf="!consultation.meetingLink" class="text-muted">N/A</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

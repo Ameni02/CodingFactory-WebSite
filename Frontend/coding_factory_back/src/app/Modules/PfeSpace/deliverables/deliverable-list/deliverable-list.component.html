@@ -1,0 +1,31 @@
+
+    <div class="container">
+      <h2>Deliverables List</h2>
+
+     
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+          
+            <th>Submission Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let deliverable of deliverables" (click)="goToDetails(deliverable.id)">
+            <td>{{ deliverable.title }}</td>
+           
+            <td>{{ deliverable.submissionDate | date }}</td>
+            <td>{{ deliverable.status }}</td>
+            <td>
+              <button (click)="archiveDeliverable(deliverable.id)" class="btn">Archive</button>
+              <a [routerLink]="['/deliverables', deliverable.id, 'edit']" class="btn edit">Edit</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="deliverables.length === 0">No deliverables available.</p>
+    </div>
+  

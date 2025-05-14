@@ -1,0 +1,56 @@
+
+
+    <div class="container" *ngIf="project">
+
+      <h2 class="section-title">Project Details</h2>
+      
+      <div class="card">
+        <h3 class="card-title">General Information</h3>
+        <div class="card-body">
+          <p><strong>Title:</strong> {{ project.title }}</p>
+          <p><strong>Field:</strong> {{ project.field }}</p>
+          <p><strong>Status:</strong> {{ project.archived ? 'Archived' : 'Active' }}</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Timeline</h3>
+        <div class="card-body">
+          <p><strong>Start Date:</strong> {{ project.startDate | date }}</p>
+          <p><strong>End Date:</strong> {{ project.endDate | date }}</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Company Details</h3>
+        <div class="card-body">
+          <p><strong>Name:</strong> {{ project.companyName }}</p>
+          <p><strong>Address:</strong> {{ project.companyAddress }}</p>
+          <p><strong>Email:</strong> {{ project.companyEmail }}</p>
+          <p><strong>Phone:</strong> {{ project.companyPhone }}</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Requirements</h3>
+        <div class="card-body">
+          <p><strong>Number of Positions:</strong> {{ project.numberOfPositions }}</p>
+          <p><strong>Professional Supervisor:</strong> {{ project.professionalSupervisor }}</p>
+          <p><strong>Required Skills:</strong> {{ project.requiredSkills }}</p>
+          <p><strong>Description File:</strong> 
+            <button (click)="onDownload(project.descriptionFilePath)">Download</button>
+          </p>
+        </div>
+      </div>
+      
+      <div class="actions">
+        <button class="update-button" (click)="onUpdate()">Update Project</button>
+      </div>
+    </div>
+  
+
+<div *ngIf="!project">
+  <p class="loading-message">Loading project details...</p>
+</div>
+
+

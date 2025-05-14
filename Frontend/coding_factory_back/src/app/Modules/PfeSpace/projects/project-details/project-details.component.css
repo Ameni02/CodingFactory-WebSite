@@ -1,0 +1,138 @@
+/* Project Details - Kaiadmin Theme Adaptation */
+
+/* Section Title Styling */
+.section-title {
+  text-align: center;
+  font-size: 2rem; /* Adjusted to Kaiadmin's rem units */
+  margin-bottom: 2.5rem; /* Adjusted to Kaiadmin's rem units */
+  color: #2A2F5B; /* Kaiadmin header color */
+  font-family: 'Public Sans', sans-serif; /* Kaiadmin font */
+  font-weight: 600;
+  text-transform: uppercase; /* Kaiadmin uppercase style */
+  letter-spacing: 0.5px; /* Kaiadmin letter spacing */
+}
+
+/* Card Styling */
+.card {
+  background: #ffffff;
+  margin-bottom: 1.5rem; /* Adjusted to Kaiadmin's rem units */
+  border-radius: 8px; /* Kaiadmin card border radius */
+  padding: 1.5rem; /* Adjusted to Kaiadmin's rem units */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Kaiadmin box shadow */
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Kaiadmin hover box shadow */
+}
+
+/* Card Title Styling */
+.card-title {
+  font-size: 1.25rem; /* Adjusted to Kaiadmin's rem units */
+  color: #1572E8; /* Kaiadmin primary color */
+  margin-bottom: 1.25rem; /* Adjusted to Kaiadmin's rem units */
+  font-weight: 600;
+  font-family: 'Public Sans', sans-serif; /* Kaiadmin font */
+}
+
+/* Card Body Styling */
+.card-body {
+  font-size: 1rem; /* Adjusted to Kaiadmin's rem units */
+  color: #555; /* Kaiadmin text color */
+  line-height: 1.6;
+  font-family: 'Public Sans', sans-serif; /* Kaiadmin font */
+}
+
+/* Action Section Styling */
+.actions {
+  text-align: center;
+  margin-top: 2.5rem; /* Adjusted to Kaiadmin's rem units */
+}
+
+/* Update Button Styling */
+.update-button {
+  padding: 0.875rem 1.25rem; /* Adjusted to Kaiadmin's rem units */
+  background-color: #1572E8; /* Kaiadmin primary color */
+  color: white;
+  border: none;
+  border-radius: 6px; /* Kaiadmin button border radius */
+  font-size: 1rem; /* Adjusted to Kaiadmin's rem units */
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.update-button:hover {
+  background-color: #1159b5; /* Slightly darker primary color on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Kaiadmin button hover shadow */
+}
+
+/* Loading Message Styling */
+.loading-message {
+  text-align: center;
+  font-size: 1.125rem; /* Adjusted to Kaiadmin's rem units */
+  color: #777;
+  font-family: 'Public Sans', sans-serif; /* Kaiadmin font */
+  font-weight: 400;
+  padding-top: 1.25rem; /* Adjusted to Kaiadmin's rem units */
+  font-style: italic; /* Kaiadmin style */
+}
+
+/* General Kaiadmin Background */
+.wrapper {
+  background-color: #F5F7FD; /* Kaiadmin background */
+  padding: 20px;
+}
+
+.main-panel {
+  background-color: #ffffff; /* Kaiadmin panel background */
+  border-radius: 8px; /* Kaiadmin panel border radius */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Kaiadmin panel box shadow */
+  padding: 30px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px; /* Adjust if needed */
+  margin: 0 auto;
+}
+
+/* Info Row Styling */
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.label {
+  font-weight: 600;
+  color: #333;
+  width: 30%; /* Adjust label width as needed */
+  font-family: 'Public Sans', sans-serif;
+}
+
+.value {
+  color: #555;
+  width: 70%; /* Adjust value width as needed */
+  word-break: break-word;
+  font-family: 'Public Sans', sans-serif;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .label, .value {
+    width: 100%;
+  }
+
+  .label {
+    margin-bottom: 5px;
+  }
+}
